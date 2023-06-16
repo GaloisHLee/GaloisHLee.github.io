@@ -226,7 +226,7 @@
             
 
   
-    <article id="post-SYCTF-CrazyTreat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Wiener-s-attack-and-Extending" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -234,7 +234,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/2023/06/14/SYCTF-CrazyTreat/" target="_blank">SYCTF-CrazyTreat</a>
+	  <a class="article-title" href="/2023/06/15/Wiener-s-attack-and-Extending/" target="_blank">Wiener&#39;s attack and Extending</a>
   
     </h1>
   
@@ -242,8 +242,8 @@
 
   
   
-<a href="/2023/06/14/SYCTF-CrazyTreat/" class="archive-article-date">
-        <time datetime="2023-06-14T12:57:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-14</time>
+<a href="/2023/06/15/Wiener-s-attack-and-Extending/" class="archive-article-date">
+        <time datetime="2023-06-15T13:10:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-15</time>
 </a>
 
   
@@ -255,27 +255,10 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="CarzyTrick"><a href="#CarzyTrick" class="headerlink" title="CarzyTrick"></a>CarzyTrick</h1><h2 id="Trick部分的质数解答"><a href="#Trick部分的质数解答" class="headerlink" title="Trick部分的质数解答"></a>Trick部分的质数解答</h2><p>Coppersmith经典应用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">n =  128259792862716016839189459678072057136816726330154776961595353705839428880480571473066446384217522987161777524953373380960754160008765782711874445778198828395697797884436326877471408867745183652189648661444125231444711655242478825995283559948683891100547458186394738621410655721556196774451473359271887941209</span><br><span class="line">phigh =  13053422630763887754872929794631414002868675984142851995620494432706465523574529389771830464455212126838976863742628716168391373019631629866746550551576576</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = phigh + x</span><br><span class="line">x0 = f.small_roots(X= 2^206,beta = 0.4)[0]</span><br><span class="line">print(&quot;x=%s&quot;%(int(x0)))</span><br><span class="line">p = phigh + x0</span><br><span class="line">print (&quot;p= &quot;, (int(p)))</span><br><span class="line">assert n % p == 0</span><br><span class="line">q = n/int(p)</span><br><span class="line">print (&quot;q= &quot;, (int(q)))</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">76347864203588455868161824448305083084387260376528823546715135</span></span><br><span class="line">p=  <span class="number">13053422630763887754872929794631414002868675984142851995620494432706465523574529389771830464531559991042565319610790540616696456104018890243275374098291711</span></span><br><span class="line">q=  <span class="number">9825759610390416003138880321039057063786120681277009947660201742655391150627525256689197020107593156663696181775606008771199371337506657207530847665591719</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="CrazyPrime的解答"><a href="#CrazyPrime的解答" class="headerlink" title="CrazyPrime的解答"></a>CrazyPrime的解答</h2><p><strong>考察：</strong></p>
-<ul>
-<li>多项式技巧</li>
-<li>费马小定理</li>
-</ul>
-<p>$$<br>f(X) &#x3D; x^3-(C1 + C2 + C3)x^2 + (C1C2 + C1C3 + C2C3)x - C1C2C3 \pmod{n}<br>$$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">C1 = <span class="number">569152976869063146023072907832518894975041333927991456910198999345700391220835009080679006115013808845384796762879536272124713177039235766835540634080670611913370463720348843789609330086898067623866793724806787825941048552075917807777474750280276411568158631295041513060119750713892787573668959642318994049493233526305607509996778047209856407800405714104373282610244944206314614906974275396096712817649817035559000245832673082730407216670764400076473183825246052</span></span><br><span class="line">C2 = <span class="number">600870923560313304359037202752076267074889238956345564584928427345594724253036201151726541881494799597966727749590645445697106549304014936202421316051605075583257261728145977582815350958084624689934980044727977015857381612608005101395808233778123605070134652480191762937123526142746130586645592869974342105683948971928881939489687280641660044194168473162316423173595720804934988042177232172212359550196783303829050288001473419477265817928976860640234279193511499</span></span><br><span class="line">C3 = <span class="number">502270534450244040624190876542726461324819207575774341876202226485302007962848054723546499916482657212105671666772860609835378197021454344356764800459114299720311023006792483917490176845781998844884874288253284234081278890537021944687301051482181456494678641606747907823086751080399593576505166871905600539035162902145778102290387464751040045505938896117306913887015838631862800918222056118527252590990688099219298296427609455224159445193596547855684004680284030</span></span><br><span class="line">n = <span class="number">924936528644761261915490226270682878749572154775391302241867565751616615723850084742168094776229761548826664906020127037598880909798055174894996273670320006942669796769794827782190025101253693980249267932225152093301291975335342891074711919668098647971235568200490825183676601392038486178409517985098598981313504275523679007669267428032655295176395420598988902864122270470643591017567271923728446920345242491655440745259071163984046349191793076143578695363467259</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过第一个高位泄露解得</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义有限域上的多项式环</span></span><br><span class="line">R.&lt;x&gt; = PolynomialRing(Zmod(n), implementation=<span class="string">&#x27;NTL&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 构造多项式 f(x)</span></span><br><span class="line">f = x**<span class="number">3</span> - (C1 + C2 + C3) * x**<span class="number">2</span> + (C1*C2 + C1*C3 + C2*C3) * x - C1*C2*C3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 small_roots() 函数求解多项式 f(x) 的小根</span></span><br><span class="line">root = f.small_roots()</span><br><span class="line"><span class="built_in">print</span>(root)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m = <span class="number">105960538296223496551922954965164644267919720177702173352061963871195469608683</span></span><br></pre></td></tr></table></figure>
-
-<p>至此CrazySmith结束</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">p =  <span class="number">13053422630763887754872929794631414002868675984142851995620494432706465523574529389771830464531559991042565319610790540616696456104018890243275374098291711</span></span><br><span class="line">q =  <span class="number">9825759610390416003138880321039057063786120681277009947660201742655391150627525256689197020107593156663696181775606008771199371337506657207530847665591719</span></span><br><span class="line">m =  <span class="number">105960538296223496551922954965164644267919720177702173352061963871195469608683</span></span><br><span class="line">r = m</span><br><span class="line">c =  <span class="number">10585127810518527980133202456076703601165893288538440737356392760427497657052118442676827132296111066880565679230142991175837099225733564144475217546829625689104025101922826124473967963669155549692317699759445354198622516852708572517609971149808872997711252940293211572610905564225770385218093601905012939143618159265562064340937330846997881816650140361013457891488134685547458725678949</span></span><br><span class="line">e =  <span class="number">65537</span></span><br><span class="line">N = p*q*r</span><br><span class="line">phi =(p-<span class="number">1</span>)*(q-<span class="number">1</span>)*(r-<span class="number">1</span>)</span><br><span class="line">d = inverse(e,phi)</span><br><span class="line">m = <span class="built_in">pow</span>(c,d,N)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">b&#x27;SYC&#123;N0b0dy_Kn0vvs_CryPt0_be7t3r_7haN_Me&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-
+    <p>Excellent and graceful.</p>
+    
+    <a class="article-more-a" href="/2023/06/15/Wiener-s-attack-and-Extending/#more">more >></a>
+    
     
 
     
@@ -291,7 +274,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">WriteUp</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">NumberTheory</a>
         		</li>
       		
 		</ul>
@@ -301,7 +284,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/2023/06/14/SYCTF-CrazyTreat/">more >></a>
+      <a class="article-more-a" href="/2023/06/15/Wiener-s-attack-and-Extending/">more >></a>
     </p>
     
 
@@ -419,165 +402,6 @@
 
 
   
-    <article id="post-Lagrange-Interpolation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2023/06/14/Lagrange-Interpolation/" target="_blank">Lagrange Interpolation</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2023/06/14/Lagrange-Interpolation/" class="archive-article-date">
-        <time datetime="2023-06-14T12:47:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-14</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2023/06/14/Lagrange-Interpolation/">more >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-anaconda" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2023/06/14/anaconda/" target="_blank">Anaconda</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2023/06/14/anaconda/" class="archive-article-date">
-        <time datetime="2023-06-14T11:44:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-14</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h1 id="Anaconda的使用"><a href="#Anaconda的使用" class="headerlink" title="Anaconda的使用"></a>Anaconda的使用</h1>
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Tool</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2023/06/14/anaconda/">more >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Shamir&#39;s-Secret-Sharing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -637,6 +461,83 @@
     
     <p class="article-more-link">
       <a class="article-more-a" href="/2023/05/14/Shamir's-Secret-Sharing/">more >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Lagrange-Interpolation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2023/05/04/Lagrange-Interpolation/" target="_blank">Lagrange Interpolation</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2023/05/04/Lagrange-Interpolation/" class="archive-article-date">
+        <time datetime="2023-05-04T12:47:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-04</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>In numerical analysis, the Lagrange Interpolating polynomial is the unique polynomial of lowest degree that interpolates given of data.</p>
+    
+    <a class="article-more-a" href="/2023/05/04/Lagrange-Interpolation/#more">more >></a>
+    
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2023/05/04/Lagrange-Interpolation/">more >></a>
     </p>
     
 
@@ -963,7 +864,8 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="Continued-Fraction"><a href="#Continued-Fraction" class="headerlink" title="Continued Fraction"></a>Continued Fraction</h1><p>Be continued fraction,hence there is a limitation.</p>
+    <p><strong>Continued Fraction</strong></p>
+<p>Be continued fraction,hence there is a limitation.</p>
     
     <a class="article-more-a" href="/2023/03/14/Continued-Fraction/#more">more >></a>
     
@@ -1264,19 +1166,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">WriteUp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Theme</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Explore</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
               </li>
             
             <div class="clearfix"></div>
