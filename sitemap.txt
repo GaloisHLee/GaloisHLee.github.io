@@ -1,6 +1,6 @@
+http://example.com/2023/06/23/Jwt-Note/
 http://example.com/2023/03/14/Continued-Fraction/
 http://example.com/2023/06/15/Wiener-s-attack-and-Extending/
-http://example.com/2023/05/04/Lagrange-Interpolation/
 http://example.com/2022/12/08/Base/
 http://example.com/2023/04/14/Affine-Transformation/
 http://example.com/2023/05/14/Shamir's-Secret-Sharing/
@@ -14,3 +14,4 @@ http://example.com/tags/NumberTheory/
 http://example.com/tags/Linux/
 http://example.com/tags/Theme/
 http://example.com/tags/Explore/
+http://example.com/tags/web/
