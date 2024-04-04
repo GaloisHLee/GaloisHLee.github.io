@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>CyberSecurityEngine - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="CyberSecurityEngine" />
+<meta property="og:description" content="Here&rsquo;s something about Shodan." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/engine/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-04T15:31:43+08:00" />
+<meta property="article:modified_time" content="2024-04-04T15:31:43+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="CyberSecurityEngine"/>
+<meta name="twitter:description" content="Here&rsquo;s something about Shodan."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/engine/" /><link rel="prev" href="https://example.com/noteforgit/" /><link rel="next" href="https://example.com/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CyberSecurityEngine",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/engine\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/example.com\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  1257 ,
+        "url": "https:\/\/example.com\/engine\/","datePublished": "2024-04-04T15:31:43+08:00","dateModified": "2024-04-04T15:31:43+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/engine/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/engine/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CyberSecurityEngine</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-04-04">2024-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1257 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;<span id="/engine/" class="leancloud_visitors" data-flag-title="CyberSecurityEngine">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#11whats-shodan">1.1What&rsquo;s Shodan？</a></li>
+    <li><a href="#12how-does-shodan-work">1.2How does Shodan Work</a></li>
+    <li><a href="#13what-can-you-find">1.3What can you Find</a></li>
+    <li><a href="#14how-to-use-shodan-search-engine">1.4How to use Shodan Search Engine</a></li>
+    <li><a href="#15-application">1.5 Application</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Here&rsquo;s something about Shodan.</p>
+<h1 id="1shodan">1.Shodan</h1>
+<h2 id="11whats-shodan">1.1What&rsquo;s Shodan？</h2>
+<blockquote>
+<p>Shodan is a <a href="https://en.wikipedia.org/wiki/Search_engine" target="_blank" rel="noopener noreffer ">search engine</a> that lets users search for various types of servers (<a href="https://en.wikipedia.org/wiki/Webcam" target="_blank" rel="noopener noreffer ">webcams</a>, <a href="https://en.wikipedia.org/wiki/Router_%28computing%29" target="_blank" rel="noopener noreffer ">routers</a>, <a href="https://en.wikipedia.org/wiki/Server_%28computing%29" target="_blank" rel="noopener noreffer ">servers</a>, etc.) connected to the <a href="https://en.wikipedia.org/wiki/Internet" target="_blank" rel="noopener noreffer ">internet</a> using a variety of filters.[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-1" target="_blank" rel="noopener noreffer ">1]</a> Some have also described it as a search engine of <a href="https://en.wikipedia.org/wiki/Banner_grabbing" target="_blank" rel="noopener noreffer ">service banners</a>, which are <a href="https://en.wikipedia.org/wiki/Metadata" target="_blank" rel="noopener noreffer ">metadata</a> that the <a href="https://en.wikipedia.org/wiki/Server_%28computing%29" target="_blank" rel="noopener noreffer ">server</a> sends back to the client.[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-shodanabout-2" target="_blank" rel="noopener noreffer ">2]</a> This can be information about the server software, what options the service supports, a welcome message or anything else that the client can find out before interacting with the server.</p>
+<p>Shodan collects data mostly on web servers (<a href="https://en.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener noreffer ">HTTP</a>/<a href="https://en.wikipedia.org/wiki/HTTPS" target="_blank" rel="noopener noreffer ">HTTPS</a> – ports 80, 8080, 443, 8443), as well as <a href="https://en.wikipedia.org/wiki/FTP" target="_blank" rel="noopener noreffer ">FTP</a> (port 21), <a href="https://en.wikipedia.org/wiki/Secure_Shell" target="_blank" rel="noopener noreffer ">SSH</a> (port 22), <a href="https://en.wikipedia.org/wiki/Telnet" target="_blank" rel="noopener noreffer ">Telnet</a> (port 23), <a href="https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol" target="_blank" rel="noopener noreffer ">SNMP</a> (port 161), <a href="https://en.wikipedia.org/wiki/Internet_Message_Access_Protocol" target="_blank" rel="noopener noreffer ">IMAP</a> (ports 143, or (encrypted) 993), <a href="https://en.wikipedia.org/wiki/SMTP" target="_blank" rel="noopener noreffer ">SMTP</a> (port 25), <a href="https://en.wikipedia.org/wiki/Session_Initiation_Protocol" target="_blank" rel="noopener noreffer ">SIP</a> (port 5060),[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-shodanfaq-3" target="_blank" rel="noopener noreffer ">3]</a> and <a href="https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol" target="_blank" rel="noopener noreffer ">Real Time Streaming Protocol</a> (RTSP, port 554). The latter can be used to access webcams and their video streams.[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-4" target="_blank" rel="noopener noreffer ">4]</a></p>
+<p>It was launched in 2009 by <a href="https://en.wikipedia.org/wiki/Computer_programmer" target="_blank" rel="noopener noreffer ">computer programmer</a> John Matherly, who, in 2003,[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-SMH_interview-5" target="_blank" rel="noopener noreffer ">5]</a> conceived the idea of searching devices linked to the Internet.[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-wash_post-6" target="_blank" rel="noopener noreffer ">6]</a> The name Shodan is a reference to <a href="https://en.wikipedia.org/wiki/SHODAN" target="_blank" rel="noopener noreffer ">SHODAN</a>, a character from the <a href="https://en.wikipedia.org/wiki/System_Shock" target="_blank" rel="noopener noreffer ">System Shock</a> video game series.[<a href="https://en.wikipedia.org/wiki/Shodan_%28website%29#cite_note-SMH_interview-5" target="_blank" rel="noopener noreffer ">5]</a></p>
+</blockquote>
+<p>Shodan is a search engine, like google, but instead of searching for websites, it searches for internet-connected devices — from routers and servers, to Internet of Things (IoT) devices, such as thermostats and baby monitors, to complex systems that govern a wide range of industries, including energy, power, and transportation.</p>
+<p>With well-based knowledge about web, it&rsquo;s not difficult for to find that Shodan can find anything that connects directly to the internet — and if your internet-facing devices aren’t protected, Shodan can tell hackers everything they need to know to break into your network.</p>
+<p>Nevertheless, Shodan isn&rsquo;t designed for Hackers. Hackers use similar port-crawling tools to invade internet-connected devices,  like other search engines we are going to mention.</p>
+<p>With Simple user interface and public nature, Shodan is crucial resource used by cybersecurity experts to help protect   individuals, enterprises, and even public utilities from cyber attacks. But keep in mind that searching with Shodan is a little more complicated than a basic Google search.</p>
+<p>Users can perform a search using the Shodan search engine based on an IP address, device name, city, and/or a variety of other technical categories. Users can sign up for free accounts, but they are very limited — Shodan limits its free service to only 50 search results.</p>
+<p>By the way,  Shodan in fact comes from the pet project of a young computer programmer，John Matherly, who figured out a way to map each device connected to the internet by constantly crawling the web for randomly generated IP addresses, and it&rsquo;s he that eventually developed a search engine to search through his growing database of internet-connected devices. The first Release of Shodan was publish in 2009.</p>
+<h2 id="12how-does-shodan-work">1.2How does Shodan Work</h2>
+<p>Shodan works by requesting connections to every imaginable internet protocol (IP) address on the internet and indexing the information that it gets back from those connections requests.</p>
+<p>Shodan crawls the web for devices using a global network of computers and severs that are running 24/7 (Full time)</p>
+<p>IP address</p>
+<p>An IP address is your device’s digital signature — it’s what allows Google to tailor searches to your location, and it’s what allows all internet-connected devices to communicate with each other (VPNs  hide your IP address so that you can’t be tracked by your ISP or other browser-tracking tools online).</p>
+<p>After learning Computer Networks, it&rsquo;s no doubt that Internet-connected devices have specific “ports” that are designed to transmit certain kinds of data. Once you’ve established a device’s IP address, you can establish connections to each of its ports. There are ports for email, ports for browser activity, ports for printers and routers — 65,535 ports in all.</p>
+<p>When a port is set to &ldquo;open&rdquo;, it&rsquo;s available for access, which allowing your printer to establish a connection with your computer. For instance, your computer at the open port, and the printer sends &ldquo;Banner&rdquo; of information that contains the information your computer needs to interact with the printer.</p>
+<p>Shodan works by &ldquo;knocking&rdquo; at every imaginable port possible IP address all day. Some of these ports return nothing, but many of them respond with Banners that contain important metadata about the devices Shodan is requesting a connection with.</p>
+<p>The Banner can provide all sorts of identifying information, but here are some of more common fields you will see in the banner:</p>
+<blockquote>
+<ul>
+<li>Device name: What your device calls itself online. For example, Samsung Galaxy S21.</li>
+<li>IP address: A unique code assigned to each device, which allows the device to be identified by servers.</li>
+<li>Port #: Which protocol your device uses to connect to the web.</li>
+<li>Organization: Which business owns your “IP space”. For example, your internet service provider, or the business you work for.</li>
+<li>Location: Your country, city, county, or a variety of other geographic identifiers.</li>
+</ul>
+</blockquote>
+<p>This also determinate the basic usages of Shodan. Of course, some devices even include their default login and password, make and model, and software version, which can all be exploited by hackers.</p>
+<h2 id="13what-can-you-find">1.3What can you Find</h2>
+<p>Generally, any device connected to the internet can potentially show up in a Shodan search.</p>
+<p>Since the first release in 2009, a large community of hackers and researchers have been cataloging the devices like:</p>
+<ul>
+<li>Wireless moniters</li>
+<li>Internet routers</li>
+<li>Security cameras</li>
+<li>Maritime satellites</li>
+<li>Water treatment facilities</li>
+<li>Traffic light systems</li>
+<li>Pay phones</li>
+<li>Power infrasttructures</li>
+</ul>
+<p>Before scared, remember that Shodan merely indexes publicly available information. Getting the information isn&rsquo;t equal to  making the disaster. In case of industrial computers and old SCADA systems, many of them are protected by passwords and other measures such as two-factor authentication, firewalls and etc.</p>
+<blockquote>
+<p>Whereas, Shodan does reveal just how much of our information is publicly available. If there is an internet-facing webcam whose default logins is not changed, hackers can access it without your knowledge, gaining an easy window into your home. In fact, webcams are one of the most commonly searched terms on <a href="https://www.shodan.io/explore" target="_blank" rel="noopener noreffer ">Shodan’s “Explore” page</a>.This is another reason why it’s so important to use an antivirus program like <a href="https://www.safetydetectives.com/best-antivirus/norton/" target="_blank" rel="noopener noreffer ">Norton</a> which can flag network vulnerabilities and give you a warning if other apps or users are accessing your webcam or microphone.</p>
+</blockquote>
+<h2 id="14how-to-use-shodan-search-engine">1.4How to use Shodan Search Engine</h2>
+<p>As Shodan is designed for professional groups,  performing a search on Shodan isn&rsquo;t as simple as performing  a Bing search. Simply put, it&rsquo;s user interface is not that friendly.</p>
+<p>Here we got an example in process of finding Cisco devices in NYC.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Cisco city:“New York”
+</code></pre></td></tr></table>
+</div>
+</div><p>Some basic filters.</p>
+<ul>
+<li><code>city: find devices in a particular city.</code></li>
+<li><code>country: find devices in a particular country.</code></li>
+<li><code>geo: search for specific GPS coordinates.</code></li>
+<li><code>hostname: find values that match the hostname.</code></li>
+<li><code>product: search the name of the software or product identified in the banner.</code></li>
+<li><code>os: search based on operating system.</code></li>
+<li><code>port: find particular ports that are open.</code></li>
+<li><code>before/after: find results within a timeframe.</code></li>
+<li><code>isp:</code></li>
+<li><code>version:</code></li>
+<li><code>before/after: before:&quot;11-11-15&quot; #2015-11-11</code></li>
+<li><code>net:&quot;210.45.240.0/24&quot;</code></li>
+</ul>
+<p>To get more you can use your ChatGPT or read Shodan Documentation for applying with Python or Rust.</p>
+<p>However, in shodan there are different ranks of account.</p>
+<h2 id="15-application">1.5 Application</h2>
+<p>Shodan is commonly used for identification of potential security issues with their devices.</p>
+<p>For more and more internet-connected devices, our chances of falling victim to malicious attack get higher. By identifying all of the devices connected to the internet, displaying what information those devices are sharing with the public, and making it clear how easy that information is to access, Shodan can help users to reinforce their security in a variety of ways.</p>
+<h1 id="link">LINK</h1>
+<ul>
+<li><a href="https://www.shodan.io/" target="_blank" rel="noopener noreffer ">Shodan</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-04-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/engine/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/engine/" data-title="CyberSecurityEngine"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/engine/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/engine/" data-title="CyberSecurityEngine"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/engine/" data-title="CyberSecurityEngine"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/engine/" data-title="CyberSecurityEngine"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/noteforgit/" class="prev" rel="prev" title="NoteForGit"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>NoteForGit</a>
+            <a href="/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/" class="next" rel="next" title="根与多项式系数关系">根与多项式系数关系<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>

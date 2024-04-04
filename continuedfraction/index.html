@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>ContinuedFraction - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="ContinuedFraction" />
+<meta property="og:description" content="Continued Fraction
+Be continued fraction,hence there is a limitation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/continuedfraction/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-04T23:25:11+08:00" />
+<meta property="article:modified_time" content="2024-04-04T23:25:11+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="ContinuedFraction"/>
+<meta name="twitter:description" content="Continued Fraction
+Be continued fraction,hence there is a limitation."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/continuedfraction/" /><link rel="prev" href="https://example.com/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/" /><link rel="next" href="https://example.com/jwt-note/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ContinuedFraction",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/continuedfraction\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/example.com\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  2271 ,
+        "url": "https:\/\/example.com\/continuedfraction\/","datePublished": "2024-04-04T23:25:11+08:00","dateModified": "2024-04-04T23:25:11+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/continuedfraction/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/continuedfraction/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">ContinuedFraction</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-04-04">2024-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2271 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;<span id="/continuedfraction/" class="leancloud_visitors" data-flag-title="ContinuedFraction">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#21intro">2.1intro</a></li>
+    <li><a href="#22-properties">2.2 Properties</a></li>
+    <li><a href="#23-continued-fractions-and-approximation-theory">2.3 Continued Fractions and Approximation Theory</a>
+      <ul>
+        <li><a href="#231-approximation-theorems">2.3.1 Approximation Theorems</a>
+          <ul>
+            <li><a href="#theorem-1">Theorem 1</a></li>
+            <li><a href="#theorem-2">Theorem 2</a></li>
+          </ul>
+        </li>
+        <li><a href="#232-best-approximation">2.3.2 Best Approximation</a>
+          <ul>
+            <li><a href="#theorem-3">Theorem 3</a></li>
+            <li><a href="#theorem-4">Theorem 4</a></li>
+            <li><a href="#theorem-5">Theorem 5</a></li>
+            <li><a href="#corollary-1">Corollary 1</a></li>
+          </ul>
+        </li>
+        <li><a href="#233-simplest-periodic-continued-fractions">2.3.3 Simplest Periodic Continued Fractions</a>
+          <ul>
+            <li><a href="#theorem-6">Theorem 6</a></li>
+            <li><a href="#theorem-7">Theorem 7</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#31-conversion-of-continued-fractions">3.1 Conversion of Continued Fractions</a></li>
+    <li><a href="#32-notation">3.2 Notation</a></li>
+    <li><a href="#33-reciprocal-of-continued-fractions">3.3 Reciprocal of Continued Fractions</a></li>
+    <li><a href="#34-infinite-continued-fractions">3.4 Infinite Continued Fractions</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#41-theorem">4.1 Theorem</a>
+      <ul>
+        <li><a href="#411">4.1.1</a></li>
+        <li><a href="#412">4.1.2</a></li>
+        <li><a href="#413">4.1.3</a></li>
+      </ul>
+    </li>
+    <li><a href="#41-some-theorems">4.1 Some Theorems</a>
+      <ul>
+        <li><a href="#414-theorem-4">4.1.4 Theorem 4:</a></li>
+        <li><a href="#415-theorem-5">4.1.5 Theorem 5:</a></li>
+      </ul>
+    </li>
+    <li><a href="#42-some-concepts">4.2 Some Concepts</a>
+      <ul>
+        <li><a href="#421-convergents-and-semi-convergents">4.2.1 Convergents and Semi-Convergents</a></li>
+        <li><a href="#422-best-rational-approximations">4.2.2 Best Rational Approximations</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><strong>Continued Fraction</strong></p>
+<p>Be continued fraction,hence there is a limitation.</p>
+<h1 id="1expression-form">1.Expression form</h1>
+<p>$$
+x=a_0+\frac{1}{a_1+\frac{1}{a_2+\frac{1}{a_3+\frac{1}{\ddots}}}}
+$$</p>
+<p>$$
+a_0 ∈\mathbb{Z},a_n∈\mathbb{Z}/{0} ~(n\ne0)
+$$</p>
+<p>If <strong>partial numerators</strong> and <strong>partial denominators</strong> are allowed to assume arbitrary values, which may include <a href="https://en.wikipedia.org/wiki/Function_%28mathematics%29" target="_blank" rel="noopener noreffer ">functions</a>, the resulting expression is called a <a href="https://en.wikipedia.org/wiki/Generalized_continued_fraction" target="_blank" rel="noopener noreffer ">generalized continued fraction</a>. When it is necessary to distinguish this standard form from generalized continued fractions, it is called a <strong>simple</strong> or <strong>regular continued fraction</strong>, or simply in <strong>canonical form</strong>.</p>
+<h1 id="2motive">2.Motive</h1>
+<h2 id="21intro">2.1intro</h2>
+<blockquote>
+<p>·Different from decimal decimal notation.</p>
+<p>·Infinite approximation to irrational numbers</p>
+</blockquote>
+<p>Mathematically, it can be proven that the convergents obtained from (simple) continued fractions provide the best approximations to the exact value, whose numerator or denominator is less than the corresponding fraction of the next convergent.</p>
+<h2 id="22-properties">2.2 Properties</h2>
+<p>In contrast to decimal expressions, continued fraction expressions have some properties:</p>
+<ul>
+<li>The continued fraction representation of a rational number is finite.</li>
+<li>The continued fraction representation of a &ldquo;simple&rdquo; rational number is short.</li>
+<li>Any rational number has a unique continued fraction representation, if it does not have a trailing 1. $([a_{0};a_{1},\ldots,a_{n},1]=[a_{0};a_{1},\ldots,a_{n}+1])$</li>
+<li>The continued fraction representation of an irrational number is unique.</li>
+<li>The terms of a continued fraction will be periodic if and only if it is the continued fraction representation of a quadratic irrational (i.e. the real solution to a quadratic equation with integer coefficients) [<a href="https://zh.wikipedia.org/wiki/%e8%bf%9e%e5%88%86%e6%95%b0#cite_note-1" target="_blank" rel="noopener noreffer ">1]</a>[<a href="https://zh.wikipedia.org/wiki/%e8%bf%9e%e5%88%86%e6%95%b0#cite_note-2" target="_blank" rel="noopener noreffer ">2]</a>.</li>
+<li>The truncated continued fraction representation of a number <em>x</em> provides the &ldquo;best possible&rdquo; rational number approximation to <em>x</em> in a certain sense (see Theorem 5, Corollary 1 below).</li>
+</ul>
+<p><strong>Diofantische Approximation</strong></p>
+<h2 id="23-continued-fractions-and-approximation-theory">2.3 Continued Fractions and Approximation Theory</h2>
+<h3 id="231-approximation-theorems">2.3.1 Approximation Theorems</h3>
+<h4 id="theorem-1">Theorem 1</h4>
+<p>Let $x$ be a real number, and let $a_0,a_1,a_2,\ldots,a_n$ be the coefficients of its truncated continued fraction. Then we have</p>
+<p>$$
+\left|x-\frac{p_n}{q_n}\right|&lt;\frac{1}{q_n^2a_{n+1}}
+$$</p>
+<p>where $\frac{p_n}{q_n}$ is the simplest rational approximation of $x$.</p>
+<h4 id="theorem-2">Theorem 2</h4>
+<p>Let $x$ be a real number, and let $a_0,a_1,a_2,\ldots$ be the coefficients of its continued fraction. Then we have</p>
+<p>$$
+\left|x-\frac{p_n}{q_n}\right|&lt;\frac{1}{q_nq_{n+1}}
+$$</p>
+<p>where $\frac{p_n}{q_n}$ is the simplest rational approximation of $x$.</p>
+<h3 id="232-best-approximation">2.3.2 Best Approximation</h3>
+<h4 id="theorem-3">Theorem 3</h4>
+<p>Let $x$ be a real number, and let $a_0,a_1,a_2,\ldots$ be the coefficients of its continued fraction. Let $\frac{p_n}{q_n}$ be the simplest rational approximation of $x$. Then $\frac{p_n}{q_n}$ is the best rational approximation of $x$.</p>
+<h4 id="theorem-4">Theorem 4</h4>
+<p>Let $x$ be a real number, and let $a_0,a_1,a_2,\ldots$ be the coefficients of its continued fraction. Then the best rational approximation of $x$ is a simplest rational number of some truncated continued fraction of $x$.</p>
+<h4 id="theorem-5">Theorem 5</h4>
+<p>Let $x$ be a real number, and let $a_0,a_1,a_2,\ldots$ be the coefficients of its continued fraction. Let $\frac{p_n}{q_n}$ be the simplest rational approximation of $x$. Then we have:</p>
+<ol>
+<li>$\frac{p_n}{q_n}$ is the best rational approximation of $x$.</li>
+<li>For any positive rational number $\epsilon$, there exists an integer $n$ such that for all $n\geq m\geq 0$, we have</li>
+</ol>
+<p>$$
+\left|x-\frac{p_m}{q_m}\right|&lt;\frac{1}{q_m^2}\epsilon
+$$</p>
+<h4 id="corollary-1">Corollary 1</h4>
+<p>Let $x$ be a real number, and let $a_0,a_1,a_2,\ldots$ be the coefficients of its continued fraction. For any positive rational number $\epsilon$, there exists an integer $n$ such that for all $n\geq m\geq 0$, we have</p>
+<p>$$
+\left|x-\frac{p_m}{q_m}\right|&lt;\frac{1}{q_m^2}\epsilon
+$$</p>
+<p>where $\frac{p_m}{q_m}$ is the simplest rational approximation of $x$ truncated at the $m$-th term.</p>
+<h3 id="233-simplest-periodic-continued-fractions">2.3.3 Simplest Periodic Continued Fractions</h3>
+<h4 id="theorem-6">Theorem 6</h4>
+<p>Let $x$ be a quadratic irrational. Then its simplest periodic continued fraction can be written as</p>
+<p>$$
+[a_0;\overline{a_1,a_2,\ldots,a_n}]
+$$</p>
+<p>where $a_0,a_1,a_2,\ldots,a_n$ are the coefficients of its truncated continued fraction, and $n$ is its smallest positive period.</p>
+<h4 id="theorem-7">Theorem 7</h4>
+<p>Let $x$ be a quadratic irrational. Then the denominator $q_n$ of its simplest periodic continued fraction satisfies</p>
+<p>$$
+q_n\leq\sqrt{D}n
+$$</p>
+<p>where $D$ is the discriminant of the irreducible quadratic equation of $x$.</p>
+<h1 id="3-algorithm-for-continued-fractions">3. Algorithm for Continued Fractions</h1>
+<h2 id="31-conversion-of-continued-fractions">3.1 Conversion of Continued Fractions</h2>
+<p>Consider a real number $r$. Let $i$ be its integer part and $f$ be its fractional part. Then the continued fraction representation of $r$ is $[i;&hellip;]$, where &ldquo;&hellip;&rdquo; is the continued fraction representation of $\frac{1}{f}$. It is customary to use a semicolon instead of the <strong>first</strong> comma.</p>
+<p>To compute the continued fraction representation of a real number $r$, first write down the integer part (floor) of $r$, and then subtract this integer part from $r$. If the difference is zero, stop. Otherwise, find the reciprocal of this difference and repeat the process. This process is recursive and terminates if and only if $r$ is a rational number.</p>
+<p>This algorithm is suitable for real numbers, but if implemented using floating-point numbers, it may cause numerical disasters. As an alternative, any floating-point number is an exact rational number (on modern computers, the denominator is usually a power of 2, and on electronic calculators, it is usually a power of 10), so a variant of the <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm" target="_blank" rel="noopener noreffer ">Euclidean algorithm</a> can be used to give an accurate result.</p>
+<h2 id="32-notation">3.2 Notation</h2>
+<p>Continued fractions can be abbreviated as:
+$$
+x=[a_{0};a_{1},a_{2},a_{3}]
+$$
+Or, written in Pringsheim&rsquo;s notation:
+$$
+x=a_{0}+\frac{1|}{|a_{1}}+\frac{1|}{|a_{2}}+\frac{1|}{|a_{3}}
+$$
+There is also another notation:
+$$
+x=a_{0}+\frac{1}{a_{1}+}\frac{1}{a_{2}+}\frac{1}{a_{3}+}
+$$
+Sometimes angle brackets are used, such as:
+$$
+x,=,\langle a_{0}!\colon a_{1},a_{2},a_{3}\rangle
+$$
+The semicolon is optional when using angle brackets.
+In addition, an infinite simple continued fraction can be defined as the limit:
+$$
+[a_{0};a_{1},a_{2},a_{3},\ldots]=\operatorname*{lim}<em>{n\to\infty}[a</em>{0};a_{1},a_{2},\ldots,a_{n}]
+$$
+For any positive integers ${\hat{a}}<em>{1},\ {\hat{a}}</em>{2},\ {\hat{a}}<em>{3}$ &hellip;, there exists this limit.
+Or Gauss&rsquo;s notation can be used:
+$$
+x=a</em>{0}+\frac{3}{i=1}\ \frac{1}{a_{i}}
+$$</p>
+<h2 id="33-reciprocal-of-continued-fractions">3.3 Reciprocal of Continued Fractions</h2>
+<p>The continued fraction representation of a rational number and its reciprocal are the same except that if the number is less than or greater than 1, it is shifted left or right one place, respectively. In other words, $\left[a_0 ; a_1, a_2, a_3, \ldots, a_n\right]$ and $\left[0 ; a_0, a_1, a_2, \ldots, a_n\right]$ are reciprocals of each other. This is because if $a$ is an integer, then if $x&lt;1$, $x=0+\frac{1}{a+\frac{1}{b}}$ and $\frac{1}{x}=a+\frac{1}{b}$, and if $x&gt;1$, $x=a+\frac{1}{b}$ and $\frac{1}{x}=0+\frac{1}{a+\frac{1}{b}}$ with the last number generating the same continued fraction residues for $x$ and its reciprocal.
+For example:
+$$
+\begin{aligned}
+&amp; 2.25=\frac{9}{4}=[2 ; 4] \
+&amp; \frac{1}{2.25}=\frac{4}{9}=[0 ; 2,4]
+\end{aligned}
+$$</p>
+<h2 id="34-infinite-continued-fractions">3.4 Infinite Continued Fractions</h2>
+<p><strong>Convergents:</strong> The infinite continued fraction representation of an irrational number is very useful because its initial segments provide excellent rational approximations to the number. These rational numbers can be called the <a href="https://en.wikipedia.org/wiki/Convergent_%28continued_fraction%29" target="_blank" rel="noopener noreffer ">convergents</a> of the continued fraction. All even-numbered convergents are less than the original number, while odd-numbered convergents are greater than it.</p>
+<p><strong>Infinite Continued Fractions:</strong>
+All infinite continued fractions are irrational numbers, and all irrational numbers can be represented as infinite continued fractions in a unique way. The convergents are all less than the original number if they are even-numbered, and greater than it if they are odd-numbered.
+$$
+\frac{a_0}{1}, \quad \frac{a_1 a_0+1}{a_1}, \quad \frac{a_2\left(a_1 a_0+1\right)+a_0}{a_2 a_1+1}, \quad \frac{a_3\left[a_2\left(a_1 a_0+1\right)+a_0\right]+\left(a_1 a_0+1\right)}{a_3\left(a_2 a_1+1\right)+a_1}
+$$
+If the consecutive convergents are found, with numerators $h_1, h_2, \ldots$ and denominators $k_1, k_2, \ldots$, then the following recursive formulas hold:
+$$
+h_n=a_n h_{n-1}+h_{n-2}, \quad k_n-a_n k_{n-1}+k_{n-2}
+$$
+The continued fraction is given by the following formula:
+$$
+\frac{h_n}{k_n}=\frac{a_n h_{n-1}+h_{n-2}}{a_n k_{n-1}+k_{n-2}}
+$$</p>
+<p>$$
+\frac{h_n}{k_n} = \frac{a_n h_{n-1}+h_{n-2}}{a_n k_{n-1} + k_{n-2}}
+$$</p>
+<p>The above equation is related to <strong>ExGcd</strong>, and it has important significance in subsequent attacks.</p>
+<h1 id="4theorem-and-concept">4.Theorem and concept</h1>
+<h2 id="41-theorem">4.1 Theorem</h2>
+<h3 id="411">4.1.1</h3>
+<p><strong>Theorem.1:</strong></p>
+<p>for  $x \in \mathbb{R^+}$
+$$
+\left[a_0 ; a_1, \ldots, a_{n-1}, x\right]=\frac{x h_{n-1}+h_{n-2}}{x k_{n-1}+k_{n-2}}
+$$
+This expression is a formula for the $n$th convergent of the continued fraction expansion of $\alpha=[a_0;a_1,\ldots,a_{n-1},x]$. Here, $h_i$ and $k_i$ are the numerators and denominators of the $i$th convergent of $\alpha$, respectively.</p>
+<p>The formula states that the $n$th convergent of $\alpha$ can be expressed as a fraction with numerator $x h_{n-1}+h_{n-2}$ and denominator $x k_{n-1}+k_{n-2}$. This formula is useful for approximating irrational numbers with rational numbers, since the convergents of a continued fraction are the best rational approximations to the original number.</p>
+<p>For example, consider the continued fraction expansion of $\sqrt{2}$:</p>
+<p>$$
+\sqrt{2}=[1;2,2,2,\ldots]
+$$</p>
+<p>The convergents of $\sqrt{2}$ are:</p>
+<p>$$
+\frac{1}{1}, \frac{3}{2}, \frac{7}{5}, \frac{17}{12}, \frac{41}{29}, \frac{99}{70}, \frac{239}{169}, \frac{577}{408}, \frac{1393}{985}, \frac{3363}{2378}, \ldots
+$$</p>
+<p>Using the formula, we can compute the next convergent of $\sqrt{2}$:</p>
+<p>$$
+\frac{x h_{10}+h_{9}}{x k_{10}+k_{9}}=\frac{x \cdot 3363+1393}{x \cdot 2378+985}=\frac{3363 x+1393}{2378 x+985}
+$$</p>
+<p>This is the 11th convergent of $\sqrt{2}$. As $x$ gets larger, this fraction gets closer and closer to $\sqrt{2}$.</p>
+<h3 id="412">4.1.2</h3>
+<p><strong>Theorem.2</strong>:</p>
+<p>$\left[a_0, a_1, a_2, \ldots\right]$ whose convergence subsequence is
+$$
+\left[a_0 ; a_1, \ldots, a_n\right]=\frac{h_n}{k_n}, n \in \mathbb{N}
+$$
+constituent series, which converges to its limit  $\left[a_0, a_1, a_2, \ldots\right]$ 。</p>
+<h3 id="413">4.1.3</h3>
+<p>Theorem 3:
+If the $m$-th convergent of a continued fraction is $h_n/k_n$, then
+$$
+k_n h_{n-1}-k_{n-1} h_n=(-1)^n
+$$
+Corollary 1: Each convergent is in its lowest terms (if $h_n$ and $k_n$ have an unusual common divisor, it can be divided by $k_n h_{n-1}-k_{n-1} h_n$, which is impossible).
+Corollary 2: The difference between consecutive convergents is a unit fraction:
+$$
+\left|\frac{h_n}{k_n}-\frac{h_{n-1}}{k_{n-1}}\right|=\left|\frac{h_n k_{n-1}-k_n h_{n-1}}{k_n k_{n-1}}\right|=\frac{1}{k_n k_{n-1}}
+$$
+Corollary 3: The continued fraction is equivalent to the alternating series of terms:
+$$
+a_0+\sum_{n=0}^{\infty} \frac{(-1)^n}{k_{n+1} k_n}
+$$
+Corollary 4: The determinant of the matrix
+$$
+\left[\begin{array}{ll}
+h_n &amp; h_{n-1} \
+k_n &amp; k_{n-1}
+\end{array}\right]
+$$
+is either 1 or -1, so it belongs to the group of $2 \times 2$ unimodular matrices $S^* L(2, \mathbb{Z})$.</p>
+<p>A brief explanation of how each corollary can be proved:</p>
+<p>Corollary 1: If $h_n$ and $k_n$ have a common divisor, then we can divide both by their greatest common divisor to obtain a new pair of integers $(h_n', k_n')$ that represent the same fraction. Then, by Theorem 3, we have $k_n' h_{n-1}' - k_{n-1}' h_n' = (-1)^n$. But since $h_n'$ and $k_n'$ are relatively prime, their greatest common divisor is 1, so $k_n' h_{n-1}' - k_{n-1}' h_n'$ is also relatively prime to $h_n'$ and $k_n'$. Thus, it cannot be a divisor of both $h_n$ and $k_n$, which contradicts the assumption that they have a common divisor.</p>
+<p>Corollary 2: The difference between consecutive convergents is given by $|h_n/k_n - h_{n-1}/k_{n-1}| = |(h_n k_{n-1} - k_n h_{n-1})/(k_n k_{n-1})|$. But by Theorem 3, we have $h_n k_{n-1} - k_n h_{n-1} = (-1)^n$, so the difference between consecutive convergents is $1/(k_n k_{n-1})$, which is a unit fraction.</p>
+<p>Corollary 3: To prove this corollary, we can use the fact that the continued fraction is equivalent to the sequence of convergents. Then, we can use the formula for the difference between consecutive convergents (as in Corollary 2) to express the continued fraction as an alternating series of unit fractions.</p>
+<p>Corollary 4: The determinant of the matrix $\begin{bmatrix} h_n &amp; h_{n-1} \ k_n &amp; k_{n-1} \end{bmatrix}$ is $h_n k_{n-1} - h_{n-1} k_n$, which is $\pm 1$ by Theorem 3. The group $S^* L(2, \mathbb{Z})$ consists of $2 \times 2$ matrices with integer entries and determinant $\pm 1$, so this matrix belongs to the group.</p>
+<h2 id="41-some-theorems">4.1 Some Theorems</h2>
+<h3 id="414-theorem-4">4.1.4 Theorem 4:</h3>
+<p>Each (nth) convergent is closer to subsequent (nth+1) convergents than to any of the preceding (rth) convergents. Symbolically, if the nth convergent is $\left[a_0 ; a_1, a_2, \ldots a_n\right]=x_n$, then
+$$
+\left|x_r-x_n\right|&gt;\left|x_s-x_n\right|
+$$
+for all $r&lt;s&lt;n$:</p>
+<p>Corollary 1: Odd convergents (before the nth) are monotonically increasing and always less than $x_n$.
+Corollary 2: Even convergents (before the nth) are monotonically decreasing and always greater than $x_n$.</p>
+<h3 id="415-theorem-5">4.1.5 Theorem 5:</h3>
+<p>Theorem 5
+$$
+\frac{1}{k_n\left(k_{n+1}+k_n\right)}&lt;\left|x-\frac{h_n}{k_n}\right|&lt;\frac{1}{k_n k_{n+1}}
+$$
+Corollary 1: Any convergent is closer to the continued fraction than any other fraction with a denominator less than that of the convergent.
+Corollary 2: Any convergent immediately preceding a large quotient is a best approximation to the continued fraction.</p>
+<h2 id="42-some-concepts">4.2 Some Concepts</h2>
+<h3 id="421-convergents-and-semi-convergents">4.2.1 Convergents and Semi-Convergents</h3>
+<p><strong>Convergents:</strong></p>
+<blockquote>
+<p>Excellent rational approximations to the number. These rationals are called the convergents (also known as &ldquo;convergent fractions&rdquo; or &ldquo;convergent quotients&rdquo;) of the continued fraction.</p>
+</blockquote>
+<p><strong>Semi-convergents:</strong></p>
+<p>If $\frac{h_{n-1}}{k_{n-1}}$ and $\frac{h_n}{k_n}$ are consecutive convergents, then any fraction of the form
+$$
+\frac{h_{n-1}+a h_n}{k_{n-1}+a k_n}
+$$
+where $a$ is a non-negative integer and the numerator and denominator lie between the nth and (n+1)th terms (inclusive), is called a &ldquo;semi-convergent&rdquo;, a sub-convergent, or a medi-ant. This term often implies that a possibility of being a convergent is excluded, and refers to a kind of half-convergent. The semi-convergents to the continued fraction of a real number $x$ include all rational approximations that are better than any with smaller denominators. Another useful property is that consecutive semi-convergents $\frac{a}{b}$ and $\frac{c}{d}$ satisfy $a d-b c= \pm 1$.</p>
+<p><strong>The semi-convergents to the continued fraction of a real number $x$ include all rational approximations that are better than any with smaller denominators.</strong></p>
+<h3 id="422-best-rational-approximations">4.2.2 Best Rational Approximations</h3>
+<p>Continued fractions theory plays a foundational role in the field of Diophantine approximation, and can solve the problem of best approximations to real numbers.</p>
+<h1 id="5-summary-of-development">5. Summary of Development</h1>
+<ul>
+<li>300 BC - Euclid, &ldquo;Elements&rdquo; - An algorithm for the greatest common divisor generates a continued fraction as a by-product.</li>
+<li>1579 - Rafael Bombelli, &ldquo;L&rsquo;Algebra Opera&rdquo; - A method for extracting square roots is related to continued fractions</li>
+<li>1613 - Pietro Cataldi, &ldquo;Trattato del modo brevissimo di trovar la radice quadra delli numeri&rdquo; - The first notation for continued fractions. Cataldi represented a continued fraction as $a_0$ $.&amp; \frac{n_1}{d_1} . $${&amp;} \frac{n_2}{d_2} .$ $ {&amp;} \frac{n_3}{d_3}$ with dots indicating where the continued fraction is to be continued.</li>
+<li>1695 - John Wallis, &ldquo;Opera Mathematica&rdquo; - Introduces the term &ldquo;continued fraction&rdquo;</li>
+<li>c. 1780 - Joseph-Louis Lagrange - Provides a general solution to Pell&rsquo;s equation using continued fractions similar to Bombelli&rsquo;s.</li>
+<li>1748 - Leonhard Euler, &ldquo;Introductio in analysin infinitorum&rdquo;. Vol. I, Chapter 18 - Proves the equivalence of certain continued fractions and generalized infinite series.</li>
+<li>1813 - Carl Friedrich Gauss, &ldquo;Werke&rdquo;, Vol. III, pp. 134-138 - Derives very general continued fractions for complex-valued functions by using an identity involving hypergeometric series.</li>
+</ul>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%BF%9E%E5%88%86%E6%95%B0#%E5%8A%A8%E6%9C%BA" target="_blank" rel="noopener noreffer ">wikipedia</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/400818185" target="_blank" rel="noopener noreffer ">zhihu</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-04-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/continuedfraction/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/continuedfraction/" data-title="ContinuedFraction"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/continuedfraction/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/continuedfraction/" data-title="ContinuedFraction"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/continuedfraction/" data-title="ContinuedFraction"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/continuedfraction/" data-title="ContinuedFraction"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/" class="prev" rel="prev" title="根与多项式系数关系"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>根与多项式系数关系</a>
+            <a href="/jwt-note/" class="next" rel="next" title="Jwt Note">Jwt Note<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>
