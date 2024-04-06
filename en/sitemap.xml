@@ -2,48 +2,48 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://example.com/en/about/</loc><lastmod>2023-04-12T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://galoishlee.github.io/en/about/</loc><lastmod>2024-04-05T00:07:54&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.com/about/"
+                        href="https://galoishlee.github.io/about/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.com/en/about/"
+                    href="https://galoishlee.github.io/en/about/"
                     /></url><url>
-            <loc>https://example.com/en/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://galoishlee.github.io/en/</loc><lastmod>2024-04-05T00:07:54&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.com/"
+                        href="https://galoishlee.github.io/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.com/en/"
+                    href="https://galoishlee.github.io/en/"
                     /></url><url>
-            <loc>https://example.com/en/categories/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://galoishlee.github.io/en/categories/</loc><lastmod>2024-04-05T00:07:54&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.com/categories/"
+                        href="https://galoishlee.github.io/categories/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.com/en/categories/"
+                    href="https://galoishlee.github.io/en/categories/"
                     /></url><url>
-            <loc>https://example.com/en/categories/documentation/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://galoishlee.github.io/en/categories/documentation/</loc><lastmod>2024-04-05T00:07:54&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.com/categories/documentation/"
+                        href="https://galoishlee.github.io/categories/documentation/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.com/en/categories/documentation/"
+                    href="https://galoishlee.github.io/en/categories/documentation/"
                     /></url><url>
-            <loc>https://example.com/en/tags/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>https://galoishlee.github.io/en/tags/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.com/tags/"
+                        href="https://galoishlee.github.io/tags/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.com/en/tags/"
+                    href="https://galoishlee.github.io/en/tags/"
                     /></url></urlset>
