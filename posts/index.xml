@@ -4,21 +4,21 @@
         <link>https://galoishlee.github.io/posts/</link>
         <description>所有文章 | As it was</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 06 Apr 2024 20:43:19 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 25 May 2024 21:58:45 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>WayToFFT Part 0</title>
+    <link>https://galoishlee.github.io/waytofft-part-0/</link>
+    <pubDate>Sat, 25 May 2024 21:58:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytofft-part-0/</guid>
+    <description><![CDATA[<p>从拉格朗日插值法到FFT. Part-0.</p>]]></description>
+</item>
+<item>
     <title>Fix Point</title>
     <link>https://galoishlee.github.io/fix-point/</link>
     <pubDate>Sat, 06 Apr 2024 20:43:19 &#43;0800</pubDate>
     <author>作者</author>
     <guid>https://galoishlee.github.io/fix-point/</guid>
     <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>SM4 Note</title>
-    <link>https://galoishlee.github.io/sm4-note/</link>
-    <pubDate>Thu, 04 Apr 2024 23:30:30 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/sm4-note/</guid>
-    <description><![CDATA[<p>SM4 learning.</p>]]></description>
 </item>
 <item>
     <title>Lattice Part 0</title>
@@ -41,15 +41,6 @@
 <p>json web token</p>]]></description>
 </item>
 <item>
-    <title>ContinuedFraction</title>
-    <link>https://galoishlee.github.io/continuedfraction/</link>
-    <pubDate>Thu, 04 Apr 2024 23:25:11 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/continuedfraction/</guid>
-    <description><![CDATA[<p><strong>Continued Fraction</strong></p>
-<p>Be continued fraction,hence there is a limitation.</p>]]></description>
-</item>
-<item>
     <title>根与多项式系数关系</title>
     <link>https://galoishlee.github.io/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/</link>
     <pubDate>Thu, 04 Apr 2024 15:41:57 &#43;0800</pubDate>
@@ -63,28 +54,12 @@
 <p>不得不感慨,还是需要捡起一些遗忘的科目:)，回忆下笔者和Galois理论的缘起。</p>]]></description>
 </item>
 <item>
-    <title>CyberSecurityEngine</title>
-    <link>https://galoishlee.github.io/engine/</link>
-    <pubDate>Thu, 04 Apr 2024 15:31:43 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/engine/</guid>
-    <description><![CDATA[<p>Here&rsquo;s something about Shodan.</p>]]></description>
-</item>
-<item>
     <title>NoteForGit</title>
     <link>https://galoishlee.github.io/noteforgit/</link>
     <pubDate>Thu, 04 Apr 2024 15:06:59 &#43;0800</pubDate>
     <author>作者</author>
     <guid>https://galoishlee.github.io/noteforgit/</guid>
     <description><![CDATA[<p>That is git!</p>]]></description>
-</item>
-<item>
-    <title>RSA复现记录</title>
-    <link>https://galoishlee.github.io/rsa%E5%A4%8D%E7%8E%B0%E8%AE%B0%E5%BD%95/</link>
-    <pubDate>Mon, 28 Aug 2023 13:19:44 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/rsa%E5%A4%8D%E7%8E%B0%E8%AE%B0%E5%BD%95/</guid>
-    <description><![CDATA[<p>主要记录了近期的RSA复现情况</p>]]></description>
 </item>
 </channel>
 </rss>
