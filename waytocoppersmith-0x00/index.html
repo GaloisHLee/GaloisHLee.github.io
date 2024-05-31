@@ -35,7 +35,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","wordcount":  3390 ,
+                        }],"genre": "posts","wordcount":  3382 ,
         "url": "https:\/\/galoishlee.github.io\/waytocoppersmith-0x00\/","datePublished": "2024-05-26T15:10:32+08:00","dateModified": "2024-05-26T15:10:32+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -115,7 +115,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToCoppersmith0x00</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3390 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3382 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -163,7 +163,7 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/03/31/cV1BWJaHlUNImKw.png"
         title="image.png" /></p>
-<p>针对这样的思路，可以在格规约、移位多项式和求解common root等几个过程做优化，从而达到提升bound、加快规约速度等目的。Sagemath 中集成了这一方式，单我们也可以手动修改其中过程，以满足需要。</p>
+<p>针对这样的思路，可以在格规约、移位多项式和求解common root等几个过程做优化，从而达到提升bound、加快规约速度等目的。Sagemath 中集成了这一方式，但我们也可以手动修改其中过程，以满足需要。</p>
 <br>
 <br>
 <br>
@@ -176,7 +176,10 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png"
         title="image-20240531110725311" /></p>
-<p>即，当给定一个上界$X = N^{\beta},\beta \in(0,1)$,如果一个根$x_0 \lt X$，那么我们当该多项式在整数环上时，$f(x_0)=0$依然成立。</p>
+<p>即，当给定一个上界$X = N$,如果一个根$x_0 \lt X$，那么我们当该多项式在整数环上时，$f(x_0)=0$依然成立。</p>
+<br>
+<br>
+<br>
 <p>这一引理通常被记为Howgrave-Graham[22], 或Hastad[19]</p>
 <p><img
         class="lazyload"
