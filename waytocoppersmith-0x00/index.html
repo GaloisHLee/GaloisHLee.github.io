@@ -35,7 +35,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","wordcount":  3382 ,
+                        }],"genre": "posts","wordcount":  3222 ,
         "url": "https:\/\/galoishlee.github.io\/waytocoppersmith-0x00\/","datePublished": "2024-05-26T15:10:32+08:00","dateModified": "2024-05-26T15:10:32+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -115,7 +115,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToCoppersmith0x00</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3382 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3222 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -125,8 +125,8 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#概述">概述</a></li>
-    <li><a href="#l_1和l_2范数之间的关系">$l_1$和$l_2$范数之间的关系</a></li>
-    <li><a href="#与lattice的关系">与Lattice的关系</a></li>
+    <li><a href="#l_1-和-l_2-范数之间的关系">$l_1$ 和 $l_2$ 范数之间的关系</a></li>
+    <li><a href="#与-lattice-的关系">与 Lattice 的关系</a></li>
   </ul>
 
   <ul>
@@ -136,6 +136,7 @@
   <ul>
     <li><a href="#c">$c$</a></li>
     <li><a href="#beta">$\beta$</a></li>
+    <li><a href="#epsilon">$\epsilon$</a></li>
     <li><a href="#open-problem">Open problem</a></li>
   </ul>
 </nav></div>
@@ -176,11 +177,11 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png"
         title="image-20240531110725311" /></p>
-<p>即，当给定一个上界$X = N$,如果一个根$x_0 \lt X$，那么我们当该多项式在整数环上时，$f(x_0)=0$依然成立。</p>
+<p>即，当给定一个上界 $X = N$ ,如果一个根 $x_0 \lt X$ ，那么我们当该多项式在整数环上时，$f(x_0)=0$ 依然成立。</p>
 <br>
 <br>
 <br>
-<p>这一引理通常被记为Howgrave-Graham[22], 或Hastad[19]</p>
+<p>这一引理通常被记为 Howgrave-Graham[22], 或 Hastad[19]</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -194,7 +195,7 @@ $$
 <br>
 <br>
 <br>
-<h2 id="l_1和l_2范数之间的关系">$l_1$和$l_2$范数之间的关系</h2>
+<h2 id="l_1-和-l_2-范数之间的关系">$l_1$ 和 $l_2$ 范数之间的关系</h2>
 <p>(编写公式，为了方便没有切换输入法)</p>
 <br>
 <br>
@@ -242,24 +243,24 @@ Here,$g(xX)=\sum c_i (xX)^i$.</p>
 <br>
 <br>
 <br>
-<h2 id="与lattice的关系">与Lattice的关系</h2>
+<h2 id="与-lattice-的关系">与 Lattice 的关系</h2>
 <p>在前面我们完成了两个条件的初步解释：</p>
 <p>Property 2 表明
 $$
 |g(x_0)| \lt N^m
 $$
-结合Property 1, 不难得出$g(x_0)=0$的结论。</p>
-<p>在此基础上，选定整数$m \in \mathbb{Z}$,可以注意到存在这样的线性组合：
+结合 Property 1 , 不难得出 $g(x_0)=0$ 的结论。</p>
+<p>在此基础上，选定整数 $m \in \mathbb{Z}$ ,可以注意到存在这样的线性组合：
 $$
 h_{i,j}=x^jN^if^{m-i}(x).
 $$
-所得的$h_{i,j}$均满足$h_{i,j}(x_0)=0 \mod N^m$.</p>
+所得的 $h_{i,j}$ 均满足 $h_{i,j}(x_0)=0 \mod N^m$.</p>
 <br>
 <br>
 <br>
-<p><strong>Lattice出现:</strong></p>
-<p>用系数向量$h_i$唯一标识$h_{i,j}(x)$。</p>
-<p>Regev讲义的intro部分在定义lattice时，将其写为一种线性组合：</p>
+<p><strong>Lattice 出现:</strong></p>
+<p>用系数向量 $h_i$ 唯一标识 $h_{i,j}(x)$ 。</p>
+<p>Regev 讲义的 intro 部分在定义 lattice 时，将其写为一种线性组合：</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -268,22 +269,22 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png"
         title="image-20240531111401985" /></p>
-<p>而在此处，$h_{i,j}$的线性组合也可构成Lattice.</p>
+<p>而在此处，$h_{i,j}$ 的线性组合也可构成 Lattice.</p>
 <p>$$\mathcal{L} (h_{0},\dots,h_i) = \set{\sum x_i h_i\mid x\in\mathbb{Z}}$$</p>
-<p>更为重要的是，在注意到我们定义的格$\mathcal{L}$中，短向量与系数均相对较小的多项式$g(x)$一一对应，那么考虑到Howgrave-Graham[22]的形式，从直觉上可以考虑在短向量上应用这一引理，从而得到一个满足条件的小根$x_0$：
+<p>更为重要的是，在注意到我们定义的格$\mathcal{L}$中，短向量与系数均相对较小的多项式 $g(x)$ 一一对应，那么考虑到 Howgrave-Graham[22] 的形式，从直觉上可以考虑在短向量上应用这一引理，从而得到一个满足条件的小根 $x_0$：
 $$
 g(x_0)=0\mathrm{~mod~}N^m\mathrm{~and~}|g(x_0)|&lt;N^m,\text{for }x \lt X. \tag{1}
 $$
 在满足这一条件时，直接当做普通多项式处理求根即可。
-再进一步，由于我们在构造Lattice $\mathcal{L}$时, 给出先决条件, 所有的多项式$h_{i,j}$共有一个根$x_0$.实际上，至此，我们完成了在$(1)$的条件下的模多项式求根问题的一种求解方式。</p>
-<p>实际上这依然是从根与多项式关系出发，化归到特定条件下的SVP，接下来我们处理SVP。</p>
+再进一步，由于我们在构造 Lattice  $\mathcal{L}$ 时, 给出先决条件, 所有的多项式 $h_{i,j}$ 共有一个根 $x_0$ .实际上，至此，我们完成了在 $(1)$ 的条件下的模多项式求根问题的一种求解方式。</p>
+<p>实际上这依然是从根与多项式关系出发，化归到特定条件下的 SVP ，接下来我们处理 SVP 。</p>
 <br>
 <br>
 <br>
 <br>
 <br>
 <br>
-<h1 id="lll算法">LLL算法</h1>
+<h1 id="lll-算法">LLL 算法</h1>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -292,17 +293,17 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png"
         title="image-20240531182108376" /></p>
-<p>回顾闵可夫斯基界下，任意Lattice均含有一个非零短向量$v' \le \sqrt{n}\det(L)^{1/n}$.</p>
+<p>回顾闵可夫斯基界下，任意 Lattice 均含有一个非零短向量$v' \le \sqrt{n}\det(L)^{1/n}$.</p>
 <p>对比两个不等式
 $$
 \begin{align} |\mathbf{v}| &amp;\leq2^{\frac{n-1}4}\det(\mathcal{L})^{\frac1n} \\ |v' | &amp;\le \sqrt{n}\det(\mathcal{L})^{\frac1n} \end{align}
 $$
-在此前定义的格$\mathcal{L}$中，我们稍作分析
+在此前定义的格 $\mathcal{L}$ 中，我们稍作分析
 $$
 \det (\mathcal{L})=N^{\Theta(m)},m \approx \log N.
 $$
-所以当两不等式右侧的$\det(\mathcal{L})$足够大时，可以把LLL所得output $v$视作可用的一个短向量。</p>
-<p>可以看到误差在Coppersmith的语境下是可以接受的范围，而且天然的赋予了所得近似短向量$v$一个上界限，进而我们考虑H-G[22]</p>
+所以当两不等式右侧的 $\det(\mathcal{L})$ 足够大时，可以把 LLL 所得 output $v$ 视作可用的一个短向量。</p>
+<p>可以看到误差在 Coppersmith 的语境下是可以接受的范围，而且天然的赋予了所得近似短向量 $v$ 一个上界限，进而我们考虑 H-G[22]</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -337,12 +338,12 @@ $$</p>
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png"
         title="image-20240531191232497" /></p>
-<p>首先关注如何构造$h_{i,j}(x)$:</p>
-<p>选取$m \approx \frac{\log N}{\delta} $
+<p>首先关注如何构造 $h_{i,j}(x)$ :</p>
+<p>选取 $m \approx \frac{\log N}{\delta} $
 $$
 h_{i,j}(x)=x^jN^if(x)^{m-i}\mathrm{~for~}0\leq i&lt;m,0\leq j&lt;\delta.
 $$
-形成了一张$n = m\delta \approx \log N$维Lattice.
+形成了一张 $n = m\delta \approx \log N$ 维 Lattice.
 $$
 \begin{cases} \det(L)&amp;=\det(B)\approx N^{\frac{\delta m^2}2}X^{\frac{n^2}2} \\ n &amp;= m\delta \\ N^{\frac{\delta m^2}2}X^{\frac{n^2}2} &amp;\leq N^{mn}. \end{cases}
 $$
@@ -350,9 +351,9 @@ $$
 $$
 X \le N^{1/\delta}
 $$
-分析到这里，我们已经初步得到可行的方案,  但尚未引入$\beta$来优化$X$的bound.</p>
+分析到这里，我们已经初步得到可行的方案,  但尚未引入 $\beta$ 来优化 $X$ 的 bound.</p>
 <p>算法的时间复杂度分析，本文略去。</p>
-<p>上述做法的Code体现:</p>
+<p>上述做法的 Code 体现:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -366,14 +367,14 @@ $$
 </div><br>
 <br>
 <br>
-<h1 id="for-betac">For $\beta,c$</h1>
-<p>我们在sagemath常用的smal_root方法, 通常有$X,\beta,\epsilon$三个参数，和我们上面讨论的并不一致，本节继续探索这个问题。</p>
+<h1 id="for-betacepsilon">For $\beta,c,\epsilon$</h1>
+<p>我们在 sagemath 常用的 smal_root 方法, 通常有 $X,\beta,\epsilon$ 三个参数，和我们上面讨论的并不一致，本节继续探索这个问题。</p>
 <br>
 <br>
 <br>
 <h2 id="c">$c$</h2>
-<p>$c$的引入是为了提高$X$的上界。</p>
-<p>这里直接考虑对$N$处理</p>
+<p>$c$ 的引入是为了提高 $X$ 的上界。</p>
+<p>这里直接考虑对 $N$ 处理</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -382,7 +383,7 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png"
         title="image-20240531200730969" /></p>
-<p>对于区间$[-cN^{1/\delta},cN^{1/\delta}]$,直接考虑分为$c$个大小为$2N^{1/\delta}$的子区间，这样的子区间符合前文讨论的初等情况,那么运行$c$次，便可以找出这个较大区间内的所有符合条件的根。</p>
+<p>对于区间 $[-cN^{1/\delta},cN^{1/\delta}]$ ,直接考虑分为 $c$ 个大小为 $2N^{1/\delta}$ 的子区间，这样的子区间符合前文讨论的初等情况,那么运行 $c$ 次，便可以找出这个较大区间内的所有符合条件的根。</p>
 <br>
 <br>
 <br>
@@ -396,7 +397,55 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png"
         title="image-20240531202811443" /></p>
-<p>直接应用N的一个较小因子而非N本身,可以在时间复杂度上</p>
+<p>直接应用 $N$ 的一个较小因子而非 $N$ 本身,可以在时间复杂度上</p>
+<br>
+<br>
+<br>
+<h2 id="epsilon">$\epsilon$</h2>
+<p>一类特殊情况下的分析，引入了 $\epsilon$ .</p>
+<p>由于更换了参考文献，符号有所更改.</p>
+<p>$M = N,d= \delta$</p>
+<p>其他保持一致即可。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png"
+        data-srcset="https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png, https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png 1.5x, https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png"
+        title="image-20240604202802424" /></p>
+<p>不难发现,  $\frac{1}{2}N^{\frac{1}{d}-\epsilon}$ 相对于 $cN^{\frac{\beta^2}{\delta}}$ 的形式，这里给出了 $c=\frac{1}{2},\beta = 1$, 又在 $\beta$ 其后增加了 $-\epsilon$ . 同时给定了限制：
+$$
+0 \lt \epsilon \lt \min{0.18, 1/d}
+$$
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png"
+        data-srcset="https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png, https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png 1.5x, https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png"
+        title="image-20240604203718410" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png"
+        data-srcset="https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png, https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png 1.5x, https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png"
+        title="image-20240604203745711" /></p>
+<p>证明到这里已经写明所引参数 $h$ 同待证明命题参数 $\epsilon$ , 而此时可以考虑应用条件 $X \lt \frac{1}{2}M^{1/d -\epsilon}$ .</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png"
+        data-srcset="https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png, https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png 1.5x, https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png"
+        title="image-20240604204406520" /></p>
+<br>
+<p>进一步的，在实际参数中引入了 $m,t$ 来控制移位多项式，来构建 $\mathcal{L}$ .</p>
+<p>具体可参见所附代码.</p>
 <br>
 <br>
 <br>
@@ -409,6 +458,8 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png"
         title="image-20240531200717548" /></p>
+<br>
+<p>至此，单变量的coppersmith求解小根问题的思考可以完美落幕。而格的优化亦或是求解公共根时的算法更改又是另一个新的问题了。</p>
 <br>
 <br>
 <br>
@@ -735,7 +786,7 @@ $$
     <span class="k">return</span> <span class="p">[</span><span class="n">root</span> <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span> <span class="k">if</span> <span class="n">N</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">root</span><span class="p">)))</span> <span class="o">&gt;=</span> <span class="n">Nbeta</span><span class="p">]</span>
 </code></pre></td></tr></table>
 </div>
-</div><h1 id="应用flatter-简单coding一下">应用flatter 简单coding一下</h1>
+</div><h1 id="应用-flatter-简单-coding-一下">应用 flatter 简单 coding 一下</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
@@ -960,6 +1011,7 @@ $$
 <ul>
 <li><a href="https://cims.nyu.edu/~regev/teaching/lattices_fall_2009/" target="_blank" rel="noopener noreffer ">Regev讲义</a></li>
 <li><a href="https://www.cits.ruhr-uni-bochum.de/imperia/md/content/may/paper/intro_to_coppersmiths_method.pdf" target="_blank" rel="noopener noreffer ">main-akl (ruhr-uni-bochum.de)</a></li>
+<li><a href="https://www.math.auckland.ac.nz/~sgal018/crypto-book/ch19.pdf" target="_blank" rel="noopener noreffer ">chapter19</a></li>
 </ul></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">

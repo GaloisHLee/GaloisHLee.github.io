@@ -46,13 +46,13 @@ $$
 
 ![image-20240531110725311](https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png)
 
-即，当给定一个上界$X = N$,如果一个根$x_0 \lt X$，那么我们当该多项式在整数环上时，$f(x_0)=0$依然成立。
+即，当给定一个上界 $X = N$ ,如果一个根 $x_0 \lt X$ ，那么我们当该多项式在整数环上时，$f(x_0)=0$ 依然成立。
 
 <br>
 <br>
 <br>
 
-这一引理通常被记为Howgrave-Graham[22], 或Hastad[19]
+这一引理通常被记为 Howgrave-Graham[22], 或 Hastad[19]
 
 ![image-20240531112336658](https://s2.loli.net/2024/05/31/xHMZgV1JNcu3QKy.png)
 
@@ -64,7 +64,7 @@ $$
 <br>
 <br>
 
-## $l_1$和$l_2$范数之间的关系
+## $l_1$ 和 $l_2$ 范数之间的关系
 
 (编写公式，为了方便没有切换输入法)
 
@@ -131,7 +131,7 @@ Here,$g(xX)=\sum c_i (xX)^i$.
 <br>
 <br>
 
-## 与Lattice的关系
+## 与 Lattice 的关系
 
 在前面我们完成了两个条件的初步解释：
 
@@ -139,41 +139,40 @@ Property 2 表明
 $$
 |g(x_0)| \lt N^m
 $$
-结合Property 1, 不难得出$g(x_0)=0$的结论。
+结合 Property 1 , 不难得出 $g(x_0)=0$ 的结论。
 
  
 
-在此基础上，选定整数$m \in \mathbb{Z}$,可以注意到存在这样的线性组合：
+在此基础上，选定整数 $m \in \mathbb{Z}$ ,可以注意到存在这样的线性组合：
 $$
 h_{i,j}=x^jN^if^{m-i}(x).
 $$
-所得的$h_{i,j}$均满足$h_{i,j}(x_0)=0 \mod N^m$.
+所得的 $h_{i,j}$ 均满足 $h_{i,j}(x_0)=0 \mod N^m$.
 
 <br>
 <br>
 <br>
 
+**Lattice 出现:**
 
-**Lattice出现:**
+用系数向量 $h_i$ 唯一标识 $h_{i,j}(x)$ 。
 
-用系数向量$h_i$唯一标识$h_{i,j}(x)$。
-
-Regev讲义的intro部分在定义lattice时，将其写为一种线性组合：
+Regev 讲义的 intro 部分在定义 lattice 时，将其写为一种线性组合：
 
 ![image-20240531111401985](https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png)
 
-而在此处，$h_{i,j}$的线性组合也可构成Lattice.
+而在此处，$h_{i,j}$ 的线性组合也可构成 Lattice.
 
 $$\mathcal{L} (h_{0},\dots,h_i) = \set{\sum x_i h_i\mid x\in\mathbb{Z}}$$
 
-更为重要的是，在注意到我们定义的格$\mathcal{L}$中，短向量与系数均相对较小的多项式$g(x)$一一对应，那么考虑到Howgrave-Graham[22]的形式，从直觉上可以考虑在短向量上应用这一引理，从而得到一个满足条件的小根$x_0$：
+更为重要的是，在注意到我们定义的格$\mathcal{L}$中，短向量与系数均相对较小的多项式 $g(x)$ 一一对应，那么考虑到 Howgrave-Graham[22] 的形式，从直觉上可以考虑在短向量上应用这一引理，从而得到一个满足条件的小根 $x_0$：
 $$
 g(x_0)=0\mathrm{~mod~}N^m\mathrm{~and~}|g(x_0)|<N^m,\text{for }x \lt X. \tag{1}
 $$
 在满足这一条件时，直接当做普通多项式处理求根即可。
-再进一步，由于我们在构造Lattice $\mathcal{L}$时, 给出先决条件, 所有的多项式$h_{i,j}$共有一个根$x_0$.实际上，至此，我们完成了在$(1)$的条件下的模多项式求根问题的一种求解方式。
+再进一步，由于我们在构造 Lattice  $\mathcal{L}$ 时, 给出先决条件, 所有的多项式 $h_{i,j}$ 共有一个根 $x_0$ .实际上，至此，我们完成了在 $(1)$ 的条件下的模多项式求根问题的一种求解方式。
 
-实际上这依然是从根与多项式关系出发，化归到特定条件下的SVP，接下来我们处理SVP。
+实际上这依然是从根与多项式关系出发，化归到特定条件下的 SVP ，接下来我们处理 SVP 。
 
 
 
@@ -188,25 +187,25 @@ $$
 
 
 
-# LLL算法
+# LLL 算法
 
 ![image-20240531182108376](https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png)
 
-回顾闵可夫斯基界下，任意Lattice均含有一个非零短向量$v' \le \sqrt{n}\det(L)^{1/n}$.
+回顾闵可夫斯基界下，任意 Lattice 均含有一个非零短向量$v' \le \sqrt{n}\det(L)^{1/n}$.
 
 对比两个不等式
 $$
 \begin{align} \|\mathbf{v}\| &\leq2^{\frac{n-1}4}\det(\mathcal{L})^{\frac1n} \\\\ \|v' \| &\le \sqrt{n}\det(\mathcal{L})^{\frac1n} \end{align}
 $$
-在此前定义的格$\mathcal{L}$中，我们稍作分析
+在此前定义的格 $\mathcal{L}$ 中，我们稍作分析
 $$
 \det (\mathcal{L})=N^{\Theta(m)},m \approx \log N.
 $$
-所以当两不等式右侧的$\det(\mathcal{L})$足够大时，可以把LLL所得output $v$视作可用的一个短向量。
+所以当两不等式右侧的 $\det(\mathcal{L})$ 足够大时，可以把 LLL 所得 output $v$ 视作可用的一个短向量。
 
 
 
-可以看到误差在Coppersmith的语境下是可以接受的范围，而且天然的赋予了所得近似短向量$v$一个上界限，进而我们考虑H-G[22]
+可以看到误差在 Coppersmith 的语境下是可以接受的范围，而且天然的赋予了所得近似短向量 $v$ 一个上界限，进而我们考虑 H-G[22]
 
 ![image-20240531183811373](https://s2.loli.net/2024/05/31/binLzcOESt6u38M.png)
 $$
@@ -238,13 +237,13 @@ $$
 
 ![image-20240531191232497](https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png)
 
-首先关注如何构造$h_{i,j}(x)$:
+首先关注如何构造 $h_{i,j}(x)$ :
 
-选取$m \approx \frac{\log N}{\delta} $
+选取 $m \approx \frac{\log N}{\delta} $
 $$
 h_{i,j}(x)=x^jN^if(x)^{m-i}\mathrm{~for~}0\leq i<m,0\leq j<\delta.
 $$
-形成了一张$n = m\delta \approx \log N$维Lattice.
+形成了一张 $n = m\delta \approx \log N$ 维 Lattice.
 $$
 \begin{cases} \det(L)&=\det(B)\approx N^{\frac{\delta m^2}2}X^{\frac{n^2}2} \\\\ n &= m\delta \\\\ N^{\frac{\delta m^2}2}X^{\frac{n^2}2} &\leq N^{mn}. \end{cases}
 $$
@@ -252,13 +251,13 @@ $$
 $$
 X \le N^{1/\delta}
 $$
-分析到这里，我们已经初步得到可行的方案,  但尚未引入$\beta$来优化$X$的bound.
+分析到这里，我们已经初步得到可行的方案,  但尚未引入 $\beta$ 来优化 $X$ 的 bound.
 
 算法的时间复杂度分析，本文略去。
 
 
 
-上述做法的Code体现:
+上述做法的 Code 体现:
 
 ```python
 	delta = f.degree()
@@ -269,9 +268,9 @@ $$
 <br>
 <br>
 
-# For $\beta,c$
+# For $\beta,c,\epsilon$
 
-我们在sagemath常用的smal_root方法, 通常有$X,\beta,\epsilon$三个参数，和我们上面讨论的并不一致，本节继续探索这个问题。
+我们在 sagemath 常用的 smal_root 方法, 通常有 $X,\beta,\epsilon$ 三个参数，和我们上面讨论的并不一致，本节继续探索这个问题。
 
 
 <br>
@@ -281,13 +280,13 @@ $$
 
 ## $c$
 
-$c$的引入是为了提高$X$的上界。
+$c$ 的引入是为了提高 $X$ 的上界。
 
-这里直接考虑对$N$处理
+这里直接考虑对 $N$ 处理
 
 ![image-20240531200730969](https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png)
 
-对于区间$[-cN^{1/\delta},cN^{1/\delta}]$,直接考虑分为$c$个大小为$2N^{1/\delta}$的子区间，这样的子区间符合前文讨论的初等情况,那么运行$c$次，便可以找出这个较大区间内的所有符合条件的根。
+对于区间 $[-cN^{1/\delta},cN^{1/\delta}]$ ,直接考虑分为 $c$ 个大小为 $2N^{1/\delta}$ 的子区间，这样的子区间符合前文讨论的初等情况,那么运行 $c$ 次，便可以找出这个较大区间内的所有符合条件的根。
 
 <br>
 <br>
@@ -299,17 +298,62 @@ $c$的引入是为了提高$X$的上界。
 
 ![image-20240531202811443](https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png)
 
-直接应用N的一个较小因子而非N本身,可以在时间复杂度上
+直接应用 $N$ 的一个较小因子而非 $N$ 本身,可以在时间复杂度上
 
 <br>
 <br>
 <br>
+
+## $\epsilon$
+
+
+
+一类特殊情况下的分析，引入了 $\epsilon$ .
+
+由于更换了参考文献，符号有所更改.
+
+$M = N,d= \delta$ 
+
+其他保持一致即可。
+
+
+
+![image-20240604202802424](https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png)
+
+不难发现,  $\frac{1}{2}N^{\frac{1}{d}-\epsilon}$ 相对于 $cN^{\frac{\beta^2}{\delta}}$ 的形式，这里给出了 $c=\frac{1}{2},\beta = 1$, 又在 $\beta$ 其后增加了 $-\epsilon$ . 同时给定了限制：
+$$
+0 \lt \epsilon \lt \min\{0.18, 1/d\}
+$$
+![image-20240604203718410](https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png)
+
+![image-20240604203745711](https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png)
+
+证明到这里已经写明所引参数 $h$ 同待证明命题参数 $\epsilon$ , 而此时可以考虑应用条件 $X \lt \frac{1}{2}M^{1/d -\epsilon}$ .
+
+![image-20240604204406520](https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png)
+
+
+
+<br>
+
+进一步的，在实际参数中引入了 $m,t$ 来控制移位多项式，来构建 $\mathcal{L}$ .
+
+具体可参见所附代码.
+
+<br>
+<br>
+<br>
+
 
 ## Open problem
 
 ![image-20240531200717548](https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png)
 
 
+
+<br>
+
+至此，单变量的coppersmith求解小根问题的思考可以完美落幕。而格的优化亦或是求解公共根时的算法更改又是另一个新的问题了。
 
 <br>
 <br>
@@ -486,7 +530,7 @@ def small_roots(self, X=None, beta=1.0, epsilon=None, **kwds):
 
 
 
-# 应用flatter 简单coding一下
+# 应用 flatter 简单 coding 一下
 
 ```py
 #sage10.3 Halois
@@ -602,5 +646,6 @@ def install_flatter():
 
 - [Regev讲义](https://cims.nyu.edu/~regev/teaching/lattices_fall_2009/)
 - [main-akl (ruhr-uni-bochum.de)](https://www.cits.ruhr-uni-bochum.de/imperia/md/content/may/paper/intro_to_coppersmiths_method.pdf)
+- [chapter19](https://www.math.auckland.ac.nz/~sgal018/crypto-book/ch19.pdf)
 
 
