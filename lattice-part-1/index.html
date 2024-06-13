@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 1 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="Lattice Part 1" />
+<meta property="og:description" content="
+Regev讲义学习笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-1/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-26T00:02:20+08:00" />
+<meta property="article:modified_time" content="2024-05-26T00:02:20+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Lattice Part 1"/>
+<meta name="twitter:description" content="
+Regev讲义学习笔记"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-1/" /><link rel="prev" href="https://galoishlee.github.io/waytofft-part-0/" /><link rel="next" href="https://galoishlee.github.io/waytocoppersmith-0x00/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 1",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-1\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  1194 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-1\/","datePublished": "2024-05-26T00:02:20+08:00","dateModified": "2024-05-26T00:02:20+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-1/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-1/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 1</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1194 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#everything-before">Everything Before</a></li>
+    <li><a href="#reduced-basis">Reduced Basis</a></li>
+    <li><a href="#what-can-lll-do">What can LLL do?</a>
+      <ul>
+        <li><a href="#short-vector-and-reduced-basis">Short Vector and Reduced basis</a>
+          <ul>
+            <li><a href="#lambda_1mathcallbgeqmin_i1nverttildeb_ivert0">$\lambda_1(\mathcal{L}(B))\geq\min_{i=1,&hellip;,n}\Vert\tilde{b}_i\Vert&gt;0.$</a></li>
+          </ul>
+        </li>
+        <li><a href="#proof-the-claim">PROOF The Claim</a></li>
+      </ul>
+    </li>
+    <li><a href="#way-to-lll">Way to LLL</a></li>
+    <li><a href="#open-probelm">Open Probelm</a></li>
+    <li><a href="#application">Application</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/MKPlBaCymj3rIA5.png"
+        data-srcset="https://s2.loli.net/2024/06/13/MKPlBaCymj3rIA5.png, https://s2.loli.net/2024/06/13/MKPlBaCymj3rIA5.png 1.5x, https://s2.loli.net/2024/06/13/MKPlBaCymj3rIA5.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/MKPlBaCymj3rIA5.png"
+        title="image-20240613204948885" /></p>
+<p>Regev讲义学习笔记</p>
+<h2 id="everything-before">Everything Before</h2>
+<p>​		我们的目标是求解近似求解SVP问题，基于此构建了一个具有特殊结构的基，为了构建这样的代数结构，设计出一类规约算法，并验证了正确性和时间复杂度的可行性。基于这样的思路，可以在规约算法上进行优化，在代数结构上进行调整，获得更好的近似求解表现。</p>
+<p>​		在具有这样的清晰思路后，再来考虑代数工具的构建，将会使工作更加完善。</p>
+<br>
+<br>
+<h2 id="reduced-basis">Reduced Basis</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/RnwyNYmC1QiqUzI.png"
+        data-srcset="https://s2.loli.net/2024/06/13/RnwyNYmC1QiqUzI.png, https://s2.loli.net/2024/06/13/RnwyNYmC1QiqUzI.png 1.5x, https://s2.loli.net/2024/06/13/RnwyNYmC1QiqUzI.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/RnwyNYmC1QiqUzI.png"
+        title="image-20240613190910722" /></p>
+<br>
+<br>
+<p><strong>注意到</strong> 将一个普通正交基，规约为一个约简基总是可以的。</p>
+<p>给出这样的定义，实则是基于我们的研究对象一些代数上表现良好的结构，使得可以很好的利用这样的约简基，配合闵可夫斯基界，我们可以给出一个SVP的近似求解，对于近似精度，我们再利用参数 $\delta$ 来进行很好的刻画，在后面的学习中将会看到这里的 $\delta = \frac{3}{4}$ 时，会得到一个非常良好的规约结果。</p>
+<p>利用简单的三角不等式:</p>
+<p>$$
+\begin{cases} \delta{\Vert\tilde{b_{i}}\Vert}^{2}\leq{\Vert\mu_{i+1,i}\tilde{b_{i}}+\tilde{b_{i+1}}\Vert}^{2}=\mu_{i+1,i}^{2}{\Vert\tilde{b_{i}}\Vert}^{2}+{\Vert\tilde{b_{i+1}}\Vert}^{2} \tag{1}  \\ \Vert\tilde{b_{i+1}}\Vert^2\geq(\delta-\mu_{i+1,i}^2)\Vert\tilde{b_i}\Vert^2\geq(\delta-\frac{1}{4})\Vert\tilde{b_i}\Vert^2  \end{cases}
+$$</p>
+<p>实际上，我们的格工作在 $p$ 范数空间。</p>
+<p>进一步的,$(1)$，说明了两个相邻基向量不会相差太大</p>
+<p>Schmit process中，不难发现， 所得到的基向量列向量优先可以得到，如下矩阵</p>
+<p>即 从
+$$
+\tilde{b_i}=b_i-\sum_{j=1}^{i-1}\mu_{i,j}\tilde{b_j},where\mu_{i,j}=\frac{\langle b_i,\tilde{b_j}\rangle}{\langle\tilde{b_j},\tilde{b_j}\rangle}.
+$$</p>
+<p>到如下矩阵的一个转变</p>
+<p>$$
+\begin{pmatrix}\Vert\tilde{b_1}\Vert&amp; * &amp;\cdots&amp; * \\ 0&amp;\Vert\tilde{b_2}\Vert&amp;\cdots&amp; * \\ \vdots&amp;&amp;\ddots&amp;\vdots \\ &amp;&amp;&amp; * \\ 0&amp;\cdots&amp;&amp;\Vert\tilde{b_n}\Vert\end{pmatrix}
+$$</p>
+<br>
+<br>
+<p>当 $\delta = \frac{3}{4}$ 时，所得矩阵概览便为：
+$$
+\begin{pmatrix}\Vert\tilde{b_1}\Vert&amp;\leq\frac12\Vert\tilde{b_1}\Vert&amp;\cdots&amp;&amp;\leq\frac12\Vert\tilde{b_1}\Vert \\ 0&amp;\Vert\tilde{b_2}\Vert&amp;\cdots&amp;&amp;\leq\frac12\Vert\tilde{b_2}\Vert \\ \vdots&amp;&amp;\ddots&amp;&amp;\vdots \\ &amp;&amp;&amp;&amp;\leq\frac12\Vert\tilde{b_{n-1}}\Vert \\ 0&amp;\cdots&amp;&amp;&amp;\Vert\tilde{b_n}\Vert\end{pmatrix}
+$$</p>
+<p>以上的工作均是在 Gram-Schmit 做微调下，实现这样的结果，但是直到现在我们尚未把所做工作同 SVP-approximation 联系起来。</p>
+<br>
+<br>
+<h2 id="what-can-lll-do">What can LLL do?</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/7ZDMPfpx4Lo8F9H.png"
+        data-srcset="https://s2.loli.net/2024/06/13/7ZDMPfpx4Lo8F9H.png, https://s2.loli.net/2024/06/13/7ZDMPfpx4Lo8F9H.png 1.5x, https://s2.loli.net/2024/06/13/7ZDMPfpx4Lo8F9H.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/7ZDMPfpx4Lo8F9H.png"
+        title="image-20240613204948885" /></p>
+<p>更清晰的来说：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/o9ynJCm5Lwr1fWe.png"
+        data-srcset="https://s2.loli.net/2024/06/13/o9ynJCm5Lwr1fWe.png, https://s2.loli.net/2024/06/13/o9ynJCm5Lwr1fWe.png 1.5x, https://s2.loli.net/2024/06/13/o9ynJCm5Lwr1fWe.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/o9ynJCm5Lwr1fWe.png"
+        title="image-20240613205151185" /></p>
+<br>
+<br>
+<h3 id="short-vector-and-reduced-basis">Short Vector and Reduced basis</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/StOx74bNTBh5G3C.png"
+        data-srcset="https://s2.loli.net/2024/06/13/StOx74bNTBh5G3C.png, https://s2.loli.net/2024/06/13/StOx74bNTBh5G3C.png 1.5x, https://s2.loli.net/2024/06/13/StOx74bNTBh5G3C.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/StOx74bNTBh5G3C.png"
+        title="image-20240613205518373" /></p>
+<p>接下来我们证明CLAIM 1.</p>
+<p>为了用符号语言的形势推导，我们引入 $\lambda_i$, 也是格中最为基础的参数之一。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/ifVPI18sTpeXtQz.png"
+        data-srcset="https://s2.loli.net/2024/06/13/ifVPI18sTpeXtQz.png, https://s2.loli.net/2024/06/13/ifVPI18sTpeXtQz.png 1.5x, https://s2.loli.net/2024/06/13/ifVPI18sTpeXtQz.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/ifVPI18sTpeXtQz.png"
+        title="image-20240613210156420" /></p>
+<p>针对这一定义可推导出</p>
+<br>
+<br>
+<h4 id="lambda_1mathcallbgeqmin_i1nverttildeb_ivert0">$\lambda_1(\mathcal{L}(B))\geq\min_{i=1,&hellip;,n}\Vert\tilde{b}_i\Vert&gt;0.$</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/Q2BOrebGHCzS3gq.png"
+        data-srcset="https://s2.loli.net/2024/06/13/Q2BOrebGHCzS3gq.png, https://s2.loli.net/2024/06/13/Q2BOrebGHCzS3gq.png 1.5x, https://s2.loli.net/2024/06/13/Q2BOrebGHCzS3gq.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/Q2BOrebGHCzS3gq.png"
+        title="image-20240613210735732" /></p>
+<p>施密特正交化处理所得正交基向量的范数一定小于等于第一最短向量。</p>
+<p>同样的，直觉的感受需要同形式化的证明相结合，利用求和符号、范数、正交的一些性质可得到</p>
+<p>PROOF: Let $x\in\mathbb{Z^n}$ be an arbitrary nonzero integer vector, and let us show that $\Vert Bx \Vert \geq \min{\Vert\tilde{b_i}\Vert}.$ Let  $j\in{1,\ldots,n}$ be the largest such that $x_j \neq 0.$</p>
+<p>Then
+$$
+|\langle Bx,\tilde{b_j}\rangle|=|\langle\sum_{i=1}^jx_ib_i,\tilde{b_j}\rangle|=|x_j|\langle\tilde{b_j},\tilde{b_j}\rangle=|x_j|\Vert\tilde{b_j}\Vert^2
+$$
+where we used that for all $i&lt;j,\langle b_i,\tilde{b_j}\rangle=0$ and that $\langle b_j,\tilde{b_j}\rangle=\langle\tilde{b_j},\tilde{b_j}\rangle.$ On the other hand, $\Vert \langle Bx,\tilde{b_j}\rangle \Vert \leq \Vert Bx \Vert \cdot \Vert\tilde{b_j}\Vert$, (Cauchy-Schwarz Inequality) ,and hence we conclude that</p>
+<p>$$
+\Vert Bx \Vert \geq |x_j| \Vert\tilde{b_j}\Vert\geq\Vert\tilde{b_j}\Vert\geq \min{\Vert\tilde{b_i}\Vert.}
+$$</p>
+<p>这里需要指明的是 $Bx$ 可视为 $x$ 经线性变换 $B$, 得到在变换后空间中的表示。</p>
+<p>即可以可逆矩阵 $B$ 作为线性变换，可以视为一种映射。</p>
+<p>进一步的</p>
+<br>
+<br>
+<h3 id="proof-the-claim">PROOF The Claim</h3>
+<p>回顾刚刚的CLAIM1:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/FPCUsG68f4erZbV.png"
+        data-srcset="https://s2.loli.net/2024/06/13/FPCUsG68f4erZbV.png, https://s2.loli.net/2024/06/13/FPCUsG68f4erZbV.png 1.5x, https://s2.loli.net/2024/06/13/FPCUsG68f4erZbV.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/FPCUsG68f4erZbV.png"
+        title="image-20240613205518373" /></p>
+<p>至此，应用 $\lambda$ 的性质，以及施密特正交基的最短 ( $l_2$ 意义上)  基向量与 $\lambda_1(\mathcal{L})$ 的关系，利用简单的系数放缩，便可以完成证明，也同时很好的将我们最开始定义 Reduced Basis 的工作同 SVP 问题相结合。</p>
+<p>PROOF: Since for any basis $b_1,\ldots,b_n,\lambda_1(\mathcal{L})\geq\min_i\Vert\tilde{b_i}\Vert$,we get that
+$$
+\Vert\tilde{b_n}\Vert^{2} \geq(\delta-\frac{1}{4})\Vert\tilde{b_{n-1}}\Vert^{2} \geq \ldots \geq(\delta-\frac14)^{n-1} \Vert\tilde{b_1}\Vert^{2} =(\delta-\frac{1}{4})^{n-1}\Vert b_{1} \Vert^2
+$$</p>
+<p>where the last equality follows by the definition $\tilde{b_1}=b_1.$ Then, for any $i$,</p>
+<p>$$
+\Vert\tilde{b_1}\Vert\leq\left(\delta-\frac14\right)^{-(i-1)/2}\Vert\tilde{b_i}\Vert\leq\left(\delta-\frac14\right)^{-(n-1)/2}\Vert\tilde{b_i}\Vert.
+$$</p>
+<p>Hence,</p>
+<p>$$
+\Vert b_{1} \Vert \leq \left(\delta-\frac{1}{4}\right)^{-(n-1)/2} \min_i{\Vert\tilde{b_i}\Vert} \leq \left(\delta-\frac{1}{4}\right)^{-(n-1)/2} \cdot \lambda_{1}(\mathcal{L})
+$$</p>
+<p>对于 $\delta = \frac{3}{4}$ 的情况，代入即可:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/jDeStbvHk254FKy.png"
+        data-srcset="https://s2.loli.net/2024/06/13/jDeStbvHk254FKy.png, https://s2.loli.net/2024/06/13/jDeStbvHk254FKy.png 1.5x, https://s2.loli.net/2024/06/13/jDeStbvHk254FKy.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/jDeStbvHk254FKy.png"
+        title="image-20240613213613706" /></p>
+<p>此时，我们已经说明了一个代数结构，很好的符合了我们 SVP-Approximation 的出发点，于此我们引入算法上的工作，这包含了算法设计与时间复杂度分析。时间分析这部分暂略过，值得注意的是 LLL 的表现好于保守分析的结果。</p>
+<br>
+<br>
+<h2 id="way-to-lll">Way to LLL</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/DHClRLuxZrYIfio.png"
+        data-srcset="https://s2.loli.net/2024/06/13/DHClRLuxZrYIfio.png, https://s2.loli.net/2024/06/13/DHClRLuxZrYIfio.png 1.5x, https://s2.loli.net/2024/06/13/DHClRLuxZrYIfio.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/DHClRLuxZrYIfio.png"
+        title="image-20240613214013726" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/ujfLy5iUMomBPgS.png"
+        data-srcset="https://s2.loli.net/2024/06/13/ujfLy5iUMomBPgS.png, https://s2.loli.net/2024/06/13/ujfLy5iUMomBPgS.png 1.5x, https://s2.loli.net/2024/06/13/ujfLy5iUMomBPgS.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/ujfLy5iUMomBPgS.png"
+        title="image-20240613214037086" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/yJFOYj8GliPEru1.png"
+        data-srcset="https://s2.loli.net/2024/06/13/yJFOYj8GliPEru1.png, https://s2.loli.net/2024/06/13/yJFOYj8GliPEru1.png 1.5x, https://s2.loli.net/2024/06/13/yJFOYj8GliPEru1.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/yJFOYj8GliPEru1.png"
+        title="image-20240613214449843" /></p>
+<p>也即我们现在要完成一个矩阵到矩阵的变换。</p>
+<p>初等列变换保证矩阵的可逆性，加入线性乘子保障范数符合条件。在施密特正交化过程中加入 REMARK 6 ，保证了这里的系数 $\frac{1}{2}$ ,  而 SWAP 过程保证 约简基性质2.</p>
+<p>严格意义上的</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/w6BHgZPYxyjJ5f3.png"
+        data-srcset="https://s2.loli.net/2024/06/13/w6BHgZPYxyjJ5f3.png, https://s2.loli.net/2024/06/13/w6BHgZPYxyjJ5f3.png 1.5x, https://s2.loli.net/2024/06/13/w6BHgZPYxyjJ5f3.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/w6BHgZPYxyjJ5f3.png"
+        title="image-20240613220610243" /></p>
+<br>
+<br>
+<h2 id="open-probelm">Open Probelm</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/9e3wqhzGb2uLpJf.png"
+        data-srcset="https://s2.loli.net/2024/06/13/9e3wqhzGb2uLpJf.png, https://s2.loli.net/2024/06/13/9e3wqhzGb2uLpJf.png 1.5x, https://s2.loli.net/2024/06/13/9e3wqhzGb2uLpJf.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/9e3wqhzGb2uLpJf.png"
+        title="image-20240613220715202" /></p>
+<br>
+<br>
+<h2 id="application">Application</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/13/d8J2maZ9QfEN6in.png"
+        data-srcset="https://s2.loli.net/2024/06/13/d8J2maZ9QfEN6in.png, https://s2.loli.net/2024/06/13/d8J2maZ9QfEN6in.png 1.5x, https://s2.loli.net/2024/06/13/d8J2maZ9QfEN6in.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/13/d8J2maZ9QfEN6in.png"
+        title="image-20240613221403619" /></p>
+<p>我们将继续深入探究格规约所带来的全新分析视角。</p>
+<br>
+<br>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://cims.nyu.edu/~regev/teaching/lattices_fall_2009/" target="_blank" rel="noopener noreffer ">Regev讲义</a></li>
+<li><a href="https://static.aminer.org/pdf/PDF/000/570/324/the_two_faces_of_lattices_in_cryptology.pdf" target="_blank" rel="noopener noreffer ">Lattices in Cryptography</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-05-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-1/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-1/" data-title="Lattice Part 1"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-1/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-1/" data-title="Lattice Part 1"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-1/" data-title="Lattice Part 1"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-1/" data-title="Lattice Part 1"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/waytofft-part-0/" class="prev" rel="prev" title="WayToFFT Part 0"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>WayToFFT Part 0</a>
+            <a href="/waytocoppersmith-0x00/" class="next" rel="next" title="WayToCoppersmith0x00">WayToCoppersmith0x00<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>
