@@ -4,9 +4,19 @@
         <link>https://galoishlee.github.io/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 14 Jun 2024 16:10:25 &#43;0800</lastBuildDate>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 18 Jun 2024 16:57:25 &#43;0800</lastBuildDate>
             <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Lattice Part 3</title>
+    <link>https://galoishlee.github.io/lattice-part-3/</link>
+    <pubDate>Tue, 18 Jun 2024 16:57:25 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/lattice-part-3/</guid>
+    <description><![CDATA[<p></p>
+<p>Begin with Knapsack.</p>
+<p>Note from CS355 &amp; Regev.</p>]]></description>
+</item>
+<item>
     <title>Lattice Part 2</title>
     <link>https://galoishlee.github.io/lattice-part-2/</link>
     <pubDate>Fri, 14 Jun 2024 16:10:25 &#43;0800</pubDate>

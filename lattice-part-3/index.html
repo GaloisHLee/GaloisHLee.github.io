@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 3 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="Lattice Part 3" />
+<meta property="og:description" content="
+Begin with Knapsack.
+Note from CS355 &amp; Regev." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-3/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-18T16:57:25+08:00" />
+<meta property="article:modified_time" content="2024-06-18T16:57:25+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Lattice Part 3"/>
+<meta name="twitter:description" content="
+Begin with Knapsack.
+Note from CS355 &amp; Regev."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-3/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-2/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 3",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-3\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  2229 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-3\/","datePublished": "2024-06-18T16:57:25+08:00","dateModified": "2024-06-18T16:57:25+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-3/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-3/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 3</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-06-18">2024-06-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2229 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#short-integer-solution-sis-problem">Short Integer Solution (SIS) problem</a>
+      <ul>
+        <li><a href="#definition">Definition</a></li>
+        <li><a href="#without-modulus">Without Modulus</a></li>
+      </ul>
+    </li>
+    <li><a href="#inhomogeneous-short-integer-solution-isis-problem">Inhomogeneous Short Integer Solution (ISIS) problem</a></li>
+    <li><a href="#inhomogeneous-linear-equations">Inhomogeneous linear equations</a></li>
+    <li><a href="#solving-linear-equations-for-short-integer-solution">Solving linear equations for short integer solution.</a>
+      <ul>
+        <li><a href="#gaussian-expected-shortest-length"><strong>Gaussian expected shortest length</strong></a></li>
+        <li><a href="#recall-lll-property-linkhttpshaloisonlinelattice-part-1"><strong>Recall LLL property</strong> <a href="https://halois.online/lattice-part-1/">LINK</a></a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#embedding-technique">Embedding Technique</a></li>
+      </ul>
+    </li>
+    <li><a href="#knapsack-cryptography">Knapsack Cryptography</a>
+      <ul>
+        <li><a href="#the-subset-sum-problem">The Subset-Sum Problem</a></li>
+        <li><a href="#superincreasing-sequence">Superincreasing sequence</a></li>
+        <li><a href="#merkle-hellman">Merkle Hellman</a></li>
+        <li><a href="#density">Density</a></li>
+        <li><a href="#lagarias-odlyzko-frieze">Lagarias-Odlyzko, Frieze</a>
+          <ul>
+            <li><a href="#proof">PROOF</a></li>
+          </ul>
+        </li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/18/761wKDsinOXQSpk.png"
+        data-srcset="https://s2.loli.net/2024/06/18/761wKDsinOXQSpk.png, https://s2.loli.net/2024/06/18/761wKDsinOXQSpk.png 1.5x, https://s2.loli.net/2024/06/18/761wKDsinOXQSpk.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/18/761wKDsinOXQSpk.png"
+        title="image-20240618170231600" /></p>
+<p>Begin with Knapsack.</p>
+<p>Note from CS355 &amp; Regev.</p>
+<h2 id="short-integer-solution-sis-problem">Short Integer Solution (SIS) problem</h2>
+<h3 id="definition">Definition</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/20/uxMH9n3rQjF4UXv.png"
+        data-srcset="https://s2.loli.net/2024/06/20/uxMH9n3rQjF4UXv.png, https://s2.loli.net/2024/06/20/uxMH9n3rQjF4UXv.png 1.5x, https://s2.loli.net/2024/06/20/uxMH9n3rQjF4UXv.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/20/uxMH9n3rQjF4UXv.png"
+        title="image-20240620152907225" /></p>
+<br>
+<br>
+<br>
+<p>The SIS problem is parameterized by the matrix dimensions $n,m \in \mathbb{N}$, modulus $q$, and a norm bound $B$ on the solution.</p>
+<ul>
+<li>One should think of $n$ as the parameter $\lambda$ that defines the hardness of the problem. The bigger $n$ is, the harder the problem becomes.</li>
+<li>The parameter $m$ is set depending on the specific applications, but generally $m \gg n$.</li>
+<li>The modulus $q$ can be set to be any $q = \operatorname{poly}(n)$, but concretely, just think of $q = O(n^2)$.</li>
+<li>The norm bound $B \ll q$ should also be set depending on the specific applications.</li>
+</ul>
+<br>
+<br>
+<br>
+<p>Notice that a solution $z$ for $A$ can be converted to a solution for the extension $[A|A^{\prime}]$ by appending $0$s to $z$:</p>
+<ul>
+<li>big $m\Rightarrow$ easy (the more vectors we are given, the easier the problem becomes)</li>
+<li>big $n\Rightarrow$ hard (the more dimension we work in the harder the problem becomes)</li>
+</ul>
+<p>It is conjectured that for any sufficiently large $n \in \mathbb{N}$ (this is the security parameter), for any $m,q,B \in \mathbb{N}$, satisfying $q \gt B\cdot\operatorname{poly}(n)$ (for any polynomial poly) , the  $\text{SIS}(n,m,q,B)$ is hard.</p>
+<br>
+<br>
+<br>
+<p><a href="https://crypto.stackexchange.com/questions/59219/hardness-of-short-interger-solution-in-lattices" target="_blank" rel="noopener noreffer ">But we cannot say that Short Integer Solution (SIS𝑆𝐼𝑆) problem is NP-Complete.</a></p>
+<br>
+<p>Application: CRHF, SLHL etc.</p>
+<br>
+<p>SIS 问题可以最终规约到格中的 SIVP 问题上，进而在选定参数的情况下，在部分情况下是可以求解的。一般的，Inhomogeneous SIS （非齐次情况）在 CTF 中遇到的更多.</p>
+<br>
+<br>
+<br>
+<h3 id="without-modulus">Without Modulus</h3>
+<p><strong>Modification</strong></p>
+<p>Let $n$ be an integer and $\alpha=\alpha(n),\beta=\beta(n),m=m(n)&gt;\Omega(n\log\alpha)$ be functions of $n$.Sample a uniform $A\leftarrow[-\alpha,\alpha]^{n\times m}$.The task is to compute &ldquo;short&rdquo; vector $e\in\mathbb{Z}^m$ in the kernel of $A$. That is:
+$$
+\begin{cases} \Vert e \Vert &amp;\lt \beta \\ A \cdot e &amp;= 0^n \end{cases}
+$$
+Here, equality holds over the integers.</p>
+<br>
+<br>
+<p><strong>Trivial attack:</strong> There is an trivial algorithm in the case where $\beta$ is huge. You can compute a kernel vector over the integers by taking minors of the matrix $A$.These minors, and hence the kernel vector, can be easily upper bounded by $(\alpha n)^{O(n)}$. So in the regime $\beta=(\alpha n)^{O(n)}$, there is a trivial attack.</p>
+<p>It&rsquo;s intersting to care about the distribution on matrix $A$.</p>
+<p>However it is still no doubt that if limiation of norm is set, then the problem is set to be hard.</p>
+<br>
+<br>
+<br>
+<h2 id="inhomogeneous-short-integer-solution-isis-problem">Inhomogeneous Short Integer Solution (ISIS) problem</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/20/OeP2zuM3xiDsGLS.png"
+        data-srcset="https://s2.loli.net/2024/06/20/OeP2zuM3xiDsGLS.png, https://s2.loli.net/2024/06/20/OeP2zuM3xiDsGLS.png 1.5x, https://s2.loli.net/2024/06/20/OeP2zuM3xiDsGLS.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/20/OeP2zuM3xiDsGLS.png"
+        title="image-20240620184024767" /></p>
+<br>
+<p>Inhomogeneous SIS is applied for OWF (one way function) and then Digital Signatures. We shall mentioned it  in subsequent notes.</p>
+<br>
+<br>
+<br>
+<h2 id="inhomogeneous-linear-equations">Inhomogeneous linear equations</h2>
+<br>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/18/dk36syBf4NzJSlu.png"
+        data-srcset="https://s2.loli.net/2024/06/18/dk36syBf4NzJSlu.png, https://s2.loli.net/2024/06/18/dk36syBf4NzJSlu.png 1.5x, https://s2.loli.net/2024/06/18/dk36syBf4NzJSlu.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/18/dk36syBf4NzJSlu.png"
+        title="image-20240618200018108" /></p>
+<br>
+<p>即对于这样的线性方程，可以考虑它的解空间，对于这样的解空间可以找到他的一组正交基，由于我们工作在整数上，即纯量域为 $\mathbb{Z}$ ，所以所得基向量，可张成 Lattice .</p>
+<br>
+<br>
+<p>自然地，考虑非齐次线性方程</p>
+<p>$$
+\langle a,z\rangle\equiv c\mathrm{~mod~}q\tag{5.2}
+$$</p>
+<p>首先，注意到 $\vec{0}$ 不是 Eq. 5.2 的一个解，那么 Eq. 5.2 的解便无法构成一个格空间。</p>
+<p>特别的，$\mathcal{x} \in \mathbb{Z}^{n}$ 是 Eq. 5.2 一个解，当且仅当  $\mathcal{x} - \mathcal{z}$ 是方程的一个解。那么代数上来看 Eq. 5.2 的所有解可以表示为齐次方程的解空间的一个陪集：</p>
+<p>$$
+\mathcal{L}+z
+$$</p>
+<p>这里，我们需要将找到 Eq. 5.2 一个 $l_2$ 范数意义上较短的解，同 CVP 联系起来。如过只是找到一组解，而没有任何范数意义上的限定，这样的求解是十分trivial的。</p>
+<br>
+<br>
+<br>
+<h2 id="solving-linear-equations-for-short-integer-solution">Solving linear equations for short integer solution.</h2>
+<p>当我们在用格规约一组方程所在线性空间的基向量时，我们在做什么？</p>
+<br>
+<h3 id="gaussian-expected-shortest-length"><strong>Gaussian expected shortest length</strong></h3>
+<p>Definition. Let $\mathcal{L}$ be a lattice of dimension $n$. The $\textit{Gaussian expected shortest length}$ is</p>
+<p>$$
+\sigma (L)=\sqrt{\frac{n}{2\pi e}}(\det L)^{1/n}
+$$</p>
+<p>The Gaussian  heuristic says that a shortest nonzero vector in a“ randomly chosen lattice&quot; will satisfy
+$$
+\Vert v_\text{shortest}\Vert \approx\sigma(\mathcal{L})
+$$</p>
+<p>More precisely, if $\epsilon\gt 0$ is fixed, then for all sufficiently large $n$, a randomly chosen lattice of dimension $n$ will satisfy</p>
+<p>$$
+(1-\epsilon)\sigma(\mathcal{L})\leq\Vert v_{\mathrm{shortest}}\Vert \leq(1+\epsilon)\sigma(\mathcal{L})
+$$</p>
+<br>
+<br>
+<p>注意到，$\Vert v_{\mathrm{shortest}} \Vert = \lambda_1(\mathcal{L})$</p>
+<p>容易联想到，此前 Minkowski&rsquo;s Second Theorem 给出的行列式为单的上界</p>
+<p>$$
+\left(\prod_{i=1}^n\lambda_i\right)^{1/n}\leq\sqrt{n}(\det\Lambda)^{1/n}
+$$</p>
+<p>然而这仅仅给出 $\lambda_i$ 的增长速度是受到行列式限制的，或者说，$\lambda_i$ 的排布相对紧 (tight). 但这里 Gaussian 从概率的角度给出了 $\lambda_i$ 的期望值，并引入 $\epsilon$ 给出了一个关于 $\lambda_i$ 的一个更紧的界。</p>
+<br>
+<br>
+<br>
+<h3 id="recall-lll-property-linkhttpshaloisonlinelattice-part-1"><strong>Recall LLL property</strong> <a href="https://halois.online/lattice-part-1/" target="_blank" rel="noopener noreffer ">LINK</a></h3>
+<p>Let $B = \set{b_1,&hellip;,b_n}$ be a $\delta$-$LLL$-reduced basis.</p>
+<p>Then
+$$
+\Vert b_1 \Vert \le \left(\frac{2}{\sqrt{4\delta-1}}\right)^{n-1}\lambda_{1} \le\left(\frac{2}{\sqrt{4\delta-1}}\right)^{n-1}\sqrt{n}\cdot\Vert\det(\mathcal{L})\Vert^{1/n}
+$$
+利用这一中间界：</p>
+<br>
+<h3 id="conclusion">Conclusion</h3>
+<p>$$
+\begin{cases} \Vert B\Vert \le \sigma(\mathcal{L}),\mathcal{L}\text{~is~}\mathcal{L}(B) \\
+v\mathcal{L} = w\end{cases}
+$$
+即我们令 $\Vert B\Vert  = \det \mathcal{L} \le \sigma(\mathcal{L})$, 此时只需判定这个不等式是否成立来判定 LLL 的解的情况。</p>
+<p>至此我们只需要把目标问题化归到 $\gamma$-SVP 即可。</p>
+<p>那么一般思路就是，构造合适的 lattice , 将我们的目标短向量嵌入其中，调整行列式大小 (re-scale the lattice) 来进行规约以求解。这里有时用到了 Embedding Technique .</p>
+<br>
+<br>
+<h3 id="embedding-technique">Embedding Technique</h3>
+<p>前文有提到，非齐次状态下的小范数求解，可证明为 CVP 问题，也可化归到工作在陪集 $\mathcal{L} - t$ 上的 SVP 问题，现介绍一种手法来近似求解这一问题。</p>
+<p>令基向量矩阵为$B$，给定目标向量 $t = c$，那么一般的构造如下矩阵：</p>
+<p>$$
+B^{\prime} = \begin{bmatrix} c &amp; B \\ 1 &amp; 0  \end{bmatrix}
+$$</p>
+<p>注意到</p>
+<p>$$
+\det B^{\prime} = \det B
+$$</p>
+<p>那么</p>
+<p>$$
+\operatorname{vol}B^{\prime} = \operatorname{vol} B
+$$</p>
+<p>令目标向量 所得 CVP 的解为 $x = \sum \lambda_i b_i$ . 那么此时在 $B^{\prime}$ 中存在短向量 $(c-x,1)$ (Embedding) . 此时完成了一个近似CVP的解。</p>
+<br>
+<p>那么一定条件下，只需将待求非齐次方程 $ u = \sum a_i x_i$转化为 目标向量 求解即可。值得注意的是，有时需要先调整行列式大小，再规约，然后再做相反的调整。</p>
+<br>
+<br>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/21/LjK8Fg23QfuPD4a.png"
+        data-srcset="https://s2.loli.net/2024/06/21/LjK8Fg23QfuPD4a.png, https://s2.loli.net/2024/06/21/LjK8Fg23QfuPD4a.png 1.5x, https://s2.loli.net/2024/06/21/LjK8Fg23QfuPD4a.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/21/LjK8Fg23QfuPD4a.png"
+        title="image-20240621175515034" /></p>
+<p>更详细的证明，会在接下来的Knapsack 中给出解释。</p>
+<br>
+<br>
+<br>
+<h2 id="knapsack-cryptography">Knapsack Cryptography</h2>
+<p>相比于RSA的模幂运算，背包密码的运行速度要快的多。</p>
+<p>在非齐次情况下求解小范数根，了解 Knapsack Cryptography 及其 attack 是十分有帮助的。</p>
+<br>
+<br>
+<h3 id="the-subset-sum-problem">The Subset-Sum Problem</h3>
+<p>We begin by recalling the definition of the subset-sum problem, also called the “knapsack” problem, in its search form.</p>
+<br>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/20/SrBq6fk7FbQ3vd5.png"
+        data-srcset="https://s2.loli.net/2024/06/20/SrBq6fk7FbQ3vd5.png, https://s2.loli.net/2024/06/20/SrBq6fk7FbQ3vd5.png 1.5x, https://s2.loli.net/2024/06/20/SrBq6fk7FbQ3vd5.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/20/SrBq6fk7FbQ3vd5.png"
+        title="image-20240620143903706" /></p>
+<br>
+<br>
+<h3 id="superincreasing-sequence">Superincreasing sequence</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/20/Uib5MX1emwlKGx2.png"
+        data-srcset="https://s2.loli.net/2024/06/20/Uib5MX1emwlKGx2.png, https://s2.loli.net/2024/06/20/Uib5MX1emwlKGx2.png 1.5x, https://s2.loli.net/2024/06/20/Uib5MX1emwlKGx2.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/20/Uib5MX1emwlKGx2.png"
+        title="image-20240620160208012" /></p>
+<br>
+<br>
+<h3 id="merkle-hellman">Merkle Hellman</h3>
+<p>Start with some superincreasing sequence $\boldsymbol{b} = (b_1,\dots,b_n)$ Choose some modulus $m&gt;\sum_{i=1}^n b_i$, uniformly random $w \leftarrow\mathbb{Z_m}^{*}$ and uniformly random permutation $\pi$ on $\set{1,\dots,n}$ Let $a_i=w\cdot b_{\pi(i)}\mod m$.</p>
+<br>
+<p>The <strong>public key</strong> is $a = ( a_1, \ldots , a_n)$, and the trapdoor is $(m,w,\pi).$</p>
+<p>The encryption of a message $\mathbf{x}\in{0,1}^n$ is then</p>
+<p>$$
+s=\mathsf{Enc_\mathbf{a}}(\mathbf{x})=\langle \vec a,\mathbf{x}\rangle=w \cdot \sum_{i=1}^{n} b_{\pi(i)} x_{i}.
+$$</p>
+<p>Given the trapdoor $(m,w,\pi)$, we can decrypt $s$ as follows:</p>
+<p>Simply compute</p>
+<p>$$
+s^{'}=w^{-1}s=\sum_{i=1}^{n} b_{\pi(i)}x_i\mod m
+$$</p>
+<p>then solve the subset-sum problem for the permuted superincreasing $b$ and $s^{\prime}$.</p>
+<br>
+<br>
+<p>上述描述的原始 Knapsack 过程直接规约在 CVP 即可求解。在实际过程中不必考虑置换过程，直接考虑原始置换后的向量为目标向量即可。</p>
+<br>
+<br>
+<br>
+<h3 id="density">Density</h3>
+<p>The density of a subset-sum problem instance is
+$$
+n/\max_i \log a_i
+$$</p>
+<br>
+<br>
+<h3 id="lagarias-odlyzko-frieze">Lagarias-Odlyzko, Frieze</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212105335.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212105335.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212105335.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212105335.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212105335.png"
+        title="image-20240621210530259" /></p>
+<p>同样的利用上面给出的思路证明这个引理，但需要加入一些概率视角。</p>
+<br>
+<br>
+<br>
+<p>证明的核心思路为Embedding Technique.</p>
+<h4 id="proof">PROOF</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212203840.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212203840.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212203840.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212203840.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212203840.png"
+        title="image-20240621220334457" /></p>
+<br>
+<br>
+<p>在构造完 $\bold{B}$ 后，$(x,0)^T \in B$. 最后一行系数 $B$ 用于放缩.</p>
+<p>值得关心的是这个算法取得目标向量的概率。
+$$
+\bold{Bz}= (x,0)^T \in \mathcal{L},\Vert \bold{Bz}\Vert \le \sqrt{n}
+$$
+对于这个格空间内的任一向量，最后一项为 $B$ 的倍数时（不含0），那么
+$$
+B \gt 2^{n/2}\cdot \Vert x \Vert  \ge 2^{n/2}\cdot \lambda_1(\mathcal{L})
+$$
+故而 $\bold{B}$ 的 LLL 规约结果一定会有末项为 $0$ 的向量, 且范数最大为$2^{n/2}\sqrt n$。( LLL property )  故而在密度（density）不合适的时候，这里可能会解出 $k(x,0)$.</p>
+<br>
+<br>
+<p>在处理格的概率分析时，只需要严格抓住格的均匀分布特征即可。不难有如下描述</p>
+<br>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212223480.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212223480.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212223480.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212223480.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212223480.png"
+        title="image-20240621222323200" /></p>
+<br>
+<p>引入参数 $\epsilon$ 来刻画 $O(1)$</p>
+<br>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212224918.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212224918.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212224918.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212224918.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406212224918.png"
+        title="image-20240621222456537" /></p>
+<br>
+<br>
+<br>
+<h3 id="summary">Summary</h3>
+<p><strong>Knapsack</strong></p>
+<p>这里重新给出一个简单版本的表述：</p>
+<br>
+<p>私钥为一个超递增序列 $\set{a_n}$ , 满足 $a_i\gt \sum_{k=1}^{i-1}a_k$ , 模数$m$ ,满足$m&gt;\sum_{i=1}^na_i$ ,乘数$w$ ,满足
+$\gcd ( w, m) = 1$ .
+公钥为$\boldsymbol{b} = (b_1,\dots,b_n)$ ,满足 $b_i\equiv wa_i\pmod m$ 加密：设明文为 ${v_i},v_i\in{0,1}$  ,则密文 $c$ 可表示为：</p>
+<p>$$
+c \equiv \sum_{i=1}^{n} b_i v_i \equiv \sum_{i=1}^{n} wa_i v_i \pmod m
+$$</p>
+<p>明文$v$:</p>
+<p>$$
+v = w^{-1}c \equiv \sum_{i=1}^{n} v_i a_i \pmod m
+$$</p>
+<p>构造矩阵</p>
+<p>$$
+\mathcal{L} = \begin{bmatrix} I &amp; \boldsymbol{b}^T \\ 0 &amp; -c  \end{bmatrix}
+$$</p>
+<p>$v = (v_1, \dots, v_n, 0) \in \mathcal{L}$. 利用高斯启发式，可以证明我们能够规约出$v$.</p>
+<p>$$
+\sigma(\mathcal{L}) = \sqrt{\frac{n}{2\pi e}}\Vert det\mathcal{L} \Vert^{1/(n+1)} = \sqrt{\frac{n}{2\pi e}} c^{1/(n+1)}
+$$</p>
+<p>而</p>
+<p>$$
+\Vert v \Vert \approx \sqrt{n/2} \le \sigma(\mathcal{L})
+$$</p>
+<p>即</p>
+<p>$$
+\frac{1}{\pi e} c^{2/(n+1)} \le 1
+$$</p>
+<p>有$1-2^{-n^2(\varepsilon-o(1))}$有解。</p>
+<br>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://www.noahsd.com/mini_lattices/05__babai.pdf" target="_blank" rel="noopener noreffer ">Babai&rsquo;s Algorithm</a></li>
+<li><a href="https://web.eecs.umich.edu/~cpeikert/lic15/lec05.pdf" target="_blank" rel="noopener noreffer ">Knapsack</a></li>
+<li><a href="https://eprint.iacr.org/2011/139.pdf" target="_blank" rel="noopener noreffer ">Shortest Lattice Vectors in the Presence of Gaps</a></li>
+<li><a href="https://tover.xyz/p/CVP-to-SVP/" target="_blank" rel="noopener noreffer ">Tover&rsquo;s Blog</a></li>
+<li>ISIS problem discussion in <a href="https://crypto.stackexchange.com/questions/91963/sis-without-the-modulus" target="_blank" rel="noopener noreffer ">LINK1</a>,<a href="https://crypto.stackexchange.com/questions/103744/isis-problem-in-the-case-of-m-n" target="_blank" rel="noopener noreffer ">LINK2</a></li>
+<li>SIS problem discussion in <a href="https://crypto.stackexchange.com/questions/91963/sis-without-the-modulus" target="_blank" rel="noopener noreffer ">LINK1</a></li>
+<li><a href="https://eprint.iacr.org/2015/939.pdf" target="_blank" rel="noopener noreffer ">A decade of lattice cryptography</a></li>
+<li><a href="https://cryptohack.gitbook.io/cryptobook/lattices/cryptographic-lattice-problems/short-integer-solutions-sis" target="_blank" rel="noopener noreffer ">Cryptohack gitbook</a></li>
+<li><a href="https://github.com/verdiverdiverdi/ISIS-small-q.git" target="_blank" rel="noopener noreffer ">ISIS-small-q-code</a>
+<a href="https://eprint.iacr.org/2023/1125.pdf" target="_blank" rel="noopener noreffer ">ISIS-small-q-paper</a></li>
+<li><a href="https://www.wisdom.weizmann.ac.il/~oded/PSX/pkcs.pdf" target="_blank" rel="noopener noreffer ">Embedding attack</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-06-18</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-3/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-3/" data-title="Lattice Part 3"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-3/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-3/" data-title="Lattice Part 3"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-3/" data-title="Lattice Part 3"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-3/" data-title="Lattice Part 3"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-part-2/" class="prev" rel="prev" title="Lattice Part 2"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Lattice Part 2</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>
