@@ -24,6 +24,15 @@
 <p><strong>While LLL for SVP.</strong></p>]]></description>
 </item>
 <item>
+    <title>WayToCoppersmith0x01</title>
+    <link>https://galoishlee.github.io/waytocoppersmith0x01/</link>
+    <pubDate>Tue, 04 Jun 2024 19:48:51 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytocoppersmith0x01/</guid>
+    <description><![CDATA[<p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
+<p><strong>Coron&rsquo;s Technique</strong></p>]]></description>
+</item>
+<item>
     <title>WayToCoppersmith0x00</title>
     <link>https://galoishlee.github.io/waytocoppersmith-0x00/</link>
     <pubDate>Sun, 26 May 2024 15:10:32 &#43;0800</pubDate>
@@ -88,14 +97,6 @@
 <p>代数封闭：域$F$被称为代数闭域，当且仅当任何系数属于$F$且次数大于零的单变量多项式在$F$里至少有一个根。代数闭域一定是无限域。</p>
 </blockquote>
 <p>不得不感慨,还是需要捡起一些遗忘的科目:)，回忆下笔者和Galois理论的缘起。</p>]]></description>
-</item>
-<item>
-    <title>NoteForGit</title>
-    <link>https://galoishlee.github.io/noteforgit/</link>
-    <pubDate>Thu, 04 Apr 2024 15:06:59 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/noteforgit/</guid>
-    <description><![CDATA[<p>That is git!</p>]]></description>
 </item>
 </channel>
 </rss>

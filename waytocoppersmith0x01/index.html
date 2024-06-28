@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>WayToCoppersmith0x01 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="WayToCoppersmith0x01" />
+<meta property="og:description" content="Solving Small root for Modular Bivariate Polynomial
+Coron&rsquo;s Technique" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/waytocoppersmith0x01/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-04T19:48:51+08:00" />
+<meta property="article:modified_time" content="2024-06-04T19:48:51+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="WayToCoppersmith0x01"/>
+<meta name="twitter:description" content="Solving Small root for Modular Bivariate Polynomial
+Coron&rsquo;s Technique"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/waytocoppersmith0x01/" /><link rel="prev" href="https://galoishlee.github.io/waytocoppersmith-0x00/" /><link rel="next" href="https://galoishlee.github.io/lattice-part-2/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "WayToCoppersmith0x01",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/waytocoppersmith0x01\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  2144 ,
+        "url": "https:\/\/galoishlee.github.io\/waytocoppersmith0x01\/","datePublished": "2024-06-04T19:48:51+08:00","dateModified": "2024-06-04T19:48:51+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/waytocoppersmith0x01/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/waytocoppersmith0x01/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToCoppersmith0x01</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-06-04">2024-06-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2144 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 11 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#howgave-grahams-condition">Howgave-Graham&rsquo;s condition</a>
+      <ul>
+        <li><a href="#proof">PROOF:</a></li>
+      </ul>
+    </li>
+    <li><a href="#bivariate-integer-polynomials-case">Bivariate Integer Polynomials Case</a></li>
+    <li><a href="#corons-construction">Coron&rsquo;s Construction</a>
+      <ul>
+        <li><a href="#build-shift-polynomials-for-our-matrix">Build shift polynomials for our matrix.</a>
+          <ul>
+            <li><a href="#assumption-1-pxy-is-irreducible">Assumption 1: $p(x,y)$ is irreducible.</a></li>
+            <li><a href="#fact-shift-ploynomials-share-the-same-root-with-our-target-fxy">Fact: shift ploynomials share the same root with our target $F(x,y)$</a></li>
+            <li><a href="#matrix-s">Matrix $S$</a></li>
+            <li><a href="#assumption-2">Assumption 2:</a></li>
+            <li><a href="#lattice-l">Lattice $L$</a></li>
+            <li><a href="#sublattice-l_2">Sublattice $L_2$</a></li>
+            <li><a href="#proof-of-solvability">Proof of solvability</a></li>
+          </ul>
+        </li>
+        <li><a href="#compute-det-l_2">Compute $\det L_2$</a>
+          <ul>
+            <li><a href="#detail">Detail:</a></li>
+            <li><a href="#running-time-analysis">Running time Analysis</a></li>
+          </ul>
+        </li>
+        <li><a href="#summary">Summary</a>
+          <ul>
+            <li><a href="#gxy-has-no-common-factor-with-fxy">$G(x,y)$ has no common factor with $F(x,y)$.</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#appendix">Appendix</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
+<p><strong>Coron&rsquo;s Technique</strong></p>
+<h2 id="howgave-grahams-condition">Howgave-Graham&rsquo;s condition</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241749891.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241749891.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241749891.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241749891.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241749891.png"
+        title="image-20240624174915852" /></p>
+<p>For proof,  just recall the inequality we metioned last blog. There is a grace way to  proof this.</p>
+<h3 id="proof">PROOF:</h3>
+<p>According to lemma 3, we have:
+$$
+\begin{aligned}\vert h(x_0,y_0)\vert &amp;= \vert \sum h_{i,j} x_0^i y_0^j \vert = \vert \sum h_{i,j} X^jY^j(x_0/X)^i(y_0/Y)^j  \vert
+\\ &amp;\le \sum \vert h_{i,j}X^jY^j(x_0/X)^i(y_0/Y)^j \vert \\
+&amp;\le \sum \vert h_{i,j} X^iY^j \vert \\
+&amp;\le \sqrt{\omega}\Vert h(xX,yY) \Vert \lt n
+\end{aligned}
+$$
+then given $h(x_0,y_0) \equiv 0 \mod n$,  we have $h(x_0,y_0) = 0$.</p>
+<br>
+<br>
+<br>
+<p>The lemma there also descripted as follow:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241745240.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241745240.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241745240.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241745240.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241745240.png"
+        title="image-20240624174557133" /></p>
+<br>
+<br>
+<br>
+<h2 id="bivariate-integer-polynomials-case">Bivariate Integer Polynomials Case</h2>
+<p>After we process the univariate case in last post,  now with the similar method ,  we can also find small root on bivariate polynomial ring under Howgrave&rsquo;s condition.</p>
+<p>In the bivariate integer polynomial case, we can utilize a similar approach to the univariate scenario that was covered previously. The key is to leverage Howgrave&rsquo;s condition to construct a matrix whose linear space forms a lattice. By applying the LLL algorithm to this lattice, we can then obtain a set of polynomials with smaller coefficients that share the same roots.</p>
+<br>
+<br>
+<p><strong>Nevertheless</strong>, the bivariate case presents an additional challenge - we need to find two distinct polynomials in order to solve for both variables, $x$ and $y$. The general strategy is as follows:</p>
+<ol>
+<li>Construct a matrix whose rows correspond to the desired polynomial constraints, taking into account Howgrave&rsquo;s condition.</li>
+<li>Apply the LLL algorithm to this matrix to obtain a reduced basis, which will include two or more polynomials with smaller coefficients.</li>
+<li>Analyze the resulting polynomials to identify a pair that can be used to solve for the values of x and y.</li>
+</ol>
+<p>This approach allows us to find the small roots of bivariate integer polynomials,  under Howgrave&rsquo;s condition.</p>
+<br>
+<br>
+<p>The most significant problem is the structure of our matrix.</p>
+<p>For example</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241822456.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241822456.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241822456.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241822456.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406241822456.png"
+        title="image-20240624182207388" /></p>
+<h2 id="corons-construction">Coron&rsquo;s Construction</h2>
+<p>With familiar idea, we gonna set a lattice with a suitable determinant for lattice reduction , this process also reduce our coefficients.</p>
+<br>
+<br>
+<h3 id="build-shift-polynomials-for-our-matrix">Build shift polynomials for our matrix.</h3>
+<p>Set our target with the form below:
+$$
+p(x,y) = \sum_{0 \le i, j \le \delta} p_{i,j} x^i y^j
+$$
+Obviously, we note the coefficients as $p_{i,j}$. Remember that our goal is to reduce the coefficients to smaller ones in two independent polynomials letting us to find roots directly with resultant or Gröbner basis. With condition given in Howgrave-Graham,  we start to build some polynomials.</p>
+<p>That is:</p>
+<p>We are looking for an integer root $(x_0,y_0)$ such that $p(x_0,y_0) = 0$ and with the bound $\vert x_0 \vert \le X, \vert y_0 \vert \le Y$.</p>
+<br>
+<h4 id="assumption-1-pxy-is-irreducible">Assumption 1: $p(x,y)$ is irreducible.</h4>
+<p>Of course, if not , just use the factor as new $p(x,y)$.</p>
+<br>
+<h4 id="fact-shift-ploynomials-share-the-same-root-with-our-target-fxy">Fact: shift ploynomials share the same root with our target $F(x,y)$</h4>
+<p>It&rsquo;s trivial to attention the fact.</p>
+<br>
+<p>In Cor[07] we build.
+$$
+S_{a,b}(x,y) = x^a y^b \cdot p(x,y) ,\text{for}\quad 0 \le a,b \lt k \tag1
+$$</p>
+<p>$$
+r_{i,j}(x,y) = x^i y^j \cdot n ,\text{for}\quad 0 \le i,b \lt k+\delta \tag2
+$$</p>
+<br>
+<h4 id="matrix-s">Matrix $S$</h4>
+<p>Let $S$ be the matrix of row vectors obtained by taking the coefficients of the polynomials $S_{a,b}(x,y)$ for $0 \le a, b \lt k$, (choose $k \in \mathbb{N}$ sufficiently large) and consider the $k^2$ polynomials for which we only consider the monomials $x^{i_0 +i}y^{j_0 +j} \text{for}\quad 0 \le i,j \lt k$, where the index $(i_0,j_0)$ is given. ( $0 \le i_0,j_0 \lt \delta $).</p>
+<p>For parameter $n$ in $(1),(2)$:</p>
+<br>
+<p>$$
+n \coloneqq \vert \det S \vert
+$$
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272126021.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272126021.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272126021.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272126021.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272126021.png"
+        title="image-20240627212645938" /></p>
+<p>Then, let</p>
+<p>$$
+W = \max_{i,j} \vert p_{i,j} \vert X^j Y^j = \vert p_{uv} \vert X^u Y^v
+$$</p>
+<br>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272128849.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272128849.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272128849.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272128849.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272128849.png"
+        title="image-20240627212833781" /></p>
+<p>Proof of this inequality is pretty complex , before  that we need to know the purpose of introducing Lemma 2:</p>
+<p><strong>We are still on the road to find our shift polynomial</strong></p>
+<h4 id="assumption-2">Assumption 2:</h4>
+<p>$$
+XY \lt W^{2/(3\delta) -1/k}2^{-9k}
+$$
+This gives
+$$
+\begin{aligned} W &amp;\gt (XY)^{\delta}\cdot2^{9\delta^{2}}
+\\ n &amp;= O(W^{k^2}) \end{aligned}
+$$
+so that matrix $S$ is invertible.</p>
+<p>Finally, we can descript our shift polynomial $h(x,y)$ .</p>
+<p>Let $h(x,y)$ be a linear combination of the polynomials $s_{a,b}(x,y)$ and $r_{i,j}(x,y).$ Since we have that $s_{a,b}(x,y)=0$ mod $n$ for all $a,b$ and $r_{i,j}(x,y)=0 \mod n$ for all $i,j$,we obtain:</p>
+<p>$$
+h(x_0,y_0)=0 \mod n.
+$$</p>
+<p>The following lemma, due to Howgrave-Graham [13], shows that if the coefficients of polynomial $h(x,y)$ are sufficiently small, then $h(x_0,y_0)=0$ holds over the integers. For a polynomial $h(x,y)=\sum_{i,j} h_{ij}x^{i} y^{j}$, we define $\Vert h(x,y) \Vert ^2:=\sum_{i,j}\vert h_{ij}\vert^2.$</p>
+<br>
+<h4 id="lattice-l">Lattice $L$</h4>
+<p>We consider the lattice $L$ generated by the row vectors formed with the coefficients of polynomials $s_{a,b}(xX,yY)$ and $r_{i,j}(xX,yY).$ In total, there are $k^2+(k+\delta)^2$ such polynomials; moreover these polynomials are of maximum degree $\delta+k-1$ in $x,y$, so they contain at most $(\delta + k)^2$ coefficients. Let $M$ be the corresponding matrix of row vectors;</p>
+<p>$M$ is therefore a rectangular matrix with $k^2+(k+\delta)^2$ rows and $(k+\delta)^2$ columns (see Figure 2 for an illustration). Observe that the rows of $M$ do not form a basis of $L$ (because there are more rows than columns), but $L$ is a full rank lattice of dimension $(k+\delta)^2$ (because the row vectors corresponding to polynomials $r_{i,j}(xX,yY)$ form a full rank lattice).</p>
+<p>With our idea to find $h(x,y)$, we build $M$. Notice that choosing a block in $M$ can done the task easier.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272222669.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272222669.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272222669.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272222669.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272222669.png"
+        title="image-20240627222229595" /></p>
+<p>Nonetheless,  that&rsquo;s not enough.</p>
+<br>
+<h4 id="sublattice-l_2">Sublattice $L_2$</h4>
+<p>Formally, we choose the sub lattice $L_2$ with $\omega$ dimensions
+$$
+\omega \coloneqq (\delta+K)^2 -k^2 = \delta^2 + 2k\delta
+$$
+A matrix basis for $L_2$ can be obtained by fırst triangularizing $M$ using elementary row operations and then taking the corresponding submatrix (see Figure 3).</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272234588.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272234588.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272234588.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272234588.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406272234588.png"
+        title="image-20240627223421501" /></p>
+<p>Now, the exciting moment.</p>
+<p>Apply LLL to $L_2$!</p>
+<p>Get a non-zero polynomial $h(x,y)$ that satisfies $h(x_0,y_0) = 0 \mod n$ and
+$$
+\Vert h(xX,yY)\Vert \leq2^{(\omega-1)/4}\cdot\det(L_2)^{1/\omega}
+$$
+From H-G bound:</p>
+<p>if :
+$$
+2^{(\omega-1)/4} \cdot \det L_2 ^{1/\omega} \le \frac{n}{\sqrt\omega}
+$$
+then $h(x_0,y_0) = 0$ holds in $\mathbb{Z}$.</p>
+<br>
+<h4 id="proof-of-solvability">Proof of solvability</h4>
+<p>First,the strategy of selecting submatrices allows us to avoid getting multiples of the original polynomial. Then, $p(x,y)$ is irreducible and $h(x,y)$ are algebraically independent with a common root $(x_0,y_0)$. Therefore, taking:
+$$
+Q(x) = Resultant_y(h(x,y),p(x,y))
+$$
+gives a non-zero integer polynomial such that $Q(x_0)= 0$. Using any Standard root-finding algorithm, we can recover $x_0$, and finally $y_0$ by solving $p(x_0,y)=0$. This proofs the solvability.</p>
+<br>
+<h3 id="compute-det-l_2">Compute $\det L_2$</h3>
+<p>Mainly algebra, nothing special.</p>
+<p>Calculating determinant with elementary rows transformation need some bridge matrix  for block matrix computation.</p>
+<p>With our choosing strategy considered,  there is a simplified matrix.</p>
+<p>Let $M^{\prime}$ be the same matrix as $M$, except that we take the coefficients of polynomials $S_{a,b}(xX,yY)$ and $r_{i,j}(xX,yY)$;  matrix $M^{\prime}$ has $k^2+ (\delta + k)^2$ rows and $(k+\delta)^2$ columns. And we remove the $X^i Y^j$ powers.
+$$
+M^{\prime} = \begin{bmatrix} S &amp; T \\ nI_{k^2} &amp; 0 \\ 0 &amp; nI_{\omega} \end{bmatrix}
+$$</p>
+<br>
+<h4 id="detail">Detail:</h4>
+<p>Matrix $S$ is previously defined square matrix of dimension $k^2$, while $T$ is matrix with $k^2$ rows and $\omega = k^2 + 2k\delta$ columns. Let $L^\prime$ be a lattice generated by the rows of $M^{\prime}$, in other word , we set $L^{\prime}$ in the row space of the matrix $M^{\prime}$, and let $L_2^\prime$ be the sublattice where all coefficients corresponding to monomials $x^{i+i_0}y^{j+j_0}$ for  $0 \le i, j\lt k$ are set to zero. Note that lattice $L^{\prime}$ corresponds to lattice $L$ without the $X^iY^j$ powers, whereas lattice $L_2^\prime$ corresponds to lattice $L_2$.</p>
+<p>Note that:
+$$
+S^\prime \cdot S = n I_{k^2}
+$$</p>
+<p>Namely $S^\prime$ is (up to sign) the transpose of the co-factor matrix of $S$, verifying $S^\prime\cdot S=(\det S)I_{k^2}.$ of $M^{\prime}$; this gives the following matrix:
+$$
+M_2'=\begin{bmatrix}I_{k^2}&amp;0&amp;0\\-S'&amp;I_{k^2}&amp;0\\0&amp;0&amp;I_\omega\end{bmatrix}\cdot M'=\begin{bmatrix}S&amp;T\\0&amp;T'\\0&amp;nI_\omega\end{bmatrix}
+$$</p>
+<p>where $T^\prime=-S^{\prime}\cdot T$ is a matrix with $k^2$ rows and $\omega$ columns. By elementary operations on the <strong>rows</strong> of $M_2^{\prime}$, we obtain:</p>
+<p>$$
+M_3^{\prime}=U\cdot M_2^{\prime}=\begin{bmatrix}S&amp;T\\0&amp;T^{\prime \prime}\\0 &amp; 0\end{bmatrix}
+$$</p>
+<p>where $T^{\prime\prime}$ is a square matrix of dimension $\omega$. We obtain that $T^{\prime\prime}$ is a row matrix basis of lattice
+$$
+\begin{aligned} \det L^{\prime}&amp;=\vert \det\begin{bmatrix}S&amp;T\\0&amp;T''\end{bmatrix}\vert \\&amp;=\vert \det S\vert \cdot\vert \det T^{\prime\prime}\vert \\ &amp;=\vert \det S\vert \cdot\det L_2^{\prime}\\ &amp;=n\cdot\det L_2^{\prime}\end{aligned} \tag4
+$$</p>
+<p>So our target changes to compute the determinant of $L^{\prime}$. The polynomial $p(x,y)$ being irreducible, the gcd of its coefficients is equal to $1$.</p>
+<p>The gcd of the coefficients of $p(x,y)$ being 1 implies that the entries of $M^{\prime}$ are coprime, which allows for the columns of $M^{\prime}$ to be transformed through elementary operations into an identity matrix block. This is possible because there are no common factors that restrict the linear combinations needed to zero out entries and simplify the matrix. The unimodular transformation preserves the determinant, ensuring that the fundamental properties of the lattice defined by $M^{\prime}$ are maintained.</p>
+<p>$$
+M_4^\prime=M^\prime\cdot V=\begin{bmatrix}I_{k^2}| 0\\nV\end{bmatrix}
+$$
+By elementary row operations on $M_4^{\prime}$ based on $V^-1$ we obtain :
+$$
+M_5^{\prime}=\begin{bmatrix}I_{k^2}&amp;0\\0&amp;V^{-1}\end{bmatrix}\cdot M_4'=\begin{bmatrix}I_{k^2}&amp;0\\&amp;nI_{(\delta+k)^2}\end{bmatrix}=\begin{bmatrix}I_{k^2}&amp;0\\ nI_{k^2}&amp;0\\0&amp;nI_\omega\end{bmatrix}
+$$</p>
+<p>$$
+M_6^{\prime}= U^\prime \cdot M_5^{\prime}=\begin{bmatrix}I_{k^2}&amp;0 \\ 0 &amp; n I_\omega \\ 0&amp;0\end{bmatrix}
+$$</p>
+<p>$$
+\det L'=\det\begin{bmatrix}I_{k^2}&amp;0 \\ 0&amp;nI_\omega\end{bmatrix}=n^\omega \tag5
+$$</p>
+<p>Combining equations $(4)$ and $(5)$, we obtain:</p>
+<p>$$
+\det L_2'=n^{\omega-1}
+$$
+Finally we can recover $\det L_2$ from $\det L_2^\prime$:
+$$
+\begin{align} \det L_2&amp;=\det L_2^{\prime}\cdot\frac{\prod\limits_{0\leq i,j&lt;\delta+k}X^iY^j}{\prod\limits_{0\leq i,j&lt;k}X^{i_0+i}Y^{j_0+j}} \\ &amp;=n^{\omega-1}\cdot\frac{(XY)^{(\delta+k-1)\cdot(\delta+k)^2/2-(k-1)\cdot k^2/2}}{(X^{i_0}Y^{j_0})^{k^2}}. \end{align}
+$$
+Remember that calculating the determinant is for our inequality relationship.
+$$
+2^{(\omega-1)/4}\cdot\det(L_2)^{1/\omega}\leq\frac{n}{\sqrt{\omega}}
+$$
+This obtained:
+$$
+2^{\omega\cdot(\omega-1)/4}\cdot\frac{(XY)^{(\delta+k-1)\cdot(\delta+k)^2/2-(k-1)\cdot k^2/2}}{(X^{i_0}Y^{j_0})^{k^2}}\leq\frac n{\omega^{\omega/2}}.
+$$
+Consider $n \coloneqq \vert \det S \vert$ and its bound, with $\sqrt\omega \le 2^{\omega/2}$:
+$$
+2^{\omega\cdot(\omega-1)/4}\cdot(XY)^{(\delta+k-1)\cdot(\delta+k)^2/2-(k-1)\cdot k^2/2}\leq W^{k^2}\cdot2^{-6k^2\delta^2-2k^2}\cdot2^{-\omega^2/2}
+$$
+This condition is satisfied if
+$$
+XY \lt W^{\alpha}\cdot 2^{-9\alpha}
+$$
+where:
+$$
+\alpha = \frac{2k^2}{\delta\cdot (3k^2+k(3\delta-2)+\delta^2 -\delta)}
+$$
+And Finally we shall get our target bound (a sufficient one):
+$$
+XY \lt W^{2/(3\delta)-1/k}\cdot2^{-9\delta}
+$$
+For a weaker one, just take:
+$$
+XY \lt W^{2/(3\delta)}
+$$</p>
+<br>
+<h4 id="running-time-analysis">Running time Analysis</h4>
+<p>The running time is dominated by the time it takes to run LLL on a lattice of dimension $\delta^2+2k\delta$, with entries bounded by $\mathcal{O}(W^{k^2})$.Namely, the entries of a matrix basis for $L_2$ can be reduced modulo $n\cdot X^iY^j$ on the columns corresponding to monomial $x^i y^j$, because of polynomial $r_{i,j}(xX,yY)=n\cdot X^i Y^j x^i y^j$.</p>
+<p>Substituting the running time analysis results of the two algorithms, the running time is bounded by:
+$$
+\mathcal{O}(\delta^6 k^12 \log^3{W})
+$$
+using LLL, and $\mathcal{O}(\delta^5 k^9 \log^2{W})$.</p>
+<p>Under the weaker condition, one can set $k=\lfloor\log W\rfloor$ and do exhaustive search on the high order $\mathcal{O}(\delta)$ unknown bits of $x_0$. The running time is then polynomial in $2^\delta$ and $\log W$. For a fixed $\delta$, the running time is $\mathcal{O}\log^{15} W$ using LLL.</p>
+<br>
+<h3 id="summary">Summary</h3>
+<p>As usual we consider shifts of the polynomial $F(x, y)$. Choose $k\in\mathbb{N}$ (sufficiently
+large) and consider the $k^{2}$ polynomials.
+$$
+s_{a,b}(x,y)=x^a y^b F(x,y)\quad\mathrm{for}\quad 0\leq a,b&lt;k
+$$
+in the $(d+k)^2$ monomials $x^iy^j$ with $0\leq i,j&lt;d+k.$ Coron chooses a certain set of $k^2$ monomials (specifically of the form $x^{i_0+i}y^{j_0+j}$ for $0\leq i,j&lt;k$ and fixed $0\leq i_0,j_0\leq d)$ and obtains a $k^2\times k^2$ matrix $S$ with non-zero determinant $M$. (The most technical part is proving that this can always be done and bounding the size of $M$.)</p>
+<p>One can now consider the $(d+k)^2$ polynomials $Mx^iy^j$ for $0\leq i,j&lt;d+k.$ Writing each polynomial as a row vector of coefficients, we now have a $k^2+(d+k)^2$ by $(d+k)^2$ matrix. One can order the rows such that the matrix is of the form</p>
+<p>$$
+\begin{pmatrix}S &amp; * \\ MI_{k^2}&amp;0 \\ 0&amp;MI_w\end{pmatrix}
+$$</p>
+<p>where $w=(d+k)^2-k^2,*$ represents a $k^2\times w$ matrix, and $I_w$ denotes the $w\times w$ identity matrix.</p>
+<p>Now, since $M=\det(S)$ there exists an integer matrix $S^\prime$ such that $S^\prime S=MI_{k^2}.$
+Perform the row operations
+$$
+\begin{pmatrix}I_{k^2}&amp;0&amp;0 \\-S'&amp;I_{k^2}&amp;0 \\ 0&amp;0&amp;I_w\end{pmatrix}\begin{pmatrix}S&amp;* \\ M I_{k^2}&amp;0 \\ 0&amp;MI_w\end{pmatrix}=\begin{pmatrix}S&amp;*  \\ 0&amp;T \\ 0&amp;MI_w\end{pmatrix}
+$$</p>
+<p>for some $k^2\times w$ matrix $T.$ Further row operations yield a matrix of the form
+$$
+\begin{pmatrix}S&amp;* \\ 0&amp;T' \\0&amp;0\end{pmatrix}
+$$</p>
+<p>for some $w\times w$ integer matrix $T^\prime.$
+Coron considers a lattice $L$ corresponding to $T^\prime$ (where the entries in a column corresponding to monomial $x^iy^j$ are multiplied by $X^iY^j$ as in equation (19.2)) and computes the determinant of this lattice. Lattice basis reduction yields a short vector that corresponds to a polynomial $G(x,y)$ with small coefficients such that every root of $F(x,y)$ is a root of $G(x,y)$ modulo $M.$ If $(x_0,y_0)$ is a sufficiently small solution to $F(x,y)$ then, one infers that $G(x_0,y_0)=0$ over $\mathbb{Z}.$</p>
+<br>
+<br>
+<h4 id="gxy-has-no-common-factor-with-fxy">$G(x,y)$ has no common factor with $F(x,y)$.</h4>
+<p><strong>PROOF:</strong></p>
+<p>Assume that $F(x,y)$ is irreducible, then  $G(x,y) = \sum_{0 \le i, j\lt k}A_{i,j}x^i y^j$ and so the vector of coeffiencients of $G(x,y)$ is a linear combination of the coefficient vectors of the $k^2$ polynomials $s_a,b(x,y)$ for $0\leq a,b&lt;k.$ But this vector is also a linear combination of the rows of the matrix $\begin{pmatrix} 0 &amp;T^{\prime}\end{pmatrix}$ in the original lattice. Considering the first $k^2$ columns (namely the c olumns of $S)$, one has a linear dependence of the rows in $S.$ Since $\det(S)\neq0$ this is a contradiction.</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p><strong>With the main idea above, we can set the two theorem:</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406281753974.png"
+        data-srcset="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406281753974.png, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406281753974.png 1.5x, https://raw.githubusercontent.com/DDLelouch/Photo/main/202406281753974.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/DDLelouch/Photo/main/202406281753974.png"
+        title="image-20240628175309830" /></p>
+<br>
+<h2 id="appendix">Appendix</h2>
+<p>See in references for an example.</p>
+<p>The proof of lemma 2 can be found in the appendix of Cor[07].</p>
+<br>
+<br>
+<br>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://crypto.polito.it/content/download/965/5351/file/TEA%20BOONCHIAN.pdf" target="_blank" rel="noopener noreffer ">Course PPT</a></li>
+<li><a href="https://www.math.auckland.ac.nz/~sgal018/crypto-book/ch19.pdf" target="_blank" rel="noopener noreffer ">Multivariate Coppersmtih-19.2</a></li>
+<li><a href="https://www.cits.ruhr-uni-bochum.de/imperia/md/content/may/paper/intro_to_coppersmiths_method.pdf" target="_blank" rel="noopener noreffer ">Introduction</a></li>
+<li><a href="https://math.stackexchange.com/questions/1868025/how-to-represent-polynomial-rings-in-multiple-variables" target="_blank" rel="noopener noreffer ">How to Represent Bivariate Polynomial Ring</a></li>
+<li><a href="https://antonleykin.math.gatech.edu/math4803spr13/BOOK/chapter3.pdf" target="_blank" rel="noopener noreffer ">Polynomial and an ideal</a></li>
+<li><a href="https://github.com/ubuntor/coppersmith-algorithm.git" target="_blank" rel="noopener noreffer ">https://github.com/ubuntor/coppersmith-algorithm.git</a></li>
+<li><a href="https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=4a5a69c00654e402e8133d9b378ea21d663daeb2" target="_blank" rel="noopener noreffer ">Coron</a></li>
+<li><a href="https://www.cits.ruhr-uni-bochum.de/imperia/md/content/may/paper/jochemszmay.pdf" target="_blank" rel="noopener noreffer ">jochemsz-may</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-06-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/waytocoppersmith0x01/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/waytocoppersmith0x01/" data-title="WayToCoppersmith0x01"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/waytocoppersmith0x01/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/waytocoppersmith0x01/" data-title="WayToCoppersmith0x01"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/waytocoppersmith0x01/" data-title="WayToCoppersmith0x01"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/waytocoppersmith0x01/" data-title="WayToCoppersmith0x01"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/waytocoppersmith-0x00/" class="prev" rel="prev" title="WayToCoppersmith0x00"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>WayToCoppersmith0x00</a>
+            <a href="/lattice-part-2/" class="next" rel="next" title="Lattice Part 2">Lattice Part 2<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>
