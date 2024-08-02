@@ -339,7 +339,7 @@ Let $f$ be an attack loss for misdetection, $g$ be the total-variation norm that
  then the **optimization process** can be formulated as:
 
 $$
-\min \sum_i\mathbb{{E_{t,t_{TPS},v}}}[f(x_i,\delta)]+\lambda g(\delta)
+\min \sum_i\mathbb{E_{t,t_{TPS},v}}[f(x_i,\delta)]+\lambda g(\delta)
 $$
 
 
