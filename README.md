@@ -1,1 +1,0 @@
-# GaloisHLee.github.io
