@@ -1,0 +1,104 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>As it was</title>
+        <link>https://galoishlee.github.io/</link>
+        <description>Keep Crazy</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 27 Jul 2024 19:07:08 &#43;0800</lastBuildDate>
+            <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>Pae Attack</title>
+    <link>https://galoishlee.github.io/pae-attack/</link>
+    <pubDate>Sat, 27 Jul 2024 19:07:08 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/pae-attack/</guid>
+    <description><![CDATA[<p>Reading: PAE</p>
+<p></p>
+<p><strong>Trustworthy deep learning.</strong></p>]]></description>
+</item>
+<item>
+    <title>WayToFFT Part 1</title>
+    <link>https://galoishlee.github.io/waytofft-part-1/</link>
+    <pubDate>Mon, 01 Jul 2024 14:23:54 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytofft-part-1/</guid>
+    <description><![CDATA[<p>从拉格朗日插值法到 FFT. Part-1.</p>
+<blockquote>
+<p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
+</blockquote>
+<p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>]]></description>
+</item>
+<item>
+    <title>Lattice Part 3</title>
+    <link>https://galoishlee.github.io/lattice-part-3/</link>
+    <pubDate>Tue, 18 Jun 2024 16:57:25 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/lattice-part-3/</guid>
+    <description><![CDATA[<p></p>
+<p>Begin with Knapsack.</p>
+<p>Note from CS355 &amp; Regev.</p>]]></description>
+</item>
+<item>
+    <title>Lattice Part 2</title>
+    <link>https://galoishlee.github.io/lattice-part-2/</link>
+    <pubDate>Fri, 14 Jun 2024 16:10:25 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/lattice-part-2/</guid>
+    <description><![CDATA[<p><strong>Describe an approximation algorithm to the Closest Vector Prolem.</strong></p>
+<p><strong>While LLL for SVP.</strong></p>]]></description>
+</item>
+<item>
+    <title>WayToCoppersmith0x01</title>
+    <link>https://galoishlee.github.io/waytocoppersmith0x01/</link>
+    <pubDate>Tue, 04 Jun 2024 19:48:51 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytocoppersmith0x01/</guid>
+    <description><![CDATA[<p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
+<p><strong>Coron&rsquo;s Technique</strong></p>]]></description>
+</item>
+<item>
+    <title>WayToCoppersmith0x00</title>
+    <link>https://galoishlee.github.io/waytocoppersmith-0x00/</link>
+    <pubDate>Sun, 26 May 2024 15:10:32 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytocoppersmith-0x00/</guid>
+    <description><![CDATA[<h1 id="re从零开始的crypto生活">RE:从零开始的crypto生活</h1>]]></description>
+</item>
+<item>
+    <title>Lattice Part 1</title>
+    <link>https://galoishlee.github.io/lattice-part-1/</link>
+    <pubDate>Sun, 26 May 2024 00:02:20 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/lattice-part-1/</guid>
+    <description><![CDATA[<p></p>
+<p>Regev讲义学习笔记</p>]]></description>
+</item>
+<item>
+    <title>WayToFFT Part 0</title>
+    <link>https://galoishlee.github.io/waytofft-part-0/</link>
+    <pubDate>Sat, 25 May 2024 21:58:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytofft-part-0/</guid>
+    <description><![CDATA[<p>从拉格朗日插值法到FFT. Part-0.</p>]]></description>
+</item>
+<item>
+    <title>Fix Point</title>
+    <link>https://galoishlee.github.io/fix-point/</link>
+    <pubDate>Sat, 06 Apr 2024 20:43:19 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/fix-point/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Lattice Part 0</title>
+    <link>https://galoishlee.github.io/lattice-part-0/</link>
+    <pubDate>Thu, 04 Apr 2024 23:27:41 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/lattice-part-0/</guid>
+    <description><![CDATA[<h1 id="1lattice格-基础">1.Lattice(格) 基础</h1>
+<blockquote>
+<p>基于数学与计算机，现代密码学诞生。</p>
+</blockquote>]]></description>
+</item>
+</channel>
+</rss>

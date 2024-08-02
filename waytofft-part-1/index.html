@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>WayToFFT Part 1 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="WayToFFT Part 1" />
+<meta property="og:description" content="从拉格朗日插值法到 FFT. Part-1.
+
+It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century
+
+从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/waytofft-part-1/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-07-01T14:23:54+08:00" />
+<meta property="article:modified_time" content="2024-07-01T14:23:54+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="WayToFFT Part 1"/>
+<meta name="twitter:description" content="从拉格朗日插值法到 FFT. Part-1.
+
+It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century
+
+从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/waytofft-part-1/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-3/" /><link rel="next" href="https://galoishlee.github.io/pae-attack/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "WayToFFT Part 1",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/waytofft-part-1\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  1947 ,
+        "url": "https:\/\/galoishlee.github.io\/waytofft-part-1\/","datePublished": "2024-07-01T14:23:54+08:00","dateModified": "2024-07-01T14:23:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/waytofft-part-1/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/waytofft-part-1/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToFFT Part 1</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-07-01">2024-07-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1947 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#fourier-transform">Fourier Transform</a></li>
+    <li><a href="#discrete-fourier-transform">Discrete Fourier Transform</a></li>
+    <li><a href="#fast-fourier-transform">Fast Fourier Transform</a>
+      <ul>
+        <li><a href="#core-idea">Core idea.</a></li>
+      </ul>
+    </li>
+    <li><a href="#inverse-discrete-fourier-transform-idft">Inverse Discrete Fourier Transform, IDFT</a>
+      <ul>
+        <li><a href="#summary">Summary</a>
+          <ul>
+            <li><a href="#1-definition">1. Definition</a></li>
+            <li><a href="#2-fft-and-ifft">2. FFT and IFFT</a></li>
+            <li><a href="#3-compact-formula-for-fft">3. Compact Formula for FFT</a></li>
+            <li><a href="#4-compact-formula-for-ifft">4. Compact Formula for IFFT</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#fast-polynomial-multiplication">Fast polynomial multiplication</a>
+      <ul>
+        <li><a href="#algorithm">Algorithm</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>从拉格朗日插值法到 FFT. Part-1.</p>
+<blockquote>
+<p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
+</blockquote>
+<p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>
+<br>
+<br>
+<h2 id="fourier-transform">Fourier Transform</h2>
+<blockquote>
+<p>傅里叶变换（Fourier Transform）是一种分析信号的方法，它可分析信号的成分，也可用这些成分合成信号。许多波形可作为信号的成分，傅里叶变换用正弦波作为信号的成分。</p>
+</blockquote>
+<blockquote>
+<p>对于时序逻辑可以写作关于时间 $t$ 的函数 $f(t)$ , 傅里叶变换可以检测频率 $\omega$ 的周期在 $f(t)$ 出现的程度。
+$$
+F(\omega)=\mathbb{F}[f(t)]=\int_{-\infty}^\infty f(t)\mathrm{e}^{-\mathrm{i}\omega t}dt
+$$</p>
+</blockquote>
+<p>其作用也可以表示为：<strong>时域映射到频域</strong>
+$$
+\hat{f} \left ( \xi \right ) = \int _{- \infty }^{\infty }f( x) e^{- 2\pi ix\xi }dx
+$$</p>
+<p>$\xi$为任意实数</p>
+<p>很多时候，这里的 $\hat{f}\left(\xi\right)$ 会写成 $F(w)$ 或 $F(f)$ 表示角速度或者频率，当然后面的公式的量纲也需要对应的修改；后面的自变量 $x$ 大多数时候都是写成 $t$ 表示时间。</p>
+<br>
+<br>
+<h2 id="discrete-fourier-transform">Discrete Fourier Transform</h2>
+<p>DFT, 离散傅里叶变换。DFT 在工程中是将离散信号从时域转为频域的过程。其表达式可以用于多项式求值，点值固定设计为单位根。</p>
+<p>DFT 将一个长度为 $N$ 的复数序列 $x_0,x_1,\dots,x_{N-1}$ 通过如下公式转化为另一等长度复数序列$X_0,X_1,\dots,X_{N-1}$:
+$$
+X_k = \sum_{n=0}^{N-1} x_n e^{-\frac{2\pi i}{N}kn} \tag1
+$$
+结合单位根 (<a href="https://en.wikipedia.org/wiki/Root_of_unity" target="_blank" rel="noopener noreffer ">root of unit</a>) 的概念可得
+$$
+X_k=\sum_{n=0}^{N-1}x_n\omega_N^{-kn} \tag2
+$$
+那么，对于已知目标多项式 (系数向量为待变换序列)
+$$
+f(x)=\sum_{n=0}^{N-1}x_nx^i\tag3
+$$
+代入得
+$$
+X_k=\sum_{n=0}^{N-1} x_n (\omega_N^{-k})^n=f(\omega_N^{-k})
+$$
+说明，所构造多项式 $(3)$ 进行在单位根处求值，即可完成一次离散傅里叶变换。</p>
+<br>
+<br>
+<h2 id="fast-fourier-transform">Fast Fourier Transform</h2>
+<p>快速傅里叶变换</p>
+<p>用于加速多项式乘法。</p>
+<br>
+<h3 id="core-idea">Core idea.</h3>
+<blockquote>
+<p>我们的问题是，如何用更小的开销实现多项式求值。</p>
+</blockquote>
+<p>不难证明，对于任意一多项式 $f(x)$ ，可分解为奇函数 $f_o(x)$ 和 偶函数 $f_e(x)$ 之和。则：
+$$
+\begin{cases} f(x) &amp;= f_e(x) + f_o(x) \\ f(-x) &amp;= f_e (x) - f_o(x) \end{cases}
+$$
+注意到 $f_e(x),f_o(x)$ 项数均为 $f(x)$ 的一半，且 $f_o(x) = xf^{\prime}_e(x)$. 又由换元思想，可将元函数二分处理。</p>
+<p>即：
+$$
+f(x)=(a_0+a_2x^2+a_4x^4+\cdots+a_{n-2}x^{n-2})+(a_1x+a_3x^3+a_5x^5+\cdots+a_{n-1}x^{n-1})
+$$</p>
+<p>令
+$$
+\begin{cases}f_e(x)=a_0+a_2x+a_4x^2+\cdots+a_{n-2}x^{\frac n2-1} \\ f_o(x)=a_1+a_3x+a_5x^2+\cdots+a_{n-1}x^{\frac n2-1} \end{cases}
+$$
+则有</p>
+<p>$$
+f(x)=f_e(x^2)+xf_o(x^2)
+$$</p>
+<p>假设$k&lt;\frac n2$ , 现在要求$f(\omega_n^k)$</p>
+<p>$$
+\begin{aligned}f(\omega_{n}^{k})&amp;=f_e(\omega_n^2)+\omega_n^k f_o(\omega_n^{2k}) \\ &amp;=f_e(\omega_{\frac n2}^k)+\omega_n^kf_o(\omega_{\frac n2}^k)\end{aligned}
+$$</p>
+<p>这一步转化利用了单位根的性质。</p>
+<p>考虑 $f(\omega_n^{k+\frac{1}{2}n})$, 由循环群的性质不难计算：
+$$
+f(\omega_n^{k+\frac{1}{2}n})=f_e(\omega_{n/2}^k) - \omega_n^k f_o(\omega_{n/2}^k)
+$$
+令 $k$ 遍历 $[0,n/2 -1]$, 则 $k+n/2$ 遍历 $[0,n-1]$.</p>
+<p>即，若已知 $f_e(x),f_o(x)$ 在 $\omega$ 在 $\omega_{\frac n2}^0,\omega_{\frac n2}^1,\ldots,\omega_{\frac n2}^{\frac n2-1}$ 处的点值，就可以在 $O(n)$ 的时间内求得 $f(x)$ 在 $\omega_n^0,\omega_n^1,\ldots,\omega_n^{n-1}$ 处的取值。而关于 $f_e(x)$ 和 $f_o(x)$ 的问题都是相对于原问题规模缩小了一半的子问题，分治的边界为一个常数项$a_{0}$。</p>
+<p>根据主定理，该分治算法的时间复杂度为</p>
+<p>$$
+T(n)=2T(\frac{n}{2})+O(n)=O(n\log n)
+$$</p>
+<p>最常用的 FFT 算法—— Cooley-Tukey 算法。</p>
+<blockquote>
+<p>递归实现的 FFT 效率不高，实际中一般采用迭代实现。</p>
+</blockquote>
+<br>
+<br>
+<h2 id="inverse-discrete-fourier-transform-idft">Inverse Discrete Fourier Transform, IDFT</h2>
+<p>离散傅里叶逆变换 (Inverse Discrete Fourier Transform, IDFT) 可以视为单位根处<strong>插值</strong>的过程。即给出$n=2^w$个在所有$n$次单位根处的点值</p>
+<p>$P_k=(\omega_n^k,f(\omega_n^k))(0\leq k&lt;n)$, 要求还原$f$的各项系数，其中 $f$ 的次数不大于 $n-1$ 。 IDFT和IFFT 之间也存在一些类似差异。</p>
+<p>根据前文所提，不难知道拉格朗日插值可以视作范德蒙方阵求逆过程。对于多项式 $f$ 经过 FFT 之后， 再进行 快速傅里叶变换， 仍得到 $f$.</p>
+<p>那么对 FFT 的矩阵求逆，可以得到 IFFT 的变换矩阵。
+$$
+\mathcal{F}=\begin{bmatrix}(\omega^0)^0&amp;(\omega^0)^1&amp;\cdots&amp;(\omega^0)^{n-1} \\ (\omega^1)^0&amp;(\omega^1)^1&amp;\cdots&amp;(\omega^1)^{n-1} \\ \vdots&amp;\vdots&amp;\ddots&amp;\vdots \\ (\omega^{n-1})^0&amp;(\omega^{n-1})^1&amp;\cdots&amp;(\omega^{n-1})^{n-1}\end{bmatrix}
+$$</p>
+<p>则 $(\mathcal{F_{ij}}^{-1})= [x^i] \prod_{k\neq j} \frac{x-\omega^k}{\omega^j-\omega^k}$ .</p>
+<p>进一步分析：
+$$
+\prod_{0 \le k \lt n} (x-\omega^k) = x^n -1
+$$
+考虑辅助函数
+$$
+\begin{aligned} g(x) &amp;= \frac{\prod_{0 \le k \lt n} (x-\omega^k)}{x - \omega^j} \\ &amp;= \sum_{0 \le i \le n-1} (\omega^{j})^{i}x^{n-1-i} \end{aligned}
+$$
+故</p>
+<p>$$
+\begin{aligned} \mathcal{F_{ij}}^{-1} &amp;= [x^i]\prod_{k\neq j}\frac{x-\omega^k}{\omega^j-\omega^k} \\
+&amp;= \frac{[x^i]g(x)}{g(\omega^j)} \\
+&amp;= \frac{(\omega^{-j})^i\omega^{-j}}{n\omega^{-j}}=\frac{\omega^{-ij}}n
+\end{aligned}
+$$</p>
+<p>展开写作
+$$
+\begin{gathered}\mathcal{F}^{-1}=\frac1n\begin{bmatrix}(\omega^{-0})^0&amp;(\omega^{-0})^1&amp;\cdots&amp;(\omega^{-0})^{n-1} \\ (\omega^{-1})^0&amp;(\omega^{-1})^1&amp;\cdots&amp;(\omega^{-1})^{n-1} \\ \vdots&amp;\vdots&amp;\ddots&amp;\vdots \\ (\omega^{-(n-1)})^0&amp;(\omega^{-(n-1)})^1&amp;\cdots&amp;(\omega^{-(n-1)})^{n-1}\end{bmatrix}\end{gathered}
+$$
+这就完成了对比分析过程。</p>
+<p>上述多少有些 Abuse of notation ，应稍作总结。</p>
+<br>
+<h3 id="summary">Summary</h3>
+<br>
+<h4 id="1-definition">1. Definition</h4>
+<ul>
+<li>
+<p><strong>Fourier Transform Matrix $\mathcal{F}$</strong>:
+$$
+\mathcal{F}_{N} = \begin{bmatrix}
+\omega_N^{0 \cdot 0} &amp; \omega_N^{0 \cdot 1} &amp; \cdots &amp; \omega_N^{0 \cdot (N-1)} \\
+\omega_N^{1 \cdot 0} &amp; \omega_N^{1 \cdot 1} &amp; \cdots &amp; \omega_N^{1 \cdot (N-1)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\omega_N^{(N-1) \cdot 0} &amp; \omega_N^{(N-1) \cdot 1} &amp; \cdots &amp; \omega_N^{(N-1) \cdot (N-1)}
+\end{bmatrix}
+$$
+where $\omega_N = e^{-\frac{2\pi i}{N}}$ is the $N$-th root of unity.</p>
+</li>
+<li>
+<p><strong>Inverse Fourier Transform Matrix (\mathcal{F}^{-1})</strong>:
+$$
+\mathcal{F}^{-1}_{N} = \frac{1}{N} \begin{bmatrix}
+\omega_N^{0 \cdot 0} &amp; \omega_N^{0 \cdot 1} &amp; \cdots &amp; \omega_N^{0 \cdot (N-1)} \\
+\omega_N^{1 \cdot 0} &amp; \omega_N^{1 \cdot 1} &amp; \cdots &amp; \omega_N^{1 \cdot (N-1)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\omega_N^{(N-1) \cdot 0} &amp; \omega_N^{(N-1) \cdot 1} &amp; \cdots &amp; \omega_N^{(N-1) \cdot (N-1)}
+\end{bmatrix}
+$$</p>
+</li>
+</ul>
+<p>一类利用单位根，来做到优化时间复杂度。</p>
+<br>
+<h4 id="2-fft-and-ifft">2. FFT and IFFT</h4>
+<ul>
+<li>
+<p><strong>FFT</strong>: For a sequence $X_k$, the FFT is defined as:
+$$
+\text{FFT}(x) = X_k = \sum_{n=0}^{N-1} x_n \omega _N^{-kn}
+$$</p>
+<p>or using matrix notation:</p>
+<p>$$
+X = \mathcal{F}_{N} x
+$$</p>
+<p>where $\mathcal{F}_{N}$ is the Fourier transform matrix.</p>
+</li>
+<li>
+<p><strong>IFFT</strong>: For the sequence $X_k$, the IFFT is given by:
+$$
+x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k \omega_N^{kn}
+$$</p>
+<p>or using matrix notation:</p>
+<p>$$
+x = \mathcal{F}^{-1}_{N} X
+$$</p>
+<p>where $\mathcal{F}^{-1}_{N}$ is the inverse Fourier transform matrix.</p>
+</li>
+</ul>
+<br>
+<h4 id="3-compact-formula-for-fft">3. Compact Formula for FFT</h4>
+<p>Using the uniform symbols and subscripts, the FFT formula is:</p>
+<p>$$
+X_k = \sum_{n=0}^{N-1} x_n \omega _N^{-kn}
+$$</p>
+<p>In matrix form:</p>
+<p>$$
+X = \mathcal{F}_{N} x
+$$</p>
+<p>where $\mathcal{F}_{N}$ is:</p>
+<p>$$
+\mathcal{F}_{N} = \begin{bmatrix}
+\omega_N^{0 \cdot 0} &amp; \omega_N^{0 \cdot 1} &amp; \cdots &amp; \omega_N^{0 \cdot (N-1)} \\
+\omega_N^{1 \cdot 0} &amp; \omega_N^{1 \cdot 1} &amp; \cdots &amp; \omega_N^{1 \cdot (N-1)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\omega_N^{(N-1) \cdot 0} &amp; \omega_N^{(N-1) \cdot 1} &amp; \cdots &amp; \omega_N^{(N-1) \cdot (N-1)}
+\end{bmatrix}
+$$</p>
+<br>
+<h4 id="4-compact-formula-for-ifft">4. Compact Formula for IFFT</h4>
+<p>The IFFT formula is:</p>
+<p>$$
+x_n = \frac{1}{N} \sum_{k=0}^{N-1} X_k \omega_N^{kn}
+$$</p>
+<p>In matrix form:</p>
+<p>$$
+x = \mathcal{F}^{-1}_{N} X
+$$</p>
+<p>where $\mathcal{F}^{-1}_{N}$ is:</p>
+<p>$$
+\mathcal{F}^{-1}_{N} = \frac{1}{N} \begin{bmatrix}
+\omega_N^{0 \cdot 0} &amp; \omega_N^{0 \cdot 1} &amp; \cdots &amp; \omega_N^{0 \cdot (N-1)} \\
+\omega_N^{1 \cdot 0} &amp; \omega_N^{1 \cdot 1} &amp; \cdots &amp; \omega_N^{1 \cdot (N-1)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\omega_N^{(N-1) \cdot 0} &amp; \omega_N^{(N-1) \cdot 1} &amp; \cdots &amp; \omega_N^{(N-1) \cdot (N-1)}
+\end{bmatrix}
+$$</p>
+<br>
+<h4 id="conclusion">Conclusion</h4>
+<ul>
+<li><strong>FFT</strong>: $X = \mathcal{F}_{N} x$</li>
+<li><strong>IFFT</strong>: $x = \mathcal{F_{N}}^{-1} X = \frac{1}{N} \mathcal{F_{N}}^{\dagger} X$</li>
+</ul>
+<p>Where $\mathcal{F_{N}^{\dagger}}$ denotes the conjugate transpose of $\mathcal{F_{N}}$.</p>
+<p>Note that where:</p>
+<ul>
+<li>$X = [X_0,X_1,&hellip;,X_{N-1}]^T$ is the frequency domain representation.</li>
+<li>$x = [x_0,x_1,&hellip;,x_{N-1}]^T$ is the time domain sequence.</li>
+<li>$\omega_N = e^{- \frac{2\pi i}{N}}$ is  the $N$-th root of unity.</li>
+<li>$\mathcal{F}_N$ is the $N\times N$ Fourier transform matrix, whose conjugate transpose used for IFFT.</li>
+</ul>
+<br>
+<br>
+<h2 id="fast-polynomial-multiplication">Fast polynomial multiplication</h2>
+<p>Fast polynomial multiplication of two polynomials.</p>
+<p>For two polynomials:</p>
+<p>$$
+\begin{align}p(x)&amp;= a_0+a_1x+\cdots+a_{n-1}x^{n-1},\\ q(x)&amp;= b_0+b_1x+\cdots+b_{n-1}x^{n-1} \end{align}
+$$</p>
+<p>Their product</p>
+<p>$$
+(p\cdot q)(x)=p(x)\cdot q(x)=c_0+c_1x+\cdots c_{2n-2}x^{2n-2}
+$$</p>
+<p>where
+$$
+c_i = \sum_{\max \set{0,i-(n-1)}\le k \le \min \set {i,n-1}} a_k b_{i-k}
+$$</p>
+<br>
+<h3 id="algorithm">Algorithm</h3>
+<ol>
+<li>
+<p>Evaluate $p(x)$ and $q(x)$ at $2n$ points $\omega_{2n}^0,&hellip;,\omega_{2n}^{2n-1}$ using DFT.</p>
+</li>
+<li>
+<p>Obtain the values of $p(x)q(x)$ at these $2n$ points through pointwise multiplication</p>
+</li>
+</ol>
+<p>$$
+\begin{aligned}
+(p\cdot q)(\omega_{2n}^{0})&amp; =\quad p(\omega_{2n}^0)\cdot q(\omega_{2n}^0), \\
+(p\cdot q)(\omega_{2n}^1)&amp; =\quad p(\omega_{2n}^1)\cdot q(\omega_{2n}^1), \\
+&amp;&hellip; \\
+(p\cdot q)(\omega_{2n}^{2n-1})&amp; =\quad p(\omega_{2n}^{2n-1})\cdot q(\omega_{2n}^{2n-1}).
+\end{aligned}
+$$</p>
+<ol start="3">
+<li>Interpolate the polynomial $p \cdot q$ at the product values using IDFT to obtain $c_0,..,c_{2n-2}$.</li>
+</ol>
+<p>步骤1, 2, 3 对应时间复杂度为 $\Theta(n\log n),\Theta(n\log n).\Theta(n).$</p>
+<p>代数角度来看，是利用单位根元素构成的特殊代数结构及其性质完成的策略。</p>
+<p>不难联想到，利用 FFT 也可以计算 两向量卷积。</p>
+<p>卷积（Convolution）:
+$$
+a = (a_0,&hellip;,a_{n-1}) \quad and\quad b = (b_0,&hellip;,b_{n-1})
+$$
+定义卷积所得向量 $c$
+$$
+c_j = \sum_{k=0}^j a_k b_{j-k}, j = 0,&hellip;,n-1
+$$
+时间复杂度也为 $\Theta(n\log n)$.</p>
+<br>
+<br>
+<br>
+<br>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://course.ccs.neu.edu/csu690/notes/fast-poly-mult.html" target="_blank" rel="noopener noreffer ">Fast polynomial multiplication</a></li>
+<li><a href="https://www.cnblogs.com/alex-wei/p/Polynomial___Lagrange_Interpolation_and_Fast_Fourier_Transform.html" target="_blank" rel="noopener noreffer ">Polynomial: From FT to NTT</a></li>
+<li><a href="https://faculty.sites.iastate.edu/jia/files/inline-files/polymultiply.pdf" target="_blank" rel="noopener noreffer ">Polynomial Multiplication and Fast Fourier Transform (Com S 477/577 Notes) Yan-Bin Jia. Sep 20, 2022</a></li>
+<li><a href="https://ccrma.stanford.edu/~jos/st/Number_Theoretic_Transform.html" target="_blank" rel="noopener noreffer ">Number Theoretic Transform - CCRMA, Stanford</a></li>
+<li><a href="https://eprint.iacr.org/2024/585.pdf" target="_blank" rel="noopener noreffer ">A Complete Beginner Guide to the Number Theoretic Transform (NTT)</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-07-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/waytofft-part-1/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/waytofft-part-1/" data-title="WayToFFT Part 1"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/waytofft-part-1/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/waytofft-part-1/" data-title="WayToFFT Part 1"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/waytofft-part-1/" data-title="WayToFFT Part 1"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/waytofft-part-1/" data-title="WayToFFT Part 1"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-part-3/" class="prev" rel="prev" title="Lattice Part 3"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Lattice Part 3</a>
+            <a href="/pae-attack/" class="next" rel="next" title="Pae Attack">Pae Attack<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>

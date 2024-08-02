@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>NoteForGit - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="NoteForGit" />
+<meta property="og:description" content="That is git!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/noteforgit/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-04T15:06:59+08:00" />
+<meta property="article:modified_time" content="2024-04-05T00:07:54+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="NoteForGit"/>
+<meta name="twitter:description" content="That is git!"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/noteforgit/" /><link rel="next" href="https://galoishlee.github.io/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "NoteForGit",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/noteforgit\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  3713 ,
+        "url": "https:\/\/galoishlee.github.io\/noteforgit\/","datePublished": "2024-04-04T15:06:59+08:00","dateModified": "2024-04-05T00:07:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/noteforgit/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/noteforgit/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NoteForGit</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-04-04">2024-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3713 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#原理和流程">原理和流程：</a></li>
+    <li><a href="#svn--git-"><strong>SVN &amp; Git</strong> ：</a></li>
+    <li><a href="#功能"><strong>功能:</strong></a></li>
+    <li><a href="#缘起">缘起：</a></li>
+    <li><a href="#git-on-windows">Git on Windows</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#21创建repository">2.1<strong>创建Repository：</strong></a></li>
+    <li><a href="#22快照功能">2.2快照功能</a></li>
+    <li><a href="#23工作区和暂存区">2.3工作区和暂存区</a></li>
+    <li><a href="#24其他修改">2.4其他修改</a></li>
+    <li><a href="#25删除文件">2.5删除文件</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#31创建远程库">3.1创建远程库</a></li>
+    <li><a href="#32删除远程库">3.2删除远程库</a></li>
+    <li><a href="#33远程传本地">3.3远程传本地</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#41创建与合并分支">4.1创建与合并分支</a></li>
+    <li><a href="#42解决冲突">4.2解决冲突</a></li>
+    <li><a href="#43分支协作">4.3分支协作</a></li>
+    <li><a href="#44临时分支">4.4临时分支</a></li>
+    <li><a href="#45测试分支">4.5测试分支</a></li>
+    <li><a href="#46多人协作">4.6多人协作</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>That is git!</p>
+<h1 id="1概述">1.概述</h1>
+<p><strong>git</strong> 是目前较为先进的分布式版本控制系统。</p>
+<h2 id="原理和流程">原理和流程：</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://pic2.zhimg.com/80/v2-3bc9d5f2c49a713c776e69676d7d56c5_1440w.webp"
+        data-srcset="https://pic2.zhimg.com/80/v2-3bc9d5f2c49a713c776e69676d7d56c5_1440w.webp, https://pic2.zhimg.com/80/v2-3bc9d5f2c49a713c776e69676d7d56c5_1440w.webp 1.5x, https://pic2.zhimg.com/80/v2-3bc9d5f2c49a713c776e69676d7d56c5_1440w.webp 2x"
+        data-sizes="auto"
+        alt="https://pic2.zhimg.com/80/v2-3bc9d5f2c49a713c776e69676d7d56c5_1440w.webp"
+        title="img" /></p>
+<p>此处的Repository 一般指代本地仓库，Remote则为远程仓库。</p>
+<h2 id="svn--git-"><strong>SVN &amp; Git</strong> ：</h2>
+<p>SVN是集中式版本控制系统，版本库统一存放在中央服务器，工作时需要从中央服务器获取最新版本，工作后将工作成果返回中央服务器。基于此，SVN需要联网工作，互联网条件下易受带宽限制。</p>
+<p>Git是分布式版本控制系统，无中央服务器，工作时可不必联网，但多人协作需要互相推送各自修改。</p>
+<h2 id="功能"><strong>功能:</strong></h2>
+<p>一个良好的多端同步工具，可记录与返回历史版本，为多人协作实现便利。</p>
+<h2 id="缘起">缘起：</h2>
+<blockquote>
+<p>Linux的发展过程中，开源文化与开源开发者扮演了重要角色，而版本控制的需求日益增长，手工合并的实现日渐不能满足需求，linus认为CVS和SVN既有带宽的弊端，也违背开源文化，于是乎Lin  us花了两周时间自己用C写了一个分布式版本控制系统</p>
+</blockquote>
+<h2 id="git-on-windows">Git on Windows</h2>
+<p>Windows 下在官网下载并安装后，可进行配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
+$ git config --global user.email <span class="s2">&#34;email@example.com&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>&ndash;global参数表示全局，即本机使用git时已经选定了特定仓库，当然也可以为特定的本地仓库指定远程仓库。</p>
+<h1 id="2repository">2.Repository</h1>
+<p>可以简单理解为一个目录，目录内所有文件均可被git管理。其中每个文件的修改、删除，均可被git追踪，一辩任何时刻均可追溯历史，或者在将来某个时刻进行还原。</p>
+<h2 id="21创建repository">2.1<strong>创建Repository：</strong></h2>
+<p>Step_0:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$mkdir</span> learngit
+<span class="nv">$cd</span> learngit
+<span class="nv">$pwd</span>
+/halois/learngit
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>win下保证目录树中无中文，以避免奇怪的问题发生</p>
+</blockquote>
+<p>Step_1:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> init
+</code></pre></td></tr></table>
+</div>
+</div><p>Step_2</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> add &lt;filename&gt; or &lt;directories&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>Step_3</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> commit -m <span class="s2">&#34;Explanatory statement&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Warning：不可含有任何中文</strong></p>
+<h2 id="22快照功能">2.2快照功能</h2>
+<p><strong>git log</strong></p>
+<p>查看最近到最远的提交日志，即 <em>&ldquo;Explanatory statement&rdquo;</em></p>
+<p><strong>git status</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="nb">PS </span><span class="n">E:</span><span class="p">\</span><span class="n">desktop</span><span class="p">\</span><span class="n">blogdemo</span><span class="p">&gt;</span> <span class="n">git</span> <span class="n">status</span>
+<span class="n">On</span> <span class="n">branch</span> <span class="n">master</span>
+<span class="n">nothing</span> <span class="n">to</span> <span class="n">commit</span><span class="p">,</span> <span class="n">working</span> <span class="n">tree</span> <span class="n">clean</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>git  reset</strong></p>
+<p>回到上一个提交：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">git</span> <span class="n">reset</span> <span class="p">-</span><span class="n">-hard</span> <span class="n">HEAD</span><span class="p">^</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果没有上一个提交将会:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">PS </span><span class="n">E:</span><span class="p">\</span><span class="n">desktop</span><span class="p">\</span><span class="n">blogdemo</span><span class="p">&gt;</span> <span class="n">git</span> <span class="n">reset</span> <span class="p">-</span><span class="n">-hard</span> <span class="n">HEAD</span><span class="p">^</span>
+<span class="n">fatal</span><span class="err">:</span> <span class="n">ambiguous</span> <span class="n">argument</span> <span class="s1">&#39;HEAD^&#39;</span><span class="err">:</span> <span class="n">unknown</span> <span class="n">revision</span> <span class="n">or</span> <span class="n">path</span> <span class="n">not</span> <span class="k">in</span> <span class="n">the</span> <span class="n">working</span> <span class="n">tree</span><span class="p">.</span>
+<span class="n">Use</span> <span class="s1">&#39;--&#39;</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">paths</span> <span class="n">from</span> <span class="n">revisions</span><span class="p">,</span> <span class="n">like</span> <span class="n">this</span><span class="err">:</span>
+<span class="s1">&#39;git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>请注意，<code>git reset --hard</code>命令是一个危险的操作，它会丢弃所有未提交的更改，并将分支移动到指定的提交。请确保在执行此命令之前备份重要的更改</p>
+<p><code>HEAD</code>指向当前版本。</p>
+<p>其后可接指令或commit的版本号前几位即可，回退到指定版本，即便又所删除，只要shell尚未关闭，一切仍然可以挽回。</p>
+<p><strong>git reflog</strong></p>
+<p>查看历史版本号。</p>
+<h2 id="23工作区和暂存区">2.3工作区和暂存区</h2>
+<p>Git区别于其他控制系统，如SVN含有暂存区。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/14/qV9xQKrFJICPsEz.jpg"
+        data-srcset="https://s2.loli.net/2023/07/14/qV9xQKrFJICPsEz.jpg, https://s2.loli.net/2023/07/14/qV9xQKrFJICPsEz.jpg 1.5x, https://s2.loli.net/2023/07/14/qV9xQKrFJICPsEz.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/14/qV9xQKrFJICPsEz.jpg"
+        title="git-repo" /></p>
+<p><strong>工作区(Working Directory)</strong>：可见的目录（文件夹）</p>
+<p><strong>版本库(Repository)</strong>:</p>
+<p>工作区内含有一个名为.git的隐藏文件夹,这里在工作区的目录之中却在工作区之外，称为版本库。</p>
+<p>内含：stage, master(分支)、指向master的一个指针叫做<code>HEAD</code>等</p>
+<p><strong>git add</strong>:把文件添加进入暂存区</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/14/32eOyPGQzLWJvMf.jpg"
+        data-srcset="https://s2.loli.net/2023/07/14/32eOyPGQzLWJvMf.jpg, https://s2.loli.net/2023/07/14/32eOyPGQzLWJvMf.jpg 1.5x, https://s2.loli.net/2023/07/14/32eOyPGQzLWJvMf.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/14/32eOyPGQzLWJvMf.jpg"
+        title="git-stage" /></p>
+<p><strong>git commit</strong>:把暂存区文件提交到当前分支</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/14/Mra6iKqmkCsYJNU.jpg"
+        data-srcset="https://s2.loli.net/2023/07/14/Mra6iKqmkCsYJNU.jpg, https://s2.loli.net/2023/07/14/Mra6iKqmkCsYJNU.jpg 1.5x, https://s2.loli.net/2023/07/14/Mra6iKqmkCsYJNU.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/14/Mra6iKqmkCsYJNU.jpg"
+        title="git-stage-after-commit" /></p>
+<h2 id="24其他修改">2.4其他修改</h2>
+<p><strong>git checkout &ndash; <filename></strong></p>
+<p>工作区丢弃最近一次修改，返回最近的commit后状态。</p>
+<p><strong>git reset HEAD <filename></strong></p>
+<p>可以把暂存区的修改撤销掉，重新放回工作区</p>
+<ul>
+<li>情况1：<strong>文件只在工作区操作，未add</strong>。撤销操作：<strong>git restore <file></strong>。结果：<strong>工作区文件回退</strong>。</li>
+<li>情况2：<strong>文件已add，未commit</strong>。撤销操作：<strong>git restore &ndash;staged <file></strong>。结果：<strong>暂存区文件回退，工作区文件未回退，如需继续回退，操按情况1操作。</strong></li>
+<li>情况3：<strong>文件已add，已commit</strong>。撤销操作：<strong>git reset &ndash;hard commit_id</strong>。结果：<strong>工作区文件、暂存区文件、本地仓库都回退</strong></li>
+</ul>
+<h2 id="25删除文件">2.5删除文件</h2>
+<p><strong>rm <filename></strong> 工作区内删除</p>
+<p><strong>git rm <filename></strong>  版本库中删除</p>
+<p><strong>git checkout &ndash; <filename></strong> 版本库中覆盖工作区中指定文件</p>
+<h1 id="3远程仓库remote">3.远程仓库(remote)</h1>
+<p>以github 为例。</p>
+<h2 id="31创建远程库">3.1创建远程库</h2>
+<p><strong>Remote端</strong>：</p>
+<p>创建新仓库</p>
+<p><strong>本地:</strong></p>
+<p>在本地仓库目录下：<code>git remote add origin git@github.com:&lt;repositoryname&gt;</code></p>
+<blockquote>
+<p>此处的origin是git识别的远程仓库名字，可以修改，但是默认remote即命名为 origin</p>
+</blockquote>
+<p>下一步就可以：本地上传远程</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">git</span> <span class="n">push</span> <span class="n">-u</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>git push</code>是将本地内容推送到远程，上述命令把当前的分支<code>master</code>推送到远程。</p>
+<p><code>-u</code>参数 由于是第一次推送，使用<code>-u</code>推送后可以使得笨的的master和远程仓库的master关联起来，在以后的推送和拉去可以简化命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="32删除远程库">3.2删除远程库</h2>
+<p>查看远程库信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git remote -v
+</code></pre></td></tr></table>
+</div>
+</div><p>删除远程库：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git remote rm &lt;Remotename&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>删除的含义：解除本地与远程的链接。如需要彻底删除，则需要进入远程库的管理系统进行删除。</p>
+<h2 id="33远程传本地">3.3远程传本地</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git clone &lt;ssh/https to your repository&gt;
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="4分支管理">4.分支管理</h1>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/14/WflbuRtKwSNrvjz.png"
+        data-srcset="https://s2.loli.net/2023/07/14/WflbuRtKwSNrvjz.png, https://s2.loli.net/2023/07/14/WflbuRtKwSNrvjz.png 1.5x, https://s2.loli.net/2023/07/14/WflbuRtKwSNrvjz.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/14/WflbuRtKwSNrvjz.png"
+        title="image-20230714153257350" /></p>
+<p>git 分支实际上是更改指向更改快照的指针。</p>
+<h2 id="41创建与合并分支">4.1创建与合并分支</h2>
+<p>HEAD、Branch、Commit</p>
+<p>$**p,*p,p$</p>
+<p><strong>创建分支：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git branch <span class="o">(</span>branchname<span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>切换分支：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git checkout <span class="o">(</span>branchname<span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>切换分支时git会用该分支的最近一次快照内容替换工作目录内容，多个分支不需要多个目录</p>
+</blockquote>
+<p><strong>合并分支：</strong></p>
+<p><code>git merge</code>命令用于合并指定分支到当前分支</p>
+<blockquote>
+<p><strong>合并方式：</strong>（可暂时不做了解）</p>
+<ol>
+<li>Fast-Forward合并：
+<ul>
+<li>语法：<code>git merge &lt;branch-name&gt;</code></li>
+<li>描述：当目标分支（通常是主分支）没有新的提交时，可以使用Fast-Forward合并。这种合并方式会直接将目标分支指向源分支的最新提交，形成一个线性的提交历史。因为没有新的合并提交，所以合并后的提交历史非常简洁。</li>
+</ul>
+</li>
+<li>普通合并（Regular Merge）：
+<ul>
+<li>语法：<code>git merge &lt;branch-name&gt;</code></li>
+<li>描述：普通合并是最常用的合并方式之一。它会创建一个新的合并提交，将两个分支的更改合并到一起。在执行合并操作时，Git会自动创建一个新的提交，包含两个分支的更改内容。这种合并方式会保留每个分支的提交历史，并在合并提交中保留合并的信息。</li>
+</ul>
+</li>
+<li>变基（Rebase）：
+<ul>
+<li>语法：<code>git rebase &lt;branch-name&gt;</code></li>
+<li>描述：变基是另一种合并分支的方式。它将当前分支上的提交按照顺序逐个应用到目标分支上，使得目标分支的提交历史变得更加线性。变基操作可以将当前分支上的提交“移动”到目标分支的最新位置，这样就可以在合并时保持一个干净的提交历史。变基操作会改写提交的SHA标识，因此在共享分支时需要特别注意。</li>
+</ul>
+</li>
+<li>Squash合并（Squash Merge）：
+<ul>
+<li>语法：<code>git merge --squash &lt;branch-name&gt;</code></li>
+<li>描述：Squash合并是将多个提交压缩为一个提交的方式。它会将一个分支上的所有提交合并成一个新的提交，并将其应用到目标分支上。这种合并方式适用于需要保持干净、整洁的提交历史，将多个相关的提交合并为一个更有意义的提交。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p>分支的时间线理解：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/14/b1WNKuncEtDg9JT.png"
+        data-srcset="https://s2.loli.net/2023/07/14/b1WNKuncEtDg9JT.png, https://s2.loli.net/2023/07/14/b1WNKuncEtDg9JT.png 1.5x, https://s2.loli.net/2023/07/14/b1WNKuncEtDg9JT.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/14/b1WNKuncEtDg9JT.png"
+        title="image-20230714155054624" /></p>
+<p>不直接修改时间线，仅仅修改指针。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git checkout -b dev
+</code></pre></td></tr></table>
+</div>
+</div><p>穿件并切换到；相当于</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git branch dev
+git checkout dev
+</code></pre></td></tr></table>
+</div>
+</div><p>然后使用<code>git branch</code>查看分支状态</p>
+<p>切换到已有的分支：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git switch main
+</code></pre></td></tr></table>
+</div>
+</div><p>创建新的并切换到分支：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git switch -c dev
+</code></pre></td></tr></table>
+</div>
+</div><p>这一更新是为了使得 <code>git checkout </code>不那么容易混淆在版本库和工作区之间的操作。</p>
+<h2 id="42解决冲突">4.2解决冲突</h2>
+<p>合并分支并非一帆风顺，代码相与亦非易如反掌。</p>
+<p><strong>无法快速合并冲突</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/15/qdEVyOMwLWAPZJs.png"
+        data-srcset="https://s2.loli.net/2023/07/15/qdEVyOMwLWAPZJs.png, https://s2.loli.net/2023/07/15/qdEVyOMwLWAPZJs.png 1.5x, https://s2.loli.net/2023/07/15/qdEVyOMwLWAPZJs.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/15/qdEVyOMwLWAPZJs.png"
+        title="image-20230715095934670" /></p>
+<p>准备分支<code>feature1</code>，<code>git switch -c feature1</code></p>
+<p>分别作不同修改并提交，此时feature1和master所指提交不同，无法快速合并</p>
+<p>报错如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git merge feature1
+Auto-merging readme.txt
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict in readme.txt
+Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then</span> commit the result.
+</code></pre></td></tr></table>
+</div>
+</div><p><code>git status</code>也可获得冲突信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git status
+On branch master
+Your branch is ahead of <span class="s1">&#39;origin/master&#39;</span> by <span class="m">2</span> commits.
+  <span class="o">(</span>use <span class="s2">&#34;git push&#34;</span> to publish your <span class="nb">local</span> commits<span class="o">)</span>
+//对比远程和本地的提交次数
+You have unmerged paths.
+  <span class="o">(</span>fix conflicts and run <span class="s2">&#34;git commit&#34;</span><span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">&#34;git merge --abort&#34;</span> to abort the merge<span class="o">)</span>
+
+Unmerged paths:
+  <span class="o">(</span>use <span class="s2">&#34;git add &lt;file&gt;...&#34;</span> to mark resolution<span class="o">)</span>
+
+	both modified:   readme.txt
+
+no changes added to commit <span class="o">(</span>use <span class="s2">&#34;git add&#34;</span> and/or <span class="s2">&#34;git commit -a&#34;</span><span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>解决：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/15/bw8JOm4GshXMenz.png"
+        data-srcset="https://s2.loli.net/2023/07/15/bw8JOm4GshXMenz.png, https://s2.loli.net/2023/07/15/bw8JOm4GshXMenz.png 1.5x, https://s2.loli.net/2023/07/15/bw8JOm4GshXMenz.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/15/bw8JOm4GshXMenz.png"
+        title="image-20230715101420672" /></p>
+<h2 id="43分支协作">4.3分支协作</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git merge --no-ff -m <span class="s2">&#34;Explanatory statement&#34;</span> &lt;target branch&gt; 
+</code></pre></td></tr></table>
+</div>
+</div><p><code>--no-ff</code>参数表示禁用<code>Fast forward</code>模式，于是git在merge时会新生成一个提交，从分支历史上可清晰看见分支信息</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/15/2sjWAXiehGENpqL.png"
+        data-srcset="https://s2.loli.net/2023/07/15/2sjWAXiehGENpqL.png, https://s2.loli.net/2023/07/15/2sjWAXiehGENpqL.png 1.5x, https://s2.loli.net/2023/07/15/2sjWAXiehGENpqL.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/15/2sjWAXiehGENpqL.png"
+        title="image-20230715102630246" /></p>
+<p>基于此可以实现多人协作：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/07/15/x1BInPzjiAqMgE6.png"
+        data-srcset="https://s2.loli.net/2023/07/15/x1BInPzjiAqMgE6.png, https://s2.loli.net/2023/07/15/x1BInPzjiAqMgE6.png 1.5x, https://s2.loli.net/2023/07/15/x1BInPzjiAqMgE6.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/07/15/x1BInPzjiAqMgE6.png"
+        title="git-br-policy" /></p>
+<h2 id="44临时分支">4.4临时分支</h2>
+<p>当前工作区工作可以缓存</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git stash
+</code></pre></td></tr></table>
+</div>
+</div><p>缓存后会自动清除工作区，可以通过</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git stash list
+</code></pre></td></tr></table>
+</div>
+</div><p>查看缓存</p>
+<p><strong>还原</strong></p>
+<ul>
+<li>
+<p>还原缓存至工作区，但是不删除缓存</p>
+<p><code>git stash apply</code></p>
+</li>
+<li>
+<p>还原缓存至工作区，同时删除缓存</p>
+<p><code>git stash pop</code></p>
+</li>
+<li>
+<p>删除缓存</p>
+<p><code>git stash drop</code></p>
+</li>
+</ul>
+<p>但是这不是简单的栈结构，这里可以多次缓存以特定编号指定恢复和删除。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git stash list
+stash@<span class="o">{</span>0<span class="o">}</span>: WIP on dev: f52c633 add merge
+$ git stash apply stash@<span class="o">{</span>0<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>临时分支的修改需要作用与其他分支</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">$git cherry-pick &lt;code of commit&gt;
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="45测试分支">4.5测试分支</h2>
+<p><strong>新的功能需求出现：建立测试分支</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> switch -c feature-test
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> add test.py 
+<span class="nv">$git</span> commit -m <span class="s2">&#34;add features test&#34;</span>
+<span class="nv">$git</span> switch dev
+
+<span class="nv">$git</span> branch -d feature-test
+</code></pre></td></tr></table>
+</div>
+</div><p>如中途功能取消：</p>
+<p>删除未合并分支</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> branch -D feature-test
+</code></pre></td></tr></table>
+</div>
+</div><p><code>-D</code>强行删除</p>
+<h2 id="46多人协作">4.6多人协作</h2>
+<p>查看远程仓库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> remote 
+origin
+</code></pre></td></tr></table>
+</div>
+</div><p>可以加入参数 <code>-v</code>以查看详细信息（origin的地址）</p>
+<p><strong>推送分支</strong></p>
+<p>把本地所有可推送内容推如指定分支。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> push origin master
+</code></pre></td></tr></table>
+</div>
+</div><p>如果要推送其他分支如dev</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> push origin dev
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>抓取分支</strong></p>
+<p>一般的，默认master(main)分支和dev分支均及推送，而这两个分支也大多会被及时抓取</p>
+<p>新来的伙伴需要构建他的dev</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> checkout -b dev origin/dev
+</code></pre></td></tr></table>
+</div>
+</div><p>建立了本地dev分支和远程的dev分支的关联。</p>
+<p>值得注意的是需要先保持本地和远程一致，再提交自己的修改。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> pull 
+</code></pre></td></tr></table>
+</div>
+</div><p>在pull之前也首先需要建立一个链接</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> branch --set-upstream-to<span class="o">=</span>origin/dev dev
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>多人协作一般方式：</strong></p>
+<ul>
+<li><code>git push &lt;branch name&gt;</code>试图推送自己的修改</li>
+<li>推送失败，<code>git pull</code>更新本地</li>
+<li>pull有冲突解决冲突</li>
+<li>再次push</li>
+</ul>
+<h1 id="5标签管理">5.标签管理</h1>
+<p>标签(tag)类似branch,但是不可移动，定向指向一个commit</p>
+<p>创建标签</p>
+<ol>
+<li>切换到需要打标签的分支上</li>
+<li><code>git tag &lt;name&gt;</code></li>
+<li><code>git tag</code>查看标签</li>
+</ol>
+<p>对历史提交打标签</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> tag &lt;tagname&gt; &lt;code of commit&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>tag状态的排序按照字母顺序。</p>
+<p>查看详细信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> show &lt;tagname&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>同样的可以加入一些说明性文字</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> tag -a v1.0 -m <span class="s2">&#34;version 0.1 released&#34;</span> 1024aa
+</code></pre></td></tr></table>
+</div>
+</div><p><code>-a</code>指定了标签名，<code>-m</code>加入说明性文字。均可以在git show中查看</p>
+<p><strong>标签是跨分支的，tag创建后在任何分支均可查看</strong></p>
+<h1 id="6忽略文件">6.忽略文件</h1>
+<p>部分文件需要放在工作目录中却不可以推送提交。</p>
+<p>显示untracked不够优雅</p>
+<p><strong>创建<a href="https://github.com/github/gitignore" target="_blank" rel="noopener noreffer ">.gitignore</a>文件</strong></p>
+<p>忽略文件的原则：</p>
+<ol>
+<li>忽略操作系统生成的文件</li>
+<li>忽略编译中间产物</li>
+<li>忽略敏感信息文件</li>
+</ol>
+<p><strong>失误操作的挽回：</strong></p>
+<p>检查.gitignore文件：<code>git check-ignore</code></p>
+<p>强制添加文件：<code>git add -f &lt;filename&gt;</code></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-04-05&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/dc5d4cec9eb1d7c0d374102449295ca353d1bbff" target="_blank" title="commit by GaloisHLee(maocred@gmail.com) dc5d4cec9eb1d7c0d374102449295ca353d1bbff: reborn">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>dc5d4ce</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/noteforgit/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/noteforgit/" data-title="NoteForGit"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/noteforgit/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/noteforgit/" data-title="NoteForGit"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/noteforgit/" data-title="NoteForGit"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/noteforgit/" data-title="NoteForGit"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/" class="next" rel="next" title="根与多项式系数关系">根与多项式系数关系<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>

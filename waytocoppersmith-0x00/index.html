@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>WayToCoppersmith0x00 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="WayToCoppersmith0x00" />
+<meta property="og:description" content="RE:从零开始的crypto生活" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/waytocoppersmith-0x00/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-26T15:10:32+08:00" />
+<meta property="article:modified_time" content="2024-05-26T15:10:32+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="WayToCoppersmith0x00"/>
+<meta name="twitter:description" content="RE:从零开始的crypto生活"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/waytocoppersmith-0x00/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-1/" /><link rel="next" href="https://galoishlee.github.io/waytocoppersmith0x01/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "WayToCoppersmith0x00",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/waytocoppersmith-0x00\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  3222 ,
+        "url": "https:\/\/galoishlee.github.io\/waytocoppersmith-0x00\/","datePublished": "2024-05-26T15:10:32+08:00","dateModified": "2024-05-26T15:10:32+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/waytocoppersmith-0x00/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/waytocoppersmith-0x00/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToCoppersmith0x00</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3222 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#l_1-和-l_2-范数之间的关系">$l_1$ 和 $l_2$ 范数之间的关系</a></li>
+    <li><a href="#与-lattice-的关系">与 Lattice 的关系</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#enabling-condition">Enabling Condition</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#c">$c$</a></li>
+    <li><a href="#beta">$\beta$</a></li>
+    <li><a href="#epsilon">$\epsilon$</a></li>
+    <li><a href="#open-problem">Open problem</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="re从零开始的crypto生活">RE:从零开始的crypto生活</h1>
+<h1 id="模多项式求根问题">模多项式求根问题</h1>
+<p>被认为计算困难的方程:
+$$
+p(x)=0\left(\operatorname{mod}N\right);
+$$</p>
+<p>在<code>Zmod(N)</code>的环下求解整数根。
+$$
+p(x,y)=0 \pmod{N}
+$$
+对于多变量多项式在<code>Zmod(N)</code>的环下求解一组整数根。</p>
+<br>
+<br>
+<br>
+<h1 id="coppersmiths-method">Coppersmith&rsquo;s Method</h1>
+<h2 id="概述">概述</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/03/31/cV1BWJaHlUNImKw.png"
+        data-srcset="https://s2.loli.net/2024/03/31/cV1BWJaHlUNImKw.png, https://s2.loli.net/2024/03/31/cV1BWJaHlUNImKw.png 1.5x, https://s2.loli.net/2024/03/31/cV1BWJaHlUNImKw.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/03/31/cV1BWJaHlUNImKw.png"
+        title="image.png" /></p>
+<p>针对这样的思路，可以在格规约、移位多项式和求解common root等几个过程做优化，从而达到提升bound、加快规约速度等目的。Sagemath 中集成了这一方式，但我们也可以手动修改其中过程，以满足需要。</p>
+<br>
+<br>
+<br>
+<p>一般的Howgrave-Graham给出:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png"
+        data-srcset="https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png, https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png 1.5x, https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/rVGJ3jD9TKlQBiC.png"
+        title="image-20240531110725311" /></p>
+<p>即，当给定一个上界 $X = N$ ,如果一个根 $x_0 \lt X$ ，那么我们当该多项式在整数环上时，$f(x_0)=0$ 依然成立。</p>
+<br>
+<br>
+<br>
+<p>这一引理通常被记为 Howgrave-Graham[22], 或 Hastad[19]</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/xHMZgV1JNcu3QKy.png"
+        data-srcset="https://s2.loli.net/2024/05/31/xHMZgV1JNcu3QKy.png, https://s2.loli.net/2024/05/31/xHMZgV1JNcu3QKy.png 1.5x, https://s2.loli.net/2024/05/31/xHMZgV1JNcu3QKy.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/xHMZgV1JNcu3QKy.png"
+        title="image-20240531112336658" /></p>
+<p>涉及范数证明的命题，时常会让我们想起柯西不等式，进而导出$l_1$范数和$l_2$范数间的关系。</p>
+<p>为了更好理解，证明命题的功课时常不能忽略。</p>
+<br>
+<br>
+<br>
+<h2 id="l_1-和-l_2-范数之间的关系">$l_1$ 和 $l_2$ 范数之间的关系</h2>
+<p>(编写公式，为了方便没有切换输入法)</p>
+<br>
+<br>
+<br>
+<p><strong>Norm Relationships and Cauchy-Schwarz Inequality</strong></p>
+<p>For a vector $a=(a_1,\dots,a_n)$,then $l_1$-norm and the $l_2$-norm are defined as:
+$$\Vert \mathbf{a}\Vert_1 =\sum_{i=1}^{i} |a_i| \quad\mathrm{and}\quad \Vert\mathbf{a}\Vert_2=\left(\sum_{i=1}^{n}|a_{i}|^2\right)^{1/2}.$$</p>
+<p>The $l_1$-norm is generally larger than the $l_2$-norm, and they are related by:</p>
+<p>$$|\mathbf{a}|_1\leq\sqrt{n}|\mathbf{a}|_2.$$
+This relationship can be derived from the Cauchy-Schwarz inequality.</p>
+<br>
+<br>
+<br>
+<p><strong>Cauchy-Schwarz Inequality:</strong></p>
+<p>The Cauchy-Schwarz inequality states that for any vectors a and b in $\mathbb{R}^n:$
+$$
+\left(\sum_{i=1}^na_ib_i\right)^2\leq\left(\sum_{i=1}^na_i^2\right)\left(\sum_{i=1}^nb_i^2\right).
+$$
+If we take b to be a vector of ones, $\mathbf{b}=(1,1,\ldots,1)$,we get:</p>
+<p>$$
+\left(\sum_{i=1}^na_i\right)^2\leq n\left(\sum_{i=1}^na_i^2\right).
+$$
+Taking the square root of both sides gives us the desired relationship:
+$$
+\sum_{i=1}^n|a_i|\leq\sqrt{n}\left(\sum_{i=1}^n|a_i|^2\right)^{1/2}.
+$$</p>
+<br>
+<br>
+<br>
+<p><strong>Applying This to the Problem</strong></p>
+<p>In the howgrave&rsquo;s case,we are dealing with a polynomial $g(x)=\sum c_ix^i.$ The key steps in the inequality chain are:</p>
+<p>Bounding the Polynomial&rsquo;s Value:
+$$
+|g(x_0)|=\left|\sum_ic_ix_0^i\right|\leq\sum_i|c_ix_0^i|.
+$$
+Introducing a Bound on $x_0$:
+$$
+\sum_i|c_ix_0^i|\leq\sum_i|c_i|X^i
+$$
+where $x_0 \le X$.
+$$
+\sum_i|c_i|X^i = \sum_i|c_iX^i| \le\sqrt{n} \left(\sum_i |c_i X^i| \right )^{1/2}= \sqrt{n} | g(xX)| \lt N^m
+$$
+Here,$g(xX)=\sum c_i (xX)^i$.</p>
+<br>
+<br>
+<br>
+<h2 id="与-lattice-的关系">与 Lattice 的关系</h2>
+<p>在前面我们完成了两个条件的初步解释：</p>
+<p>Property 2 表明
+$$
+|g(x_0)| \lt N^m
+$$
+结合 Property 1 , 不难得出 $g(x_0)=0$ 的结论。</p>
+<p>在此基础上，选定整数 $m \in \mathbb{Z}$ ,可以注意到存在这样的线性组合：
+$$
+h_{i,j}=x^jN^if^{m-i}(x).
+$$
+所得的 $h_{i,j}$ 均满足 $h_{i,j}(x_0)=0 \mod N^m$.</p>
+<br>
+<br>
+<br>
+<p><strong>Lattice 出现:</strong></p>
+<p>用系数向量 $h_i$ 唯一标识 $h_{i,j}(x)$ 。</p>
+<p>Regev 讲义的 intro 部分在定义 lattice 时，将其写为一种线性组合：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png"
+        data-srcset="https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png, https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png 1.5x, https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/DUA49K8MmpaBjEw.png"
+        title="image-20240531111401985" /></p>
+<p>而在此处，$h_{i,j}$ 的线性组合也可构成 Lattice.</p>
+<p>$$\mathcal{L} (h_{0},\dots,h_i) = \set{\sum x_i h_i\mid x\in\mathbb{Z}}$$</p>
+<p>更为重要的是，在注意到我们定义的格$\mathcal{L}$中，短向量与系数均相对较小的多项式 $g(x)$ 一一对应，那么考虑到 Howgrave-Graham[22] 的形式，从直觉上可以考虑在短向量上应用这一引理，从而得到一个满足条件的小根 $x_0$：
+$$
+g(x_0)=0\mathrm{~mod~}N^m\mathrm{~and~}|g(x_0)|&lt;N^m,\text{for }x \lt X. \tag{1}
+$$
+在满足这一条件时，直接当做普通多项式处理求根即可。
+再进一步，由于我们在构造 Lattice  $\mathcal{L}$ 时, 给出先决条件, 所有的多项式 $h_{i,j}$ 共有一个根 $x_0$ .实际上，至此，我们完成了在 $(1)$ 的条件下的模多项式求根问题的一种求解方式。</p>
+<p>实际上这依然是从根与多项式关系出发，化归到特定条件下的 SVP ，接下来我们处理 SVP 。</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h1 id="lll-算法">LLL 算法</h1>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png"
+        data-srcset="https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png, https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png 1.5x, https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png"
+        title="image-20240531182108376" /></p>
+<p>回顾闵可夫斯基界下，任意 Lattice 均含有一个非零短向量$v' \le \sqrt{n}\det(L)^{1/n}$.</p>
+<p>对比两个不等式
+$$
+\begin{align} |\mathbf{v}| &amp;\leq2^{\frac{n-1}4}\det(\mathcal{L})^{\frac1n} \\ |v' | &amp;\le \sqrt{n}\det(\mathcal{L})^{\frac1n} \end{align}
+$$
+在此前定义的格 $\mathcal{L}$ 中，我们稍作分析
+$$
+\det (\mathcal{L})=N^{\Theta(m)},m \approx \log N.
+$$
+所以当两不等式右侧的 $\det(\mathcal{L})$ 足够大时，可以把 LLL 所得 output $v$ 视作可用的一个短向量。</p>
+<p>可以看到误差在 Coppersmith 的语境下是可以接受的范围，而且天然的赋予了所得近似短向量 $v$ 一个上界限，进而我们考虑 H-G[22]</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/binLzcOESt6u38M.png"
+        data-srcset="https://s2.loli.net/2024/05/31/binLzcOESt6u38M.png, https://s2.loli.net/2024/05/31/binLzcOESt6u38M.png 1.5x, https://s2.loli.net/2024/05/31/binLzcOESt6u38M.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/binLzcOESt6u38M.png"
+        title="image-20240531183811373" />
+$$
+\det(\mathcal{L})&lt;\frac{N^{mn}}{n^{n/2}\cdot2^{\frac{(n-1)n}4}}\lt N^{mn}
+$$</p>
+<br>
+<br>
+<br>
+<h2 id="enabling-condition">Enabling Condition</h2>
+<p>$$
+\det(\mathcal{L}) \le N^{mn}
+$$</p>
+<p>这一条件可用于优化$X$.接下来要详细的考虑如何构建这个Lattice $\mathcal{L}$</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h1 id="speaking-mathematically">Speaking Mathematically</h1>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png"
+        data-srcset="https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png, https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png 1.5x, https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/oMlcpDzPTtyS43n.png"
+        title="image-20240531191232497" /></p>
+<p>首先关注如何构造 $h_{i,j}(x)$ :</p>
+<p>选取 $m \approx \frac{\log N}{\delta} $
+$$
+h_{i,j}(x)=x^jN^if(x)^{m-i}\mathrm{~for~}0\leq i&lt;m,0\leq j&lt;\delta.
+$$
+形成了一张 $n = m\delta \approx \log N$ 维 Lattice.
+$$
+\begin{cases} \det(L)&amp;=\det(B)\approx N^{\frac{\delta m^2}2}X^{\frac{n^2}2} \\ n &amp;= m\delta \\ N^{\frac{\delta m^2}2}X^{\frac{n^2}2} &amp;\leq N^{mn}. \end{cases}
+$$
+可得
+$$
+X \le N^{1/\delta}
+$$
+分析到这里，我们已经初步得到可行的方案,  但尚未引入 $\beta$ 来优化 $X$ 的 bound.</p>
+<p>算法的时间复杂度分析，本文略去。</p>
+<p>上述做法的 Code 体现:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">	<span class="n">delta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">srange</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">srange</span><span class="p">(</span><span class="n">delta</span><span class="p">)]</span>
+</code></pre></td></tr></table>
+</div>
+</div><br>
+<br>
+<br>
+<h1 id="for-betacepsilon">For $\beta,c,\epsilon$</h1>
+<p>我们在 sagemath 常用的 smal_root 方法, 通常有 $X,\beta,\epsilon$ 三个参数，和我们上面讨论的并不一致，本节继续探索这个问题。</p>
+<br>
+<br>
+<br>
+<h2 id="c">$c$</h2>
+<p>$c$ 的引入是为了提高 $X$ 的上界。</p>
+<p>这里直接考虑对 $N$ 处理</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png"
+        data-srcset="https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png, https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png 1.5x, https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/tsHl5eTv29nSEym.png"
+        title="image-20240531200730969" /></p>
+<p>对于区间 $[-cN^{1/\delta},cN^{1/\delta}]$ ,直接考虑分为 $c$ 个大小为 $2N^{1/\delta}$ 的子区间，这样的子区间符合前文讨论的初等情况,那么运行 $c$ 次，便可以找出这个较大区间内的所有符合条件的根。</p>
+<br>
+<br>
+<br>
+<h2 id="beta">$\beta$</h2>
+<p><strong>指数变换：</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png"
+        data-srcset="https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png, https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png 1.5x, https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/Gr9ZXcRHSNJ2fU4.png"
+        title="image-20240531202811443" /></p>
+<p>直接应用 $N$ 的一个较小因子而非 $N$ 本身,可以在时间复杂度上</p>
+<br>
+<br>
+<br>
+<h2 id="epsilon">$\epsilon$</h2>
+<p>一类特殊情况下的分析，引入了 $\epsilon$ .</p>
+<p>由于更换了参考文献，符号有所更改.</p>
+<p>$M = N,d= \delta$</p>
+<p>其他保持一致即可。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png"
+        data-srcset="https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png, https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png 1.5x, https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/ENAxe7jkV6tPbUD.png"
+        title="image-20240604202802424" /></p>
+<p>不难发现,  $\frac{1}{2}N^{\frac{1}{d}-\epsilon}$ 相对于 $cN^{\frac{\beta^2}{\delta}}$ 的形式，这里给出了 $c=\frac{1}{2},\beta = 1$, 又在 $\beta$ 其后增加了 $-\epsilon$ . 同时给定了限制：
+$$
+0 \lt \epsilon \lt \min{0.18, 1/d}
+$$
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png"
+        data-srcset="https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png, https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png 1.5x, https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/24IOPS56xupNADc.png"
+        title="image-20240604203718410" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png"
+        data-srcset="https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png, https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png 1.5x, https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/PT7vfEW291iRxld.png"
+        title="image-20240604203745711" /></p>
+<p>证明到这里已经写明所引参数 $h$ 同待证明命题参数 $\epsilon$ , 而此时可以考虑应用条件 $X \lt \frac{1}{2}M^{1/d -\epsilon}$ .</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png"
+        data-srcset="https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png, https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png 1.5x, https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/06/04/7p3vobwju5drgVa.png"
+        title="image-20240604204406520" /></p>
+<br>
+<p>进一步的，在实际参数中引入了 $m,t$ 来控制移位多项式，来构建 $\mathcal{L}$ .</p>
+<p>具体可参见所附代码.</p>
+<br>
+<br>
+<br>
+<h2 id="open-problem">Open problem</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png"
+        data-srcset="https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png, https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png 1.5x, https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/05/31/MCDbuZmOsV9tGng.png"
+        title="image-20240531200717548" /></p>
+<br>
+<p>至此，单变量的coppersmith求解小根问题的思考可以完美落幕。而格的优化亦或是求解公共根时的算法更改又是另一个新的问题了。</p>
+<br>
+<br>
+<br>
+<h1 id="small_root-in-sage">small_root in sage</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="k">def</span> <span class="nf">small_roots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Let `N` be the characteristic of the base ring this polynomial
+</span><span class="s2">    is defined over: ``N = self.base_ring().characteristic()``.
+</span><span class="s2">    This method returns small roots of this polynomial modulo some
+</span><span class="s2">    factor `b` of `N` with the constraint that `b &gt;= N^</span><span class="se">\b</span><span class="s2">eta`.
+</span><span class="s2">    Small in this context means that if `x` is a root of `f`
+</span><span class="s2">    modulo `b` then `|x| &lt; X`. This `X` is either provided by the
+</span><span class="s2">    user or the maximum `X` is chosen such that this algorithm
+</span><span class="s2">    terminates in polynomial time. If `X` is chosen automatically
+</span><span class="s2">    it is `X = ceil(1/2 N^{</span><span class="se">\b</span><span class="s2">eta^2/\delta - \epsilon})`.
+</span><span class="s2">    The algorithm may also return some roots which are larger than `X`.
+</span><span class="s2">    &#39;This algorithm&#39; in this context means Coppersmith&#39;s algorithm for finding
+</span><span class="s2">    small roots using the LLL algorithm. The implementation of this algorithm
+</span><span class="s2">    follows Alexander May&#39;s PhD thesis referenced below.
+</span><span class="s2">    INPUT:
+</span><span class="s2">    - ``X`` -- an absolute bound for the root (default: see above)
+</span><span class="s2">    - ``beta`` -- compute a root mod `b` where `b` is a factor of `N` and `b
+</span><span class="s2">      \ge N^</span><span class="se">\b</span><span class="s2">eta`. (Default: 1.0, so `b = N`.)
+</span><span class="s2">    - ``epsilon`` -- the parameter `\epsilon` described above. (Default: `</span><span class="se">\b</span><span class="s2">eta/8`)
+</span><span class="s2">    - ``**kwds`` -- passed through to method :meth:`Matrix_integer_dense.LLL() &lt;sage.matrix.matrix_integer_dense.Matrix_integer_dense.LLL&gt;`.
+</span><span class="s2">    EXAMPLES:
+</span><span class="s2">    First consider a small example::
+</span><span class="s2">        sage: N = 10001
+</span><span class="s2">        sage: K = Zmod(10001)
+</span><span class="s2">        sage: P.&lt;x&gt; = PolynomialRing(K, implementation=&#39;NTL&#39;)
+</span><span class="s2">        sage: f = x^3 + 10*x^2 + 5000*x - 222
+</span><span class="s2">    This polynomial has no roots without modular reduction (i.e. over `\ZZ`)::
+</span><span class="s2">        sage: f.change_ring(ZZ).roots()
+</span><span class="s2">        []
+</span><span class="s2">    To compute its roots we need to factor the modulus `N` and use the Chinese
+</span><span class="s2">    remainder theorem::
+</span><span class="s2">        sage: p,q = N.prime_divisors()
+</span><span class="s2">        sage: f.change_ring(GF(p)).roots()
+</span><span class="s2">        [(4, 1)]
+</span><span class="s2">        sage: f.change_ring(GF(q)).roots()
+</span><span class="s2">        [(4, 1)]
+</span><span class="s2">        sage: crt(4, 4, p, q)
+</span><span class="s2">        4
+</span><span class="s2">    This root is quite small compared to `N`, so we can attempt to
+</span><span class="s2">    recover it without factoring `N` using Coppersmith&#39;s small root
+</span><span class="s2">    method::
+</span><span class="s2">        sage: f.small_roots()
+</span><span class="s2">        [4]
+</span><span class="s2">    An application of this method is to consider RSA. We are using 512-bit RSA
+</span><span class="s2">    with public exponent `e=3` to encrypt a 56-bit DES key. Because it would be
+</span><span class="s2">    easy to attack this setting if no padding was used we pad the key `K` with
+</span><span class="s2">    1s to get a large number::
+</span><span class="s2">        sage: Nbits, Kbits = 512, 56
+</span><span class="s2">        sage: e = 3
+</span><span class="s2">    We choose two primes of size 256-bit each::
+</span><span class="s2">        sage: p = 2^256 + 2^8 + 2^5 + 2^3 + 1
+</span><span class="s2">        sage: q = 2^256 + 2^8 + 2^5 + 2^3 + 2^2 + 1
+</span><span class="s2">        sage: N = p*q
+</span><span class="s2">        sage: ZmodN = Zmod( N )
+</span><span class="s2">    We choose a random key::
+</span><span class="s2">        sage: K = ZZ.random_element(0, 2^Kbits)
+</span><span class="s2">    and pad it with 512-56=456 1s::
+</span><span class="s2">        sage: Kdigits = K.digits(2)
+</span><span class="s2">        sage: M = [0]*Kbits + [1]*(Nbits-Kbits)
+</span><span class="s2">        sage: for i in range(len(Kdigits)): M[i] = Kdigits[i]
+</span><span class="s2">        sage: M = ZZ(M, 2)
+</span><span class="s2">    Now we encrypt the resulting message::
+</span><span class="s2">        sage: C = ZmodN(M)^e
+</span><span class="s2">    To recover `K` we consider the following polynomial modulo `N`::
+</span><span class="s2">        sage: P.&lt;x&gt; = PolynomialRing(ZmodN, implementation=&#39;NTL&#39;)
+</span><span class="s2">        sage: f = (2^Nbits - 2^Kbits + x)^e - C
+</span><span class="s2">    and recover its small roots::
+</span><span class="s2">        sage: Kbar = f.small_roots()[0]
+</span><span class="s2">        sage: K == Kbar
+</span><span class="s2">        True
+</span><span class="s2">    The same algorithm can be used to factor `N = pq` if partial
+</span><span class="s2">    knowledge about `q` is available. This example is from the
+</span><span class="s2">    Magma handbook:
+</span><span class="s2">    First, we set up `p`, `q` and `N`::
+</span><span class="s2">        sage: length = 512
+</span><span class="s2">        sage: hidden = 110
+</span><span class="s2">        sage: p = next_prime(2^int(round(length/2)))
+</span><span class="s2">        sage: q = next_prime( round(pi.n()*p) )
+</span><span class="s2">        sage: N = p*q
+</span><span class="s2">    Now we disturb the low 110 bits of `q`::
+</span><span class="s2">        sage: qbar = q + ZZ.random_element(0,2^hidden-1)
+</span><span class="s2">    And try to recover `q` from it::
+</span><span class="s2">        sage: F.&lt;x&gt; = PolynomialRing(Zmod(N), implementation=&#39;NTL&#39;)
+</span><span class="s2">        sage: f = x - qbar
+</span><span class="s2">    We know that the error is `\le 2^{</span><span class="se">\t</span><span class="s2">ext</span><span class="si">{hidden}</span><span class="s2">}-1` and that the modulus
+</span><span class="s2">    we are looking for is `\ge \sqrt</span><span class="si">{N}</span><span class="s2">`::
+</span><span class="s2">        sage: from sage.misc.verbose import set_verbose
+</span><span class="s2">        sage: set_verbose(2)
+</span><span class="s2">        sage: d = f.small_roots(X=2^hidden-1, beta=0.5)[0] # time random
+</span><span class="s2">        verbose 2 (&lt;module&gt;) m = 4
+</span><span class="s2">        verbose 2 (&lt;module&gt;) t = 4
+</span><span class="s2">        verbose 2 (&lt;module&gt;) X = 1298074214633706907132624082305023
+</span><span class="s2">        verbose 1 (&lt;module&gt;) LLL of 8x8 matrix (algorithm fpLLL:wrapper)
+</span><span class="s2">        verbose 1 (&lt;module&gt;) LLL finished (time = 0.006998)
+</span><span class="s2">        sage: q == qbar - d
+</span><span class="s2">        True
+</span><span class="s2">    REFERENCES:
+</span><span class="s2">    Don Coppersmith. *Finding a small root of a univariate modular equation.*
+</span><span class="s2">    In Advances in Cryptology, EuroCrypt 1996, volume 1070 of Lecture
+</span><span class="s2">    Notes in Computer Science, p. 155--165. Springer, 1996.
+</span><span class="s2">    http://cr.yp.to/bib/2001/coppersmith.pdf
+</span><span class="s2">    Alexander May. *New RSA Vulnerabilities Using Lattice Reduction Methods.*
+</span><span class="s2">    PhD thesis, University of Paderborn, 2003.
+</span><span class="s2">    http://www.cs.uni-paderborn.de/uploads/tx_sibibtex/bp.pdf
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="kn">from</span> <span class="nn">sage.misc.verbose</span> <span class="kn">import</span> <span class="n">verbose</span>
+    <span class="kn">from</span> <span class="nn">sage.matrix.constructor</span> <span class="kn">import</span> <span class="n">Matrix</span>
+    <span class="kn">from</span> <span class="nn">sage.rings.all</span> <span class="kn">import</span> <span class="n">RR</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">characteristic</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_monic</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&#34;Polynomial must be monic.&#34;</span><span class="p">)</span>
+
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">RR</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">beta</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;0.0 &lt; beta &lt;= 1.0 not satisfied.&#34;</span><span class="p">)</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
+
+    <span class="n">P</span><span class="p">,(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">objgens</span><span class="p">()</span>
+
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">epsilon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="n">beta</span><span class="o">/</span><span class="mi">8</span>
+    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;epsilon = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">),</span> <span class="mi">7</span><span class="o">*</span><span class="n">beta</span><span class="o">/</span><span class="n">delta</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;m = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">m</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="p">(</span> <span class="n">delta</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">beta</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">floor</span><span class="p">()</span> <span class="p">)</span>
+    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;t = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">t</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">delta</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;X = </span><span class="si">%s</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">X</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># we could do this much faster, but this is a cheap step</span>
+    <span class="c1"># compared to LLL</span>
+    <span class="n">g</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="p">]</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x</span><span class="o">**</span><span class="n">i</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">m</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span> <span class="c1"># h</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="n">delta</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">nrows</span><span class="p">()):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span> <span class="p">):</span>
+            <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="o">**</span><span class="n">j</span>
+
+    <span class="n">B</span> <span class="o">=</span>  <span class="n">B</span><span class="o">.</span><span class="n">LLL</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">ZZ</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">//</span><span class="n">X</span><span class="o">**</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">ncols</span><span class="p">())])</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span>
+
+    <span class="n">ZmodN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">ZmodN</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">m</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">X</span><span class="p">])</span>
+    <span class="n">Nbeta</span> <span class="o">=</span> <span class="n">N</span><span class="o">**</span><span class="n">beta</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">root</span> <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span> <span class="k">if</span> <span class="n">N</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">root</span><span class="p">)))</span> <span class="o">&gt;=</span> <span class="n">Nbeta</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="应用-flatter-简单-coding-一下">应用 flatter 简单 coding 一下</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="c1">#sage10.3 Halois</span>
+<span class="c1"># if ur running a brute force attack on a polynomial, this is not your weapon, Too many system calls can drain your time</span>
+
+
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># set on True to see warnings </span>
+
+
+
+<span class="k">def</span> <span class="nf">flat_roots</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">subprocess</span>
+    <span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">warnings</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&#34;[</span><span class="si">{}</span><span class="s2">]&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;[</span><span class="si">{}</span><span class="s2">]&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">M</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">parse_row</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;[&#34;</span>
+        <span class="k">assert</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;]&#34;</span>
+        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">parse_row</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;][&#34;</span><span class="p">)))</span>
+        
+    <span class="k">def</span> <span class="nf">flatter</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">PATH</span> <span class="o">=</span> <span class="n">FLATTER_PATH</span>
+        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Warning: using `flatter` if it can be found on $PATH. Set `FLATTER_PATH` to the command if this fails.&#34;</span><span class="p">)</span> <span class="k">if</span> <span class="n">DEBUG</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">PATH</span> <span class="o">=</span> <span class="s2">&#34;flatter&#34;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ARGS</span> <span class="o">=</span> <span class="n">FLATTER_ARGS</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">ARGS</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="n">parse</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="n">PATH</span><span class="p">,</span> <span class="o">*</span><span class="n">ARGS</span><span class="p">],</span> <span class="nb">input</span><span class="o">=</span><span class="n">dump</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+
+    <span class="c1"># Because univariate and multivariate are just different enough to make you crazy , but in sage10.3 we get a grace way</span>
+    <span class="n">PR</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="p">())</span><span class="o">.</span><span class="n">flattening_morphism</span><span class="p">()</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">PR</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+    <span class="n">orig</span> <span class="o">=</span> <span class="n">f</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>
+    
+    <span class="n">f</span> <span class="o">/=</span> <span class="n">f</span><span class="o">.</span><span class="n">coefficients</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
+
+    <span class="n">G</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([],</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">N</span><span class="o">^</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">^</span><span class="n">i</span>
+        <span class="k">for</span> <span class="n">shifts</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">())):</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">base</span> <span class="o">*</span> <span class="n">prod</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">(),</span> <span class="n">shifts</span><span class="p">))</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="n">B</span><span class="p">,</span> <span class="n">monomials</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">coefficient_matrix</span><span class="p">()</span>
+    <span class="n">monomials</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">monomials</span><span class="p">)</span>
+
+    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">monomial</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">)</span> <span class="k">for</span> <span class="n">monomial</span> <span class="ow">in</span> <span class="n">monomials</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
+        <span class="n">B</span><span class="o">.</span><span class="n">rescale_col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">flatter</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">dense_matrix</span><span class="p">())</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
+        <span class="n">B</span><span class="o">.</span><span class="n">rescale_col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">factor</span><span class="p">)</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([],</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">QQ</span><span class="p">))</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="o">*</span><span class="n">monomials</span><span class="p">):</span>
+        <span class="n">H</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">ideal</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">I</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">H</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">I</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">I</span><span class="o">.</span><span class="n">variety</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">ZZ</span><span class="p">):</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="n">root</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="n">orig</span><span class="p">(</span><span class="o">*</span><span class="n">root</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">roots</span>
+    <span class="k">return</span> <span class="n">roots</span>
+
+
+<span class="k">def</span> <span class="nf">install_flatter</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&#34;flatter/bin/flatter&#34;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&#34;rm -rf flatter </span><span class="se">\
+</span><span class="se"></span><span class="s2">                  &amp;&amp; git clone https://github.com/keeganryan/flatter </span><span class="se">\
+</span><span class="se"></span><span class="s2">                  &amp;&amp; cd flatter &amp;&amp; sed -i &#39;s/SHARED/STATIC/g&#39; src/CMakeLists.txt </span><span class="se">\
+</span><span class="se"></span><span class="s2">                  &amp;&amp; mkdir build </span><span class="se">\
+</span><span class="se"></span><span class="s2">                  &amp;&amp; cd build </span><span class="se">\
+</span><span class="se"></span><span class="s2">                  &amp;&amp; cmake .. </span><span class="se">\
+</span><span class="se"></span><span class="s2">                    -DCMAKE_BUILD_TYPE=Release </span><span class="se">\
+</span><span class="se"></span><span class="s2">                    -DCMAKE_INSTALL_PREFIX=..</span><span class="se">\
+</span><span class="se"></span><span class="s2">                    -DCMAKE_CXX_FLAGS=&#39;-march=native&#39; </span><span class="se">\
+</span><span class="se"></span><span class="s2">                  &amp;&amp; make install&#34;</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">FLATTER_PATH</span>
+    <span class="n">FLATTER_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&#34;flatter&#34;</span><span class="p">,</span> <span class="s2">&#34;bin&#34;</span><span class="p">,</span> <span class="s2">&#34;flatter&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://cims.nyu.edu/~regev/teaching/lattices_fall_2009/" target="_blank" rel="noopener noreffer ">Regev讲义</a></li>
+<li><a href="https://www.cits.ruhr-uni-bochum.de/imperia/md/content/may/paper/intro_to_coppersmiths_method.pdf" target="_blank" rel="noopener noreffer ">main-akl (ruhr-uni-bochum.de)</a></li>
+<li><a href="https://www.math.auckland.ac.nz/~sgal018/crypto-book/ch19.pdf" target="_blank" rel="noopener noreffer ">chapter19</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-05-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/waytocoppersmith-0x00/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/waytocoppersmith-0x00/" data-title="WayToCoppersmith0x00"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/waytocoppersmith-0x00/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/waytocoppersmith-0x00/" data-title="WayToCoppersmith0x00"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/waytocoppersmith-0x00/" data-title="WayToCoppersmith0x00"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/waytocoppersmith-0x00/" data-title="WayToCoppersmith0x00"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-part-1/" class="prev" rel="prev" title="Lattice Part 1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Lattice Part 1</a>
+            <a href="/waytocoppersmith0x01/" class="next" rel="next" title="WayToCoppersmith0x01">WayToCoppersmith0x01<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>

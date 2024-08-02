@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 0 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="Lattice Part 0" />
+<meta property="og:description" content="1.Lattice(格) 基础
+
+基于数学与计算机，现代密码学诞生。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-0/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-04T23:27:41+08:00" />
+<meta property="article:modified_time" content="2024-04-05T00:07:54+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Lattice Part 0"/>
+<meta name="twitter:description" content="1.Lattice(格) 基础
+
+基于数学与计算机，现代密码学诞生。
+"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-0/" /><link rel="prev" href="https://galoishlee.github.io/jwt-note/" /><link rel="next" href="https://galoishlee.github.io/fix-point/" /><link rel="stylesheet" href="/css/style.min.cf6878db51c51b2d04ae155284a4403dbee8db33e16c066f954c95279c271fcd.css" integrity="sha256-z2h421HFGy0ErhVShKRAPb7o2zPhbAZvlUyVJ5wnH80="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 0",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-0\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  3354 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-0\/","datePublished": "2024-04-04T23:27:41+08:00","dateModified": "2024-04-05T00:07:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-0/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/GaloisHLee" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-0/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 0</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-04-04">2024-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3354 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-lattice">1.1 Lattice</a></li>
+    <li><a href="#12-lattice-的基本属性">1.2 Lattice 的基本属性</a>
+      <ul>
+        <li><a href="#121-lattice-的密度">1.2.1 Lattice 的密度</a></li>
+        <li><a href="#122-最短距离--λ">1.2.2 最短距离  λ</a></li>
+        <li><a href="#123-距离函数-----μtl">1.2.3 距离函数     μ（t,L）</a></li>
+        <li><a href="#124-覆盖半径-μl">1.2.4 覆盖半径 μ（L)</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-minkowski凸集定理">1.3 Minkowski凸集定理</a>
+      <ul>
+        <li><a href="#最短向量">最短向量</a></li>
+      </ul>
+    </li>
+    <li><a href="#14minkowski第二定理">1.4Minkowski第二定理</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#21-svpshortest-vector-problem">2.1 SVP（Shortest Vector Problem）</a></li>
+    <li><a href="#22cvp">2.2CVP</a>
+      <ul>
+        <li><a href="#221-bounded-distance-decording">2.2.1 Bounded Distance Decording</a></li>
+        <li><a href="#222--absolute-distancea-decording">2.2.2  Absolute Distancea Decording</a></li>
+      </ul>
+    </li>
+    <li><a href="#23sivpshortest-independent-vector-problem">2.3SIVP（Shortest Independent Vector Problem)</a></li>
+    <li><a href="#24问题与联系">2.4问题与联系</a>
+      <ul>
+        <li><a href="#241漏故而知新">2.4.1漏故而知新</a></li>
+        <li><a href="#242基于格的信息传递">2.4.2基于格的信息传递</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#31-gram-schmidt-正交化">3.1 Gram-Schmidt 正交化</a>
+      <ul>
+        <li><a href="#311基本形式">3.1.1基本形式</a></li>
+        <li><a href="#312代码">3.1.2代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#32-lattice-rounding-取整问题">3.2 Lattice Rounding （取整问题）</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="1lattice格-基础">1.Lattice(格) 基础</h1>
+<blockquote>
+<p>基于数学与计算机，现代密码学诞生。</p>
+</blockquote>
+<h2 id="11-lattice">1.1 Lattice</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/LiFfTuMdwpvIsC1.png"
+        data-srcset="https://s2.loli.net/2023/04/26/LiFfTuMdwpvIsC1.png, https://s2.loli.net/2023/04/26/LiFfTuMdwpvIsC1.png 1.5x, https://s2.loli.net/2023/04/26/LiFfTuMdwpvIsC1.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/LiFfTuMdwpvIsC1.png"
+        title="image-20230401150649475" /></p>
+<blockquote>
+<p>系统性的定义一下Lattice的话，那么我们可以说Lattice是R^n这个空间中的一个离散的、具有加法运算的子群（A discrete additive subgroup）。</p>
+</blockquote>
+<p>结合可视化工具，这里给出辅助理解的图像：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/dBiR15bsmONyjD3.jpg"
+        data-srcset="https://s2.loli.net/2023/04/26/dBiR15bsmONyjD3.jpg, https://s2.loli.net/2023/04/26/dBiR15bsmONyjD3.jpg 1.5x, https://s2.loli.net/2023/04/26/dBiR15bsmONyjD3.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/dBiR15bsmONyjD3.jpg"
+        title="img" /></p>
+<p>结合向量空间的概念，不难理解**格（Lattice)<strong>与</strong>基（bases)**的概念</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/RlDxybHqA1ZQhYn.jpg"
+        data-srcset="https://s2.loli.net/2023/04/26/RlDxybHqA1ZQhYn.jpg, https://s2.loli.net/2023/04/26/RlDxybHqA1ZQhYn.jpg 1.5x, https://s2.loli.net/2023/04/26/RlDxybHqA1ZQhYn.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/RlDxybHqA1ZQhYn.jpg"
+        title="img" /></p>
+<h2 id="12-lattice-的基本属性">1.2 Lattice 的基本属性</h2>
+<h3 id="121-lattice-的密度">1.2.1 Lattice 的密度</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/thOBPMVRNm89Gkr.png"
+        data-srcset="https://s2.loli.net/2023/04/26/thOBPMVRNm89Gkr.png, https://s2.loli.net/2023/04/26/thOBPMVRNm89Gkr.png 1.5x, https://s2.loli.net/2023/04/26/thOBPMVRNm89Gkr.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/thOBPMVRNm89Gkr.png"
+        title="image-20230401152921504" /></p>
+<p>即可理解为对应维度的向量空间内球体内所含有的格点数和球体体积之比（或超球体）</p>
+<h3 id="122-最短距离--λ">1.2.2 最短距离  λ</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/InlxdERN5rDHihp.png"
+        data-srcset="https://s2.loli.net/2023/04/26/InlxdERN5rDHihp.png, https://s2.loli.net/2023/04/26/InlxdERN5rDHihp.png 1.5x, https://s2.loli.net/2023/04/26/InlxdERN5rDHihp.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/InlxdERN5rDHihp.png"
+        title="image-20230401154409136" /></p>
+<p>将λ视为一个函数，λ1被定义为两格点间最小距离，推广至λn</p>
+<p>诸多λ遵循偏序关系:
+$$
+\lambda_1\leqslant\lambda_2\leqslant……\lambda_n-1\leqslant\lambda_n
+$$
+那么请注意到：<strong>取等条件</strong>：</p>
+<blockquote>
+<p>选定笛卡尔坐标下的格</p>
+</blockquote>
+<p>此时
+$$
+\lambda_1 =\lambda_2= …… =\lambda_n =1
+$$</p>
+<h3 id="123-距离函数-----μtl">1.2.3 距离函数     μ（t,L）</h3>
+<p>注意到格是一个子群。</p>
+<p>任取向量空间内一点，那么我们讨论距离这一点最近的一个格点，给出一些定义：</p>
+<ul>
+<li>距离函数(Distance Function): <strong>μ（t,L）</strong>，认为<strong>μ</strong>的本质为数量</li>
+<li>点 <strong>t</strong></li>
+</ul>
+<p>$$
+\mu (t, L)= \min_{x∈L} \left | t-x \right |
+$$</p>
+<h3 id="124-覆盖半径-μl">1.2.4 覆盖半径 μ（L)</h3>
+<p>类似地，我们认为<strong>t</strong>为动点，此时寻找<strong>μ</strong>的最大值。给出定义：</p>
+<ul>
+<li>
+<p>覆盖半径（Covering Radius): <strong>μ（L)</strong>
+$$
+\mu (L)= \max_{x∈span(L)} μ(t,L)
+$$</p>
+</li>
+<li></li>
+</ul>
+<p>对<strong>覆盖</strong>的理解：</p>
+<p>以格点为圆心，不断扩大半径，可以容易地找到当各个圆刚好覆盖整个向量空间地时候，此时半径恰好为μ（L）。</p>
+<img src="https://s2.loli.net/2023/04/26/fjc1en5gWAmZlwx.jpg" alt="img"  />
+<p>这和Lattice 的Smoothing 高度相关。</p>
+<h2 id="13-minkowski凸集定理">1.3 Minkowski凸集定理</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/nzgYQUsVNWaJ1vd.png"
+        data-srcset="https://s2.loli.net/2023/04/26/nzgYQUsVNWaJ1vd.png, https://s2.loli.net/2023/04/26/nzgYQUsVNWaJ1vd.png 1.5x, https://s2.loli.net/2023/04/26/nzgYQUsVNWaJ1vd.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/nzgYQUsVNWaJ1vd.png"
+        title="image-20230401162641045" /></p>
+<p><strong>Fundamental Region</strong>:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/6eDqdnPEcjHtNr5.png"
+        data-srcset="https://s2.loli.net/2023/04/26/6eDqdnPEcjHtNr5.png, https://s2.loli.net/2023/04/26/6eDqdnPEcjHtNr5.png 1.5x, https://s2.loli.net/2023/04/26/6eDqdnPEcjHtNr5.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/6eDqdnPEcjHtNr5.png"
+        title="image-20230401163135664" /></p>
+<p>为了辅助理解：</p>
+<blockquote>
+<p>数学上，给出一个拓扑空间和在其上作用的群，一个点在群作用下的像是这个作用的一个轨道。一个基本域是这个空间的一个子集，包含了每个轨道中恰好一点。基本域具体地用几何表现出抽象的轨道代表集。 构造基本域的方法有很多。一般会要求基本域是连通的，又对其边界加上一些限制，例如是光滑或是多面的。——wikipedia</p>
+</blockquote>
+<p>凸集：暂可以理解为是一个多维空间的一部分（一个多维物体）(详细可见References)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/WXGwxMg4tskF1rl.png"
+        data-srcset="https://s2.loli.net/2023/04/26/WXGwxMg4tskF1rl.png, https://s2.loli.net/2023/04/26/WXGwxMg4tskF1rl.png 1.5x, https://s2.loli.net/2023/04/26/WXGwxMg4tskF1rl.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/WXGwxMg4tskF1rl.png"
+        title="image-20230401162116756" /></p>
+<p>叠加了线性变换：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/VdrCAiguZSYnXbv.png"
+        data-srcset="https://s2.loli.net/2023/04/26/VdrCAiguZSYnXbv.png, https://s2.loli.net/2023/04/26/VdrCAiguZSYnXbv.png 1.5x, https://s2.loli.net/2023/04/26/VdrCAiguZSYnXbv.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/VdrCAiguZSYnXbv.png"
+        title="image-20230401162537277" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/8quYfQ7gC6n5Nkl.png"
+        data-srcset="https://s2.loli.net/2023/04/26/8quYfQ7gC6n5Nkl.png, https://s2.loli.net/2023/04/26/8quYfQ7gC6n5Nkl.png 1.5x, https://s2.loli.net/2023/04/26/8quYfQ7gC6n5Nkl.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/8quYfQ7gC6n5Nkl.png"
+        title="image-20230401172346626" /></p>
+<p><strong>重要应用：  给出了一个Lattice中，最短向量的一个上限值</strong></p>
+<h3 id="最短向量">最短向量</h3>
+<blockquote>
+<p>对于一个Lattice，最短向量是指该Lattice中长度最小的非零向量，而（距离原点）距离最远的最短向量则是指该Lattice中长度最小的非零向量与原点的距离最远的那个向量。这个向量通常被称为Lattice的第一个<strong>近邻向量</strong>或<strong>最优向量</strong>。</p>
+<p>计算Lattice的最短向量和最远的最短向量是一个重要的问题，因为它们在很多应用中都有着重要的作用。其中，计算最短向量是一个NP难问题，而计算最远的最短向量则是一个NP难问题的变体。目前，已经有很多算法被提出来用于解决这些问题，但是在实际应用中，它们的效率和精度都有一定的限制。</p>
+</blockquote>
+<p>这里给出二维的表述：</p>
+<blockquote>
+<p>坐标平面上任何包含原点的、面积大于4的、凸的、关于原点对称的闭区域一定含有异于原点的整点。</p>
+</blockquote>
+<h2 id="14minkowski第二定理">1.4Minkowski第二定理</h2>
+<p>Steven的理解：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/38Z1DX75WEKQatg.png"
+        data-srcset="https://s2.loli.net/2023/04/26/38Z1DX75WEKQatg.png, https://s2.loli.net/2023/04/26/38Z1DX75WEKQatg.png 1.5x, https://s2.loli.net/2023/04/26/38Z1DX75WEKQatg.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/38Z1DX75WEKQatg.png"
+        title="image-20230401172613154" /></p>
+<p>结合向量空间，可以认为明可夫斯基第二定理给出了对于所有最短向量的的取值上限。</p>
+<p>当然我们对det（L）做一些详细解释，以便结合曾经的明可夫斯基不等式来理解这一定理：</p>
+<p><strong>行列式的几何意义</strong>
+$$
+X^T = (a,c),X'^T = (b,d)\
+det(X^T,X'^T)  = S
+$$
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/fEhLdZ3z8nBI5Q4.jpg"
+        data-srcset="https://s2.loli.net/2023/04/26/fEhLdZ3z8nBI5Q4.jpg, https://s2.loli.net/2023/04/26/fEhLdZ3z8nBI5Q4.jpg 1.5x, https://s2.loli.net/2023/04/26/fEhLdZ3z8nBI5Q4.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/fEhLdZ3z8nBI5Q4.jpg"
+        title="img" /></p>
+<p>二维情况下，行列式可以理解为对应平行四边形的面积。（暂不考虑复平面）注意我们这里将这一面积视为<strong>有向</strong>面积。（考虑到行列式的符号）</p>
+<p><strong>行列式的部分性质</strong></p>
+<ul>
+<li>
+<p>行列式为零当且仅当两个向量共线（<a href="https://zh.wikipedia.org/wiki/%e7%ba%bf%e6%80%a7%e7%9b%b8%e5%85%b3" target="_blank" rel="noopener noreffer ">线性相关</a>），这时平行四边形退化成一条直线[<a href="https://zh.wikipedia.org/wiki/%e8%a1%8c%e5%88%97%e5%bc%8f#cite_note-autogenerated4-10" target="_blank" rel="noopener noreffer ">9]</a></p>
+</li>
+<li>
+<p>行列式是一个<a href="https://zh.wikipedia.org/wiki/%e5%8f%8c%e7%ba%bf%e6%80%a7%e6%98%a0%e5%b0%84" target="_blank" rel="noopener noreffer ">双线性映射</a>。
+$$
+det(λX+μY,X') =λdet(X,X')+ μ(Y,X') \
+det(X,λX'+μY') =λdet(X,X')+ μ(X,Y')
+$$</p>
+</li>
+</ul>
+<p>在基本了解行列式之后，不难在向量空间中理解第二定理所给出的不等式。</p>
+<p>介绍一下代数层面的理解过程：</p>
+<p><strong>明可夫斯基不等式</strong>给出了LP空间上的三角不等式的表达，那么第二定理则可以在LP空间以介值的方式进行理解。</p>
+<blockquote>
+<p>明可夫斯基,相信各大赛区的“羟基选手”都很熟悉（bushi），以它来引入某一空间，那么同样的，在此空间内理解第二定理。</p>
+</blockquote>
+<h1 id="2problem-in-lattice-basisofcrypto">2.Problem in Lattice （BasisOfCrypto)</h1>
+<blockquote>
+<p>在本章节仅仅罗列了一些难解问题</p>
+</blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Lattice_problem" target="_blank" rel="noopener noreffer ">维基百科中的本章内容</a></p>
+<h2 id="21-svpshortest-vector-problem">2.1 SVP（Shortest Vector Problem）</h2>
+<p>SVP定义：</p>
+<blockquote>
+<p>给定一个基为的Lattice ，找到一个这个基构成的格点，使得这个点距离0坐标点的距离最近。</p>
+</blockquote>
+<p>$$
+BX :X∈ \mathbb{Z^k}\
+\left | Bx  \right | \le \lambda_1
+$$</p>
+<p>可视化：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/sW8PREa4jkGTYp5.webp"
+        data-srcset="https://s2.loli.net/2023/04/26/sW8PREa4jkGTYp5.webp, https://s2.loli.net/2023/04/26/sW8PREa4jkGTYp5.webp 1.5x, https://s2.loli.net/2023/04/26/sW8PREa4jkGTYp5.webp 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/sW8PREa4jkGTYp5.webp"
+        title="img" /></p>
+<p>如果所得到基底不合适，那么计算最短向量就不是一件容易的事情了。</p>
+<p><strong>断言：严格的计算最短向量是困难的。</strong> 这里并不给出其NP-Hard属性的证明。</p>
+<p><strong>Simplify:</strong>
+$$
+SVP_γ
+$$</p>
+<p>$$
+BX :X∈ \mathbb{Z^k}\
+\left | Bx  \right | \le γ\lambda_1
+$$</p>
+<p>这时候的解，则不唯一了。</p>
+<h2 id="22cvp">2.2CVP</h2>
+<p>（Closest Vector Problem）CVP定义：</p>
+<blockquote>
+<p>给定连续空间中任意的一个点<strong>t</strong>，找到距离这个点最近的格点<strong>Bx</strong>。</p>
+</blockquote>
+<p>此时的t处于全集空间内，而寻找距离对应的距离最近的格点，这样一个问题。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/4ypSNQHnVuqxmOe.webp"
+        data-srcset="https://s2.loli.net/2023/04/26/4ypSNQHnVuqxmOe.webp, https://s2.loli.net/2023/04/26/4ypSNQHnVuqxmOe.webp 1.5x, https://s2.loli.net/2023/04/26/4ypSNQHnVuqxmOe.webp 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/4ypSNQHnVuqxmOe.webp"
+        title="img" /></p>
+<p>约束距离：μ ,Lattice 的覆盖半径。
+$$
+Bx：x ∈\mathbb{Z^k}\
+||BX -t|| \le \mu
+$$
+覆盖半径μ给出了所有可能的t中距离格点的最长距离。</p>
+<p>对CVP问题做同样的<strong>Simplify：</strong>
+$$
+Bx：x ∈\mathbb{Z^k}\
+||BX -t|| \le γ\mu
+$$
+同样的不唯一。</p>
+<h3 id="221-bounded-distance-decording">2.2.1 Bounded Distance Decording</h3>
+<p>(Bounded Distance Decording)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/NHmXAhx1rkGn2dL.png"
+        data-srcset="https://s2.loli.net/2023/04/26/NHmXAhx1rkGn2dL.png, https://s2.loli.net/2023/04/26/NHmXAhx1rkGn2dL.png 1.5x, https://s2.loli.net/2023/04/26/NHmXAhx1rkGn2dL.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/NHmXAhx1rkGn2dL.png"
+        title="image-20230403210654832" /></p>
+<h3 id="222--absolute-distancea-decording">2.2.2  Absolute Distancea Decording</h3>
+<p>(Absolute Distancea Decording)</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/EljLk1HbQZz2rJX.png"
+        data-srcset="https://s2.loli.net/2023/04/26/EljLk1HbQZz2rJX.png, https://s2.loli.net/2023/04/26/EljLk1HbQZz2rJX.png 1.5x, https://s2.loli.net/2023/04/26/EljLk1HbQZz2rJX.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/EljLk1HbQZz2rJX.png"
+        title="image-20230403210723857" /></p>
+<h2 id="23sivpshortest-independent-vector-problem">2.3SIVP（Shortest Independent Vector Problem)</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/JK69F8uD2X4BEC1.png"
+        data-srcset="https://s2.loli.net/2023/04/26/JK69F8uD2X4BEC1.png, https://s2.loli.net/2023/04/26/JK69F8uD2X4BEC1.png 1.5x, https://s2.loli.net/2023/04/26/JK69F8uD2X4BEC1.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/JK69F8uD2X4BEC1.png"
+        title="image-20230403211142101" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/BwSutPpfNUnAoqC.png"
+        data-srcset="https://s2.loli.net/2023/04/26/BwSutPpfNUnAoqC.png, https://s2.loli.net/2023/04/26/BwSutPpfNUnAoqC.png 1.5x, https://s2.loli.net/2023/04/26/BwSutPpfNUnAoqC.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/BwSutPpfNUnAoqC.png"
+        title="image-20230403211208157" /></p>
+<h2 id="24问题与联系">2.4问题与联系</h2>
+<p>NP-HARD</p>
+<p><strong>Association:</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/PRG6mv3iQkcxbKt.jpg"
+        data-srcset="https://s2.loli.net/2023/04/26/PRG6mv3iQkcxbKt.jpg, https://s2.loli.net/2023/04/26/PRG6mv3iQkcxbKt.jpg 1.5x, https://s2.loli.net/2023/04/26/PRG6mv3iQkcxbKt.jpg 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/PRG6mv3iQkcxbKt.jpg"
+        title="img" /></p>
+<p>对于这里没有提到的GapSVP和GapSIVP问题，可以在wikipedia中找到详细介绍。</p>
+<h3 id="241漏故而知新">2.4.1漏故而知新</h3>
+<p>理解了五大问题的基本思想和概念，那么我们把视野放在各个关系的联系上。</p>
+<p><strong>从ADD问题到SIVP问题</strong>：</p>
+<p>几何上不难直观理解，找出SIVP的解，再以所得向量为基向量，不难得到ADD问题得解。</p>
+<p>：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/wJrRNdyjkgx9YPo.png"
+        data-srcset="https://s2.loli.net/2023/04/26/wJrRNdyjkgx9YPo.png, https://s2.loli.net/2023/04/26/wJrRNdyjkgx9YPo.png 1.5x, https://s2.loli.net/2023/04/26/wJrRNdyjkgx9YPo.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/wJrRNdyjkgx9YPo.png"
+        title="image-20230405193151836" /></p>
+<h3 id="242基于格的信息传递">2.4.2基于格的信息传递</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/aCUiuf6zvqY23Sc.png"
+        data-srcset="https://s2.loli.net/2023/04/26/aCUiuf6zvqY23Sc.png, https://s2.loli.net/2023/04/26/aCUiuf6zvqY23Sc.png 1.5x, https://s2.loli.net/2023/04/26/aCUiuf6zvqY23Sc.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/aCUiuf6zvqY23Sc.png"
+        title="image-20230405201119444" /></p>
+<h1 id="3lattice的几何构造">3.Lattice的几何构造</h1>
+<p>在2.4中我们提到了取整。</p>
+<p>在笛卡尔坐标系下，取整数格，CVP问题变得简单。通过上下取证，我们可以迅速解决问题。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/lOqLNPmJXzvkn1Y.png"
+        data-srcset="https://s2.loli.net/2023/04/26/lOqLNPmJXzvkn1Y.png, https://s2.loli.net/2023/04/26/lOqLNPmJXzvkn1Y.png 1.5x, https://s2.loli.net/2023/04/26/lOqLNPmJXzvkn1Y.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/lOqLNPmJXzvkn1Y.png"
+        title="image-20230405193738583" /></p>
+<p>通过把一组基进行变换，找到一组非常接近垂直的基向量的过程，称为 <strong>Lattice Basis Reduction</strong></p>
+<h2 id="31-gram-schmidt-正交化">3.1 Gram-Schmidt 正交化</h2>
+<p>寻找一组正交向量作为基底，在Lattice中也有重大应用。</p>
+<p>而应用的原理则为Det(L)的大小不随线性变换而改变。</p>
+<h3 id="311基本形式">3.1.1基本形式</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/8fYzGQxK3EbZSXJ.gif"
+        data-srcset="https://s2.loli.net/2023/04/26/8fYzGQxK3EbZSXJ.gif, https://s2.loli.net/2023/04/26/8fYzGQxK3EbZSXJ.gif 1.5x, https://s2.loli.net/2023/04/26/8fYzGQxK3EbZSXJ.gif 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/8fYzGQxK3EbZSXJ.gif"
+        title="img" /></p>
+<p>代数上：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/91GUrhDvIgYAqn4.png"
+        data-srcset="https://s2.loli.net/2023/04/26/91GUrhDvIgYAqn4.png, https://s2.loli.net/2023/04/26/91GUrhDvIgYAqn4.png 1.5x, https://s2.loli.net/2023/04/26/91GUrhDvIgYAqn4.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/91GUrhDvIgYAqn4.png"
+        title="image-20230405200342709" /></p>
+<h3 id="312代码">3.1.2代码</h3>
+<p>给出基于numpy库和sympy的代码：</p>
+<p><strong>Numpy</strong>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">my_gramSchmidt_np</span><span class="p">(</span><span class="n">vectors</span><span class="p">):</span>        <span class="c1">#Eg:vecetors = np.array([[1,2],[3,4]]) </span>
+     <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+         <span class="n">u</span> <span class="o">=</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span>
+        
+     <span class="k">def</span> <span class="nf">unit_vec</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+     <span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+    
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+         <span class="k">return</span> <span class="p">[]</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+         <span class="k">return</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+    
+     <span class="n">u</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+     <span class="n">basis</span> <span class="o">=</span> <span class="n">my_gramSchmidt_np</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proj</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">))</span>
+     <span class="n">basis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+     <span class="k">return</span> <span class="n">basis</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Sympy</strong>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">my_gramSchmidt_sp</span><span class="p">(</span><span class="o">*</span><span class="n">vectors</span><span class="p">):</span>
+     <span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span>
+ 
+     <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hermitian</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hermitian</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+ 
+     <span class="k">def</span> <span class="nf">perp_to_subspace</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">basis</span><span class="p">):</span>
+ 
+         <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">project</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">]</span>
+ 
+         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+             <span class="k">return</span> <span class="n">vec</span>
+ 
+         <span class="k">return</span> <span class="n">vec</span> <span class="o">-</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span>
+ 
+     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+     <span class="n">vectors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+ 
+     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_zero_matrix</span><span class="p">:</span>
+         <span class="k">del</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+ 
+     <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">:</span>
+         <span class="n">perp</span> <span class="o">=</span> <span class="n">perp_to_subspace</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>
+ 
+         <span class="k">if</span> <span class="ow">not</span> <span class="n">perp</span><span class="o">.</span><span class="n">is_zero_matrix</span><span class="p">:</span>
+             <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Matrix</span><span class="p">(</span><span class="n">perp</span><span class="p">))</span>
+ 
+     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+         <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec</span> <span class="o">/</span> <span class="n">vec</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">]</span>
+ 
+     <span class="k">return</span> <span class="n">ret</span>
+ 
+ <span class="k">def</span> <span class="nf">gram_schmidt_sp</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+     <span class="c1"># YOUR CODE HERE</span>
+     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">:</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span>
+     <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+     <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+     <span class="n">V</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+     <span class="n">vlist</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+     <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vlist</span><span class="p">:</span>
+         <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Matrix</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+     <span class="n">result</span> <span class="o">=</span> <span class="n">my_gramSchmidt_sp</span><span class="p">(</span><span class="o">*</span><span class="n">tmp_list</span><span class="p">)</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_list</span><span class="p">):</span>
+         <span class="n">ma_list</span> <span class="o">=</span> <span class="p">[]</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+             <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+                 <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+             <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp_list</span>
+             <span class="n">ma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+ 
+         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ma_list</span><span class="p">)</span>
+         <span class="k">return</span> <span class="n">result</span>
+     <span class="k">else</span><span class="p">:</span>
+         <span class="n">ma_list</span> <span class="o">=</span> <span class="p">[]</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+             <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+                 <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+             <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp_list</span>
+             <span class="n">ma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ma_list</span><span class="p">)</span>
+         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">H</span>
+         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+         <span class="k">return</span> <span class="n">result</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Sagemath</strong>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 定义向量组</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">vec_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">]</span>
+
+<span class="c1"># 使用 Gram-Schmidt 函数进行正交化</span>
+<span class="n">orth_list</span> <span class="o">=</span> <span class="n">GramSchmidt</span><span class="p">(</span><span class="n">vec_list</span><span class="p">)</span>
+
+<span class="c1"># 输出正交向量组</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">orth_list</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="c1">#在上面的代码中，我们首先定义了一个向量组，然后使用GramSchmidt函数将其转换为正交向量组。最后，我们遍历正交向量组并将其打印出来。</span>
+
+<span class="c1">#需要注意的是，Gram-Schmidt函数只能在有限维向量空间上工作。如果您需要处理无限维向量空间，则需要使用其他方法。</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="32-lattice-rounding-取整问题">3.2 Lattice Rounding （取整问题）</h2>
+<p>原基向量再正交化后得到新的基向量，但是同时也产生了新的不同于原来的格。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/lbDHgkYICLuX1SG.webp"
+        data-srcset="https://s2.loli.net/2023/04/26/lbDHgkYICLuX1SG.webp, https://s2.loli.net/2023/04/26/lbDHgkYICLuX1SG.webp 1.5x, https://s2.loli.net/2023/04/26/lbDHgkYICLuX1SG.webp 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/lbDHgkYICLuX1SG.webp"
+        title="img" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/tjdfFzc9Qa3Lqvp.png"
+        data-srcset="https://s2.loli.net/2023/04/26/tjdfFzc9Qa3Lqvp.png, https://s2.loli.net/2023/04/26/tjdfFzc9Qa3Lqvp.png 1.5x, https://s2.loli.net/2023/04/26/tjdfFzc9Qa3Lqvp.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/tjdfFzc9Qa3Lqvp.png"
+        title="image-20230405200844938" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/73DhB4vPskLMTe2.webp"
+        data-srcset="https://s2.loli.net/2023/04/26/73DhB4vPskLMTe2.webp, https://s2.loli.net/2023/04/26/73DhB4vPskLMTe2.webp 1.5x, https://s2.loli.net/2023/04/26/73DhB4vPskLMTe2.webp 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/73DhB4vPskLMTe2.webp"
+        title="img" /></p>
+<p>平移：<strong>t</strong>，约束条件：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/3xz5aMAwvNISbC1.png"
+        data-srcset="https://s2.loli.net/2023/04/26/3xz5aMAwvNISbC1.png, https://s2.loli.net/2023/04/26/3xz5aMAwvNISbC1.png 1.5x, https://s2.loli.net/2023/04/26/3xz5aMAwvNISbC1.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/3xz5aMAwvNISbC1.png"
+        title="image-20230405202659915" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/FpIHxKPLcCQNMOY.webp"
+        data-srcset="https://s2.loli.net/2023/04/26/FpIHxKPLcCQNMOY.webp, https://s2.loli.net/2023/04/26/FpIHxKPLcCQNMOY.webp 1.5x, https://s2.loli.net/2023/04/26/FpIHxKPLcCQNMOY.webp 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/FpIHxKPLcCQNMOY.webp"
+        title="img" /></p>
+<p>在基于Lattice的信息传输中，使用了取整，蕴含了一个不等式：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/BDzn2WQLkiGlESf.png"
+        data-srcset="https://s2.loli.net/2023/04/26/BDzn2WQLkiGlESf.png, https://s2.loli.net/2023/04/26/BDzn2WQLkiGlESf.png 1.5x, https://s2.loli.net/2023/04/26/BDzn2WQLkiGlESf.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/BDzn2WQLkiGlESf.png"
+        title="image-20230405202855669" /></p>
+<p><strong>取整求解的问题：</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/lScBvrs4PbMG1eg.webp"
+        data-srcset="https://s2.loli.net/2023/04/26/lScBvrs4PbMG1eg.webp, https://s2.loli.net/2023/04/26/lScBvrs4PbMG1eg.webp 1.5x, https://s2.loli.net/2023/04/26/lScBvrs4PbMG1eg.webp 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/lScBvrs4PbMG1eg.webp"
+        title="img" /></p>
+<p>当我们做取整操作的时候，因为几何形状的原因，最后的得到的结果格点和CVP问题的真正解会略有误差。比如我们看上图，<strong>t</strong>的落点在内圈的这个小圆内，那么我们取整得到的一定会是CVP的正确解。</p>
+<p><strong>正确解的条件：</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/23XNKlfJCHaPmWt.png"
+        data-srcset="https://s2.loli.net/2023/04/26/23XNKlfJCHaPmWt.png, https://s2.loli.net/2023/04/26/23XNKlfJCHaPmWt.png 1.5x, https://s2.loli.net/2023/04/26/23XNKlfJCHaPmWt.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/23XNKlfJCHaPmWt.png"
+        title="image-20230405203021390" /></p>
+<p>上面的表述避免了使用各种不同范数的概念，可根据三维欧几里得空间辅助理解。</p>
+<p>下图可辅助理解。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2023/04/26/kf9hFYCHVRZPIpd.png"
+        data-srcset="https://s2.loli.net/2023/04/26/kf9hFYCHVRZPIpd.png, https://s2.loli.net/2023/04/26/kf9hFYCHVRZPIpd.png 1.5x, https://s2.loli.net/2023/04/26/kf9hFYCHVRZPIpd.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2023/04/26/kf9hFYCHVRZPIpd.png"
+        title="Pasted image 20230401120211" /></p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.zhihu.com/column/c_1190932930565013504" target="_blank" rel="noopener noreffer ">稀有气体</a>：斯坦福的经验交流</li>
+<li><a href="https://ctf-wiki.org/crypto/asymmetric/lattice/overview/" target="_blank" rel="noopener noreffer ">CTFwiki</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%A1%8C%E5%88%97%E5%BC%8F" target="_blank" rel="noopener noreffer ">Wikipedia</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/553134004#:~:text=%E5%87%B8%E9%9B%86%E7%9A%84%E5%AE%9A%E4%B9%89%20%E5%AE%9A%E4%B9%891%EF%BC%9A%20%E5%A6%82%E6%9E%9C%E9%9B%86%E5%90%88%20C%20subseteq%20mathbb%20%7BR%7D%5En%20%E4%B8%AD%E7%9A%84%E4%BB%BB%E6%84%8F%E4%B8%A4%E7%82%B9,%7Bx%7D%2B%20%281-lambda%29mathbf%20%7By%7D%20in%20C%20%EF%BC%8C%E5%88%99%E7%A7%B0%E9%9B%86%E5%90%88%20C%20%E4%B8%BA%E5%87%B8%E9%9B%86" target="_blank" rel="noopener noreffer ">【非线性优化理论】凸集</a></li>
+<li><a href="https://www.davidwong.fr/papers/david_wong_rsa_lll_boneh_durfee__2015.pdf" target="_blank" rel="noopener noreffer ">Lattice Reduction Attacks on RSA</a></li>
+<li><a href="https://arxiv.org/pdf/1809.05293.pdf" target="_blank" rel="noopener noreffer ">A systematic approach to lattice models with solvable boundary states of arbitrary codimension</a></li>
+<li><a href="https://math.mit.edu/~apost/courses/18.204-2016/18.204_Xinyue_Deng_final_paper.pdf" target="_blank" rel="noopener noreffer ">An Introduction to Lenstra-Lenstra-Lovasz Lattice Basis Reduction Algorithm</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-04-05&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/dc5d4cec9eb1d7c0d374102449295ca353d1bbff" target="_blank" title="commit by GaloisHLee(maocred@gmail.com) dc5d4cec9eb1d7c0d374102449295ca353d1bbff: reborn">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>dc5d4ce</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-0/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-0/" data-title="Lattice Part 0"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-0/" data-title="Lattice Part 0"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-0/" data-title="Lattice Part 0"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-0/" data-title="Lattice Part 0"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/jwt-note/" class="prev" rel="prev" title="Jwt Note"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Jwt Note</a>
+            <a href="/fix-point/" class="next" rel="next" title="Fix Point">Fix Point<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>
