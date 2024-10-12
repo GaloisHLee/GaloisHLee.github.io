@@ -14,7 +14,7 @@
 
 {{< friend name="ljahum" url="https://ljahum.github.io/" logo="https://avatars.githubusercontent.com/u/56448617?v=4" word="这里有一块魔法培根" >}}
 
-{{< friend name="御史神风" url="https://windgodm.github.io/blog/" logo="https://avatars.githubusercontent.com/u/18612628?v=4" word="这里有一块魔法培根" >}}
+{{< friend name="御史神风" url="https://windgodm.github.io/blog/" logo="https://avatars.githubusercontent.com/u/18612628?v=4" word="这下有的玩了" >}}
 
 {{< friend name="Hexrotor" url="https://hexrotor.github.io/" logo="https://avatars.githubusercontent.com/u/45112661" word="我的一个车手朋友" >}}
 
