@@ -33,6 +33,8 @@
 <div class="flink" id="article-container">
 <div class="friend-list-div" >
 
+{{< friend name="Lord Riot" url="https://lord-riot.github.io/" logo="https://raw.githubusercontent.com/Lord-Riot/Lord-Riot.github.io/master/images/avatar.jpg" word="Focus on lattice">}}
+
 {{< friend name="Weyung" url="https://blog.weyung.cc/" logo="https://avatars.githubusercontent.com/u/93419086?v=4" word="双鸭山的传说">}}
 
 
