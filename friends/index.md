@@ -48,5 +48,7 @@
 
 {{< friend name="Tsumiiiiiiii" url="https://tsumiiiiiiii.github.io/" logo="https://avatars.githubusercontent.com/u/31077557?v=4" word="Nope" >}}
 
+{{< friend name="Emma" url="https://emmaaaaaaaaaaaaaaaaa.github.io/" logo="https://cdn.jsdelivr.net/gh/Emmaaaaaaaaaaaaaaaaa/blog-img/image/logo.jpg" word="总有人间一两风，填我十万八千梦！" >}}
+
 </div>
 </div>
