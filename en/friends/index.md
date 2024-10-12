@@ -20,6 +20,8 @@
 
 {{< friend name="3cly" url="https://3cly.github.io/" logo="https://s2.loli.net/2024/10/12/Wj9TIOLUs3k6VyX.jpg" word="这个人很懒什么都没有留下" >}}
 
+{{< friend name="jmx0hxq" url="https://jmx0hxq.github.io/" logo="https://jmx0hxq.github.io/img/jmx0hxq.jpg" word="总有人间一两风,填我十万八千梦" >}}
+
 
 </div>
 </div>
@@ -48,7 +50,7 @@
 
 {{< friend name="Tsumiiiiiiii" url="https://tsumiiiiiiii.github.io/" logo="https://avatars.githubusercontent.com/u/31077557?v=4" word="Nope" >}}
 
-{{< friend name="Emma" url="https://emmaaaaaaaaaaaaaaaaa.github.io/" logo="https://cdn.jsdelivr.net/gh/Emmaaaaaaaaaaaaaaaaa/blog-img/image/logo.jpg" word="总有人间一两风，填我十万八千梦！" >}}
+{{< friend name="Emma" url="https://emmaaaaaaaaaaaaaaaaa.github.io/" logo="https://cdn.jsdelivr.net/gh/Emmaaaaaaaaaaaaaaaaa/blog-img/image/logo.jpg" word="追风赶月莫停留，平芜尽处是春山" >}}
 
 </div>
 </div>
