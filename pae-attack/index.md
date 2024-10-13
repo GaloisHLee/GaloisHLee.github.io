@@ -661,65 +661,161 @@ where $P_x$ and $P_x^{\prime}$ are different data distributions, and $P_c$ and $
 
 
 
+Threats makes necessity to protect intelligent applications.
 
+Mainstream strategies
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- data-end defenses
+- model-end defenses
 
 
 
 ## Defend against PAEs
 
+We still take the three processes of PAEs as the starting point for thinking, considering the two standards of the data side and the model side, and considering possible defense means in various directions.
+
 ### Data-end Defense Strategies
+
+The data-end defense strategies aim to reduce the influence of adversarial perturbations, thus the sampled adversarial examples would be not allowed to mislead the deep models in deployed systems.
+
+### 
+
+![image-20240802212134142](https://s2.loli.net/2024/08/02/GfA5F3g8MulXbVB.png)
+
+
 
 #### The adversarial detecting
 
+Determining whether the input instances are adversarial. So just reject the input and evade the attack in turn. 
+
+
+
+Idea is usually simple, and the practice often has different strategies.
+
+> Summary of Adversarial Detection Methods
+>
+> 1. **SentiNet (Chou et.al.)**
+>    - Detects **universal adversarial patches**.
+>    - No model modifications required.
+>    - Practical for real-world scenarios.
+>
+> 2. **Ad-YOLO (Ji et.al.)**
+>    - Utilizes YOLO architecture with an **added "patch" class label**.
+>    - Effective in detecting adversarial patches compared to standard YOLO.
+>
+> 3. **TaintRadar (Li et.al.)**
+>    - Detects localized adversarial examples by identifying regions causing **significant label variance.**
+>    - Demonstrates effectiveness in digital and physical environments.
+>
+> 4. **Segmentation Approach (Liu et.al.)**
+>    - Trains a patch segmentor and performs shape completion to detect and remove adversarial patches from images.
+>
+> 5. **Patch-Feature Energy-Driven Method**
+>    - Removes deep characteristics of adversarial patches to protect detection models.
+>
+> 6. **Patch Zero**
+>    - Detects and nullifies adversarial patches to mitigate their influence.
+>
+> Each method addresses different aspects of detecting and mitigating adversarial attacks in machine learning models.
+
+
+
+
+
+
+
 #### The adversarial denoising
 
+
+
+This kind of defense method prevents models from being fooled by adversarial attacks at the instance level, i.e., straightly **removing the injected perturbation or noises inside the adversarial examples**. This kind of defense could also combine with the aforementioned adversarial detecting strategy, leading to better defending ability.
+
+
+
+
+
+A series of results from this idea:
+
+> Summary of Adversarial Defense Methods
+>
+> Instance-Level Defense
+>
+> - **Goal:** Prevent models from being fooled by removing perturbations or noises within adversarial examples.
+> - **Combination:** Can be combined with adversarial detection strategies for enhanced defense.
+>
+> 1. **Local Gradient Smoothing (LGS) (Nasser et.al.)**
+>    - Targets physical attacks like Localized and Visible Adversarial Noise (LaVAN) and adversarial patches.
+>    - Estimates regions with high probability of adversarial noise.
+>    - Reduces gradient activity in these regions to correctly recognize adversarial examples.
+>
+> 2. **Occlusion Method (McCoyd et.al.)**
+>    - Mitigates influence from adversarial patches by partially occluding the image around candidate patch locations.
+>    - Considered a form of denoising by destroying adversarial patches through occlusion.
+>
+> 3. **Adversarial Pixel Masking (APM)**
+>    - Defends against physical attacks, such as adversarial patches.
+>    - Trains an adversarial pixel mask module to remove patches based on the generated mask.
+>
+> 4. **Patch Zero**
+>    - Functions as a denoising strategy.
+>    - Combines adversarial detection and denoising to tackle adversarial attacks.
+>
+> These methods enhance the robustness of models by either directly removing adversarial perturbations or by combining detection and denoising techniques.
+
+
+
 #### The adversarial prompting
+
+Add information to offset the negative impact of adversarial perturbations, prompt what labels the models should truly predict via positive injections.
+
+
+
+
+
+> Summary of Adversarial Prompting Defense Methods
+>
+> Adversarial Prompting
+>
+> - **Goal:** Achieve defense by adding information to counteract the negative impacts of adversarial perturbations, prompting models towards correct predictions with positive injections.
+>
+> 1. **Unadversarial Examples (Salman et.al.) [118]**
+>    - Generates textures with prompting ability in a 3D environment.
+>    - Creates "robust objects" based on deep models' input-perturbation-sensitivity.
+>    - Provides a new approach for physical adversarial defenses.
+>
+> 2. **Preemptive Robustification (Moon et.al.) [119]**
+>    - Defends against intercept-and-perturb behaviors in real scenarios.
+>    - Utilizes a bi-level optimization scheme to discover robust perturbations that can be added to images.
+>
+> 3. **Defensive Patch (Wang et.al.) [120]**
+>    - Pre-injects positive patches into instances to aid image recognition.
+>    - Enhances prompting intensity with strong global perceptual correlations and local identifiable patterns.
+>    - Effective against both adversarial patches and common corruptions.
+>
+> 4. **Amicable Aid (Unnamed Study) [121]**
+>    - Generates visual prompting perturbations from the underlying manifold perspective.
+>    - Provides universal improvement for classification.
+>
+> 5. **Class-wise Adversarial Visual Prompting (Chen et.al.) [122]**
+>    - Addresses the non-effectiveness of universal visual prompting.
+>    - Proposes class-specific adversarial **visual prompting** for enhanced effectiveness.
+>
+> 6. **Angelic Patch (Si et.al.)**
+>    - Investigates visual adversarial prompting to enhance detection abilities of detectors.
+>
+> These methods use various forms of positive injections and perturbations to guide models towards correct predictions, countering adversarial attacks.
+
+
+
+
+
+
 
 
 
 ### Model-end Defense Strategies
+
+![image-20240807192834851](https://s2.loli.net/2024/08/07/LIgGZrQ73DHbkcF.png)
 
 #### Adversarial training
 
@@ -729,11 +825,21 @@ where $P_x$ and $P_x^{\prime}$ are different data distributions, and $P_c$ and $
 
 
 
+
+
+![image-20240807190805942](https://s2.loli.net/2024/08/07/weiQgbEujK2t4kR.png)
+
+
+
+
+
 ## The Challenges of PAEs
 
 ### Generating Transferable PAEs
 
 ### Generating Generalizable PAEs
+
+
 
 ## The Opportunities of PAEs
 

