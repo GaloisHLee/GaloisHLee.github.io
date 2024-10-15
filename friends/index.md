@@ -56,3 +56,16 @@
 
 </div>
 </div>
+
+**小朋友们**
+
+
+<div class="flink" id="article-container">
+<div class="friend-list-div" >
+
+
+
+{{< friend name="komiko" url="https://notion-next-yeye.vercel.app/" logo="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fe549a579-2c2f-4a01-ab69-720e615313ef%2Fe0a6fdf6-aad7-4965-a81c-6dd7dd2be2d7%2FGTTlHkmaUAAgnlP.jpg?table=collection&id=11ff19d3-b212-81a3-affe-000b87802ec2&t=11ff19d3-b212-81a3-affe-000b87802ec2&width=800&cache=v2" word="方糕爱好者" >}}
+
+</div>
+</div>
