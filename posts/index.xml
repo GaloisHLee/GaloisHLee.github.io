@@ -4,7 +4,16 @@
         <link>https://galoishlee.github.io/posts/</link>
         <description>所有文章 | As it was</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 13 Oct 2024 12:41:37 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 15 Oct 2024 15:11:09 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Mind2Web</title>
+    <link>https://galoishlee.github.io/mind2web/</link>
+    <pubDate>Tue, 15 Oct 2024 15:11:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/mind2web/</guid>
+    <description><![CDATA[<p>Read: Mind2Web</p>
+<p>References: <a href="https://osu-nlp-group.github.io/Mind2Web/" target="_blank" rel="noopener noreffer ">https://osu-nlp-group.github.io/Mind2Web/</a></p>]]></description>
+</item>
+<item>
     <title>BadAgent0x00 Intro</title>
     <link>https://galoishlee.github.io/badagent0x00-intro/</link>
     <pubDate>Sun, 13 Oct 2024 12:41:37 &#43;0800</pubDate>
@@ -89,14 +98,6 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/waytofft-part-0/</guid>
     <description><![CDATA[<p>从拉格朗日插值法到FFT. Part-0.</p>]]></description>
-</item>
-<item>
-    <title>Fix Point</title>
-    <link>https://galoishlee.github.io/fix-point/</link>
-    <pubDate>Sat, 06 Apr 2024 20:43:19 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/fix-point/</guid>
-    <description><![CDATA[]]></description>
 </item>
 </channel>
 </rss>
