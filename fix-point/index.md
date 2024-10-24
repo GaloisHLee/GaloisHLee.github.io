@@ -76,7 +76,12 @@ else:
 
 求解：
 
-形式上来看似乎是一个LCG相关问题 $$x_{n+1} = x_{n}a + b \pmod{p}$$
+形式上来看似乎是一个LCG相关问题 
+
+$$
+x_{n+1} = x_{n}a + b \pmod{p}
+$$
+
 问题在于`r = getrandbits(20)`
 似乎无法预测，然而可以从数列的角度简单理解一下这道题。
 
@@ -85,22 +90,32 @@ else:
 关键变量`r`也未知，那么可以考虑不动点解法。
 
 先看一组式子：
-$$\begin{cases}
+$$
+\begin{cases}
 x_{0} &= x_{0} \\\\
 x_{1} &= ax_{0}+b \\\\
 x_{2} &= a^{2}x_{0}+b(a+1) \\\\
 x_{3} &= a^{3}x_{0}+b(a^2+a+1)
-\end{cases}$$
+\end{cases}
+$$
 
-$$x_{n} = a^{n}x_{0}+ b\left( \sum^{n-1}_{i=0}a^{i} \right)$$
+$$
+x_{n} = a^{n}x_{0}+ b\left( \sum^{n-1}_{i=0}a^{i} \right)
+$$
 
 注意到
 
-$$\frac{a^{i}-1}{a-1}= \left( \sum^{n-1}_{i=0} a^{i} \right)$$,
+$$
+\frac{a^{n}-1}{a-1}= \left( \sum^{n-1}_{i=0} a^{i} \right)
+$$
+,
 
 实际上可以写出一个较为简洁的关于第$n$项和首项的公式：
 
-$$x_{n} = a^{n}x_{0}+ b\frac{a^{n}-1}{a-1}$$
+$$
+x_{n} = a^{n}x_{0}+ b\frac{a^{n}-1}{a-1}
+$$
+
 
 这就符合我们控制的两个输入和输出。
 
@@ -121,7 +136,7 @@ $$1 = a^{r}-(a^{r}-1)=1$$
 from pwn import *
 
 conn = remote('be.ax', 31800)
-
+# conn = process("name.py")
 p = 2**521 - 1
 a = int(conn.recvline().decode().strip().split('a = ')[1])
 b = int(conn.recvline().decode().strip().split('b = ')[1])
@@ -194,7 +209,6 @@ a^{n_{a}} &= \frac{A(a-1)+b}{as-s+b} \pmod{p}
 从上式的推导可以看出，$a^{n_{a}},a^{n_{b}}$可以由已知量导出。
 这就回到了DH的一般思考场景。
 验证得，$p-1$光滑，直接求解DLP，计算
-
 $$
 \begin{aligned}
 n_{a} &= DiscreteLog(a^{n_{a}},a,p)\\\\
@@ -323,7 +337,6 @@ for jump in jumps:
 根据前期的推导：
 $$f_{n}(x_{0})=a^{n}x_{0}+b \frac{a^{n}-1}{a-1} \pmod{p}$$
 可以得到`output`中的表达结果为(如果记output列表为$\{ O_{i} \}$：
-
 $$
 O_{i}=f_{S_{i}}(s)= a^{S_{i}}s+ b \frac{a^{S_{i}}-1}{a-1} \pmod{p}
 $$
@@ -513,7 +526,6 @@ $$\Rightarrow-p=-kp-d\Rightarrow\quad p=kp+d$$
 
 >从几何上讲，从截距不为零的一次函数(对应于上述非齐次一阶线性递推关系式)变形为正比例函数(对应于构造出来的等比数列满足的关系式)的变换就是一种图象平移操作，而此类函数的不动点提供了同时沿y轴方向和x轴方向进行图象平移的距离参考值。
 
-
 前面的推到已经证明了这样的数列的通项公式为
 $$a_{n}=a_{1}p^{n-1}+ q \frac{1-p^{n-1}}{1-p}$$
 
@@ -576,7 +588,6 @@ $$\frac{a_{n+1}-x_{1}}{a_{n+1}-x_{2}}=k \cdot \frac{a_{n}-x_{1}}{a_{n}-x_{2}},k=
 
 ## 分式线性变换的概念与分式线性递推式的不动点解法由来
 
-
 定义：具有以下形式的函数$f:\mathbb{C} \rightarrow \mathbb{C}$,称为分式线性变换（linear fractional transformation):
 $$f(x) = \frac{Ax+B}{Cx+D}\quad(A,B,C,D \in \mathbb{C},AD-BC \ne 0)$$
 
@@ -595,12 +606,10 @@ $$f(x)=\frac{BC-AD}C\frac1{Cx+D}+\frac AC$$
 
 
 按照待定系数法的思路，假定对分式线性变换解析式的$f(x)$两侧同时减去某个合适的常数P再同时取倒数后，能得到形式一致的分母。先
-
 $$
 \begin{aligned}&\text{做第一步减法,得:}\\\\&a_{n+1}-P=\frac{Aa_n+B}{Ca_n+D}-P=\frac{Aa_n+B-PCa_n-DP}{Ca_n+D}=\frac{(A-PC)a_n+(B-DP)}{Ca_n+D}\end{aligned}
 $$
  要使上面的式子取倒数后的分母满足要求，由于分母取倒数前是位于分子的位置，基于前面的解题实例可知，我们只需要保证上式最左边的量与最右边的分子形式相似即可。
-
 
 即只需要使$a_{n+1}-P$与$(A-PC)a_n+(B-DP)$的对应系数成相同比例即可。即：
 $$\begin{aligned}\frac{1}{A-PC}=\frac{-P}{B-DP}\end{aligned}$$
@@ -618,7 +627,6 @@ $$P=\frac{B-DP}{CP-A}$$
 >首先由于一次函数属于特殊的分式线性变换，而且分式线性变换是可逆变化，所以自然想到能否将分式线性递推式还原为某种更简单的一次线性递推式的形式。求出与之相关的一次线性递推式的迭代结果后，再利用逆变换反推出原递推式的多次迭代结果。
 >
 >另一方面，我们已经知道使用不动点法可以简化一次线性递推式的求解，我们希望将不动点也整合到分式线性变换还原为线性递推式的系数配凑过程中。
-
 
 定义:
 使得$f(x)$可以与另一个函数$g(x)$建立下列联系的可逆函数$T(x)$叫做桥函数：

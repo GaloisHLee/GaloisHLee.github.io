@@ -22,6 +22,7 @@
 
 {{< friend name="jmx0hxq" url="https://jmx0hxq.github.io/" logo="https://jmx0hxq.github.io/img/jmx0hxq.jpg" word="总有人间一两风,填我十万八千梦" >}}
 
+{{< friend name="Qingwan" url="https://qingwan.top/" logo="https://qingwan.top/images/qingwan.jpg" word="凭寄狂夫书一纸，信在成都万里桥" >}}
 
 </div>
 </div>
