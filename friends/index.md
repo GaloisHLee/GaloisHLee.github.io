@@ -26,7 +26,7 @@
 
 {{< friend name="Qingwan" url="https://qingwan.top/" logo="https://qingwan.top/images/qingwan.jpg" word="凭寄狂夫书一纸，信在成都万里桥" >}}
 
-{{< friend name="De1ty" url="https://night-sun.github.io/" logo="https://night-sun.github.io/images/De1ty.jpg" word="He makes simple choices" >}}
+{{< friend name="De1ty" url="https://night-sun.github.io/" logo="https://s2.loli.net/2024/11/06/LRMwr7V8Tea1QtH.png" word="He makes simple choices" >}}
 
 </div>
 </div>
