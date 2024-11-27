@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "/Users/halois/workdir/H4Lois/H4Lois",
+	"sourceRoot": "/mnt/f/WorkBlogs/Blog-hugo/H4Lois/H4Lois",
 	"sources": [
 		"themes/LoveIt-feature_add_friend/assets/css/style.scss",
 		"themes/LoveIt-feature_add_friend/assets/lib/normalize/normalize.css",
