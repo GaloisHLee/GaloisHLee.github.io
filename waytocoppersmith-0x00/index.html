@@ -10,7 +10,6 @@
 <meta property="og:url" content="https://galoishlee.github.io/waytocoppersmith-0x00/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-05-26T15:10:32+08:00" />
 <meta property="article:modified_time" content="2024-10-13T11:30:21+08:00" /><meta property="og:site_name" content="Mathematical" />
-
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
 
@@ -33,7 +32,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","wordcount":  3222 ,
+                        }],"genre": "posts","wordcount":  3228 ,
         "url": "https:\/\/galoishlee.github.io\/waytocoppersmith-0x00\/","datePublished": "2024-05-26T15:10:32+08:00","dateModified": "2024-10-13T11:30:21+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -113,7 +112,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToCoppersmith0x00</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3222 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-26">2024-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3228 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -291,10 +290,10 @@ $$
         data-sizes="auto"
         alt="https://s2.loli.net/2024/05/31/LTybdeFZH697jDq.png"
         title="image-20240531182108376" /></p>
-<p>回顾闵可夫斯基界下，任意 Lattice 均含有一个非零短向量$v' \le \sqrt{n}\det(L)^{1/n}$.</p>
+<p>回顾闵可夫斯基界下，任意 Lattice 均含有一个非零短向量$v&rsquo; \le \sqrt{n}\det(L)^{1/n}$.</p>
 <p>对比两个不等式
 $$
-\begin{align} |\mathbf{v}| &amp;\leq2^{\frac{n-1}4}\det(\mathcal{L})^{\frac1n} \\ |v' | &amp;\le \sqrt{n}\det(\mathcal{L})^{\frac1n} \end{align}
+\begin{align} |\mathbf{v}| &amp;\leq2^{\frac{n-1}4}\det(\mathcal{L})^{\frac1n} \\ |v&rsquo; | &amp;\le \sqrt{n}\det(\mathcal{L})^{\frac1n} \end{align}
 $$
 在此前定义的格 $\mathcal{L}$ 中，我们稍作分析
 $$
@@ -358,9 +357,9 @@ $$
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">	<span class="n">delta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
-    <span class="n">g</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">srange</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">srange</span><span class="p">(</span><span class="n">delta</span><span class="p">)]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">	<span class="n">delta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">srange</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">srange</span><span class="p">(</span><span class="n">delta</span><span class="p">)]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><br>
 <br>
@@ -624,165 +623,165 @@ $$
 </span><span class="lnt">158
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="k">def</span> <span class="nf">small_roots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">    Let `N` be the characteristic of the base ring this polynomial
-</span><span class="s2">    is defined over: ``N = self.base_ring().characteristic()``.
-</span><span class="s2">    This method returns small roots of this polynomial modulo some
-</span><span class="s2">    factor `b` of `N` with the constraint that `b &gt;= N^</span><span class="se">\b</span><span class="s2">eta`.
-</span><span class="s2">    Small in this context means that if `x` is a root of `f`
-</span><span class="s2">    modulo `b` then `|x| &lt; X`. This `X` is either provided by the
-</span><span class="s2">    user or the maximum `X` is chosen such that this algorithm
-</span><span class="s2">    terminates in polynomial time. If `X` is chosen automatically
-</span><span class="s2">    it is `X = ceil(1/2 N^{</span><span class="se">\b</span><span class="s2">eta^2/\delta - \epsilon})`.
-</span><span class="s2">    The algorithm may also return some roots which are larger than `X`.
-</span><span class="s2">    &#39;This algorithm&#39; in this context means Coppersmith&#39;s algorithm for finding
-</span><span class="s2">    small roots using the LLL algorithm. The implementation of this algorithm
-</span><span class="s2">    follows Alexander May&#39;s PhD thesis referenced below.
-</span><span class="s2">    INPUT:
-</span><span class="s2">    - ``X`` -- an absolute bound for the root (default: see above)
-</span><span class="s2">    - ``beta`` -- compute a root mod `b` where `b` is a factor of `N` and `b
-</span><span class="s2">      \ge N^</span><span class="se">\b</span><span class="s2">eta`. (Default: 1.0, so `b = N`.)
-</span><span class="s2">    - ``epsilon`` -- the parameter `\epsilon` described above. (Default: `</span><span class="se">\b</span><span class="s2">eta/8`)
-</span><span class="s2">    - ``**kwds`` -- passed through to method :meth:`Matrix_integer_dense.LLL() &lt;sage.matrix.matrix_integer_dense.Matrix_integer_dense.LLL&gt;`.
-</span><span class="s2">    EXAMPLES:
-</span><span class="s2">    First consider a small example::
-</span><span class="s2">        sage: N = 10001
-</span><span class="s2">        sage: K = Zmod(10001)
-</span><span class="s2">        sage: P.&lt;x&gt; = PolynomialRing(K, implementation=&#39;NTL&#39;)
-</span><span class="s2">        sage: f = x^3 + 10*x^2 + 5000*x - 222
-</span><span class="s2">    This polynomial has no roots without modular reduction (i.e. over `\ZZ`)::
-</span><span class="s2">        sage: f.change_ring(ZZ).roots()
-</span><span class="s2">        []
-</span><span class="s2">    To compute its roots we need to factor the modulus `N` and use the Chinese
-</span><span class="s2">    remainder theorem::
-</span><span class="s2">        sage: p,q = N.prime_divisors()
-</span><span class="s2">        sage: f.change_ring(GF(p)).roots()
-</span><span class="s2">        [(4, 1)]
-</span><span class="s2">        sage: f.change_ring(GF(q)).roots()
-</span><span class="s2">        [(4, 1)]
-</span><span class="s2">        sage: crt(4, 4, p, q)
-</span><span class="s2">        4
-</span><span class="s2">    This root is quite small compared to `N`, so we can attempt to
-</span><span class="s2">    recover it without factoring `N` using Coppersmith&#39;s small root
-</span><span class="s2">    method::
-</span><span class="s2">        sage: f.small_roots()
-</span><span class="s2">        [4]
-</span><span class="s2">    An application of this method is to consider RSA. We are using 512-bit RSA
-</span><span class="s2">    with public exponent `e=3` to encrypt a 56-bit DES key. Because it would be
-</span><span class="s2">    easy to attack this setting if no padding was used we pad the key `K` with
-</span><span class="s2">    1s to get a large number::
-</span><span class="s2">        sage: Nbits, Kbits = 512, 56
-</span><span class="s2">        sage: e = 3
-</span><span class="s2">    We choose two primes of size 256-bit each::
-</span><span class="s2">        sage: p = 2^256 + 2^8 + 2^5 + 2^3 + 1
-</span><span class="s2">        sage: q = 2^256 + 2^8 + 2^5 + 2^3 + 2^2 + 1
-</span><span class="s2">        sage: N = p*q
-</span><span class="s2">        sage: ZmodN = Zmod( N )
-</span><span class="s2">    We choose a random key::
-</span><span class="s2">        sage: K = ZZ.random_element(0, 2^Kbits)
-</span><span class="s2">    and pad it with 512-56=456 1s::
-</span><span class="s2">        sage: Kdigits = K.digits(2)
-</span><span class="s2">        sage: M = [0]*Kbits + [1]*(Nbits-Kbits)
-</span><span class="s2">        sage: for i in range(len(Kdigits)): M[i] = Kdigits[i]
-</span><span class="s2">        sage: M = ZZ(M, 2)
-</span><span class="s2">    Now we encrypt the resulting message::
-</span><span class="s2">        sage: C = ZmodN(M)^e
-</span><span class="s2">    To recover `K` we consider the following polynomial modulo `N`::
-</span><span class="s2">        sage: P.&lt;x&gt; = PolynomialRing(ZmodN, implementation=&#39;NTL&#39;)
-</span><span class="s2">        sage: f = (2^Nbits - 2^Kbits + x)^e - C
-</span><span class="s2">    and recover its small roots::
-</span><span class="s2">        sage: Kbar = f.small_roots()[0]
-</span><span class="s2">        sage: K == Kbar
-</span><span class="s2">        True
-</span><span class="s2">    The same algorithm can be used to factor `N = pq` if partial
-</span><span class="s2">    knowledge about `q` is available. This example is from the
-</span><span class="s2">    Magma handbook:
-</span><span class="s2">    First, we set up `p`, `q` and `N`::
-</span><span class="s2">        sage: length = 512
-</span><span class="s2">        sage: hidden = 110
-</span><span class="s2">        sage: p = next_prime(2^int(round(length/2)))
-</span><span class="s2">        sage: q = next_prime( round(pi.n()*p) )
-</span><span class="s2">        sage: N = p*q
-</span><span class="s2">    Now we disturb the low 110 bits of `q`::
-</span><span class="s2">        sage: qbar = q + ZZ.random_element(0,2^hidden-1)
-</span><span class="s2">    And try to recover `q` from it::
-</span><span class="s2">        sage: F.&lt;x&gt; = PolynomialRing(Zmod(N), implementation=&#39;NTL&#39;)
-</span><span class="s2">        sage: f = x - qbar
-</span><span class="s2">    We know that the error is `\le 2^{</span><span class="se">\t</span><span class="s2">ext</span><span class="si">{hidden}</span><span class="s2">}-1` and that the modulus
-</span><span class="s2">    we are looking for is `\ge \sqrt</span><span class="si">{N}</span><span class="s2">`::
-</span><span class="s2">        sage: from sage.misc.verbose import set_verbose
-</span><span class="s2">        sage: set_verbose(2)
-</span><span class="s2">        sage: d = f.small_roots(X=2^hidden-1, beta=0.5)[0] # time random
-</span><span class="s2">        verbose 2 (&lt;module&gt;) m = 4
-</span><span class="s2">        verbose 2 (&lt;module&gt;) t = 4
-</span><span class="s2">        verbose 2 (&lt;module&gt;) X = 1298074214633706907132624082305023
-</span><span class="s2">        verbose 1 (&lt;module&gt;) LLL of 8x8 matrix (algorithm fpLLL:wrapper)
-</span><span class="s2">        verbose 1 (&lt;module&gt;) LLL finished (time = 0.006998)
-</span><span class="s2">        sage: q == qbar - d
-</span><span class="s2">        True
-</span><span class="s2">    REFERENCES:
-</span><span class="s2">    Don Coppersmith. *Finding a small root of a univariate modular equation.*
-</span><span class="s2">    In Advances in Cryptology, EuroCrypt 1996, volume 1070 of Lecture
-</span><span class="s2">    Notes in Computer Science, p. 155--165. Springer, 1996.
-</span><span class="s2">    http://cr.yp.to/bib/2001/coppersmith.pdf
-</span><span class="s2">    Alexander May. *New RSA Vulnerabilities Using Lattice Reduction Methods.*
-</span><span class="s2">    PhD thesis, University of Paderborn, 2003.
-</span><span class="s2">    http://www.cs.uni-paderborn.de/uploads/tx_sibibtex/bp.pdf
-</span><span class="s2">    &#34;&#34;&#34;</span>
-    <span class="kn">from</span> <span class="nn">sage.misc.verbose</span> <span class="kn">import</span> <span class="n">verbose</span>
-    <span class="kn">from</span> <span class="nn">sage.matrix.constructor</span> <span class="kn">import</span> <span class="n">Matrix</span>
-    <span class="kn">from</span> <span class="nn">sage.rings.all</span> <span class="kn">import</span> <span class="n">RR</span>
-
-    <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">characteristic</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_monic</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&#34;Polynomial must be monic.&#34;</span><span class="p">)</span>
-
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">RR</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">beta</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;0.0 &lt; beta &lt;= 1.0 not satisfied.&#34;</span><span class="p">)</span>
-
-    <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
-
-    <span class="n">P</span><span class="p">,(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">objgens</span><span class="p">()</span>
-
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">epsilon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">epsilon</span> <span class="o">=</span> <span class="n">beta</span><span class="o">/</span><span class="mi">8</span>
-    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;epsilon = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">),</span> <span class="mi">7</span><span class="o">*</span><span class="n">beta</span><span class="o">/</span><span class="n">delta</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;m = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">m</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="p">(</span> <span class="n">delta</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">beta</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">floor</span><span class="p">()</span> <span class="p">)</span>
-    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;t = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">t</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">delta</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;X = </span><span class="si">%s</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">X</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1"># we could do this much faster, but this is a cheap step</span>
-    <span class="c1"># compared to LLL</span>
-    <span class="n">g</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="p">]</span>
-    <span class="n">g</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x</span><span class="o">**</span><span class="n">i</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">m</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span> <span class="c1"># h</span>
-
-    <span class="n">B</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="n">delta</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">nrows</span><span class="p">()):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span> <span class="p">):</span>
-            <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="o">**</span><span class="n">j</span>
-
-    <span class="n">B</span> <span class="o">=</span>  <span class="n">B</span><span class="o">.</span><span class="n">LLL</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">ZZ</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">//</span><span class="n">X</span><span class="o">**</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">ncols</span><span class="p">())])</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span>
-
-    <span class="n">ZmodN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
-    <span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">ZmodN</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">m</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">X</span><span class="p">])</span>
-    <span class="n">Nbeta</span> <span class="o">=</span> <span class="n">N</span><span class="o">**</span><span class="n">beta</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">root</span> <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span> <span class="k">if</span> <span class="n">N</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">root</span><span class="p">)))</span> <span class="o">&gt;=</span> <span class="n">Nbeta</span><span class="p">]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">small_roots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Let `N` be the characteristic of the base ring this polynomial
+</span></span></span><span class="line"><span class="cl"><span class="s2">    is defined over: ``N = self.base_ring().characteristic()``.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    This method returns small roots of this polynomial modulo some
+</span></span></span><span class="line"><span class="cl"><span class="s2">    factor `b` of `N` with the constraint that `b &gt;= N^</span><span class="se">\b</span><span class="s2">eta`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Small in this context means that if `x` is a root of `f`
+</span></span></span><span class="line"><span class="cl"><span class="s2">    modulo `b` then `|x| &lt; X`. This `X` is either provided by the
+</span></span></span><span class="line"><span class="cl"><span class="s2">    user or the maximum `X` is chosen such that this algorithm
+</span></span></span><span class="line"><span class="cl"><span class="s2">    terminates in polynomial time. If `X` is chosen automatically
+</span></span></span><span class="line"><span class="cl"><span class="s2">    it is `X = ceil(1/2 N^{</span><span class="se">\b</span><span class="s2">eta^2/\delta - \epsilon})`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    The algorithm may also return some roots which are larger than `X`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#39;This algorithm&#39; in this context means Coppersmith&#39;s algorithm for finding
+</span></span></span><span class="line"><span class="cl"><span class="s2">    small roots using the LLL algorithm. The implementation of this algorithm
+</span></span></span><span class="line"><span class="cl"><span class="s2">    follows Alexander May&#39;s PhD thesis referenced below.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    INPUT:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - ``X`` -- an absolute bound for the root (default: see above)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - ``beta`` -- compute a root mod `b` where `b` is a factor of `N` and `b
+</span></span></span><span class="line"><span class="cl"><span class="s2">      \ge N^</span><span class="se">\b</span><span class="s2">eta`. (Default: 1.0, so `b = N`.)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - ``epsilon`` -- the parameter `\epsilon` described above. (Default: `</span><span class="se">\b</span><span class="s2">eta/8`)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - ``**kwds`` -- passed through to method :meth:`Matrix_integer_dense.LLL() &lt;sage.matrix.matrix_integer_dense.Matrix_integer_dense.LLL&gt;`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    EXAMPLES:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    First consider a small example::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: N = 10001
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: K = Zmod(10001)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: P.&lt;x&gt; = PolynomialRing(K, implementation=&#39;NTL&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f = x^3 + 10*x^2 + 5000*x - 222
+</span></span></span><span class="line"><span class="cl"><span class="s2">    This polynomial has no roots without modular reduction (i.e. over `\ZZ`)::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f.change_ring(ZZ).roots()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        []
+</span></span></span><span class="line"><span class="cl"><span class="s2">    To compute its roots we need to factor the modulus `N` and use the Chinese
+</span></span></span><span class="line"><span class="cl"><span class="s2">    remainder theorem::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: p,q = N.prime_divisors()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f.change_ring(GF(p)).roots()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        [(4, 1)]
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f.change_ring(GF(q)).roots()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        [(4, 1)]
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: crt(4, 4, p, q)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        4
+</span></span></span><span class="line"><span class="cl"><span class="s2">    This root is quite small compared to `N`, so we can attempt to
+</span></span></span><span class="line"><span class="cl"><span class="s2">    recover it without factoring `N` using Coppersmith&#39;s small root
+</span></span></span><span class="line"><span class="cl"><span class="s2">    method::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f.small_roots()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        [4]
+</span></span></span><span class="line"><span class="cl"><span class="s2">    An application of this method is to consider RSA. We are using 512-bit RSA
+</span></span></span><span class="line"><span class="cl"><span class="s2">    with public exponent `e=3` to encrypt a 56-bit DES key. Because it would be
+</span></span></span><span class="line"><span class="cl"><span class="s2">    easy to attack this setting if no padding was used we pad the key `K` with
+</span></span></span><span class="line"><span class="cl"><span class="s2">    1s to get a large number::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: Nbits, Kbits = 512, 56
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: e = 3
+</span></span></span><span class="line"><span class="cl"><span class="s2">    We choose two primes of size 256-bit each::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: p = 2^256 + 2^8 + 2^5 + 2^3 + 1
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: q = 2^256 + 2^8 + 2^5 + 2^3 + 2^2 + 1
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: N = p*q
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: ZmodN = Zmod( N )
+</span></span></span><span class="line"><span class="cl"><span class="s2">    We choose a random key::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: K = ZZ.random_element(0, 2^Kbits)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    and pad it with 512-56=456 1s::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: Kdigits = K.digits(2)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: M = [0]*Kbits + [1]*(Nbits-Kbits)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: for i in range(len(Kdigits)): M[i] = Kdigits[i]
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: M = ZZ(M, 2)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Now we encrypt the resulting message::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: C = ZmodN(M)^e
+</span></span></span><span class="line"><span class="cl"><span class="s2">    To recover `K` we consider the following polynomial modulo `N`::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: P.&lt;x&gt; = PolynomialRing(ZmodN, implementation=&#39;NTL&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f = (2^Nbits - 2^Kbits + x)^e - C
+</span></span></span><span class="line"><span class="cl"><span class="s2">    and recover its small roots::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: Kbar = f.small_roots()[0]
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: K == Kbar
+</span></span></span><span class="line"><span class="cl"><span class="s2">        True
+</span></span></span><span class="line"><span class="cl"><span class="s2">    The same algorithm can be used to factor `N = pq` if partial
+</span></span></span><span class="line"><span class="cl"><span class="s2">    knowledge about `q` is available. This example is from the
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Magma handbook:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    First, we set up `p`, `q` and `N`::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: length = 512
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: hidden = 110
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: p = next_prime(2^int(round(length/2)))
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: q = next_prime( round(pi.n()*p) )
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: N = p*q
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Now we disturb the low 110 bits of `q`::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: qbar = q + ZZ.random_element(0,2^hidden-1)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    And try to recover `q` from it::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: F.&lt;x&gt; = PolynomialRing(Zmod(N), implementation=&#39;NTL&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: f = x - qbar
+</span></span></span><span class="line"><span class="cl"><span class="s2">    We know that the error is `\le 2^{</span><span class="se">\t</span><span class="s2">ext</span><span class="si">{hidden}</span><span class="s2">}-1` and that the modulus
+</span></span></span><span class="line"><span class="cl"><span class="s2">    we are looking for is `\ge \sqrt</span><span class="si">{N}</span><span class="s2">`::
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: from sage.misc.verbose import set_verbose
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: set_verbose(2)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: d = f.small_roots(X=2^hidden-1, beta=0.5)[0] # time random
+</span></span></span><span class="line"><span class="cl"><span class="s2">        verbose 2 (&lt;module&gt;) m = 4
+</span></span></span><span class="line"><span class="cl"><span class="s2">        verbose 2 (&lt;module&gt;) t = 4
+</span></span></span><span class="line"><span class="cl"><span class="s2">        verbose 2 (&lt;module&gt;) X = 1298074214633706907132624082305023
+</span></span></span><span class="line"><span class="cl"><span class="s2">        verbose 1 (&lt;module&gt;) LLL of 8x8 matrix (algorithm fpLLL:wrapper)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        verbose 1 (&lt;module&gt;) LLL finished (time = 0.006998)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        sage: q == qbar - d
+</span></span></span><span class="line"><span class="cl"><span class="s2">        True
+</span></span></span><span class="line"><span class="cl"><span class="s2">    REFERENCES:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Don Coppersmith. *Finding a small root of a univariate modular equation.*
+</span></span></span><span class="line"><span class="cl"><span class="s2">    In Advances in Cryptology, EuroCrypt 1996, volume 1070 of Lecture
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Notes in Computer Science, p. 155--165. Springer, 1996.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    http://cr.yp.to/bib/2001/coppersmith.pdf
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Alexander May. *New RSA Vulnerabilities Using Lattice Reduction Methods.*
+</span></span></span><span class="line"><span class="cl"><span class="s2">    PhD thesis, University of Paderborn, 2003.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    http://www.cs.uni-paderborn.de/uploads/tx_sibibtex/bp.pdf
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">from</span> <span class="nn">sage.misc.verbose</span> <span class="kn">import</span> <span class="n">verbose</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">from</span> <span class="nn">sage.matrix.constructor</span> <span class="kn">import</span> <span class="n">Matrix</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">from</span> <span class="nn">sage.rings.all</span> <span class="kn">import</span> <span class="n">RR</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">characteristic</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_monic</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&#34;Polynomial must be monic.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">beta</span> <span class="o">=</span> <span class="n">RR</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">beta</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;0.0 &lt; beta &lt;= 1.0 not satisfied.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">P</span><span class="p">,(</span><span class="n">x</span><span class="p">,)</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">objgens</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">delta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">epsilon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">epsilon</span> <span class="o">=</span> <span class="n">beta</span><span class="o">/</span><span class="mi">8</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;epsilon = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">),</span> <span class="mi">7</span><span class="o">*</span><span class="n">beta</span><span class="o">/</span><span class="n">delta</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;m = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">m</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="p">(</span> <span class="n">delta</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">beta</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">floor</span><span class="p">()</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;t = </span><span class="si">%d</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">t</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">delta</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verbose</span><span class="p">(</span><span class="s2">&#34;X = </span><span class="si">%s</span><span class="s2">&#34;</span><span class="o">%</span><span class="n">X</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># we could do this much faster, but this is a cheap step</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># compared to LLL</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="n">j</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">g</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x</span><span class="o">**</span><span class="n">i</span> <span class="o">*</span> <span class="n">f</span><span class="o">**</span><span class="n">m</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span> <span class="c1"># h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="n">delta</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">nrows</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span> <span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="o">**</span><span class="n">j</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">=</span>  <span class="n">B</span><span class="o">.</span><span class="n">LLL</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">ZZ</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">//</span><span class="n">X</span><span class="o">**</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">ncols</span><span class="p">())])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">R</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ZmodN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">ZmodN</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">m</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">X</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Nbeta</span> <span class="o">=</span> <span class="n">N</span><span class="o">**</span><span class="n">beta</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="n">root</span> <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span> <span class="k">if</span> <span class="n">N</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">root</span><span class="p">)))</span> <span class="o">&gt;=</span> <span class="n">Nbeta</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="应用-flatter-简单-coding-一下">应用 flatter 简单 coding 一下</h1>
 <div class="highlight"><div class="chroma">
@@ -896,114 +895,114 @@ $$
 </span><span class="lnt">107
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="c1">#sage10.3 Halois</span>
-<span class="c1"># if ur running a brute force attack on a polynomial, this is not your weapon, Too many system calls can drain your time</span>
-
-
-<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># set on True to see warnings </span>
-
-
-
-<span class="k">def</span> <span class="nf">flat_roots</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">subprocess</span>
-    <span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">warnings</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&#34;[</span><span class="si">{}</span><span class="s2">]&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;[</span><span class="si">{}</span><span class="s2">]&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">M</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">parse_row</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-    
-    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;[&#34;</span>
-        <span class="k">assert</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;]&#34;</span>
-        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">parse_row</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;][&#34;</span><span class="p">)))</span>
-        
-    <span class="k">def</span> <span class="nf">flatter</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">PATH</span> <span class="o">=</span> <span class="n">FLATTER_PATH</span>
-        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Warning: using `flatter` if it can be found on $PATH. Set `FLATTER_PATH` to the command if this fails.&#34;</span><span class="p">)</span> <span class="k">if</span> <span class="n">DEBUG</span> <span class="k">else</span> <span class="kc">None</span>
-            <span class="n">PATH</span> <span class="o">=</span> <span class="s2">&#34;flatter&#34;</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">ARGS</span> <span class="o">=</span> <span class="n">FLATTER_ARGS</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">ARGS</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">return</span> <span class="n">parse</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="n">PATH</span><span class="p">,</span> <span class="o">*</span><span class="n">ARGS</span><span class="p">],</span> <span class="nb">input</span><span class="o">=</span><span class="n">dump</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-
-
-    <span class="c1"># Because univariate and multivariate are just different enough to make you crazy , but in sage10.3 we get a grace way</span>
-    <span class="n">PR</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="p">())</span><span class="o">.</span><span class="n">flattening_morphism</span><span class="p">()</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">PR</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    
-    <span class="n">orig</span> <span class="o">=</span> <span class="n">f</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
-
-    <span class="n">R</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>
-    
-    <span class="n">f</span> <span class="o">/=</span> <span class="n">f</span><span class="o">.</span><span class="n">coefficients</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
-
-    <span class="n">G</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([],</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="n">N</span><span class="o">^</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">^</span><span class="n">i</span>
-        <span class="k">for</span> <span class="n">shifts</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">())):</span>
-            <span class="n">g</span> <span class="o">=</span> <span class="n">base</span> <span class="o">*</span> <span class="n">prod</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">(),</span> <span class="n">shifts</span><span class="p">))</span>
-            <span class="n">G</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-
-    <span class="n">B</span><span class="p">,</span> <span class="n">monomials</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">coefficient_matrix</span><span class="p">()</span>
-    <span class="n">monomials</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">monomials</span><span class="p">)</span>
-
-    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">monomial</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">)</span> <span class="k">for</span> <span class="n">monomial</span> <span class="ow">in</span> <span class="n">monomials</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
-        <span class="n">B</span><span class="o">.</span><span class="n">rescale_col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
-
-    <span class="n">B</span> <span class="o">=</span> <span class="n">flatter</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">dense_matrix</span><span class="p">())</span>
-
-    <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
-        <span class="n">B</span><span class="o">.</span><span class="n">rescale_col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">factor</span><span class="p">)</span>
-
-    <span class="n">H</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([],</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">QQ</span><span class="p">))</span>
-    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="o">*</span><span class="n">monomials</span><span class="p">):</span>
-        <span class="n">H</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">I</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">ideal</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">I</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">H</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">I</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">I</span><span class="o">.</span><span class="n">variety</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">ZZ</span><span class="p">):</span>
-                <span class="n">root</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="n">root</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">())</span>
-                <span class="k">if</span> <span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="n">orig</span><span class="p">(</span><span class="o">*</span><span class="n">root</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">roots</span>
-    <span class="k">return</span> <span class="n">roots</span>
-
-
-<span class="k">def</span> <span class="nf">install_flatter</span><span class="p">():</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&#34;flatter/bin/flatter&#34;</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&#34;rm -rf flatter </span><span class="se">\
-</span><span class="se"></span><span class="s2">                  &amp;&amp; git clone https://github.com/keeganryan/flatter </span><span class="se">\
-</span><span class="se"></span><span class="s2">                  &amp;&amp; cd flatter &amp;&amp; sed -i &#39;s/SHARED/STATIC/g&#39; src/CMakeLists.txt </span><span class="se">\
-</span><span class="se"></span><span class="s2">                  &amp;&amp; mkdir build </span><span class="se">\
-</span><span class="se"></span><span class="s2">                  &amp;&amp; cd build </span><span class="se">\
-</span><span class="se"></span><span class="s2">                  &amp;&amp; cmake .. </span><span class="se">\
-</span><span class="se"></span><span class="s2">                    -DCMAKE_BUILD_TYPE=Release </span><span class="se">\
-</span><span class="se"></span><span class="s2">                    -DCMAKE_INSTALL_PREFIX=..</span><span class="se">\
-</span><span class="se"></span><span class="s2">                    -DCMAKE_CXX_FLAGS=&#39;-march=native&#39; </span><span class="se">\
-</span><span class="se"></span><span class="s2">                  &amp;&amp; make install&#34;</span><span class="p">)</span>
-    <span class="k">global</span> <span class="n">FLATTER_PATH</span>
-    <span class="n">FLATTER_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&#34;flatter&#34;</span><span class="p">,</span> <span class="s2">&#34;bin&#34;</span><span class="p">,</span> <span class="s2">&#34;flatter&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="c1">#sage10.3 Halois</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># if ur running a brute force attack on a polynomial, this is not your weapon, Too many system calls can drain your time</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># set on True to see warnings </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">flat_roots</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">import</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">import</span> <span class="nn">warnings</span>
+</span></span><span class="line"><span class="cl">        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;[</span><span class="si">{}</span><span class="s2">]&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;[</span><span class="si">{}</span><span class="s2">]&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">M</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">parse_row</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">assert</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;[&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">assert</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;]&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">parse_row</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;][&#34;</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">flatter</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">PATH</span> <span class="o">=</span> <span class="n">FLATTER_PATH</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Warning: using `flatter` if it can be found on $PATH. Set `FLATTER_PATH` to the command if this fails.&#34;</span><span class="p">)</span> <span class="k">if</span> <span class="n">DEBUG</span> <span class="k">else</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">            <span class="n">PATH</span> <span class="o">=</span> <span class="s2">&#34;flatter&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ARGS</span> <span class="o">=</span> <span class="n">FLATTER_ARGS</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ARGS</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">parse</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="n">PATH</span><span class="p">,</span> <span class="o">*</span><span class="n">ARGS</span><span class="p">],</span> <span class="nb">input</span><span class="o">=</span><span class="n">dump</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Because univariate and multivariate are just different enough to make you crazy , but in sage10.3 we get a grace way</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PR</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="p">())</span><span class="o">.</span><span class="n">flattening_morphism</span><span class="p">()</span><span class="o">.</span><span class="n">codomain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">=</span> <span class="n">PR</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">orig</span> <span class="o">=</span> <span class="n">f</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">d</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">R</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">base_ring</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">/=</span> <span class="n">f</span><span class="o">.</span><span class="n">coefficients</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">G</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([],</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">base</span> <span class="o">=</span> <span class="n">N</span><span class="o">^</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">^</span><span class="n">i</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">shifts</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">())):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">g</span> <span class="o">=</span> <span class="n">base</span> <span class="o">*</span> <span class="n">prod</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">(),</span> <span class="n">shifts</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">G</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">B</span><span class="p">,</span> <span class="n">monomials</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">coefficient_matrix</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">monomials</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">monomials</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">monomial</span><span class="p">(</span><span class="o">*</span><span class="n">bounds</span><span class="p">)</span> <span class="k">for</span> <span class="n">monomial</span> <span class="ow">in</span> <span class="n">monomials</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span><span class="o">.</span><span class="n">rescale_col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">=</span> <span class="n">flatter</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">dense_matrix</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span><span class="o">.</span><span class="n">rescale_col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">factor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([],</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">change_ring</span><span class="p">(</span><span class="n">QQ</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="o">*</span><span class="n">monomials</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">H</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">I</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">ideal</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">I</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">H</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">I</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">I</span><span class="o">.</span><span class="n">variety</span><span class="p">(</span><span class="n">ring</span><span class="o">=</span><span class="n">ZZ</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">root</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="n">root</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">gens</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">gcd</span><span class="p">(</span><span class="n">ZZ</span><span class="p">(</span><span class="n">orig</span><span class="p">(</span><span class="o">*</span><span class="n">root</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">roots</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">roots</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">install_flatter</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&#34;flatter/bin/flatter&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&#34;rm -rf flatter </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                  &amp;&amp; git clone https://github.com/keeganryan/flatter </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                  &amp;&amp; cd flatter &amp;&amp; sed -i &#39;s/SHARED/STATIC/g&#39; src/CMakeLists.txt </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                  &amp;&amp; mkdir build </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                  &amp;&amp; cd build </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                  &amp;&amp; cmake .. </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                    -DCMAKE_BUILD_TYPE=Release </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                    -DCMAKE_INSTALL_PREFIX=..</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                    -DCMAKE_CXX_FLAGS=&#39;-march=native&#39; </span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">                  &amp;&amp; make install&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span> <span class="n">FLATTER_PATH</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FLATTER_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&#34;flatter&#34;</span><span class="p">,</span> <span class="s2">&#34;bin&#34;</span><span class="p">,</span> <span class="s2">&#34;flatter&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="reference">Reference</h1>
 <ul>
@@ -1041,7 +1040,7 @@ $$
                 Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.115.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -1051,5 +1050,5 @@ $$
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.b0df51c2c57145081cc73960e9aa780e6f5f56d06cf4ef0f96da8ce1619d1e12.js" integrity="sha256-sN9RwsVxRQgcxzlg6ap4Dm9fVtBs9O8PltqM4WGdHhI="></script></body>
 </html>

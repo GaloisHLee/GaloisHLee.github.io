@@ -58,6 +58,7 @@
 
 {{< friend name="huangx607087" url="https://huangx607087.online" logo="https://s2.loli.net/2024/11/27/QVIGFyLvHPSZlhc.jpg" word="退役两年又复出的Cryptoer." >}}
 
+{{< friend name="Adwa" url="https://languag3.github.io/" logo="https://languag3.github.io/images/avatar.jpg" word="🦌: adwa世界第一帅" >}}
 
 </div>
 </div>
