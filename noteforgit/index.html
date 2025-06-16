@@ -10,6 +10,7 @@
 <meta property="og:url" content="https://galoishlee.github.io/noteforgit/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-04-04T15:06:59+08:00" />
 <meta property="article:modified_time" content="2024-04-05T00:07:54+08:00" /><meta property="og:site_name" content="Mathematical" />
+
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
 
@@ -181,9 +182,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
-</span></span><span class="line"><span class="cl">$ git config --global user.email <span class="s2">&#34;email@example.com&#34;</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
+$ git config --global user.email <span class="s2">&#34;email@example.com&#34;</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>&ndash;global参数表示全局，即本机使用git时已经选定了特定仓库，当然也可以为特定的本地仓库指定远程仓库。</p>
 <h1 id="2repository">2.Repository</h1>
@@ -198,11 +199,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$mkdir</span> learngit
-</span></span><span class="line"><span class="cl"><span class="nv">$cd</span> learngit
-</span></span><span class="line"><span class="cl"><span class="nv">$pwd</span>
-</span></span><span class="line"><span class="cl">/halois/learngit
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$mkdir</span> learngit
+<span class="nv">$cd</span> learngit
+<span class="nv">$pwd</span>
+/halois/learngit
+</code></pre></td></tr></table>
 </div>
 </div><blockquote>
 <p>win下保证目录树中无中文，以避免奇怪的问题发生</p>
@@ -213,8 +214,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> init
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> init
+</code></pre></td></tr></table>
 </div>
 </div><p>Step_2</p>
 <div class="highlight"><div class="chroma">
@@ -222,8 +223,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> add &lt;filename&gt; or &lt;directories&gt;
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> add &lt;filename&gt; or &lt;directories&gt;
+</code></pre></td></tr></table>
 </div>
 </div><p>Step_3</p>
 <div class="highlight"><div class="chroma">
@@ -231,8 +232,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> commit -m <span class="s2">&#34;Explanatory statement&#34;</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> commit -m <span class="s2">&#34;Explanatory statement&#34;</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>Warning：不可含有任何中文</strong></p>
 <h2 id="22快照功能">2.2快照功能</h2>
@@ -246,10 +247,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="nb">PS </span><span class="n">E:</span><span class="p">\</span><span class="n">desktop</span><span class="p">\</span><span class="n">blogdemo</span><span class="p">&gt;</span> <span class="n">git</span> <span class="n">status</span>
-</span></span><span class="line"><span class="cl"><span class="n">On</span> <span class="n">branch</span> <span class="n">master</span>
-</span></span><span class="line"><span class="cl"><span class="n">nothing</span> <span class="n">to</span> <span class="n">commit</span><span class="p">,</span> <span class="n">working</span> <span class="n">tree</span> <span class="n">clean</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="nb">PS </span><span class="n">E:</span><span class="p">\</span><span class="n">desktop</span><span class="p">\</span><span class="n">blogdemo</span><span class="p">&gt;</span> <span class="n">git</span> <span class="n">status</span>
+<span class="n">On</span> <span class="n">branch</span> <span class="n">master</span>
+<span class="n">nothing</span> <span class="n">to</span> <span class="n">commit</span><span class="p">,</span> <span class="n">working</span> <span class="n">tree</span> <span class="n">clean</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>git  reset</strong></p>
 <p>回到上一个提交：</p>
@@ -258,8 +259,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">git</span> <span class="n">reset</span> <span class="p">-</span><span class="n">-hard</span> <span class="n">HEAD</span><span class="p">^</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">git</span> <span class="n">reset</span> <span class="p">-</span><span class="n">-hard</span> <span class="n">HEAD</span><span class="p">^</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>如果没有上一个提交将会:</p>
 <div class="highlight"><div class="chroma">
@@ -270,11 +271,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">E:</span><span class="p">\</span><span class="n">desktop</span><span class="p">\</span><span class="n">blogdemo</span><span class="p">&gt;</span> <span class="n">git</span> <span class="n">reset</span> <span class="p">-</span><span class="n">-hard</span> <span class="n">HEAD</span><span class="p">^</span>
-</span></span><span class="line"><span class="cl"><span class="n">fatal</span><span class="err">:</span> <span class="n">ambiguous</span> <span class="n">argument</span> <span class="s1">&#39;HEAD^&#39;</span><span class="err">:</span> <span class="n">unknown</span> <span class="n">revision</span> <span class="n">or</span> <span class="n">path</span> <span class="n">not</span> <span class="k">in</span> <span class="n">the</span> <span class="n">working</span> <span class="n">tree</span><span class="p">.</span>
-</span></span><span class="line"><span class="cl"><span class="n">Use</span> <span class="s1">&#39;--&#39;</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">paths</span> <span class="n">from</span> <span class="n">revisions</span><span class="p">,</span> <span class="n">like</span> <span class="n">this</span><span class="err">:</span>
-</span></span><span class="line"><span class="cl"><span class="s1">&#39;git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]&#39;</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">PS </span><span class="n">E:</span><span class="p">\</span><span class="n">desktop</span><span class="p">\</span><span class="n">blogdemo</span><span class="p">&gt;</span> <span class="n">git</span> <span class="n">reset</span> <span class="p">-</span><span class="n">-hard</span> <span class="n">HEAD</span><span class="p">^</span>
+<span class="n">fatal</span><span class="err">:</span> <span class="n">ambiguous</span> <span class="n">argument</span> <span class="s1">&#39;HEAD^&#39;</span><span class="err">:</span> <span class="n">unknown</span> <span class="n">revision</span> <span class="n">or</span> <span class="n">path</span> <span class="n">not</span> <span class="k">in</span> <span class="n">the</span> <span class="n">working</span> <span class="n">tree</span><span class="p">.</span>
+<span class="n">Use</span> <span class="s1">&#39;--&#39;</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">paths</span> <span class="n">from</span> <span class="n">revisions</span><span class="p">,</span> <span class="n">like</span> <span class="n">this</span><span class="err">:</span>
+<span class="s1">&#39;git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]&#39;</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>请注意，<code>git reset --hard</code>命令是一个危险的操作，它会丢弃所有未提交的更改，并将分支移动到指定的提交。请确保在执行此命令之前备份重要的更改</p>
 <p><code>HEAD</code>指向当前版本。</p>
@@ -343,8 +344,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">git</span> <span class="n">push</span> <span class="n">-u</span> <span class="n">origin</span> <span class="n">master</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">git</span> <span class="n">push</span> <span class="n">-u</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><code>git push</code>是将本地内容推送到远程，上述命令把当前的分支<code>master</code>推送到远程。</p>
 <p><code>-u</code>参数 由于是第一次推送，使用<code>-u</code>推送后可以使得笨的的master和远程仓库的master关联起来，在以后的推送和拉去可以简化命令</p>
@@ -353,8 +354,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="32删除远程库">3.2删除远程库</h2>
 <p>查看远程库信息：</p>
@@ -363,8 +364,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git remote -v
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git remote -v
+</code></pre></td></tr></table>
 </div>
 </div><p>删除远程库：</p>
 <div class="highlight"><div class="chroma">
@@ -372,8 +373,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git remote rm &lt;Remotename&gt;
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git remote rm &lt;Remotename&gt;
+</code></pre></td></tr></table>
 </div>
 </div><p>删除的含义：解除本地与远程的链接。如需要彻底删除，则需要进入远程库的管理系统进行删除。</p>
 <h2 id="33远程传本地">3.3远程传本地</h2>
@@ -382,8 +383,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone &lt;ssh/https to your repository&gt;
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git clone &lt;ssh/https to your repository&gt;
+</code></pre></td></tr></table>
 </div>
 </div><h1 id="4分支管理">4.分支管理</h1>
 <p><img
@@ -404,8 +405,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git branch <span class="o">(</span>branchname<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git branch <span class="o">(</span>branchname<span class="o">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>切换分支：</strong></p>
 <div class="highlight"><div class="chroma">
@@ -413,8 +414,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git checkout <span class="o">(</span>branchname<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git checkout <span class="o">(</span>branchname<span class="o">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><blockquote>
 <p>切换分支时git会用该分支的最近一次快照内容替换工作目录内容，多个分支不需要多个目录</p>
@@ -465,8 +466,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git checkout -b dev
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git checkout -b dev
+</code></pre></td></tr></table>
 </div>
 </div><p>穿件并切换到；相当于</p>
 <div class="highlight"><div class="chroma">
@@ -475,9 +476,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git branch dev
-</span></span><span class="line"><span class="cl">git checkout dev
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git branch dev
+git checkout dev
+</code></pre></td></tr></table>
 </div>
 </div><p>然后使用<code>git branch</code>查看分支状态</p>
 <p>切换到已有的分支：</p>
@@ -486,8 +487,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git switch main
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git switch main
+</code></pre></td></tr></table>
 </div>
 </div><p>创建新的并切换到分支：</p>
 <div class="highlight"><div class="chroma">
@@ -495,8 +496,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git switch -c dev
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git switch -c dev
+</code></pre></td></tr></table>
 </div>
 </div><p>这一更新是为了使得 <code>git checkout </code>不那么容易混淆在版本库和工作区之间的操作。</p>
 <h2 id="42解决冲突">4.2解决冲突</h2>
@@ -521,11 +522,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git merge feature1
-</span></span><span class="line"><span class="cl">Auto-merging readme.txt
-</span></span><span class="line"><span class="cl">CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict in readme.txt
-</span></span><span class="line"><span class="cl">Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then</span> commit the result.
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git merge feature1
+Auto-merging readme.txt
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict in readme.txt
+Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then</span> commit the result.
+</code></pre></td></tr></table>
 </div>
 </div><p><code>git status</code>也可获得冲突信息</p>
 <div class="highlight"><div class="chroma">
@@ -547,22 +548,22 @@
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git status
-</span></span><span class="line"><span class="cl">On branch master
-</span></span><span class="line"><span class="cl">Your branch is ahead of <span class="s1">&#39;origin/master&#39;</span> by <span class="m">2</span> commits.
-</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git push&#34;</span> to publish your <span class="nb">local</span> commits<span class="o">)</span>
-</span></span><span class="line"><span class="cl">//对比远程和本地的提交次数
-</span></span><span class="line"><span class="cl">You have unmerged paths.
-</span></span><span class="line"><span class="cl">  <span class="o">(</span>fix conflicts and run <span class="s2">&#34;git commit&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git merge --abort&#34;</span> to abort the merge<span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Unmerged paths:
-</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git add &lt;file&gt;...&#34;</span> to mark resolution<span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	both modified:   readme.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">no changes added to commit <span class="o">(</span>use <span class="s2">&#34;git add&#34;</span> and/or <span class="s2">&#34;git commit -a&#34;</span><span class="o">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git status
+On branch master
+Your branch is ahead of <span class="s1">&#39;origin/master&#39;</span> by <span class="m">2</span> commits.
+  <span class="o">(</span>use <span class="s2">&#34;git push&#34;</span> to publish your <span class="nb">local</span> commits<span class="o">)</span>
+//对比远程和本地的提交次数
+You have unmerged paths.
+  <span class="o">(</span>fix conflicts and run <span class="s2">&#34;git commit&#34;</span><span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">&#34;git merge --abort&#34;</span> to abort the merge<span class="o">)</span>
+
+Unmerged paths:
+  <span class="o">(</span>use <span class="s2">&#34;git add &lt;file&gt;...&#34;</span> to mark resolution<span class="o">)</span>
+
+	both modified:   readme.txt
+
+no changes added to commit <span class="o">(</span>use <span class="s2">&#34;git add&#34;</span> and/or <span class="s2">&#34;git commit -a&#34;</span><span class="o">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>解决：</p>
 <p><img
@@ -579,8 +580,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git merge --no-ff -m <span class="s2">&#34;Explanatory statement&#34;</span> &lt;target branch&gt; 
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git merge --no-ff -m <span class="s2">&#34;Explanatory statement&#34;</span> &lt;target branch&gt; 
+</code></pre></td></tr></table>
 </div>
 </div><p><code>--no-ff</code>参数表示禁用<code>Fast forward</code>模式，于是git在merge时会新生成一个提交，从分支历史上可清晰看见分支信息</p>
 <p><img
@@ -607,8 +608,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git stash
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git stash
+</code></pre></td></tr></table>
 </div>
 </div><p>缓存后会自动清除工作区，可以通过</p>
 <div class="highlight"><div class="chroma">
@@ -616,8 +617,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git stash list
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">git stash list
+</code></pre></td></tr></table>
 </div>
 </div><p>查看缓存</p>
 <p><strong>还原</strong></p>
@@ -643,10 +644,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git stash list
-</span></span><span class="line"><span class="cl">stash@<span class="o">{</span>0<span class="o">}</span>: WIP on dev: f52c633 add merge
-</span></span><span class="line"><span class="cl">$ git stash apply stash@<span class="o">{</span>0<span class="o">}</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">$ git stash list
+stash@<span class="o">{</span>0<span class="o">}</span>: WIP on dev: f52c633 add merge
+$ git stash apply stash@<span class="o">{</span>0<span class="o">}</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>临时分支的修改需要作用与其他分支</strong></p>
 <div class="highlight"><div class="chroma">
@@ -654,8 +655,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$git cherry-pick &lt;code of commit&gt;
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">$git cherry-pick &lt;code of commit&gt;
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="45测试分支">4.5测试分支</h2>
 <p><strong>新的功能需求出现：建立测试分支</strong></p>
@@ -664,8 +665,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> switch -c feature-test
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> switch -c feature-test
+</code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -676,12 +677,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> add test.py 
-</span></span><span class="line"><span class="cl"><span class="nv">$git</span> commit -m <span class="s2">&#34;add features test&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$git</span> switch dev
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$git</span> branch -d feature-test
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> add test.py 
+<span class="nv">$git</span> commit -m <span class="s2">&#34;add features test&#34;</span>
+<span class="nv">$git</span> switch dev
+
+<span class="nv">$git</span> branch -d feature-test
+</code></pre></td></tr></table>
 </div>
 </div><p>如中途功能取消：</p>
 <p>删除未合并分支</p>
@@ -690,8 +691,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> branch -D feature-test
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> branch -D feature-test
+</code></pre></td></tr></table>
 </div>
 </div><p><code>-D</code>强行删除</p>
 <h2 id="46多人协作">4.6多人协作</h2>
@@ -702,9 +703,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> remote 
-</span></span><span class="line"><span class="cl">origin
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> remote 
+origin
+</code></pre></td></tr></table>
 </div>
 </div><p>可以加入参数 <code>-v</code>以查看详细信息（origin的地址）</p>
 <p><strong>推送分支</strong></p>
@@ -714,8 +715,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> push origin master
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> push origin master
+</code></pre></td></tr></table>
 </div>
 </div><p>如果要推送其他分支如dev</p>
 <div class="highlight"><div class="chroma">
@@ -723,8 +724,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> push origin dev
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> push origin dev
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>抓取分支</strong></p>
 <p>一般的，默认master(main)分支和dev分支均及推送，而这两个分支也大多会被及时抓取</p>
@@ -734,8 +735,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> checkout -b dev origin/dev
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> checkout -b dev origin/dev
+</code></pre></td></tr></table>
 </div>
 </div><p>建立了本地dev分支和远程的dev分支的关联。</p>
 <p>值得注意的是需要先保持本地和远程一致，再提交自己的修改。</p>
@@ -744,8 +745,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> pull 
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> pull 
+</code></pre></td></tr></table>
 </div>
 </div><p>在pull之前也首先需要建立一个链接</p>
 <div class="highlight"><div class="chroma">
@@ -753,8 +754,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> branch --set-upstream-to<span class="o">=</span>origin/dev dev
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> branch --set-upstream-to<span class="o">=</span>origin/dev dev
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>多人协作一般方式：</strong></p>
 <ul>
@@ -777,8 +778,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> tag &lt;tagname&gt; &lt;code of commit&gt;
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> tag &lt;tagname&gt; &lt;code of commit&gt;
+</code></pre></td></tr></table>
 </div>
 </div><p>tag状态的排序按照字母顺序。</p>
 <p>查看详细信息：</p>
@@ -787,8 +788,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> show &lt;tagname&gt;
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> show &lt;tagname&gt;
+</code></pre></td></tr></table>
 </div>
 </div><p>同样的可以加入一些说明性文字</p>
 <div class="highlight"><div class="chroma">
@@ -796,8 +797,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> tag -a v1.0 -m <span class="s2">&#34;version 0.1 released&#34;</span> 1024aa
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$git</span> tag -a v1.0 -m <span class="s2">&#34;version 0.1 released&#34;</span> 1024aa
+</code></pre></td></tr></table>
 </div>
 </div><p><code>-a</code>指定了标签名，<code>-m</code>加入说明性文字。均可以在git show中查看</p>
 <p><strong>标签是跨分支的，tag创建后在任何分支均可查看</strong></p>
@@ -844,7 +845,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.115.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -854,5 +855,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.b0df51c2c57145081cc73960e9aa780e6f5f56d06cf4ef0f96da8ce1619d1e12.js" integrity="sha256-sN9RwsVxRQgcxzlg6ap4Dm9fVtBs9O8PltqM4WGdHhI="></script></body>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
 </html>

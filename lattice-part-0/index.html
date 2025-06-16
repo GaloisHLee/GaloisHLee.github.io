@@ -13,6 +13,7 @@
 <meta property="og:url" content="https://galoishlee.github.io/lattice-part-0/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-04-04T23:27:41+08:00" />
 <meta property="article:modified_time" content="2024-04-05T00:07:54+08:00" /><meta property="og:site_name" content="Mathematical" />
+
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
 
@@ -38,7 +39,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","wordcount":  3396 ,
+                        }],"genre": "posts","wordcount":  3354 ,
         "url": "https:\/\/galoishlee.github.io\/lattice-part-0\/","datePublished": "2024-04-04T23:27:41+08:00","dateModified": "2024-04-05T00:07:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -118,7 +119,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 0</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-04-04">2024-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3396 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-04-04">2024-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3354 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -335,8 +336,8 @@ $$</p>
 <p>当然我们对det（L）做一些详细解释，以便结合曾经的明可夫斯基不等式来理解这一定理：</p>
 <p><strong>行列式的几何意义</strong>
 $$
-X^T = (a,c),X&rsquo;^T = (b,d)\
-det(X^T,X&rsquo;^T)  = S
+X^T = (a,c),X'^T = (b,d)\
+det(X^T,X'^T)  = S
 $$
 <img
         class="lazyload"
@@ -355,8 +356,8 @@ $$
 <li>
 <p>行列式是一个<a href="https://zh.wikipedia.org/wiki/%e5%8f%8c%e7%ba%bf%e6%80%a7%e6%98%a0%e5%b0%84" target="_blank" rel="noopener noreffer ">双线性映射</a>。
 $$
-det(λX+μY,X&rsquo;) =λdet(X,X&rsquo;)+ μ(Y,X&rsquo;) \
-det(X,λX&rsquo;+μY&rsquo;) =λdet(X,X&rsquo;)+ μ(X,Y&rsquo;)
+det(λX+μY,X') =λdet(X,X')+ μ(Y,X') \
+det(X,λX'+μY') =λdet(X,X')+ μ(X,Y')
 $$</p>
 </li>
 </ul>
@@ -557,27 +558,27 @@ $$
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_gramSchmidt_np</span><span class="p">(</span><span class="n">vectors</span><span class="p">):</span>        <span class="c1">#Eg:vecetors = np.array([[1,2],[3,4]]) </span>
-</span></span><span class="line"><span class="cl">     <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">         <span class="n">u</span> <span class="o">=</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">     <span class="k">def</span> <span class="nf">unit_vec</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">     <span class="n">u</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">     <span class="n">basis</span> <span class="o">=</span> <span class="n">my_gramSchmidt_np</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proj</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">     <span class="n">basis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">basis</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">my_gramSchmidt_np</span><span class="p">(</span><span class="n">vectors</span><span class="p">):</span>        <span class="c1">#Eg:vecetors = np.array([[1,2],[3,4]]) </span>
+     <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+         <span class="n">u</span> <span class="o">=</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span>
+        
+     <span class="k">def</span> <span class="nf">unit_vec</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+     <span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+    
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+         <span class="k">return</span> <span class="p">[]</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+         <span class="k">return</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+    
+     <span class="n">u</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+     <span class="n">basis</span> <span class="o">=</span> <span class="n">my_gramSchmidt_np</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proj</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">))</span>
+     <span class="n">basis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">unit_vec</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+     <span class="k">return</span> <span class="n">basis</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>Sympy</strong>:</p>
 <div class="highlight"><div class="chroma">
@@ -653,76 +654,76 @@ $$
 </span><span class="lnt">69
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_gramSchmidt_sp</span><span class="p">(</span><span class="o">*</span><span class="n">vectors</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">     <span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hermitian</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hermitian</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="k">def</span> <span class="nf">perp_to_subspace</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">basis</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">         <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">project</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">             <span class="k">return</span> <span class="n">vec</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">vec</span> <span class="o">-</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">     <span class="n">vectors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_zero_matrix</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="k">del</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="n">perp</span> <span class="o">=</span> <span class="n">perp_to_subspace</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">         <span class="k">if</span> <span class="ow">not</span> <span class="n">perp</span><span class="o">.</span><span class="n">is_zero_matrix</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">             <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Matrix</span><span class="p">(</span><span class="n">perp</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec</span> <span class="o">/</span> <span class="n">vec</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">ret</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl"> <span class="k">def</span> <span class="nf">gram_schmidt_sp</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">     <span class="c1"># YOUR CODE HERE</span>
-</span></span><span class="line"><span class="cl">     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="k">raise</span> <span class="ne">ValueError</span>
-</span></span><span class="line"><span class="cl">     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
-</span></span><span class="line"><span class="cl">         <span class="k">raise</span> <span class="ne">ValueError</span>
-</span></span><span class="line"><span class="cl">     <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="n">V</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="n">vlist</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">     <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vlist</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Matrix</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">     <span class="n">result</span> <span class="o">=</span> <span class="n">my_gramSchmidt_sp</span><span class="p">(</span><span class="o">*</span><span class="n">tmp_list</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_list</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">         <span class="n">ma_list</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">             <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">                 <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">             <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp_list</span>
-</span></span><span class="line"><span class="cl">             <span class="n">ma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl">         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ma_list</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">result</span>
-</span></span><span class="line"><span class="cl">     <span class="k">else</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">         <span class="n">ma_list</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">             <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">                 <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">             <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp_list</span>
-</span></span><span class="line"><span class="cl">             <span class="n">ma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ma_list</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">H</span>
-</span></span><span class="line"><span class="cl">         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
-</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">result</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">my_gramSchmidt_sp</span><span class="p">(</span><span class="o">*</span><span class="n">vectors</span><span class="p">):</span>
+     <span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span>
+ 
+     <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hermitian</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">hermitian</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+ 
+     <span class="k">def</span> <span class="nf">perp_to_subspace</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">basis</span><span class="p">):</span>
+ 
+         <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">project</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">]</span>
+ 
+         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+             <span class="k">return</span> <span class="n">vec</span>
+ 
+         <span class="k">return</span> <span class="n">vec</span> <span class="o">-</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span>
+ 
+     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+     <span class="n">vectors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+ 
+     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_zero_matrix</span><span class="p">:</span>
+         <span class="k">del</span> <span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+ 
+     <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">:</span>
+         <span class="n">perp</span> <span class="o">=</span> <span class="n">perp_to_subspace</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>
+ 
+         <span class="k">if</span> <span class="ow">not</span> <span class="n">perp</span><span class="o">.</span><span class="n">is_zero_matrix</span><span class="p">:</span>
+             <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Matrix</span><span class="p">(</span><span class="n">perp</span><span class="p">))</span>
+ 
+     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+         <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec</span> <span class="o">/</span> <span class="n">vec</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">]</span>
+ 
+     <span class="k">return</span> <span class="n">ret</span>
+ 
+ <span class="k">def</span> <span class="nf">gram_schmidt_sp</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+     <span class="c1"># YOUR CODE HERE</span>
+     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">:</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span>
+     <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+     <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+     <span class="n">V</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+     <span class="n">vlist</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+     <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vlist</span><span class="p">:</span>
+         <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Matrix</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+     <span class="n">result</span> <span class="o">=</span> <span class="n">my_gramSchmidt_sp</span><span class="p">(</span><span class="o">*</span><span class="n">tmp_list</span><span class="p">)</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_list</span><span class="p">):</span>
+         <span class="n">ma_list</span> <span class="o">=</span> <span class="p">[]</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+             <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+                 <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+             <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp_list</span>
+             <span class="n">ma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+ 
+         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ma_list</span><span class="p">)</span>
+         <span class="k">return</span> <span class="n">result</span>
+     <span class="k">else</span><span class="p">:</span>
+         <span class="n">ma_list</span> <span class="o">=</span> <span class="p">[]</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+             <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+                 <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+             <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp_list</span>
+             <span class="n">ma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">ma_list</span><span class="p">)</span>
+         <span class="n">result</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">H</span>
+         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+         <span class="k">return</span> <span class="n">result</span>
+</code></pre></td></tr></table>
 </div>
 </div><p><strong>Sagemath</strong>:</p>
 <div class="highlight"><div class="chroma">
@@ -744,22 +745,22 @@ $$
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 定义向量组</span>
-</span></span><span class="line"><span class="cl"><span class="n">v1</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl"><span class="n">v2</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl"><span class="n">v3</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl"><span class="n">vec_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 使用 Gram-Schmidt 函数进行正交化</span>
-</span></span><span class="line"><span class="cl"><span class="n">orth_list</span> <span class="o">=</span> <span class="n">GramSchmidt</span><span class="p">(</span><span class="n">vec_list</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 输出正交向量组</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">orth_list</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#在上面的代码中，我们首先定义了一个向量组，然后使用GramSchmidt函数将其转换为正交向量组。最后，我们遍历正交向量组并将其打印出来。</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#需要注意的是，Gram-Schmidt函数只能在有限维向量空间上工作。如果您需要处理无限维向量空间，则需要使用其他方法。</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 定义向量组</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">vec_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">]</span>
+
+<span class="c1"># 使用 Gram-Schmidt 函数进行正交化</span>
+<span class="n">orth_list</span> <span class="o">=</span> <span class="n">GramSchmidt</span><span class="p">(</span><span class="n">vec_list</span><span class="p">)</span>
+
+<span class="c1"># 输出正交向量组</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">orth_list</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="c1">#在上面的代码中，我们首先定义了一个向量组，然后使用GramSchmidt函数将其转换为正交向量组。最后，我们遍历正交向量组并将其打印出来。</span>
+
+<span class="c1">#需要注意的是，Gram-Schmidt函数只能在有限维向量空间上工作。如果您需要处理无限维向量空间，则需要使用其他方法。</span>
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="32-lattice-rounding-取整问题">3.2 Lattice Rounding （取整问题）</h2>
 <p>原基向量再正交化后得到新的基向量，但是同时也产生了新的不同于原来的格。</p>
@@ -882,7 +883,7 @@ $$
                 Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.115.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -892,5 +893,5 @@ $$
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.b0df51c2c57145081cc73960e9aa780e6f5f56d06cf4ef0f96da8ce1619d1e12.js" integrity="sha256-sN9RwsVxRQgcxzlg6ap4Dm9fVtBs9O8PltqM4WGdHhI="></script></body>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
 </html>
