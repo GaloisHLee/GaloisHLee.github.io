@@ -54,7 +54,7 @@
 
 {{< friend name="Affine Group" url="https://affine.group/" logo="https://avatars.githubusercontent.com/u/571028?v=4" word="Hi! My name is Aleksei Udovenko">}}
 
-{{< friend name="T12cents" url="https://tl2cents.github.io/" logo="https://tanglee.top/img/head.png" word="Legendary" >}}
+{{< friend name="T12cents" url="https://blog.tanglee.top/" logo="https://tanglee.top/img/head.png" word="Legendary" >}}
 
 {{< friend name="Tsumiiiiiiii" url="https://tsumiiiiiiii.github.io/" logo="https://avatars.githubusercontent.com/u/31077557?v=4" word="Nope" >}}
 
@@ -66,6 +66,7 @@
 
 {{< friend name="Adwa" url="https://languag3.github.io/" logo="https://languag3.github.io/images/avatar.jpg" word="🦌: adwa世界第一帅" >}}
 
+{{< friend name="m1n9" url="https://mi1n9.github.io/" logo="https://q.qlogo.cn/headimg_dl?dst_uin=2605742754&spec=640&img_type=jpg" word="HnuSec/Nepnep/Crypto" >}}
 
 </div>
 </div>
