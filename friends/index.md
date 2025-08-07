@@ -68,6 +68,8 @@
 
 {{< friend name="m1n9" url="https://mi1n9.github.io/" logo="https://q.qlogo.cn/headimg_dl?dst_uin=2605742754&spec=640&img_type=jpg" word="HnuSec/Nepnep/Crypto" >}}
 
+{{< friend name="baozongwi" url="https://baozongwi.xyz/" logo="https://baozongwi.xyz/images/acvtar.jpg" word="不给你说" >}}
+
 </div>
 </div>
 
