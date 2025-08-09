@@ -3,7 +3,17 @@
 
 # Halois
 
-灯火葳蕤揉皱你眼眉。
+A casual player who enjoys taking it easy.
 
-Do not go gentle into that good night. 
+Contact Me:
 
+qq: MjkxMTk1NTc2MA==
+email: maocred@gmail.com
+
+<br>
+
+Follow Me: WeChat Official Account
+
+Warning: This official account is not tech-focused
+
+![image-20250809161447197](https://s2.loli.net/2025/08/09/j47fH6tdcq5rzSn.png)
