@@ -1,206 +1,200 @@
 # WayToFFT Part 0
 
 
-从拉格朗日插值法到FFT. Part-0.
+从拉格朗日插值法到 FFT. Part-0.
 
 <!--more-->
 
 # 系数表示法和点值表示法
 
 ## 系数表示法
-多项式可简略定义为，形如$\Sigma_{i=0}^{n}a_{i}x^{i}$的有限和式为多项式，记作$f(x)= \Sigma_{i=0}^{n}a_{i}x^{i}$其中$a_{i}$称为$i$次项目的**系数**。
-
-这种表示方法称为系数表示法
+多项式可定义为形如
+$$
+\sum_{i=0}^{n} a_{i}x^{i}
+$$
+的有限和式，记作
+$$
+f(x) = \sum_{i=0}^{n} a_{i}x^{i}
+$$
+其中 $a_i$ 称为 $i$ 次项的**系数**。  
+这种表示方法称为**系数表示法**。
 
 ## 点值表示法
 
-将$x = x_{i}$代入，得到序列$(x_{i},y_{i})$，此序列用于描述多项式时，称为点值表示法$0 \le i \le n+1$,可以唯一描述一个$n$次多项式。
+将 $x = t_i$ 代入，得到序列 $(t_i, y_i)$。当此序列满足 $0 \le i \le n$ 且 $t_i$ 互不相等时，可以唯一确定一个次数不超过 $n$ 的多项式，这种描述方法称为**点值表示法**。
 
-考虑这两种表示法之间的联系。
+> 在给定 $n$ 个点值 $(t_0, y_0), (t_1, y_1), \dots, (t_{n-1}, y_{n-1})$ 且 $t_i$ 互不相等时，唯一确定的多项式次数至多为 $n-1$。
 
->在给定$n$个点值$(x_{0},y_{0}),(x_{1},y_{1}),\dots,(x_{n-1},y_{n-1})$其中$x_{i}$互不相等时，所唯一确定的多项式最高次数为 $n-1$次。
+证明：考虑 $n$ 阶 Vandermonde 方阵
+$$
+V = \begin{bmatrix}
+1 & t_0 & t_0^2 & \cdots & t_0^{n-1} \\\\
+1 & t_1 & t_1^2 & \cdots & t_1^{n-1} \\\\
+1 & t_2 & t_2^2 & \cdots & t_2^{n-1} \\\\
+\vdots & \vdots & \vdots & \ddots & \vdots \\\\
+1 & t_{n-1} & t_{n-1}^2 & \cdots & t_{n-1}^{n-1}
+\end{bmatrix},
+\quad
+\mathbf{a} = \begin{bmatrix}
+a_0 \\\\ a_1 \\\\ a_2 \\\\ \vdots \\\\ a_{n-1}
+\end{bmatrix}
+$$
+由于 $t_i$ 互不相同，$\det V \ne 0$，故方程有唯一解，从而唯一确定系数向量 $\mathbf{a}$。
 
-证明:考虑$n$阶方阵
-
-$$A =\begin{bmatrix}1&x_0&x_0^1&\cdots&x_0^{n-1} \\\\ 1&x_1&x_1^1&\cdots&x_1^{n-1} \\\\ 1&x_2&x_2^1&\cdots&x_2^{n-1} \\\\ \vdots&\vdots&\vdots&\ddots&\vdots \\\\ 1&x_{n-1}&x_{n-1}^2&\cdots&x_{n-1}^{n-1}\end{bmatrix}
-,x=\begin{bmatrix} a_{0} \\\\ a_{1} \\\\ a_{2} \\\\ \vdots \\\\ a_{n-1} \end{bmatrix}$$
-
-$x_{i}$互不相同，$\det A \ne 0$，故方程有唯一解，则可唯一确定一组系数$a_{i}$
-
-- 系数表示 -> 点值表示 **求值（evaluation)**
-- 点值表示 -> 系数表示 **插值(interpolation)**
+- 系数表示 $\to$ 点值表示：**求值（evaluation)**
+- 点值表示 $\to$ 系数表示：**插值（interpolation)**
 
 # 拉格朗日插值
 
 ## 定义
 
-对于某个$n$次多项式函数$f$，已知给定点值表示$(x_{i},y_{i})$
-
-$$\mathscr{L} (x) := \sum_{i=0}^{n} y_{i} \mathscr{l}_{i} (x)$$
-
-其中每个$\mathscr{l}$称为
-**拉格朗日基本多项式（插值基函数）**:
-
-$$\mathscr{l_{i}} (x) := \prod_{i=0,j \ne i}^{n} \frac{x-x_{j}}{x_{i}-x_{j}}= \frac{(x-x_{0})\cdots(x-x_{n})}{(x_{i}-x_{0})\cdots (x-x_{i-1})(x-x_{i+1})\cdots(x-x_{n}) }$$
+对于某个次数不超过 $n$ 的多项式 $f$，已知点值表示 $(t_i, y_i)$，其拉格朗日插值公式为：
+$$
+\mathscr{L}(x) := \sum_{i=0}^{n} y_{i} \,\ell_{i}(x)
+$$
+其中 $\ell_i(x)$ 称为**拉格朗日基本多项式（插值基函数）**：
+$$
+\ell_{i}(x) := \prod_{\substack{m=0 \\ m \ne i}}^{n} \frac{x - t_{m}}{t_{i} - t_{m}}
+$$
 
 ### 存在性
 
-由点值表示得知目标多项式一定存在，那么对于拉格朗日基本多项式, 对于$i=s,(x_{s},y_{s})$得到
-
-$$\mathscr{l_{i}} (x_{s}) = 1$$
-
-那么可以满足
-
-$$y_{s}\mathscr{l_{i}} (x_{s}) = y_{s}$$
-
-进而构造
-
-$$\mathscr{L} (x) := \sum_{i=0}^{n} y_{i} \mathscr{l_{i}} (x)$$
+由点值表示知，目标多项式一定存在。对于 $\ell_i(x)$，在 $x = t_s$ 时：
+$$
+\ell_{i}(t_s) =
+\begin{cases}
+1, & s = i, \\
+0, & s \ne i.
+\end{cases}
+$$
+于是：
+$$
+\mathscr{L}(t_s) = \sum_{i=0}^{n} y_{i} \,\ell_{i}(t_s) = y_s
+$$
 
 ### 唯一性
 
-次数不超过$n$的拉格朗日多项式$\mathscr{L} (x)$至多只有一个。
+次数不超过 $n$ 的拉格朗日多项式 $\mathscr{L}(x)$ 至多只有一个。  
+设 $P_1$ 与 $P_2$ 均为满足插值条件的多项式，作差：
+$$
+\Delta(x) = P_1(x) - P_2(x)
+$$
+则 $\Delta(x)$ 在 $n+1$ 个互异点 $t_0,\dots,t_n$ 上为零，故：
+$$
+\Delta(x) = k \prod_{i=0}^{n} (x - t_i)
+$$
+若 $k = 0$，则 $P_1 \equiv P_2$；若 $k \ne 0$，则 $\deg \Delta > n$，与已知矛盾。
 
-证明：
-对于在$n+1$个点上取值均为零的多项式，有
-$$P_{i}(x)= k \prod_{i=0}^{n}(x-x_{i}) \tag{1}$$
-对任意两个次数不超过$n$的拉格朗日多项式:$P_{1}$和$P_{2}$,作差得
-$$\Delta(x)=P_{1}(x)-P_{2}(x) \tag{2}$$
-那么由$(1),(2)$式知，
-$i.$ 若$\Delta(x) =0$， 则$P_{1}(x) =P_{2}(x)$，即多项式系数$k$唯一
-$ii.$ 若$\Delta(x) \ne 0$,  则$\min(\deg(P_{1},P_{2})) \gt n$
+对应到 Vandermonde 矩阵：
+- $\operatorname{rank} V = n+1$ 时有唯一解
+- $\operatorname{rank} V < n+1$ 时有无穷多解
 
-对应范德蒙矩阵
+### 向量空间观点
 
-- $rank = n$时有唯一解
+设 $\mathbb{K}_{n}[X]$ 表示系数域为 $\mathbb{K}$、次数不超过 $n$ 的多项式空间。  
+由 $\{\ell_0, \ell_1, \dots, \ell_n\}$ 构成的集合为该空间的一组基，因为：
+1. 它们线性无关  
+2. 元素个数为 $n+1$（等于空间维数）
 
-- $rank \lt n$ 有无穷多解
+---
 
-### 拉格朗日插值与向量空间
+## 核心思想总结
 
-**线性空间**：
-$\mathbb{K_{n}}[X]$, 经由拉格朗日插值法，可以找到一组基，由拉格朗日基本多项式$\mathscr{l_{0}},\mathscr{l_{1}},\dots,\mathscr{l_{n}}$组成,使得
-$$P=\prod_{i = 0}^{n} \lambda_{i} \mathscr{l}_{i}=0$$
-那么，对于多项式$P(x_{i})=\lambda_{i}$的拉格朗日插值多项式，与零多项式$P$。
-可得:
+利用点值的可加性：每次构造一个多项式在某个插值点处取所需值、在其他插值点处取 0，然后将这些多项式相加。
 
-$$\lambda_{0} = \lambda_{1} = \dots =\lambda_{n} = 0$$
+插值公式可写为：
+$$
+f(x) = \sum_{i=0}^{n} y_{i} \prod_{\substack{m=0 \\ m \ne i}}^{n} \frac{x - t_{m}}{t_{i} - t_{m}}
+$$
 
-则$\mathscr{l_{0}},\mathscr{l_{1}},\dots,\mathscr{l_{n}}$线性无关，同时包含$n+1$个多项式：
-故可作为$\mathbb{K_{n}}[X]$的一组基底，且构造了一组齐次基。
+为了得到 $f$ 的系数，需要 $O(n^2)$ 时间计算
+$$
+F(x) = \prod_{i=0}^{n} (x - t_i)
+$$
+然后可通过解线性方程组（Vandermonde 系数矩阵）得到多项式系数。
 
-## 核心思想
+---
 
-利用点值的可加性，每次仅考虑一个点值，其他值均为0，由此构造n个多项式$f_{i}(x)$，使得它们在$x_{i}$对应处值为$y_{i}$。则$f = \sum^{n-1}_{0} f_{i}(x)$。
-
-- 构造其他点值为$0$, 必含有因子$\prod_{i \ne j}^{}(x-x_{j})$
-- 构造$f_{i}(x) = y_{i}$,调整系数，数乘$\frac{y_{i}}{f_{i}(x)}$
-- 各构造多项式累加
-
- 得到插值最终表达式：
- $$ f(x) = \sum_{i=0}^{n-1}y_{i} \prod_{j \ne i}^{} \frac{x - x_{j}}{x_{i} - x_{j}}$$
-  
-为了得到$f$的各项系数，需要$O(n^{2})$求出
-$$F(x)=\prod_{i = 0}^{n-1}(x-x_{i})$$。
-
-已知$n-1$, 那么各个$x_{i}$均已知，行列式系数范德蒙矩阵可知。
-若已知$y_{i}$则求系数问题可转化为线性方程组求解问题。
-
-真对上述问题作变式：  $n-1$ 、序列$1,2,3,\dots,x_{n-1}$,$y_{0},\dots,y_{n-1}$,已知，可唯一确定多项式。
-
-那么可以知晓，拉格朗日插值可求得范德蒙矩阵的逆矩阵。
-
-# 范德蒙矩阵的拉格朗日逆
-
-拉格朗日插值根据多项式的点值表示，以及多项式次数唯一确定多项式系数。
-$$V ·A = Y$$
-即根据Vandermonde矩阵，点值向量$V,Y$确定系数向量$A=(a_{0},\dots ,a_{n})$
-$$A = V^{-1}Y$$
-本节将会探究这样求值的具体形式化表达。
+# 范德蒙矩阵与拉格朗日逆
 
 ## 范德蒙行列式
 
-范德蒙行列式，即范德蒙矩阵的行列式
+定义 $n \times n$ 的 Vandermonde 矩阵：
+$$
+V = \begin{bmatrix}
+1 & a_1 & a_1^2 & \cdots & a_1^{n-1} \\\\
+1 & a_2 & a_2^2 & \cdots & a_2^{n-1} \\\\
+\vdots & \vdots & \vdots & \ddots & \vdots \\\\
+1 & a_n & a_n^2 & \cdots & a_n^{n-1}
+\end{bmatrix}
+$$
+其行列式为：
+$$
+\det V = \prod_{1 \le j < i \le n} (a_i - a_j)
+$$
+只要 $a_i$ 两两不同，该行列式非零，矩阵可逆。
 
-$$M = \begin{vmatrix}1&1&\cdots&1 \\\\ a_1&a_2&\cdots&a_n \\\\ a_1^2&a_2^2&\cdots&a_n^2 \\\\ \vdots&\vdots&\ddots&\vdots \\\\ a_1^{n-1}&a_2^{n-1}&\cdots&a_n^{n-1}\end{vmatrix}$$
-即:
-$$M = M^{T}=\prod_{1\leq j<i\leq n}(a_i-a_j)$$
-  
-> **克拉默法则:**
-> $n$元线性方程组的系数行列式$|A|\ne {0}$,则有唯一解，形式表达为:
->$$\begin{align}AX&= B \\\\ A &=(a_{0},a_{1},a_{2},\dots,a_{n}) \tag{0} \\\\  a_{i}&= ( a_{0i},a_{1i},\dots,a_{(n-1)i})^{T} \\\\ B &= ( b_{0}, b_{1}, \cdots ,b_{n})^{T}\end{align}$$
+---
 
->可以确定唯一解的形式：
-> $$X =\left( \frac{|\mathbf{B_1}|}{|\mathbf{A}|},\frac{|\mathbf{B_2}|}{|\mathbf{A}|},\cdots,\frac{|\mathbf{B_n}|}{|\mathbf{A}|}\right)^{T}$$
-> 其中
-> $$B_{i} = (a_{0},a_{1},a_{i-1},B,a_{i+1},a_{n})$$
+## 克拉默法则
 
-## 范德蒙方阵及其转置的行列式
+若 $A\mathbf{x} = \mathbf{b}$ 且 $\det A \ne 0$，则唯一解为：
+$$
+x_j = \frac{\det A_j}{\det A}, \quad j = 1, \dots, n
+$$
+其中 $A_j$ 为将 $A$ 的第 $j$ 列替换为列向量 $\mathbf{b}$ 后得到的矩阵。
 
-对于多项式:
-$$f(x)=\sum_{i=0}^{n} a_{i}x^{i}\tag{1}$$
+---
 
-首先改写为首一多项式
+## 多项式与对称多项式
 
-$$f(x)= \sum_{i=0}^{n-1} a_{i}^{'}x^{i} + x^{n}, a_{i}^{'}= \frac{a_{i}}{a_{n}}\tag{2}$$
+设多项式
+$$
+f(x) = \sum_{i=0}^{n} a_i x^i
+$$
+若为首一多项式（最高次项系数 $a_n = 1$），根据代数基本定理：
+$$
+f(x) = \prod_{i=1}^{n} (x - r_i)
+$$
+韦达定理给出系数与根的关系：
+$$
+a_{n-k} = (-1)^k \,\sigma_k(r_1, r_2, \dots, r_n), \quad k=1,\dots,n
+$$
+其中 $\sigma_k$ 为第 $k$ 阶初等对称多项式。
 
-应用代数基本定理，则首一多项式$f(x)$又可写作：
+---
 
-$$f(x)= \prod_{i=0}^{n}(x-x_{i}) \tag{3}$$
+## 拉格朗日逆矩阵形式
 
-韦达定理对称多项式表达：
+设 $V$ 为由插值点 $t_0,\dots,t_n$ 构成的 $(n+1) \times (n+1)$ Vandermonde 矩阵：
+$$
+V_{ij} = t_i^{\,j}, \quad 0 \le i,j \le n
+$$
+插值过程等价于解：
+$$
+V \mathbf{a} = \mathbf{y}
+$$
+其中 $\mathbf{a} = (a_0, \dots, a_n)^\mathrm{T}$，$\mathbf{y} = (y_0, \dots, y_n)^\mathrm{T}$。
 
-$$\begin{cases} a_{0} &= (-1)^{n} \sigma_{n}(x_{1},x_{2},\dots,x_{n}) \\\\ \cdots \\\\ a_{k} &= (-1)^{n-k} \sigma_{k}(x_{1},x_{2},\dots,x_{n}) \\\\ \cdots \\\\ a_{n-1} &= (-1)^{1}\sigma_{1}(x_{1},x_{2},\dots,x_{n}) \end{cases}$$
+由克拉默法则：
+$$
+a_j = \frac{\det V_j}{\det V}
+$$
+展开可得：
+$$
+f(x) = \sum_{j=0}^{n} \frac{\det V_j}{\det V} \, x^j
+$$
+进一步化简后，$V^{-1}$ 的第 $(j,i)$ 元素正是 $\ell_i$ 展开式中 $x^j$ 的系数，从而：
+$$
+\ell_i(x) = \frac{\prod_{\substack{m=0 \\ m \ne i}}^{n} (x - t_m)}{\prod_{\substack{m=0 \\ m \ne i}}^{n} (t_i - t_m)}
+$$
+矩阵形式：
+$$
+\mathbf{a} = V^{-1} \mathbf{y}
+$$
+即给出了 **拉格朗日逆矩阵** 的具体含义。
 
-可以归纳为:
-
-$$a_{i}=(-1)^{n-i}\sigma_{n-i}(x_{1},x_{2},\dots,x_{n})\tag{4}$$
-
-## 推导拉格朗日逆
-
-### 推出拉格朗日插值表达
-
-由克拉默法则导出线性方程组$(0)$的一般解：
-$$a_{j}=  \frac{|B_{j}|}{|A|}$$
-
-从而
-$$f(x)= \sum_{j=0}^{n} \frac{|B_{j}|}{|A|}x^{j}$$
-将$|B+j|$按照第$j+1$列展开：
-$$B_{j}= \sum_{j=0}^{n}y_{i}A_{ij}$$
-
-反代$f(x)$中，并作二次求和的交换：
-$$f(x)=\sum_{j=0}^n\frac{\sum_{i=0}^{n}y_i\mathbf{A_{ij}}}{|\mathbf{A}|}x^j=\sum_{i=0}^{n} y_{i} \frac{\sum_{j=0}^{n}x^{j}\mathbf{A_{ij}}}{|\mathbf{A}|}$$
-
-胜利的曙光即将到来：
-
-$$\sum_{j=0}^{n} x^{j}\mathbf{A_{ij}} = \begin{vmatrix} 1 & x_{0}&x_{0}^{2}&\cdots&x_{0}^{n} \\\\ \vdots&\vdots&\vdots&\ddots&\vdots \\\\ 1&x_{i-1}&x_{i-1}^{2}&\cdots&x_{i-1}^{n} \\\\ 1&x&x^{2}&\cdots&x^{n} \\\\ 1&x_{i+1}&x_{i+1}^{2}&\cdots&x_{i+1}^{n} \\\\ \vdots&\vdots&\vdots&\ddots&\vdots \\\\ 1&x_{n}&x_{n}^{2}&\cdots&x_{n}^{n}\end{vmatrix}$$
-
-推导并,调整下标$i,j$得到：
-
-$$\mathscr{l_{i}}(x)=\frac{\sum_{i=0}^{n}x^i\mathbf{A_{ji}}}{|\mathbf{A}|}$$
-
-从而推出拉格朗日表达：
-
-$$\mathscr{L} (x):= \sum_{i=0}^{n} y_{i} \mathscr{l_{i}} (x)$$
-
-### 推出拉格朗日逆
-
-范德蒙方阵逆矩阵：
-
-对于范德蒙方阵$V$,其对角线元素$a_{0},\dots,a_{n-1} \ne 0$时，有唯一逆矩阵$V^{-1}$。
-
-可计算知：
-$$\det V^{-1} =  \prod_{1 \le i \lt j \le n}^{} \frac{1}{a_{i}-a_{j}}$$
-而对于工程上，无论是克拉默法则，还是更易计算机实践的高斯消元，在求解$V^{-1}$时，都过于复杂，难以应用。
-
-利用韦达定理对称多项式表达展开拉格朗日插值公式：
-$$\begin{aligned}
-\mathscr{L}(x) &= \sum_{i=0}^{n} y_{i} \mathscr{l_{i}}(x) \\\\
-\mathscr{l_{i}}(x) &= \prod_{i=0,j \ne i}^{n} \frac{x-x_{j}}{x_{i}-x_{j}}= \frac{(x-x_{0})\cdots(x-x_{n})}{(x_{i}-x_{0})\cdots (x-x_{i-1})(x-x_{i+1})\cdots(x-x_{n}) } \\\\
-\mathscr{L}(x) &= \sum_{j=0}^{n}  y_{i} \frac{\sum_{i=0}^{n}  \sigma_{i}x^{n-i}}{\prod_{i=0}^{n}(a_{i}-a_{j})}
-\end{aligned}$$
-
-
+---
 
 # Reference
 

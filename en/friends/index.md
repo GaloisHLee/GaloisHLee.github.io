@@ -29,6 +29,7 @@
 {{< friend name="GSBP" url="https://night-sun.github.io/" logo="https://gsbp0.github.io/img/GSBP.jpg" word="什么都想学，什么都不会" >}}
 
 
+
 </div>
 </div>
 
@@ -38,6 +39,8 @@
 
 <div class="flink" id="article-container">
 <div class="friend-list-div" >
+
+{{< friend name="valter" url="https://valter.wiki/" logo="https://avatars.githubusercontent.com/u/33233478?v=4" word="Swedish National Hacking Team" >}}
 
 {{< friend name="Lord Riot" url="https://lord-riot.github.io/" logo="https://raw.githubusercontent.com/Lord-Riot/Lord-Riot.github.io/master/images/avatar.jpg" word="Focus on lattice">}}
 

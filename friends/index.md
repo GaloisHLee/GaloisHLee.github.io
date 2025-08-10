@@ -40,6 +40,7 @@
 
 <div class="flink" id="article-container">
 <div class="friend-list-div" >
+{{< friend name="valter" url="https://valter.wiki/" logo="https://avatars.githubusercontent.com/u/33233478?v=4" word="Swedish National Hacking Team" >}}
 
 {{< friend name="Lord Riot" url="https://lord-riot.github.io/" logo="https://raw.githubusercontent.com/Lord-Riot/Lord-Riot.github.io/master/images/avatar.jpg" word="Focus on lattice">}}
 

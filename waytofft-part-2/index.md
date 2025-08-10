@@ -32,7 +32,7 @@ Maybe those are all you need [link1](https://halois.top/waytofft-part-0/),[link2
 
 **Polynomial multiplication:**
 
-> Having $G(x)$ and $H(x)$ as polynomials of degree $n-1$ in the ring $\mathbb{Z_q} \[x\]$ where q $\in \mathbb{Z}$ and $x$ is the polynomial variable. Generally speaking, a **Polynomial Multiplication** of $G(x)$ and $H(x)$ is defined as:
+> Having $G(x)$ and $H(x)$ as polynomials of degree $n-1$ in the ring $\mathbb{Z_q} $$x$$$ where q $\in \mathbb{Z}$ and $x$ is the polynomial variable. Generally speaking, a **Polynomial Multiplication** of $G(x)$ and $H(x)$ is defined as:
 > $$Y(x) = G(x)\cdot H(x) = \sum_{k=0}^{2(n-1)}y_kx^k$$
 > where $y_k = \sum_{i=0}^{k} g_i h_{k-i} \mod q$, $g$ and $h$ are the polynomial coefficients of $G(x)$ and $H(x)$ respectively.
 
@@ -120,7 +120,7 @@ If you work out the matrix multiplication, you will find that the results match 
 
 This method packages the entire convolution process into a single linear transformation, which is the clearest "vector multiplication" representation from a linear algebra perspective.
 
-# Review - Cyclic Convolution
+### Review - Cyclic Convolution
 
 Positive Wrapped Convolution as $PWC(x)$ 
 
@@ -156,6 +156,173 @@ Number Theoretic Transform Based on $\omega$
 ### Review -  Fast NTT
 
 
+## 3. NTT-Based Convolutions
+
+### 3.1 Primitive *n*-th Root of Unity
+
+Let $\mathbb{Z}_q$ be the integer ring modulo $q$.  
+An element $\omega \in \mathbb{Z}_q$ is called a **primitive $n$-th root of unity** if:
+
+$$
+\omega^n \equiv 1 \pmod{q}
+$$
+and
+$$
+\omega^k \not\equiv 1 \pmod{q} \quad \text{for all } k < n.
+$$
+
+> **Example** (Kyber-style parameters, but small $n$ for illustration):  
+> In $\mathbb{Z}_{7681}$, for $n = 4$, the 4-th roots of unity are $\{3383, 4298, 7680\}$.  
+> Only $3383$ and $4298$ are primitive.
+
+These $\omega$ values are the "twiddle factors" for NTT.
+
+---
+
+### 3.2 NTT for Positive-Wrapped (Cyclic) Convolution
+
+The **Number Theoretic Transform** of $a = [a_0, \dots, a_{n-1}]$ is:
+
+$$
+\hat{a_j} = \sum_{i=0}^{n-1} \omega^{ij} a_i \pmod{q}, \quad j = 0,\dots, n-1
+$$
+
+> This is **DFT** in the modular world.
+
+**Inverse NTT (INTT)** replaces $\omega$ with $\omega^{-1}$ and multiplies by $n^{-1} \pmod{q}$.
+
+---
+
+#### NTT Convolution Theorem
+
+For $a, b \in \mathbb{Z}_q^n$:
+
+$$
+c = \operatorname{INTT}(\operatorname{NTT}(a) \circ \operatorname{NTT}(b))
+$$
+
+where $\circ` = elementwise multiplication.
+
+> **Example:**  
+> Using $n=4$, $q=7681$, $\omega=3383$,  
+> $g = [1, 2, 3, 4]$, $h = [5, 6, 7, 8]$  
+> ⇒ NTT(g) = [10, 913, 7679, 6764],  
+> NTT(h) = [26, 913, 7679, 6764]  
+> ⇒ elementwise multiply, INTT → cyclic convolution [66, 68, 66, 60].
+
+---
+
+### 3.3 NTT for Negative-Wrapped (Negacyclic) Convolution
+
+For rings $\mathbb{Z}_q[x]/(x^n + 1)$, we need the **primitive $2n$-th root of unity** $\psi$:
+
+$$
+\psi^2 \equiv \omega \pmod{q}, \quad \psi^n \equiv -1 \pmod{q}
+$$
+
+The **negative-wrapped NTT** is:
+
+$$
+\hat{a_j} = \sum_{i=0}^{n-1} \psi^{2ij + i} a_i \pmod{q}
+$$
+
+Inverse uses $\psi^{-1}$ and $n^{-1}$.
+
+---
+
+#### Negacyclic Convolution Theorem
+
+![image-20250810204420794](https://s2.loli.net/2025/08/10/twdIehfUgCRBcQa.png)
+
+> **Example:**  
+> $n=4$, $q=7681$, $\omega=3383$, choose $\psi=1925$.  
+> $\text{NTT}_\psi(g) = [1467, 2807, 3471, 7621]$  
+> $\text{NTT}_\psi(h) = [2489, 7489, 6478, 6607]$  
+> Multiply elementwise, apply $\text{INTT}_\psi$ → [−56, −36, 2, 60].
+
+---
+
+### 3.4 Choosing the Modulus $q$
+
+For **PWC-NTT** (cyclic convolution): $n \mid (q-1)$.  
+For **NWC-NTT** (negacyclic convolution): $2n \mid (q-1)$.
+
+> **Example PQC parameters:**
+>
+> | Scheme   | n   | q       | PWC? | NWC? |
+> |----------|-----|---------|------|------|
+> | Kyber V3 | 256 | 3329    | ✔    | ✘    |
+> | Dilithium| 256 | 8380417 | ✔    | ✔    |
+
+---
+
+## 4. Fast NTT: FFT-Style Acceleration
+
+Direct NTT = $O(n^2)$ complexity.  
+FFT-style **divide and conquer** gives $O(n\log n)$.
+
+### 4.1 Cooley–Tukey (CT) Butterfly for NTT
+
+Splits even/odd indices:
+
+$$
+\hat{a_j} = A_j + \psi^{2j+1} B_j
+$$
+$$
+\hat{a_{j+n/2}} = A_j - \psi^{2j+1} B_j
+$$
+
+> Requires inputs in **Normal Order (NO)**, outputs in **Bit-Reversed Order (BO)**.
+
+---
+
+### 4.2 Gentleman–Sande (GS) Butterfly for INTT
+
+Splits top/bottom halves:
+
+$$
+a_{2i} = (A_i + B_i)\psi^{-2i}
+$$
+$$
+a_{2i+1} = (A_i - B_i)\psi^{-2i}
+$$
+
+> Takes BO input, outputs NO.
+
+---
+
+### 4.3 Polynomial Multiplication via CT + GS
+
+1. CT butterfly for NTT(a), NTT(b)  
+2. Elementwise multiply results  
+3. GS butterfly for INTT
+
+This reduces modular polynomial multiplication from $O(n^2)$ → $O(n\log n)$.
+
+---
+
+### 4.4 Normal Order (NO) and Bit-Reversed Order (BO)
+
+- **NO**: Standard indexing [0,1,2,...,n-1]  
+- **BO**: Reverse the binary representation of the index.
+
+> Example $n=4$:  
+> NO = [0, 1, 2, 3]  
+> BO = [0, 2, 1, 3]
+
+CT: NO → BO  
+GS: BO → NO
+
+---
+
+
+
+- NTT ≈ modular DFT for polynomials  
+- $\omega$ → primitive $n$-th root of unity (cyclic conv)  
+- $\psi$ → primitive $2n$-th root (negacyclic conv)  
+- CT butterfly for forward transform, GS butterfly for inverse  
+- NO/BO ordering is essential for implementation  
+- $O(n\log n)$ complexity makes it usable in PQC lattice schemes
 
 
 

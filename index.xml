@@ -61,6 +61,15 @@
 <p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>]]></description>
 </item>
 <item>
+    <title>SIS Small Modulus</title>
+    <link>https://galoishlee.github.io/sis-small-modulus/</link>
+    <pubDate>Fri, 21 Jun 2024 14:52:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/sis-small-modulus/</guid>
+    <description><![CDATA[<h1 id="bounded">Bounded</h1>
+<p>Utilize modern technology!</p>]]></description>
+</item>
+<item>
     <title>WayToCoppersmith0x01</title>
     <link>https://galoishlee.github.io/waytocoppersmith0x01/</link>
     <pubDate>Tue, 04 Jun 2024 19:48:51 &#43;0800</pubDate>
@@ -83,7 +92,7 @@
     <pubDate>Sat, 25 May 2024 21:58:45 &#43;0800</pubDate>
     <author>作者</author>
     <guid>https://galoishlee.github.io/waytofft-part-0/</guid>
-    <description><![CDATA[<p>从拉格朗日插值法到FFT. Part-0.</p>]]></description>
+    <description><![CDATA[<p>从拉格朗日插值法到 FFT. Part-0.</p>]]></description>
 </item>
 <item>
     <title>Fix Point</title>
@@ -92,15 +101,6 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/fix-point/</guid>
     <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Jwt Note</title>
-    <link>https://galoishlee.github.io/jwt-note/</link>
-    <pubDate>Thu, 04 Apr 2024 23:26:22 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/jwt-note/</guid>
-    <description><![CDATA[<p><strong>Jwt</strong></p>
-<p>json web token</p>]]></description>
 </item>
 </channel>
 </rss>
