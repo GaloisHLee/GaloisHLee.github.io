@@ -4,7 +4,17 @@
         <link>https://galoishlee.github.io/posts/</link>
         <description>所有文章 | As it was</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 08 Aug 2025 15:19:24 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 09 Aug 2025 15:19:24 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>WayToNTT Part 0</title>
+    <link>https://galoishlee.github.io/waytontt-part-0/</link>
+    <pubDate>Sat, 09 Aug 2025 15:19:24 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytontt-part-0/</guid>
+    <description><![CDATA[<blockquote>
+<p>Survey:NTT,as it was.</p>
+</blockquote>]]></description>
+</item>
+<item>
     <title>WayToFFT Part 2</title>
     <link>https://galoishlee.github.io/waytofft-part-2/</link>
     <pubDate>Fri, 08 Aug 2025 15:19:24 &#43;0800</pubDate>
@@ -57,15 +67,6 @@
 <p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
 </blockquote>
 <p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>]]></description>
-</item>
-<item>
-    <title>SIS Small Modulus</title>
-    <link>https://galoishlee.github.io/sis-small-modulus/</link>
-    <pubDate>Fri, 21 Jun 2024 14:52:09 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/sis-small-modulus/</guid>
-    <description><![CDATA[<h1 id="bounded">Bounded</h1>
-<p>Utilize modern technology!</p>]]></description>
 </item>
 <item>
     <title>WayToCoppersmith0x01</title>
