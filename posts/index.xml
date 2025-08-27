@@ -4,7 +4,17 @@
         <link>https://galoishlee.github.io/posts/</link>
         <description>所有文章 | As it was</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 09 Aug 2025 15:19:24 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 27 Aug 2025 16:51:16 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>NIP</title>
+    <link>https://galoishlee.github.io/nip/</link>
+    <pubDate>Wed, 27 Aug 2025 16:51:16 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/nip/</guid>
+    <description><![CDATA[<blockquote>
+<p>Note:Noisy Polynomial Interpolation Problem</p>
+</blockquote>]]></description>
+</item>
+<item>
     <title>WayToNTT Part 0</title>
     <link>https://galoishlee.github.io/waytontt-part-0/</link>
     <pubDate>Sat, 09 Aug 2025 15:19:24 &#43;0800</pubDate>
@@ -92,14 +102,6 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/waytofft-part-0/</guid>
     <description><![CDATA[<p>从拉格朗日插值法到 FFT. Part-0.</p>]]></description>
-</item>
-<item>
-    <title>Fix Point</title>
-    <link>https://galoishlee.github.io/fix-point/</link>
-    <pubDate>Sat, 06 Apr 2024 20:43:19 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/fix-point/</guid>
-    <description><![CDATA[]]></description>
 </item>
 </channel>
 </rss>

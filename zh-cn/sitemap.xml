@@ -2,7 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://galoishlee.github.io/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/</loc><lastmod>2025-08-27T16:51:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/"
@@ -11,7 +11,8 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/nip/</loc><lastmod>2025-08-27T16:51:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2025-08-27T16:51:16&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://galoishlee.github.io/waytontt-part-0/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://galoishlee.github.io/waytofft-part-2/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://galoishlee.github.io/vectorspace-matters/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
