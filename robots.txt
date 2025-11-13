@@ -61,4 +61,4 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-Sitemap: https://galoishlee.github.io/en/sitemap.xml
+Sitemap: https://galoishlee.github.io/sitemap.xml

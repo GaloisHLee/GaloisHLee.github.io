@@ -4,21 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Lattice Part 2 - As it was</title><meta name="Description" content="Keep Crazy"><meta property="og:title" content="Lattice Part 2" />
-<meta property="og:description" content="Describe an approximation algorithm to the Closest Vector Prolem.
-While LLL for SVP." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://galoishlee.github.io/lattice-part-2/" /><meta property="og:image" content="https://galoishlee.github.io/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-06-14T16:10:25+08:00" />
-<meta property="article:modified_time" content="2025-08-22T10:35:05+08:00" /><meta property="og:site_name" content="Mathematical" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://galoishlee.github.io/logo.png"/>
-
-<meta name="twitter:title" content="Lattice Part 2"/>
-<meta name="twitter:description" content="Describe an approximation algorithm to the Closest Vector Prolem.
-While LLL for SVP."/>
-<meta name="application-name" content="LoveIt">
+        <title>Lattice Part 2 - As it was</title><meta name="Description" content="**Describe an approximation algorithm to the Closest Vector Prolem.** **While LLL for SVP.**"><meta property="og:title" content="Lattice Part 2">
+<meta property="og:description" content="**Describe an approximation algorithm to the Closest Vector Prolem.** **While LLL for SVP.**">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-2/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 2">
+<meta name="twitter:description" content="**Describe an approximation algorithm to the Closest Vector Prolem.** **While LLL for SVP.**"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-2/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-1/" /><link rel="next" href="https://galoishlee.github.io/lattice-part-3/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
@@ -35,7 +26,7 @@ While LLL for SVP."/>
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","wordcount":  2304 ,
+                        }],"genre": "posts","wordcount":  2303 ,
         "url": "https:\/\/galoishlee.github.io\/lattice-part-2\/","datePublished": "2023-06-14T16:10:25+08:00","dateModified": "2025-08-22T10:35:05+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -115,7 +106,7 @@ While LLL for SVP."/>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 2</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-06-14">2023-06-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2304 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-06-14">2023-06-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2303 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -176,8 +167,7 @@ While LLL for SVP."/>
 <h2 id="the-closest-vector-problem">The Closest Vector Problem</h2>
 <p>Definition :</p>
 <p>Given a target vector $\boldsymbol{t}\in\mathbb{R}^n$ and a lattice $\mathcal{L}\subset\mathbb{R}^n$, we define</p>
-<p>$$\operatorname{dist}(\mathcal{L},\boldsymbol{t}):=\min_{\boldsymbol{x}\in\mathcal{L}}\Vert\boldsymbol{x}-\boldsymbol{t}\Vert:.$$</p>
-<p><img
+$$\operatorname{dist}(\mathcal{L},\boldsymbol{t}):=\min_{\boldsymbol{x}\in\mathcal{L}}\Vert\boldsymbol{x}-\boldsymbol{t}\Vert\:.$$<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="https://s2.loli.net/2024/06/18/PQ1GjmSC6l4n9cW.png"
@@ -222,10 +212,9 @@ While LLL for SVP."/>
 <p>我们介绍</p>
 <h5 id="fundamental-parallelepiped-mathcalpb"><strong>Fundamental Parallelepiped $\mathcal{P}(B)$</strong></h5>
 <p>Given the lattice basis vectors ${b_1,b_2,\ldots,b_n}$, the fundamental parallelepiped $\mathsf{P}(B)$ is the set of all linear combinations of these basis vectors with coefficients in the interval $[0,1)$. Mathematically, it is defined as:</p>
-<p>$$
+$$
 \mathcal{P}(B)= \set{ \sum_{i=1}^n \lambda_{i} b_{i} \mid {0} \le \lambda_{i} \lt {1} }
-$$</p>
-<p>利用这里的基本域，接着可以对整个格空间大小，以行列式为单位进行划分:</p>
+$$<p>利用这里的基本域，接着可以对整个格空间大小，以行列式为单位进行划分:</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -235,10 +224,10 @@ $$</p>
         alt="https://s2.loli.net/2024/06/19/rcSz73W2uRogn8b.png"
         title="image-20240619031004746" /></p>
 <p>不难发现
+</p>
 $$
-\sum_{x\in\Lambda}\operatorname{vol}(\widehat{S_x})=\sum_{x\in\Lambda}\operatorname{vol}(S_x)=\operatorname{vol}(S)&gt;\operatorname{vol}(\mathcal{P}(B))=\det \Lambda.
-$$</p>
-<br>
+\sum_{x\in\Lambda}\operatorname{vol}(\widehat{S_x})=\sum_{x\in\Lambda}\operatorname{vol}(S_x)=\operatorname{vol}(S)>\operatorname{vol}(\mathcal{P}(B))=\det \Lambda.
+$$<br>
 <br>
 <p>接下来便是优雅的鸽巢定理：</p>
 <p><img
@@ -251,9 +240,10 @@ $$</p>
         title="image-20240619031505509" /></p>
 <p>即</p>
 <p>Since the combined volume of all $\widehat{S_x}$ is greater than the volume of $\mathcal{P}(B)$, there must be overlap among these translated regions. Therefore, there exist some $x,y \in \Lambda$ with $x \ne y$ such that $\widehat{S_x}$ and $\widehat{S_y}$ intersect:
+</p>
 $$
 \widehat{S_x} \cup \widehat{S_y} \ne \emptyset
-$$
+$$<p>
 Let $z$ be a point in this intersection. Then $z+x$ is in $S_x\subseteq S$ and $z+y$ is in $S_y\subseteq S$. The difference $(z+x)-(z+y)=x-y$ is in $\Lambda$, proving that $S$ contains at least two points whose difference is a lattice vector.</p>
 <p>Q.E.D</p>
 <br>
@@ -332,10 +322,9 @@ Let $z$ be a point in this intersection. Then $z+x$ is in $S_x\subseteq S$ and $
 <br>
 <br>
 <p>The $n$ th Gram-Schmidt vector,  $\widetilde{\boldsymbol{b_n}}$ , has a very nice geometric interpretation.  In particular, consider the hyperplane (i.e. affine subspace)  defined by all vectors $\boldsymbol x \in\mathbb{R}^n$ (not necessarily lattice vectors) whose last coordinate is $c$ for some fixed $c$：</p>
-<p>$$
+$$
 H_{c} := \Set{ \sum_{i=1}^{n-1} a_{i} \boldsymbol{b_i} + c \boldsymbol{b_n}}
-$$</p>
-<p>Notice in particular that $H_{c} = H_{0}+c\boldsymbol{b_n}$ . But, since $\boldsymbol{b_n}$ is typically not orthogonal to $H_{0}$,  the distance between $H_{0}$ and $H_{c}$ to the origin will typically not be $c \Vert \boldsymbol{b_n}\Vert$ Instead, the distance will be the length of the component of $c \boldsymbol{b_n}$ that is orthogonal to $H_{0}$ . I.e., it will be $c \Vert \widetilde{\boldsymbol{b_n}}\Vert$.</p>
+$$<p>Notice in particular that $H_{c} = H_{0}+c\boldsymbol{b_n}$ . But, since $\boldsymbol{b_n}$ is typically not orthogonal to $H_{0}$,  the distance between $H_{0}$ and $H_{c}$ to the origin will typically not be $c \Vert \boldsymbol{b_n}\Vert$ Instead, the distance will be the length of the component of $c \boldsymbol{b_n}$ that is orthogonal to $H_{0}$ . I.e., it will be $c \Vert \widetilde{\boldsymbol{b_n}}\Vert$.</p>
 <br>
 <br>
 <p><img
@@ -375,7 +364,7 @@ $$</p>
         title="image-20240619140706835" /></p>
 <br>
 <br>
-<p>$H_c$ 包含了由 $n-1$ 个基向量张成的子格 $\mathcal{L}^{'}$ 的一个陪集 $\mathcal{L}^{'}+cb_{n}$ . 而 $\mathcal{L}^{'}+cb_{n}$ 又可继续做陪集的划分。</p>
+<p>$H_c$ 包含了由 $n-1$ 个基向量张成的子格 $\mathcal{L}^{&rsquo;}$ 的一个陪集 $\mathcal{L}^{&rsquo;}+cb_{n}$ . 而 $\mathcal{L}^{&rsquo;}+cb_{n}$ 又可继续做陪集的划分。</p>
 <p>对 $n - i + 1$ 维 不断进行处理，则可以最终停留在一个向量上，在此前的陪集划分后，选择子空间只需不断保证欧几里得距离的最优，便可得到近似求解 CVP 问题的一个解。</p>
 <br>
 <br>
@@ -392,10 +381,9 @@ $$</p>
         alt="https://s2.loli.net/2024/06/19/uD8fLaVQ75JCsx6.png"
         title="image-20240619142218091" /></p>
 <p>Rewrite the vector $t$ in this rotated space.</p>
-<p>$$
-\boldsymbol{t}=\begin{pmatrix}t_{1} \\ t_{2} \\ \vdots \\ t_{n} \end{pmatrix}
-$$</p>
-<p>那么此前描述的陪集划分与选择的过程实际上可以重新表述为：</p>
+$$
+\boldsymbol{t}=\begin{pmatrix}t_{1} \\\\ t_{2} \\\\ \vdots \\\\ t_{n} \end{pmatrix}
+$$<p>那么此前描述的陪集划分与选择的过程实际上可以重新表述为：</p>
 <p>在给定陪集中这个寻找第 $n$ 个坐标为最小的的向量。由于每次仅处理一个基向量，故前后处理互不影响。</p>
 <p><img
         class="lazyload"
@@ -442,49 +430,44 @@ $$</p>
 <br>
 <p>GS 中可以把一个向量在基变换后重新写为：</p>
 <br>
-<p>$$
+$$
 \boldsymbol{x} = \sum\frac{\langle\widetilde{\boldsymbol{b_{i}}},\boldsymbol{x}\rangle}{\Vert\widetilde{\boldsymbol{b_{i}}}\Vert^{2}}\cdot\widetilde{\boldsymbol{b_{i}}}
-$$</p>
-<br>
+$$<br>
 <br>
 <p>Babai 中的系数形式为</p>
-<p>$$
+$$
 \langle\widetilde{\boldsymbol{b_{n-i+1}}},\boldsymbol{s}\rangle / \Vert \widetilde{\boldsymbol{b_{n-i+1}}}\Vert ^{2}
-$$</p>
-<p>大约在 $1/2$ 的数量级（上界），故而通过简单的不等式放缩可以证明</p>
+$$<p>大约在 $1/2$ 的数量级（上界），故而通过简单的不等式放缩可以证明</p>
 <br>
 <h4 id="proof">PROOF:</h4>
 <p><strong>Vector Decomposition Using Gram-Schmidt Vectors:</strong></p>
 <p>Any vector $t\in\operatorname{span}(B)$ can be decomposed in terms of the Gram-Schmidt orthogonal basis ${\tilde{b}_i}:$</p>
-<p>$$
+$$
 t=\sum_{i=1}^n\alpha_i\tilde{b}_i
-$$</p>
-<p>where $\alpha_i=0$</p>
+$$<p>where $\alpha_i=0$</p>
 <p><strong>Approximation Quality</strong></p>
 <p>Since the algorithm rounds each coefficient $\alpha_i$ to the nearest integer, the difference between $x$ and $t$ can be bounded. Specifically, for each $i$:</p>
-<p>$$
-|\alpha_i-\text{round}(\alpha_i)|\leq\frac12.
 $$
+|\alpha_i-\text{round}(\alpha_i)|\leq\frac12.
+$$<p>
 Therefore, the distance between $x$ and $t$ can be expressed as a sum of these small
 deviations over all Gram-Schmidt vectors:
+</p>
 $$
 x=\sum_{i=1}^n\mathrm{round}(\alpha_i)\tilde{b}_i.
-$$</p>
-<p>Bounding the Distance:</p>
+$$<p>Bounding the Distance:</p>
 <p>The distance $\Vert x-t \Vert$ is thus related to the error in each dimension:
+</p>
 $$
 x-t=\sum_{i=1}^n(\text{round}(\alpha_i)-\alpha_i)\tilde{b}_i
-$$</p>
-<p>Since |round$(\alpha_{i})-\alpha_{i}|\leq\frac12$,we have:</p>
-<p>$$
+$$<p>Since |round$(\alpha_{i})-\alpha_{i}|\leq\frac12$,we have:</p>
+$$
 \Vert x-t\Vert \leq\sum_{i=1}^n |\text{round}(\alpha_i)-\alpha_i| \Vert\tilde{b_i}\Vert \leq\frac{1}{2}\sum_{i=1}^{n} \Vert \tilde{b_i}\Vert.
-$$</p>
-<p><strong>Squared Distance Bound:</strong></p>
+$$<p><strong>Squared Distance Bound:</strong></p>
 <p>The squared distance is then:</p>
-<p>$$
+$$
 \Vert s \Vert^2 = \Vert x-t\Vert^2 \leq \left(\frac{1}{2}\sum_{i=1}^{n} \Vert \tilde{b_i} \Vert \right)^2 \leq \frac{1}{4}\sum_{i=1}^{n}\Vert \tilde{b_i}\Vert^2.
-$$</p>
-<br>
+$$<br>
 <p>The last inequality follows from the Cauchy-Schwarz inequality, which ensures that the sum of squares of the individual terms is an upper bound on the square of their sum.</p>
 <p>In fact,</p>
 <p><img
@@ -543,10 +526,10 @@ $$</p>
         alt="https://s2.loli.net/2024/06/19/LB92vtalgFdEZTs.png"
         title="image-20240619184212649" /></p>
 <p>在这样的模型思考下，我们形式上可以给出一个基础的 Bound :
+</p>
 $$
 \gamma\leq\frac{\left(\sum\Vert\widetilde{\boldsymbol{b_{i}}}\Vert^{2}\right)^{1/2}}{\min\Vert\widetilde{\boldsymbol{b_{i}}}\Vert}
-$$</p>
-<br>
+$$<br>
 <br>
 <br>
 <p>而这个 Bound 还有优化空间：</p>
@@ -567,15 +550,13 @@ $$</p>
 <p>当 $\operatorname{dist}(\boldsymbol{t},\mathcal{L})&lt;|\widetilde{\boldsymbol{b}}_n|/2$ 时，显然最近的向量在最近的格子超平面上，因为其他超平面上的向量距离 $t$ 至少 $\Vert\widetilde{\boldsymbol{b}}_n\Vert /2$, 大于$\operatorname{dist}(\boldsymbol{t},\mathcal{L})$。</p>
 <p>所以 Babai 算法会选择正确的第 $n$ 个坐标。</p>
 <p>更一般地，如果对于某个 $i$ , $\operatorname{dist}(\boldsymbol{t},\mathcal{L})&lt;\Vert\widetilde{\boldsymbol{b}}_j\Vert/2$ 对所有 $j\geq i$ 成立，那么 Babai 算法将正确选择所有 $j\geq i$ 的坐标，并且输出向量满足：</p>
-<p>$$
-|\boldsymbol{s}|^2\leq\frac12\sum_{j=1}^i\Vert\widetilde{\boldsymbol{b}}_j\Vert^2+\operatorname{dist}(\boldsymbol{t},\mathsf{L})^2
-$$</p>
-<p>如果 $\operatorname{dist}(\boldsymbol{t},\mathcal{L})&lt;\Vert\widetilde{\boldsymbol{b}}_i\Vert/2$ 对所有 $i$ 成立，那么我们知道输出是正确的，因此可以假设存在某个 $i\in {1,\ldots,n}$ 使得$\ \operatorname{dist}( \boldsymbol{t}, \mathcal{L} ) \geq \Vert \widetilde{\boldsymbol{b}} _i\Vert / 2$ , 并且可以取 $i$ 为满足此性质的最大值。</p>
+$$
+\|\boldsymbol{s}\|^2\leq\frac12\sum_{j=1}^i\Vert\widetilde{\boldsymbol{b}}_j\Vert^2+\operatorname{dist}(\boldsymbol{t},\mathsf{L})^2
+$$<p>如果 $\operatorname{dist}(\boldsymbol{t},\mathcal{L})&lt;\Vert\widetilde{\boldsymbol{b}}_i\Vert/2$ 对所有 $i$ 成立，那么我们知道输出是正确的，因此可以假设存在某个 $i\in {1,\ldots,n}$ 使得$\ \operatorname{dist}( \boldsymbol{t}, \mathcal{L} ) \geq \Vert \widetilde{\boldsymbol{b}} _i\Vert / 2$ , 并且可以取 $i$ 为满足此性质的最大值。</p>
 <p>故而：</p>
-<p>$$
+$$
 \Vert\boldsymbol{s}\Vert^2\leq\frac{1}{2}\sum_{j=1}^{i}\Vert\widetilde{\boldsymbol{b_j}}\Vert^2+\operatorname{dist}(\boldsymbol{t},\mathcal{L})^2\leq\frac{\operatorname{dist}(\boldsymbol{t},\mathcal{L})^2}{\Vert\widetilde{\boldsymbol{b_i}}\Vert^2}\cdot\sum_{j=1}^{i}\Vert\widetilde{\boldsymbol{b_j}}\Vert^{2}+\operatorname{dist}(\boldsymbol{t},\mathcal{L})^2
-$$</p>
-<br>
+$$<br>
 <br>
 <p>我们来看这一推导的具体细节：</p>
 <p>PROOF</p>
@@ -657,7 +638,7 @@ $$</p>
                 Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -667,5 +648,5 @@ $$</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.485ce22971162ae594e2f22468d97519fb9c08a7112e3a012e8684cfe098b474.js" integrity="sha256-SFziKXEWKuWU4vIkaNl1GfucCKcRLjoBLoaEz+CYtHQ="></script></body>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
 </html>

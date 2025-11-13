@@ -1,32 +1,35 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>Tags - 标签 - As it was</title>
-        <link>https://galoishlee.github.io/tags/</link>
-        <description>Tags - 标签 - As it was</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://galoishlee.github.io/tags/" rel="self" type="application/rss+xml" /><item>
-    <title>安装</title>
-    <link>https://galoishlee.github.io/tags/installation/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Halois</author>
-    <guid>https://galoishlee.github.io/tags/installation/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>内容</title>
-    <link>https://galoishlee.github.io/tags/content/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Halois</author>
-    <guid>https://galoishlee.github.io/tags/content/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>配置</title>
-    <link>https://galoishlee.github.io/tags/configuration/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Halois</author>
-    <guid>https://galoishlee.github.io/tags/configuration/</guid>
-    <description><![CDATA[]]></description>
-</item>
-</channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on As it was</title>
+    <link>https://galoishlee.github.io/tags/</link>
+    <description>Recent content in Tags on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <atom:link href="https://galoishlee.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装</title>
+      <link>https://galoishlee.github.io/tags/installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/installation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>内容</title>
+      <link>https://galoishlee.github.io/tags/content/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/content/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>配置</title>
+      <link>https://galoishlee.github.io/tags/configuration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/configuration/</guid>
+      <description></description>
+    </item>
+  </channel>
 </rss>

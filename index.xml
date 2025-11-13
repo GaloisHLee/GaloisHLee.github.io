@@ -1,6 +1,5 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>As it was</title>
+    <channel><title>As it was</title>
         <link>https://galoishlee.github.io/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
@@ -36,7 +35,8 @@
 <blockquote>
 <p>Note</p>
 </blockquote>
-<p>The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE).</p>]]></description>
+<p>The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE).</p>
+]]></description>
 </item>
 <item>
     <title>Vectorspace Matters</title>
@@ -45,7 +45,19 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/vectorspace-matters/</guid>
     <description><![CDATA[<h1 id="by-which-to-rule-them-all">By which to Rule Them All</h1>
-<p></p>]]></description>
+<p></p>
+<blockquote>
+<p>上回书说到 UOV &hellip;</p>
+</blockquote>
+]]></description>
+</item>
+<item>
+    <title>Way-To-MPKC From UOV</title>
+    <link>https://galoishlee.github.io/uov/</link>
+    <pubDate>Wed, 13 Nov 2024 19:39:56 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/uov/</guid>
+    <description><![CDATA[]]></description>
 </item>
 <item>
     <title>BadAgent0x00 Intro</title>
@@ -56,7 +68,8 @@
     <description><![CDATA[<h1 id="reread-bad-agent">Reread: Bad Agent:</h1>
 <p><strong>Inserting and Activating Backdoor Attacks in LLM Agents</strong></p>
 <p>References: <a href="https://github.com/DPamK/BadAgent" target="_blank" rel="noopener noreffer ">https://github.com/DPamK/BadAgent</a></p>
-<p>keyword ⛵ : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web</p>]]></description>
+<p>keyword &#x26f5; : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web</p>
+]]></description>
 </item>
 <item>
     <title>Pae Attack</title>
@@ -66,7 +79,8 @@
     <guid>https://galoishlee.github.io/pae-attack/</guid>
     <description><![CDATA[<p>Reading: PAE</p>
 <p></p>
-<p><strong>Trustworthy deep learning.</strong></p>]]></description>
+<p><strong>Trustworthy deep learning.</strong></p>
+]]></description>
 </item>
 <item>
     <title>WayToFFT Part 1</title>
@@ -78,7 +92,8 @@
 <blockquote>
 <p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
 </blockquote>
-<p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>]]></description>
+<p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>
+]]></description>
 </item>
 <item>
     <title>WayToCoppersmith0x01</title>
@@ -87,7 +102,8 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/waytocoppersmith0x01/</guid>
     <description><![CDATA[<p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
-<p><strong>Coron&rsquo;s Technique</strong></p>]]></description>
+<p><strong>Coron&rsquo;s Technique</strong></p>
+]]></description>
 </item>
 <item>
     <title>WayToCoppersmith0x00</title>
@@ -95,15 +111,8 @@
     <pubDate>Sun, 26 May 2024 15:10:32 &#43;0800</pubDate>
     <author>作者</author>
     <guid>https://galoishlee.github.io/waytocoppersmith-0x00/</guid>
-    <description><![CDATA[<h1 id="re从零开始的crypto生活">RE:从零开始的crypto生活</h1>]]></description>
-</item>
-<item>
-    <title>WayToFFT Part 0</title>
-    <link>https://galoishlee.github.io/waytofft-part-0/</link>
-    <pubDate>Sat, 25 May 2024 21:58:45 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/waytofft-part-0/</guid>
-    <description><![CDATA[<p>从拉格朗日插值法到 FFT. Part-0.</p>]]></description>
+    <description><![CDATA[<h1 id="re从零开始的crypto生活">RE:从零开始的crypto生活</h1>
+]]></description>
 </item>
 </channel>
 </rss>

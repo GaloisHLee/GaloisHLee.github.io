@@ -61,7 +61,9 @@
 
 {{< friend name="Emma" url="https://emmaaaaaaaaaaaaaaaaa.github.io/" logo="https://cdn.jsdelivr.net/gh/Emmaaaaaaaaaaaaaaaaa/blog-img/image/logo.jpg" word="追风赶月莫停留，平芜尽处是春山" >}}
 
-{{< friend name="huangx607087" url="https://huangx607087.online" logo="https://s2.loli.net/2024/11/27/QVIGFyLvHPSZlhc.jpg" word="退役两年又复出的Cryptoer." >}}
+{{< friend name="Lov3" url="https://lov2.netlify.app" logo="https://avatars.githubusercontent.com/u/30841158?v=4" word="Sage for vscode开发者" >}}
+
+{{< friend name="Huangx607087" url="https://huangx607087.online" logo="https://s2.loli.net/2024/11/27/QVIGFyLvHPSZlhc.jpg" word="退役两年又复出的Cryptoer." >}}
 
 {{< friend name="Adwa" url="https://languag3.github.io/" logo="https://languag3.github.io/images/avatar.jpg" word="🦌: adwa世界第一帅" >}}
 
