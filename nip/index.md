@@ -1,4 +1,4 @@
-# NIP
+# NPI
 
 
 
@@ -77,9 +77,10 @@ This gives us a system of $n$ equations in $k+1$ variables ($a_0, \dots, a_k$). 
 The meet-in-the-middle attack is a classic divide-and-conquer algorithm that is far more efficient than brute force. Its core idea is to leverage the linearity of the Lagrange interpolation formula.
 
 > **Lagrange Interpolation:** This is a method to find the unique polynomial of degree at most $n'-1$ that passes through a given set of $n'$ points. The formula is:
-> $$
-> P(X) = \sum_{i=1}^{n'} P(x_i) L_i(X) \quad \text{where} \quad L_i(X) = \prod_{j=1, j \neq i}^{n'} \frac{X - x_j}{x_i - x_j}
-> $$
+
+$$
+P(X) = \sum_{i=1}^{n'} P(x_i) L_i(X) \quad \text{where} \quad L_i(X) = \prod_{j=1, j \neq i}^{n'} \frac{X - x_j}{x_i - x_j}
+$$
 
 The attack works by splitting the sum into two halves. It generates a list of possible polynomial parts from the first half and another list from the second half. It then searches for a pair (one from each list) that, when added together, cancels out the high-degree terms, resulting in a polynomial of the correct low degree $k$.
 
@@ -111,20 +112,22 @@ $$
 
 The core constraint of NPI is that $P(X)$ must have a degree at most $k$. This means the coefficients of all terms with a power higher than $k$ (i.e., $X^{k+1}, \dots, X^{n-1}$) must be zero. This gives us a system of linear equations in the variables $\delta_{i,j}$, which defines our lattice.
 
-> **Lemma 1.** Let $A \in M_{n,e}(\mathbb{Z}_q)$. Then the volume of $L(A)> $ divides $q^e$. It is exactly $q^e$ if and only if $\{\mathbf{x}A :
+> **Lemma 1.** Let $A \in M_{n,e}(\mathbb{Z}_q)$. Then the volume of $L(A)$ divides $q^e$. It is exactly $q^e$ if and only if $\{\mathbf{x}A :
 > \mathbf{x} \in \mathbb{Z}_q^n\}$ is entirely $\mathbb{Z}_q^e$.
-> 
+>
 > **Proof:** By definition, $L(A)$ is the kernel of the group homomorphism $\phi$ that maps any $\mathbf{x} \in \mathbb{Z}^n$ to $(\mathbf{x}A \pmod q) \in \mathbb{Z}_q^e$. Therefore the group quotient $\mathbb{Z}^n / L(A)$ is isomorphic to the image of $\phi$. But since $L(A)$ is a full-dimensional lattice in $\mathbb{Z}^n$, its volume is simply the index $[\mathbb{Z}^n : L(A)]$ of $L(A)$ in $\mathbb{Z}^n$, from which both statements follow. $\square$
 >
-> Letting $L_i(x) = \sum_{w=0}^{n-1} \ell_{i,w}x^w$, the lattice $L$ of Section 3.1 is equal to $L(A)$, where $\mathbb{F} = \mathbb{Z}\_q$ and $A$ is the following matrix of dimension $nm \times n-1-k$.
-> $$ A = \begin{pmatrix}
-> y_{1,1} \ell_{1, k+1} & \cdots & y_{1,1} \ell_{1, n-1} \\\\
-> \vdots & \ddots & \vdots \\\\
-> y_{i,j} \ell_{i, k+1} & \cdots & y_{i,j} \ell_{i, n-1} \\\\
-> \vdots & \ddots & \vdots \\\\
-> y_{n,m} \ell_{n, k+1} & \cdots & y_{n,m} \ell_{n, n-1}
-> \end{pmatrix}
-> $$
+> Letting $L_i(x) = \sum_{w=0}^{n-1} \ell_{i,w}x^w$, the lattice $L$ of Section 3.1 is equal to $L(A)$, where $\mathbb{F} = \mathbb{Z}_q$ and $A$ is the following matrix of dimension $nm \times n-1-k$.
+
+$$
+A = \begin{pmatrix}
+y_{1,1} \ell_{1, k+1} & \cdots & y_{1,1} \ell_{1, n-1} \\\\
+\vdots & \ddots & \vdots \\\\
+y_{i,j} \ell_{i, k+1} & \cdots & y_{i,j} \ell_{i, n-1} \\\\
+\vdots & \ddots & \vdots \\\\
+y_{n,m} \ell_{n, k+1} & \cdots & y_{n,m} \ell_{n, n-1}
+\end{pmatrix}
+$$
 
 
 
@@ -244,3 +247,4 @@ The contrast with the NCR problem further deepens our understanding, showing tha
 
 [^1]: [Bleichenbacher, D., & Nguyen, P. Q. (2000). Noisy Polynomial Interpolation and Noisy Chinese Remaindering. In International Conference on the Theory and Application of Cryptographic Techniques (EUROCRYPT 2000). Springer.](https://www.iacr.org/archive/eurocrypt2000/1807/18070053-new.pdf)
 [^2]: [Experimental Code](https://github.com/GaloisHLee/NoisyInterpolation)
+

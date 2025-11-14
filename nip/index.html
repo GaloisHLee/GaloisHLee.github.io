@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>NIP - As it was</title><meta name="Description" content="&gt; Note:Noisy Polynomial Interpolation Problem"><meta property="og:title" content="NIP">
+        <title>NPI - As it was</title><meta name="Description" content="&gt; Note:Noisy Polynomial Interpolation Problem"><meta property="og:title" content="NPI">
 <meta property="og:description" content="&gt; Note:Noisy Polynomial Interpolation Problem">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://galoishlee.github.io/nip/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="NIP">
+<meta name="twitter:title" content="NPI">
 <meta name="twitter:description" content="&gt; Note:Noisy Polynomial Interpolation Problem"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/nip/" /><link rel="prev" href="https://galoishlee.github.io/waytontt-part-0/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -16,7 +16,7 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "NIP",
+        "headline": "NPI",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -26,7 +26,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","wordcount":  2977 ,
+                        }],"genre": "posts","wordcount":  2965 ,
         "url": "https:\/\/galoishlee.github.io\/nip\/","datePublished": "2025-08-27T16:51:16+08:00","dateModified": "2025-11-11T15:30:08+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -104,9 +104,9 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NIP</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NPI</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-08-27">2025-08-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2977 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-08-27">2025-08-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2965 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 14 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -200,12 +200,11 @@ $$<p>This gives us a system of $n$ equations in $k+1$ variables ($a_0, \dots, a_
 <h3 id="23-a-divide-and-conquer-strategy-meet-in-the-middle">2.3 A Divide-and-Conquer Strategy: Meet-in-the-Middle</h3>
 <p>The meet-in-the-middle attack is a classic divide-and-conquer algorithm that is far more efficient than brute force. Its core idea is to leverage the linearity of the Lagrange interpolation formula.</p>
 <blockquote>
-<p><strong>Lagrange Interpolation:</strong> This is a method to find the unique polynomial of degree at most $n&rsquo;-1$ that passes through a given set of $n&rsquo;$ points. The formula is:
-</p>
+<p><strong>Lagrange Interpolation:</strong> This is a method to find the unique polynomial of degree at most $n&rsquo;-1$ that passes through a given set of $n&rsquo;$ points. The formula is:</p>
+</blockquote>
 $$
-> P(X) = \sum_{i=1}^{n'} P(x_i) L_i(X) \quad \text{where} \quad L_i(X) = \prod_{j=1, j \neq i}^{n'} \frac{X - x_j}{x_i - x_j}
-> $$</blockquote>
-<p>The attack works by splitting the sum into two halves. It generates a list of possible polynomial parts from the first half and another list from the second half. It then searches for a pair (one from each list) that, when added together, cancels out the high-degree terms, resulting in a polynomial of the correct low degree $k$.</p>
+P(X) = \sum_{i=1}^{n'} P(x_i) L_i(X) \quad \text{where} \quad L_i(X) = \prod_{j=1, j \neq i}^{n'} \frac{X - x_j}{x_i - x_j}
+$$<p>The attack works by splitting the sum into two halves. It generates a list of possible polynomial parts from the first half and another list from the second half. It then searches for a pair (one from each list) that, when added together, cancels out the high-degree terms, resulting in a polynomial of the correct low degree $k$.</p>
 <p>The complexity is roughly $O(m^{n&rsquo;/2})$, a huge improvement over the $O(m^{n&rsquo;})$ of brute force. However, it&rsquo;s still exponential. More importantly, this attack was the first to exploit the unique structure of NPI—the fact that the evaluation points $x_i$ are fixed and known. This hinted that NPI&rsquo;s structure was its Achilles&rsquo; heel.</p>
 <hr>
 <h2 id="3-the-game-changer-lattice-based-cryptanalysis">3. The Game Changer: Lattice-Based Cryptanalysis</h2>
@@ -222,20 +221,20 @@ $$
 P(X) = \sum_{i=1}^{n} \sum_{j=1}^{m} \delta_{i,j} y_{i,j} L_i(X)
 $$<p>The core constraint of NPI is that $P(X)$ must have a degree at most $k$. This means the coefficients of all terms with a power higher than $k$ (i.e., $X^{k+1}, \dots, X^{n-1}$) must be zero. This gives us a system of linear equations in the variables $\delta_{i,j}$, which defines our lattice.</p>
 <blockquote>
-<p><strong>Lemma 1.</strong> Let $A \in M_{n,e}(\mathbb{Z}_q)$. Then the volume of $L(A)&gt; $ divides $q^e$. It is exactly $q^e$ if and only if ${\mathbf{x}A :
+<p><strong>Lemma 1.</strong> Let $A \in M_{n,e}(\mathbb{Z}_q)$. Then the volume of $L(A)$ divides $q^e$. It is exactly $q^e$ if and only if ${\mathbf{x}A :
 \mathbf{x} \in \mathbb{Z}_q^n}$ is entirely $\mathbb{Z}_q^e$.</p>
 <p><strong>Proof:</strong> By definition, $L(A)$ is the kernel of the group homomorphism $\phi$ that maps any $\mathbf{x} \in \mathbb{Z}^n$ to $(\mathbf{x}A \pmod q) \in \mathbb{Z}_q^e$. Therefore the group quotient $\mathbb{Z}^n / L(A)$ is isomorphic to the image of $\phi$. But since $L(A)$ is a full-dimensional lattice in $\mathbb{Z}^n$, its volume is simply the index $[\mathbb{Z}^n : L(A)]$ of $L(A)$ in $\mathbb{Z}^n$, from which both statements follow. $\square$</p>
-<p>Letting $L_i(x) = \sum_{w=0}^{n-1} \ell_{i,w}x^w$, the lattice $L$ of Section 3.1 is equal to $L(A)$, where $\mathbb{F} = \mathbb{Z}_q$ and $A$ is the following matrix of dimension $nm \times n-1-k$.
-</p>
-$$ A = \begin{pmatrix}
-> y_{1,1} \ell_{1, k+1} & \cdots & y_{1,1} \ell_{1, n-1} \\\\
-> \vdots & \ddots & \vdots \\\\
-> y_{i,j} \ell_{i, k+1} & \cdots & y_{i,j} \ell_{i, n-1} \\\\
-> \vdots & \ddots & \vdots \\\\
-> y_{n,m} \ell_{n, k+1} & \cdots & y_{n,m} \ell_{n, n-1}
-> \end{pmatrix}
-> $$</blockquote>
-<h3 id="32-the-first-attempt-defining-a-lattice">3.2 The First Attempt: Defining a Lattice</h3>
+<p>Letting $L_i(x) = \sum_{w=0}^{n-1} \ell_{i,w}x^w$, the lattice $L$ of Section 3.1 is equal to $L(A)$, where $\mathbb{F} = \mathbb{Z}_q$ and $A$ is the following matrix of dimension $nm \times n-1-k$.</p>
+</blockquote>
+$$
+A = \begin{pmatrix}
+y_{1,1} \ell_{1, k+1} & \cdots & y_{1,1} \ell_{1, n-1} \\\\
+\vdots & \ddots & \vdots \\\\
+y_{i,j} \ell_{i, k+1} & \cdots & y_{i,j} \ell_{i, n-1} \\\\
+\vdots & \ddots & \vdots \\\\
+y_{n,m} \ell_{n, k+1} & \cdots & y_{n,m} \ell_{n, n-1}
+\end{pmatrix}
+$$<h3 id="32-the-first-attempt-defining-a-lattice">3.2 The First Attempt: Defining a Lattice</h3>
 <p>Let&rsquo;s define a lattice $L$ as the set of all integer vectors $(d_{1,1}, \dots, d_{n,m})$ that satisfy these degree constraints. The solution to our NPI problem corresponds to a specific vector $\delta$ in this lattice.</p>
 <p>This target vector $\delta$ has two special properties:</p>
 <ol>
@@ -372,7 +371,7 @@ $$<p>In a space with $nm$ dimensions, a vector of length $\sqrt{n}$ is exception
                             <a class="link-to-markdown" href="/nip/index.md" target="_blank">阅读原始文档</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/nip/" data-title="NIP"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/nip/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/nip/" data-title="NIP"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/nip/" data-title="NIP"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/nip/" data-title="NIP"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/nip/" data-title="NPI"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/nip/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/nip/" data-title="NPI"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/nip/" data-title="NPI"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/nip/" data-title="NPI"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
