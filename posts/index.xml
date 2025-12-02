@@ -3,7 +3,15 @@
         <link>https://galoishlee.github.io/posts/</link>
         <description>所有文章 | As it was</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 17 Nov 2025 18:21:51 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Dec 2025 16:33:26 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>AboutXL</title>
+    <link>https://galoishlee.github.io/aboutxl/</link>
+    <pubDate>Tue, 02 Dec 2025 16:33:26 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/aboutxl/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>HFE</title>
     <link>https://galoishlee.github.io/hfe/</link>
     <pubDate>Mon, 17 Nov 2025 18:21:51 &#43;0800</pubDate>
@@ -99,16 +107,6 @@
 <p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
 </blockquote>
 <p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>
-]]></description>
-</item>
-<item>
-    <title>WayToCoppersmith0x01</title>
-    <link>https://galoishlee.github.io/waytocoppersmith0x01/</link>
-    <pubDate>Tue, 04 Jun 2024 19:48:51 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/waytocoppersmith0x01/</guid>
-    <description><![CDATA[<p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
-<p><strong>Coron&rsquo;s Technique</strong></p>
 ]]></description>
 </item>
 </channel>

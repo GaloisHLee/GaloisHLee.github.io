@@ -2,7 +2,8 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://galoishlee.github.io/</loc><lastmod>2025-11-17T18:21:51&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/aboutxl/</loc><lastmod>2025-12-02T16:33:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/</loc><lastmod>2025-12-02T16:33:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/"
@@ -11,13 +12,13 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/hfe/</loc><lastmod>2025-11-17T18:21:51&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2025-11-17T18:21:51&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/nip/</loc><lastmod>2025-11-11T15:30:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2025-12-02T16:33:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/hfe/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://galoishlee.github.io/nip/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>https://galoishlee.github.io/waytontt-part-0/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytofft-part-2/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/vectorspace-matters/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/uov/</loc><lastmod>2024-11-13T19:39:56&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/vectorspace-matters/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://galoishlee.github.io/uov/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>https://galoishlee.github.io/badagent0x00-intro/</loc><lastmod>2024-11-06T19:05:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/friends/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
