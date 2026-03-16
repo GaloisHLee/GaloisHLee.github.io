@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Hash To Curve - As it was</title><meta name="Description" content="Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points."><meta property="og:title" content="Hash To Curve">
+<meta property="og:description" content="Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://localhost:1313/hash-to-curve/"><meta property="og:image" content="http://localhost:1313/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hash To Curve">
+<meta name="twitter:description" content="Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points."><meta name="twitter:image" content="http://localhost:1313/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/hash-to-curve/" /><link rel="prev" href="http://localhost:1313/waytozk-01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Hash To Curve",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/hash-to-curve\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "http:\/\/localhost:1313\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, elliptic-curve, rfc, bls","wordcount":  3938 ,
+        "url": "http:\/\/localhost:1313\/hash-to-curve\/","datePublished": "2026-03-16T00:00:00+08:00","dateModified": "2026-03-16T00:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points."
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/hash-to-curve/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/hash-to-curve/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Hash To Curve</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-03-16">2026-03-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3938 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 19 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-principles-bytes-to-subgroup">First Principles: Bytes To Subgroup</a>
+      <ul>
+        <li><a href="#what-problem-is-rfc-9380-solving">What Problem Is RFC 9380 Solving?</a></li>
+        <li><a href="#why-try-and-increment-had-to-go">Why Try-And-Increment Had To Go</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-rfc-object-model">The RFC Object Model</a>
+      <ul>
+        <li><a href="#formal-definition">Formal Definition</a></li>
+        <li><a href="#layer-1-hash_to_field">Layer 1: <code>hash_to_field</code></a>
+          <ul>
+            <li><a href="#why-l-looks-like-this">Why <code>L</code> Looks Like This</a></li>
+            <li><a href="#the-extension-field-case">The Extension-Field Case</a></li>
+          </ul>
+        </li>
+        <li><a href="#layer-2-map_to_curve">Layer 2: <code>map_to_curve</code></a>
+          <ul>
+            <li><a href="#a-first-look-at-simplified-swu">A First Look At Simplified SWU</a></li>
+            <li><a href="#what-sqrt_ratio-is-actually-doing">What <code>sqrt_ratio</code> Is Actually Doing</a></li>
+            <li><a href="#the-ab--0-detour">The <code>AB == 0</code> Detour</a></li>
+          </ul>
+        </li>
+        <li><a href="#layer-3-clear_cofactor">Layer 3: <code>clear_cofactor</code></a></li>
+        <li><a href="#ro-versus-nu-encode_to_curve-and-hash_to_curve">RO Versus NU: <code>encode_to_curve</code> And <code>hash_to_curve</code></a>
+          <ul>
+            <li><a href="#why-q0--q1-helps">Why <code>Q0 + Q1</code> Helps</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#the-domain-boundary">The Domain Boundary</a>
+      <ul>
+        <li><a href="#dst">DST</a></li>
+        <li><a href="#constant-time-or-it-does-not-count">Constant-Time Or It Does Not Count</a></li>
+        <li><a href="#when-uniformity-actually-matters">When Uniformity Actually Matters</a></li>
+      </ul>
+    </li>
+    <li><a href="#suite-layer">Suite Layer</a>
+      <ul>
+        <li><a href="#why-sswu-elligator-2-and-isogenies-appear">Why SSWU, Elligator 2, And Isogenies Appear</a></li>
+        <li><a href="#case-study-secp256k1">Case Study: secp256k1</a>
+          <ul>
+            <li><a href="#why-the-3-isogeny-matters">Why The 3-Isogeny Matters</a></li>
+          </ul>
+        </li>
+        <li><a href="#case-study-bls12-381">Case Study: BLS12-381</a>
+          <ul>
+            <li><a href="#g1-h_eff-is-not-the-raw-cofactor">G1: <code>h_eff</code> Is Not The Raw Cofactor</a></li>
+            <li><a href="#g2-the-endomorphism-view">G2: The Endomorphism View</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#protocol-view">Protocol View</a>
+      <ul>
+        <li><a href="#why-signatures-voprfs-and-password-protocols-care">Why Signatures, VOPRFs, And Password Protocols Care</a></li>
+        <li><a href="#what-can-still-go-wrong">What Can Still Go Wrong</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a>
+      <ul>
+        <li><a href="#mental-model">Mental Model</a></li>
+        <li><a href="#implementation-checklist">Implementation Checklist</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: RFC 9380, <em>Hashing to Elliptic Curves</em>.</p>
+</blockquote>
+<p>Core problem: given an arbitrary byte string, produce a point in the correct elliptic-curve subgroup, with the distribution and side-channel properties a protocol actually needs. This is not “hash to an $x$ and try to solve for $y$”.</p>
+<p>The RFC answer is a pipeline, not a trick:</p>
+$$
+\text{bytes} \rightarrow \text{field elements} \rightarrow \text{curve points} \rightarrow \text{subgroup points}
+$$<p>plus domain separation and constant-time constraints.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>This note only tracks that structure: what object the RFC is defining, why <code>encode_to_curve</code> and <code>hash_to_curve</code> differ, and why suites such as secp256k1 and BLS12-381 are built the way they are.</p>
+<h2 id="first-principles-bytes-to-subgroup">First Principles: Bytes To Subgroup</h2>
+<h3 id="what-problem-is-rfc-9380-solving">What Problem Is RFC 9380 Solving?</h3>
+<p>RFC 9380 specifies algorithms for encoding or hashing an arbitrary string to a point on an elliptic curve.<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> The sentence sounds small. Protocol-wise, it is a real primitive.</p>
+<p>Suppose we want to turn a message <code>msg</code> into a group element:</p>
+$$
+\text{msg} \in \{0,1\}^\* \longmapsto P \in G
+$$<p>where $G$ is the prime-order subgroup used by the protocol. This shows up everywhere:</p>
+<ul>
+<li>BLS signatures hash messages into a curve group before scalar multiplication.</li>
+<li>VOPRF/OPRF-style protocols need a deterministic encoding of client input into a group element.</li>
+<li>PAKE and password-based designs often need a carefully domain-separated group encoding.</li>
+</ul>
+<p>“Map bytes to a curve point” is not enough. A protocol usually wants:</p>
+<ul>
+<li>deterministic behavior</li>
+<li>subgroup correctness</li>
+<li>constant-time implementation</li>
+<li>random-oracle style security</li>
+<li>domain separation across protocol instances</li>
+</ul>
+<p>That already kills the naive constructions.</p>
+<h3 id="why-try-and-increment-had-to-go">Why Try-And-Increment Had To Go</h3>
+<p>Historically, a common instinct was rejection sampling: hash the input, interpret it as a candidate $x$, test whether $x^3 + Ax + B$ is a square, and if not, try again with another counter. RFC 9380 explicitly does <strong>not</strong> standardize these probabilistic “try-and-increment” or “hunt-and-peck” methods, and says their use is <strong>NOT RECOMMENDED</strong> because they have repeatedly caused side-channel vulnerabilities.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<blockquote>
+<p>Key Observation: hash-to-curve is not hard because points are rare. It is hard because protocols need a point generation method whose control flow and output distribution are compatible with security proofs and implementations.</p>
+</blockquote>
+<p>So the RFC target is deterministic, straight-line, plausibly constant-time code. That is why the standard prefers a layered interface over ad hoc rejection loops.</p>
+<h2 id="the-rfc-object-model">The RFC Object Model</h2>
+<p>RFC 9380 decomposes the problem into three basic functions:<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<ol>
+<li><code>hash_to_field</code></li>
+<li><code>map_to_curve</code></li>
+<li><code>clear_cofactor</code></li>
+</ol>
+<p>This decomposition is the whole mental model.</p>
+<h3 id="formal-definition">Formal Definition</h3>
+<p>The high-level ladder is:</p>
+$$
+\text{bytes} \xrightarrow{\text{hash\_to\_field}} F
+\xrightarrow{\text{map\_to\_curve}} E(F)
+\xrightarrow{\text{clear\_cofactor}} G
+$$<p>where:</p>
+<ul>
+<li>$F$ is the base field or extension field of the curve,</li>
+<li>$E(F)$ is the full set of curve points over $F$,</li>
+<li>$G$ is the target subgroup used by the protocol.</li>
+</ul>
+<p>If this ladder is not explicit in the implementation, the bug usually reappears later as “wrong subgroup”, “wrong DST”, or “distribution not matching the proof”.</p>
+<h3 id="layer-1-hash_to_field">Layer 1: <code>hash_to_field</code></h3>
+<p>The first stage does <strong>not</strong> hash directly to a curve point. It hashes the message into one or more field elements.</p>
+<p>RFC 9380 defines:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">hash_to_field(msg, count)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and the implementation route is:</p>
+<ol>
+<li>expand the input with <code>expand_message</code>,</li>
+<li>slice the resulting byte string into chunks,</li>
+<li>interpret each chunk as an integer,</li>
+<li>reduce modulo $p$ to obtain field elements.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+</ol>
+<p>At a high level:</p>
+$$
+\text{uniform\_bytes} \xrightarrow{\text{chunk + OS2IP + mod } p}
+(u_0, \dots, u_{count-1}) \in F^{count}
+$$<p>The <code>expand_message</code> stage matters because the RFC wants a clean source of pseudorandom-looking bytes, parameterized by a domain separation tag <code>DST</code>.</p>
+<h4 id="why-l-looks-like-this">Why <code>L</code> Looks Like This</h4>
+<p>This is the first place where the RFC is doing real cryptographic engineering rather than mere serialization.</p>
+<p>Let</p>
+$$
+n = \lceil \log_2 p \rceil.
+$$<p>If we sample only an $n$-bit integer $X$ and reduce modulo $p$, the distribution can be badly biased when $p$ is not close to a power of two. The RFC gives a concrete warning: if</p>
+$$
+p \approx \frac{3}{4} \cdot 2^{256},
+$$<p>then reducing a random $256$-bit value mod $p$ lands in</p>
+$$
+[0, p/3]
+$$<p>with probability roughly $1/2$.<sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>That is already far from uniform.</p>
+<p>So the RFC adds a security slack of $k$ bits and samples an integer of length at least</p>
+$$
+n + k
+$$<p>bits. Then the reduction bias is at most $2^{-k}$.<sup id="fnref2:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>This is where</p>
+$$
+L = \left\lceil \frac{\lceil \log_2 p \rceil + k}{8} \right\rceil
+$$<p>comes from.</p>
+<p>So <code>hash_to_field</code> is not just:</p>
+$$
+H(\text{msg}) \bmod p.
+$$<p>It is:</p>
+$$
+\text{OS2IP}(\text{expand\_message}(\text{msg}, \text{DST}, L)) \bmod p,
+$$<p>with $L$ chosen large enough that the reduction step does not introduce unacceptable bias.</p>
+<blockquote>
+<p>Key Observation: <code>hash_to_field</code> is where RFC 9380 pays the statistical cost required to make the later map-to-curve stage meaningful.</p>
+</blockquote>
+<h4 id="the-extension-field-case">The Extension-Field Case</h4>
+<p>If the target field is $F = GF(p^m)$, then one field element is represented as</p>
+$$
+u_i = (e_0, \dots, e_{m-1}),
+$$<p>where each coordinate comes from its own <code>L</code>-byte chunk:</p>
+$$
+e_j = \text{OS2IP}(\text{tv}_j) \bmod p.
+$$<p>So for <code>count</code> outputs, the RFC requests</p>
+$$
+\text{len\_in\_bytes} = \text{count} \cdot m \cdot L.
+$$<p>This is why BLS12-381 G2 feels heavier than a prime-field suite: the top-level interface stays the same, but <code>m = 2</code> means the field layer already doubles the coordinate work.<sup id="fnref3:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<h3 id="layer-2-map_to_curve">Layer 2: <code>map_to_curve</code></h3>
+<p>Once we have field elements, the next step is a deterministic map:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">map_to_curve(u)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This takes $u \in F$ and outputs a point $Q \in E(F)$. The goal here is not to sample uniformly from the subgroup in one step. The goal is to use a deterministic algebraic map with no rejection loop and a curve-family-specific formula.</p>
+<p>This is why the RFC spends so much space on specific mapping families:</p>
+<ul>
+<li>Simplified SWU for Weierstrass curves</li>
+<li>Elligator 2 for Montgomery and twisted Edwards settings</li>
+<li>rational maps and isogenies when direct mapping to the target curve is inconvenient<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+</ul>
+<p>This section is formula-heavy, but the idea is short: <code>map_to_curve</code> is the curve-specific deterministic map that replaces “keep trying random candidates”.</p>
+<h4 id="a-first-look-at-simplified-swu">A First Look At Simplified SWU</h4>
+<p>For a Weierstrass curve</p>
+$$
+E: y^2 = g(x) = x^3 + Ax + B,
+$$<p>the problem is to turn an arbitrary field element $u$ into some $x$ such that $g(x)$ is a square.</p>
+<p>The naive method is “keep trying candidates until one works”. Simplified SWU instead manufactures a small set of algebraically related candidates.</p>
+<p>For the $A \neq 0, B \neq 0$ case, RFC 9380 presents the mapping in terms of a carefully chosen non-square $Z$ and a few temporary values.<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> At the algebraic level, the core move is:</p>
+$$
+\text{tv1} = \text{inv0}(Z^2 u^4 + Z u^2),
+$$$$
+x_1 = -\frac{B}{A}(1 + \text{tv1}),
+$$<p>and, in the exceptional case $\text{tv1} = 0$,</p>
+$$
+x_1 = \frac{B}{ZA}.
+$$<p>Then one computes</p>
+$$
+g(x_1) = x_1^3 + A x_1 + B.
+$$<p>If $g(x_1)$ is square, the job is done. If not, the construction derives another candidate $x_2$ from the same algebraic state and tests that branch instead.<sup id="fnref2:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>The point is not that $x_1$ itself is magical. The point is that the formulas force the candidate set to be structured enough that the algorithm can stay deterministic and branch only on square testing, not on an unbounded retry loop.</p>
+<p>The RFC&rsquo;s optimized straight-line implementation hides this behind <code>tv1</code>, <code>tv2</code>, <code>tv3</code>, <code>sqrt_ratio</code>, and <code>CMOV</code>. But the design principle is simple:</p>
+<ol>
+<li>construct a tiny algebraic family of candidate $x$ values from $u$;</li>
+<li>guarantee that the exceptional case is handled without looping;</li>
+<li>select the valid branch in constant-time style.</li>
+</ol>
+<p>This is the real conceptual jump from “hunt for a valid point” to “use a deterministic map”.</p>
+<h4 id="what-sqrt_ratio-is-actually-doing">What <code>sqrt_ratio</code> Is Actually Doing</h4>
+<p>At first sight, the optimized straight-line pseudocode hides the algebra almost too well:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">(is_gx1_square, y1) = sqrt_ratio(tv2, tv6)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The key point is that <code>sqrt_ratio(u, v)</code> does <strong>not</strong> merely ask “is $u/v$ square?” It returns a pair</p>
+$$
+(b, y)
+$$<p>such that:<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+$$
+b = \text{True}, \quad y = \sqrt{u/v}
+$$<p>if $u/v$ is square in the field, and otherwise</p>
+$$
+b = \text{False}, \quad y = \sqrt{Z \cdot (u/v)}.
+$$<p>So <code>sqrt_ratio</code> is simultaneously:</p>
+<ol>
+<li>a quadratic-residuosity test,</li>
+<li>a square-root extractor for the successful branch,</li>
+<li>a constant-time fallback mechanism for the unsuccessful branch.</li>
+</ol>
+<p>This is why the RFC insists that <code>sqrt_ratio</code> and <code>map_to_curve_simple_swu</code> use the <strong>same</strong> non-square constant $Z$.<sup id="fnref1:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<p>In the optimized SSWU code, the pair <code>(tv2, tv6)</code> is constructed so that</p>
+$$
+\frac{\text{tv2}}{\text{tv6}} = g(x_1)
+$$<p>for one candidate branch, while the fallback value</p>
+$$
+Z \cdot \frac{\text{tv2}}{\text{tv6}}
+$$<p>lands on the other branch in the algebraic family. So <code>sqrt_ratio</code> is where the map compresses</p>
+<ul>
+<li>“test whether $g(x_1)$ is square” and</li>
+<li>“if not, move to the alternative candidate”</li>
+</ul>
+<p>into one constant-time interface.</p>
+<p>That is why the surrounding pseudocode can do:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">x = CMOV(x, tv3, is_gx1_square)
+</span></span><span class="line"><span class="cl">y = CMOV(y, y1, is_gx1_square)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>instead of looping over candidate points. The branch exists, but the retry loop is gone.</p>
+<h4 id="the-ab--0-detour">The <code>AB == 0</code> Detour</h4>
+<p>Curves such as secp256k1 or BLS12-381 G1 do not fit the basic Simplified SWU precondition $A \neq 0$ and $B \neq 0$ directly. RFC 9380 handles this by moving to an <strong>isogenous</strong> curve</p>
+$$
+E': y'^2 = x'^3 + A' x' + B'
+$$<p>where the mapping is easier, then transporting the result back to the target curve by a rational isogeny map.<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>So the actual path for these suites is:</p>
+$$
+u \xrightarrow{\text{SSWU on } E'} Q' \xrightarrow{\text{iso\_map}} Q \in E.
+$$<p>This is exactly the kind of detail one misses if one thinks hash-to-curve means “find a valid point somehow”.</p>
+<h3 id="layer-3-clear_cofactor">Layer 3: <code>clear_cofactor</code></h3>
+<p>Even after <code>map_to_curve</code>, the point may live on the full curve rather than inside the prime-order subgroup the protocol actually uses.</p>
+<p>So the third stage is:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">clear_cofactor(Q)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>which sends a curve point into the subgroup $G$.<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>This step is easy to underestimate. On pairing-friendly curves or curves with nontrivial cofactors, forgetting subgroup handling is not a cosmetic bug. It is a protocol bug.</p>
+<p>In some suites, cofactor clearing is scalar multiplication by an effective cofactor $h_{\text{eff}}$. In others, the RFC allows a faster equivalent method. The equivalence matters: a “fast” method may match $h_{\text{eff}}$ while not matching naive multiplication by the raw cofactor $h$.<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup></p>
+<h3 id="ro-versus-nu-encode_to_curve-and-hash_to_curve">RO Versus NU: <code>encode_to_curve</code> And <code>hash_to_curve</code></h3>
+<p>RFC 9380 defines two related but different encodings:</p>
+<ul>
+<li><code>encode_to_curve(msg)</code></li>
+<li><code>hash_to_curve(msg)</code></li>
+</ul>
+<p>The difference is output distribution.</p>
+<p><code>encode_to_curve</code> is <strong>nonuniform</strong>: its image covers only a fraction of subgroup points, and some points occur more frequently than others.<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup></p>
+<p><code>hash_to_curve</code> is designed to be statistically close to <strong>uniform</strong> over $G$.<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup></p>
+<p>Operationally, the RFC gives:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">encode_to_curve(msg):
+</span></span><span class="line"><span class="cl">  u = hash_to_field(msg, 1)
+</span></span><span class="line"><span class="cl">  Q = map_to_curve(u[0])
+</span></span><span class="line"><span class="cl">  P = clear_cofactor(Q)
+</span></span><span class="line"><span class="cl">  return P
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>while</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">hash_to_curve(msg):
+</span></span><span class="line"><span class="cl">  u = hash_to_field(msg, 2)
+</span></span><span class="line"><span class="cl">  Q0 = map_to_curve(u[0])
+</span></span><span class="line"><span class="cl">  Q1 = map_to_curve(u[1])
+</span></span><span class="line"><span class="cl">  R = Q0 + Q1
+</span></span><span class="line"><span class="cl">  P = clear_cofactor(R)
+</span></span><span class="line"><span class="cl">  return P
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The extra sample and point addition are not decoration. They are part of how the uniform random-oracle style behavior is obtained.<sup id="fnref1:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup></p>
+<blockquote>
+<p>Quick Note: if a security proof wants a random oracle returning group elements, the safe default is <code>hash_to_curve</code>, not <code>encode_to_curve</code>.</p>
+</blockquote>
+<h4 id="why-q0--q1-helps">Why <code>Q0 + Q1</code> Helps</h4>
+<p>This is the right place to think in terms of distributions on the subgroup $G$.</p>
+<p>Let the output distribution of</p>
+$$
+\text{clear\_cofactor}(\text{map\_to\_curve}(u))
+$$<p>be $\mu$. Then <code>encode_to_curve</code> samples from $\mu$, which is generally nonuniform.</p>
+<p><code>hash_to_curve</code> instead samples two independent field elements</p>
+$$
+u_0, u_1 \in F
+$$<p>via <code>hash_to_field(msg, 2)</code>, maps them separately, and returns</p>
+$$
+P = \text{clear\_cofactor}(Q_0 + Q_1).
+$$<p>At the distribution level, this replaces $\mu$ with the group convolution</p>
+$$
+\mu * \mu,
+$$<p>where</p>
+$$
+(\mu * \mu)(R) = \sum_{Q \in G} \mu(Q)\mu(R-Q).
+$$<p>The intuition is the same as elsewhere in additive cryptography: adding two independent samples smooths the bias far more effectively than using one sample alone.</p>
+<p>But the safe statement is stronger and more precise than that heuristic. RFC 9380 does <strong>not</strong> merely say “adding two points looks more random”. It says:</p>
+<ul>
+<li><code>encode_to_curve</code> is nonuniform,</li>
+<li><code>hash_to_curve</code> is statistically close to uniform in $G$,</li>
+<li>and when instantiated with a <code>hash_to_field</code> that is indifferentiable from a random oracle, <code>hash_to_curve</code> is itself indifferentiable from a random oracle.<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup><sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup></li>
+</ul>
+<p>So the real takeaway is:</p>
+<blockquote>
+<p>Key Observation: <code>Q0 + Q1</code> is not an implementation flourish. It is the step that turns a one-sample deterministic encoding into the RFC&rsquo;s random-oracle-style encoding discipline.</p>
+</blockquote>
+<p>Also note what the RFC does <strong>not</strong> say: it does not say that point addition alone magically uniformizes any arbitrary map. The security statement is about the standardized composition</p>
+$$
+\text{hash\_to\_field} \rightarrow \text{map\_to\_curve} \rightarrow (+) \rightarrow \text{clear\_cofactor}
+$$<p>under the assumptions in Sections 5 and 10.1.<sup id="fnref1:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup></p>
+<h2 id="the-domain-boundary">The Domain Boundary</h2>
+<h3 id="dst">DST</h3>
+<p>RFC 9380 requires all uses of the encoding functions to include domain separation.<sup id="fnref:13"><a href="#fn:13" class="footnote-ref" role="doc-noteref">13</a></sup> The mechanism is a <strong>domain separation tag</strong>, <code>DST</code>.</p>
+<p>This is not optional hygiene. It is part of the primitive.</p>
+<p>If an application instantiates multiple independent encodings, even on the same curve, the tags must be different. The RFC recommends nonempty tags, and recommends a minimum length of 16 bytes to reduce collision risk with other applications.<sup id="fnref1:13"><a href="#fn:13" class="footnote-ref" role="doc-noteref">13</a></sup></p>
+<p>So one should think of the real primitive as:</p>
+$$
+P = \text{hash\_to\_curve}(\text{msg}, \text{DST}, \text{suite})
+$$<p>not just <code>hash_to_curve(msg)</code>.</p>
+<p>If the DST discipline is weak, distinct protocol components may silently share the same internal hash-to-field behavior. That is exactly the failure domain separation is supposed to prevent.</p>
+<h3 id="constant-time-or-it-does-not-count">Constant-Time Or It Does Not Count</h3>
+<p>The RFC repeatedly pushes the design toward constant-time implementation.</p>
+<p>At the utility-function level, it says implementations should be constant time, meaning running time and memory access patterns should not depend on secret inputs, intermediate values, or outputs.<sup id="fnref:14"><a href="#fn:14" class="footnote-ref" role="doc-noteref">14</a></sup></p>
+<p>At the security-considerations level, the document says constant-time implementations are strongly recommended for all uses, and required when the encoding input is secret, because otherwise timing leakage can become an attack surface.<sup id="fnref:15"><a href="#fn:15" class="footnote-ref" role="doc-noteref">15</a></sup></p>
+<p>This explains several design decisions:</p>
+<ul>
+<li>no rejection-sampling based <code>hash_to_field</code></li>
+<li>explicit handling of exceptional cases</li>
+<li>constant-time utility operations such as <code>CMOV</code>, <code>inv0</code>, and field square-root selection</li>
+</ul>
+<p>The standard is not only solving a math problem. It is solving an implementation problem under side-channel constraints.</p>
+<h3 id="when-uniformity-actually-matters">When Uniformity Actually Matters</h3>
+<p>RFC 9380 says that applications whose security requires a random oracle returning uniformly random subgroup points <strong>must</strong> use a suite whose encoding type is <code>hash_to_curve</code>.<sup id="fnref1:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup></p>
+<p>The rule is short:</p>
+<ul>
+<li>if nonuniformity is acceptable and analyzed, <code>encode_to_curve</code> may be enough;</li>
+<li>if the proof wants a random oracle into the group, use <code>hash_to_curve</code>.</li>
+</ul>
+<p>And when one is unsure, the RFC says to use a uniform encoding.<sup id="fnref:16"><a href="#fn:16" class="footnote-ref" role="doc-noteref">16</a></sup></p>
+<h2 id="suite-layer">Suite Layer</h2>
+<h3 id="why-sswu-elligator-2-and-isogenies-appear">Why SSWU, Elligator 2, And Isogenies Appear</h3>
+<p>The mapping stage is where curve family matters.</p>
+<p>For short Weierstrass curves, the RFC standardizes Shallue-van de Woestijne variants, especially Simplified SWU. For Montgomery and twisted Edwards settings, it standardizes Elligator 2 based routes.<sup id="fnref3:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>At first sight this looks fragmented. The interface is still unified:</p>
+<ul>
+<li><code>hash_to_field</code> gives field elements,</li>
+<li>the suite chooses a mapping family,</li>
+<li><code>clear_cofactor</code> lands in the target subgroup.</li>
+</ul>
+<p>So “hash to curve” is not one formula. It is a suite framework with curve-specific algebra in the middle.</p>
+<h3 id="case-study-secp256k1">Case Study: secp256k1</h3>
+<p>For secp256k1, RFC 9380 defines <code>secp256k1_XMD:SHA-256_SSWU_RO_</code> and the corresponding nonuniform variant.<sup id="fnref:17"><a href="#fn:17" class="footnote-ref" role="doc-noteref">17</a></sup></p>
+<p>The suite uses:</p>
+<ul>
+<li><code>expand_message_xmd</code></li>
+<li><code>SHA-256</code></li>
+<li>Simplified SWU for the <code>AB == 0</code> case</li>
+<li>parameter $Z = -11$</li>
+<li>a 3-isogeny map from an auxiliary curve $E&rsquo;$ to the target curve $E$</li>
+<li>effective cofactor $h_{\text{eff}} = 1$<sup id="fnref1:17"><a href="#fn:17" class="footnote-ref" role="doc-noteref">17</a></sup></li>
+</ul>
+<p>This is a good example of the “suite, not trick” mindset. Even for a curve as familiar as secp256k1, the standard route is not “hash to x-coordinate”. It is:</p>
+<ol>
+<li>hash to field,</li>
+<li>map to an isogenous auxiliary curve using SSWU,</li>
+<li>transport via isogeny,</li>
+<li>apply the suite&rsquo;s subgroup rule.</li>
+</ol>
+<p>The interesting part is that <code>h_eff = 1</code> here.<sup id="fnref2:17"><a href="#fn:17" class="footnote-ref" role="doc-noteref">17</a></sup> So subgroup clearing is trivial in this suite, but the mapping layer is not. The complexity moved upward into the isogenous-curve construction.</p>
+<h4 id="why-the-3-isogeny-matters">Why The 3-Isogeny Matters</h4>
+<p>The RFC does not merely say “there exists some isogeny”. Appendix E.1 gives its shape explicitly as a rational map:<sup id="fnref:18"><a href="#fn:18" class="footnote-ref" role="doc-noteref">18</a></sup></p>
+$$
+x = \frac{x_{\mathrm{num}}(x')}{x_{\mathrm{den}}(x')}, \qquad
+y = y' \cdot \frac{y_{\mathrm{num}}(x')}{y_{\mathrm{den}}(x')},
+$$<p>where:</p>
+$$
+x_{\mathrm{num}}(x') = k_{1,3}x'^3 + k_{1,2}x'^2 + k_{1,1}x' + k_{1,0},
+$$$$
+x_{\mathrm{den}}(x') = x'^2 + k_{2,1}x' + k_{2,0},
+$$<p>and similarly</p>
+$$
+y_{\mathrm{num}}(x') = k_{3,3}x'^3 + k_{3,2}x'^2 + k_{3,1}x' + k_{3,0},
+$$$$
+y_{\mathrm{den}}(x') = x'^3 + k_{4,2}x'^2 + k_{4,1}x' + k_{4,0}.
+$$<p>So the 3-isogeny is not just a conceptual bridge. It is an actual degree-3 rational map from the easier auxiliary curve</p>
+$$
+E': y'^2 = x'^3 + A'x' + B'
+$$<p>to the target curve</p>
+$$
+E: y^2 = x^3 + 7.
+$$<p>That matters for implementation:</p>
+<ul>
+<li>the SSWU logic runs on $E&rsquo;$ where the map is convenient,</li>
+<li>the final point on secp256k1 is obtained by one rational map evaluation,</li>
+<li>and because <code>h_eff = 1</code>, there is no extra subgroup-clearing cost after the isogeny.<sup id="fnref3:17"><a href="#fn:17" class="footnote-ref" role="doc-noteref">17</a></sup></li>
+</ul>
+<p>This is a nice inversion of the usual intuition. For secp256k1, the expensive-looking part is not cofactor handling. It is the algebra needed to land on the right curve without using rejection.</p>
+<h3 id="case-study-bls12-381">Case Study: BLS12-381</h3>
+<p>For BLS12-381, the RFC defines suites for both G1 and G2.<sup id="fnref:19"><a href="#fn:19" class="footnote-ref" role="doc-noteref">19</a></sup></p>
+<p>For G1, the suite is again built around Simplified SWU plus an isogeny map. For G2, the field is an extension field with $m = 2$, and the suite parameters live over $GF(p^2)$.<sup id="fnref1:19"><a href="#fn:19" class="footnote-ref" role="doc-noteref">19</a></sup></p>
+<p>This is where the decomposition pays off. The top-level interface does not change, even though:</p>
+<ul>
+<li>the field representation changes,</li>
+<li>the mapping constants change,</li>
+<li>the cofactor-clearing details change.</li>
+</ul>
+<p>The RFC also notes that the chosen $h_{\text{eff}}$ values for the BLS12-381 suites are selected for compatibility with a fast cofactor-clearing method.<sup id="fnref2:19"><a href="#fn:19" class="footnote-ref" role="doc-noteref">19</a></sup></p>
+<p>That line is easy to skip, but it matters. On pairing-friendly curves, subgroup handling is not an afterthought.</p>
+<h4 id="g1-h_eff-is-not-the-raw-cofactor">G1: <code>h_eff</code> Is Not The Raw Cofactor</h4>
+<p>For BLS12-381 G1, the RFC sets</p>
+$$
+h_{\mathrm{eff}} = \texttt{0xd201000000010001}.
+$$<p>The same section notes that this value is chosen for compatibility with Scott&rsquo;s fast cofactor-clearing method.<sup id="fnref3:19"><a href="#fn:19" class="footnote-ref" role="doc-noteref">19</a></sup></p>
+<p>So the intended mental model is <strong>not</strong></p>
+$$
+\text{clear\_cofactor}(P) = h \cdot P
+$$<p>using the raw cofactor from the curve equation. The intended model is:</p>
+$$
+\text{clear\_cofactor}(P) = h_{\mathrm{eff}} \cdot P,
+$$<p>where <code>h_eff</code> is the scalar equivalent of the fast subgroup projection method.</p>
+<p>This distinction matters because RFC 9380 says it explicitly: when a curve admits a fast cofactor-clearing method, scalar multiplication by the raw cofactor $h$ does <strong>not</strong> generally give the same result and must not be used.<sup id="fnref:20"><a href="#fn:20" class="footnote-ref" role="doc-noteref">20</a></sup></p>
+<p>For G1, the story is relatively clean because the equivalent scalar is still small enough to write compactly.</p>
+<h4 id="g2-the-endomorphism-view">G2: The Endomorphism View</h4>
+<p>G2 is the more interesting case.</p>
+<p>Here the RFC does not merely list a huge scalar and move on. Appendix G.3 gives an explicit fast cofactor-clearing routine using the efficiently computable endomorphisms</p>
+$$
+\psi \quad \text{and} \quad \psi^2
+$$<p>on the twist curve over $GF(p^2)$.<sup id="fnref:21"><a href="#fn:21" class="footnote-ref" role="doc-noteref">21</a></sup></p>
+<p>The pseudocode starts with the BLS parameter</p>
+$$
+x = -\texttt{0xd201000000010000},
+$$<p>stored as <code>c1</code>, and computes:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">t1 = x * P
+</span></span><span class="line"><span class="cl">t2 = psi(P)
+</span></span><span class="line"><span class="cl">t3 = psi2(2P)
+</span></span><span class="line"><span class="cl">t3 = t3 - t2
+</span></span><span class="line"><span class="cl">t2 = x * (t1 + t2)
+</span></span><span class="line"><span class="cl">t3 = t3 + t2
+</span></span><span class="line"><span class="cl">t3 = t3 - t1
+</span></span><span class="line"><span class="cl">Q  = t3 - P
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If we expand the group operations, this is</p>
+$$
+Q = \psi^2(2P) + (x-1)\psi(P) + (x^2 - x - 1)P.
+$$<p>This is the useful formula hiding inside the pseudocode.</p>
+<p>So BLS12-381 G2 cofactor clearing is not “multiply by an enormous scalar because the cofactor is large”. It is “use the curve&rsquo;s endomorphism structure to realize the equivalent projection much faster”.</p>
+<p>The RFC then says the result of this routine is equal to</p>
+$$
+h_{\mathrm{eff}} \cdot P
+$$<p>for the suite&rsquo;s published <code>h_eff</code> value.<sup id="fnref1:21"><a href="#fn:21" class="footnote-ref" role="doc-noteref">21</a></sup></p>
+<p>That is the right way to read the giant hexadecimal <code>h_eff</code> in Section 8.8.2:</p>
+<ul>
+<li>not as the algorithm you should literally implement first,</li>
+<li>but as the scalar that is equivalent to the fast subgroup-projection formula.</li>
+</ul>
+<blockquote>
+<p>Key Observation: on BLS12-381, especially G2, <code>h_eff</code> is best understood as the scalar shadow of an endomorphism-based projector.</p>
+</blockquote>
+<h2 id="protocol-view">Protocol View</h2>
+<h3 id="why-signatures-voprfs-and-password-protocols-care">Why Signatures, VOPRFs, And Password Protocols Care</h3>
+<p>If one only sees elliptic curves through ECDSA or Schnorr, hash-to-curve can feel exotic. But many protocols need group elements derived from arbitrary messages rather than arbitrary scalars.</p>
+<p>Examples:</p>
+<ul>
+<li>BLS signatures hash the message into a curve group before exponentiation by the signing key.</li>
+<li>OPRF/VOPRF constructions often encode client input into a group element before the blind evaluation step.</li>
+<li>PAKE-like designs can need carefully domain-separated group encodings to avoid cross-protocol interference.</li>
+</ul>
+<p>In all of these settings, “just find some curve point” is weaker than what the protocol actually wants.</p>
+<h3 id="what-can-still-go-wrong">What Can Still Go Wrong</h3>
+<p>Even with RFC 9380 in hand, there are several easy failure modes:</p>
+<ol>
+<li>
+<p><strong>Wrong DST</strong><br>
+Reusing a DST across logically distinct encodings destroys domain separation.</p>
+</li>
+<li>
+<p><strong>Wrong encoding type</strong><br>
+Using <code>encode_to_curve</code> where the proof wants <code>hash_to_curve</code>.</p>
+</li>
+<li>
+<p><strong>Wrong subgroup handling</strong><br>
+Returning a curve point without proper cofactor clearing, or confusing the raw cofactor with the suite&rsquo;s effective method.</p>
+</li>
+<li>
+<p><strong>Timing leaks</strong><br>
+Reintroducing try-and-increment logic or data-dependent exceptional-case handling.</p>
+</li>
+<li>
+<p><strong>Rolling a custom suite too casually</strong><br>
+RFC 9380 gives a recipe for defining new suites, but that does not mean “pick a hash and improvise the rest”.<sup id="fnref:22"><a href="#fn:22" class="footnote-ref" role="doc-noteref">22</a></sup></p>
+</li>
+</ol>
+<p>So I prefer to think of hash-to-curve as a protocol primitive with a standard instantiation discipline, not as a local helper.</p>
+<h2 id="summary">Summary</h2>
+<h3 id="mental-model">Mental Model</h3>
+<p>The mental model to keep is:</p>
+$$
+\text{message bytes}
+\rightarrow \text{field elements}
+\rightarrow \text{curve points}
+\rightarrow \text{subgroup points}
+$$<p>with two constraints always carried along:</p>
+<ul>
+<li>domain separation</li>
+<li>constant-time implementation</li>
+</ul>
+<p>Once this is clear, the RFC becomes easier to read. The formulas and suites are all instantiations of the same skeleton.</p>
+<h3 id="implementation-checklist">Implementation Checklist</h3>
+<p>Compressed into a checklist:</p>
+<ol>
+<li>Start from an existing RFC 9380 suite if possible.</li>
+<li>Choose <code>hash_to_curve</code> unless nonuniform encoding is explicitly acceptable.</li>
+<li>Treat <code>DST</code> as part of the interface, not an optional string parameter.</li>
+<li>Do not use try-and-increment or rejection sampling.</li>
+<li>Respect the suite&rsquo;s mapping and cofactor-clearing rules exactly.</li>
+<li>Keep every layer compatible with constant-time implementation.</li>
+</ol>
+<blockquote>
+<p>Key Observation: hash-to-curve is a suite interface with security conditions, not a trick for finding a valid point.</p>
+</blockquote>
+<h2 id="references">References</h2>
+<ul>
+<li>RFC 9380, <em>Hashing to Elliptic Curves</em>: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a></li>
+<li>RFC Editor entry for RFC 9380: <a href="https://www.rfc-editor.org/info/rfc9380" target="_blank" rel="noopener noreffer ">https://www.rfc-editor.org/info/rfc9380</a></li>
+<li>For the core interface, read Sections 3, 5, 6, and 7 first.</li>
+<li>For security properties, read Section 10.1 and Section 10.3.</li>
+<li>For secp256k1 suite details, read Section 8.7 and Appendix E.1.</li>
+<li>For BLS12-381 suite details, read Section 8.8 and Appendix G.3.</li>
+</ul>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>RFC 9380, Abstract and status page. See Sections 1 and 3 for the standard interface.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>RFC 9380 says probabilistic rejection-sampling methods such as “try-and-increment” are not specified and are not recommended due to side-channel risk; see Introduction and Appendix A discussion. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>RFC 9380, Section 3, “Encoding Byte Strings to Elliptic Curves.” Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>RFC 9380, Section 5.2 and the <code>hash_to_field</code> interface. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>RFC 9380, Section 6. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>RFC 9380, Section 5, <code>sqrt_ratio</code> interface and Section 6 optimized mappings using the same non-square constant <code>Z</code>. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>RFC 9380, Section 6.6.3, “Simplified SWU for AB == 0”. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>RFC 9380, Section 7 and suite-specific <code>h_eff</code> parameters. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>RFC 9380, Section 3, definition of <code>encode_to_curve</code> as a nonuniform encoding. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10">
+<p>RFC 9380, Section 3, definition of <code>hash_to_curve</code> and its two-sample composition. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11">
+<p>RFC 9380, Section 8 and suite guidance for applications requiring a uniform random oracle. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:12">
+<p>RFC 9380, Section 10.1, indifferentiability from a random oracle for <code>hash_to_curve</code> under the stated assumptions. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:13">
+<p>RFC 9380, Section 3.1, domain separation requirements. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:13" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:13" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:14">
+<p>RFC 9380, Section 4, utility functions and constant-time guidance. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:14" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:15">
+<p>RFC 9380, Section 10.3, constant-time requirements. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:15" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:16">
+<p>RFC 9380, Section 10.1, properties of encodings. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:16" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:17">
+<p>RFC 9380, Section 8.7, secp256k1 suites. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:17" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:17" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:17" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:17" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:18">
+<p>RFC 9380, Appendix E.1, 3-isogeny map for secp256k1 written as rational functions in $x&rsquo;$ and $y&rsquo;$. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:18" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:19">
+<p>RFC 9380, Section 8.8, BLS12-381 G1 and G2 suites. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:19" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:19" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:19" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:19" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:20">
+<p>RFC 9380, Section 7, warning that scalar multiplication by the raw cofactor is generally not equivalent to the fast cofactor-clearing method when such a method exists. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:20" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:21">
+<p>RFC 9380, Appendix G.3, fast cofactor clearing for BLS12-381 G2 using $\psi$ and $\psi^2$, and its equivalence to multiplication by the suite&rsquo;s <code>h_eff</code>. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:21" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:21" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:22">
+<p>RFC 9380, Section 8.9, defining a new hash-to-curve suite. Source: <a href="https://www.ietf.org/rfc/rfc9380.html" target="_blank" rel="noopener noreffer ">https://www.ietf.org/rfc/rfc9380.html</a>&#160;<a href="#fnref:22" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-03-16</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/hash-to-curve/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost:1313/hash-to-curve/" data-title="Hash To Curve" data-hashtags="cryptography,elliptic-curve,rfc,bls"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/hash-to-curve/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/hash-to-curve/" data-title="Hash To Curve"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="http://localhost:1313/hash-to-curve/" data-title="Hash To Curve"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/hash-to-curve/" data-title="Hash To Curve"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/elliptic-curve/">Elliptic-Curve</a>,&nbsp;<a href="/tags/rfc/">Rfc</a>,&nbsp;<a href="/tags/bls/">Bls</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/waytozk-01/" class="prev" rel="prev" title="WayToZK 01"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>WayToZK 01</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

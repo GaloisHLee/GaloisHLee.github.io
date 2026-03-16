@@ -1,52 +1,68 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel><title>As it was</title>
-        <link>https://galoishlee.github.io/</link>
+        <link>http://localhost:1313/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Dec 2025 16:33:26 &#43;0800</lastBuildDate>
-            <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</lastBuildDate>
+            <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Hash To Curve</title>
+    <link>http://localhost:1313/hash-to-curve/</link>
+    <pubDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://localhost:1313/hash-to-curve/</guid>
+    <description><![CDATA[Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points.]]></description>
+</item>
+<item>
+    <title>WayToZK 01</title>
+    <link>http://localhost:1313/waytozk-01/</link>
+    <pubDate>Fri, 26 Dec 2025 14:11:06 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://localhost:1313/waytozk-01/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>AboutXL</title>
-    <link>https://galoishlee.github.io/aboutxl/</link>
+    <link>http://localhost:1313/aboutxl/</link>
     <pubDate>Tue, 02 Dec 2025 16:33:26 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/aboutxl/</guid>
+    <guid>http://localhost:1313/aboutxl/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>HFE</title>
-    <link>https://galoishlee.github.io/hfe/</link>
+    <link>http://localhost:1313/hfe/</link>
     <pubDate>Mon, 17 Nov 2025 18:21:51 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/hfe/</guid>
+    <guid>http://localhost:1313/hfe/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>NPI</title>
-    <link>https://galoishlee.github.io/nip/</link>
+    <link>http://localhost:1313/nip/</link>
     <pubDate>Wed, 27 Aug 2025 16:51:16 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/nip/</guid>
+    <guid>http://localhost:1313/nip/</guid>
     <description><![CDATA[<blockquote>
 <p>Note:Noisy Polynomial Interpolation Problem</p>
 </blockquote>]]></description>
 </item>
 <item>
     <title>WayToNTT Part 0</title>
-    <link>https://galoishlee.github.io/waytontt-part-0/</link>
+    <link>http://localhost:1313/waytontt-part-0/</link>
     <pubDate>Sat, 09 Aug 2025 15:19:24 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/waytontt-part-0/</guid>
+    <guid>http://localhost:1313/waytontt-part-0/</guid>
     <description><![CDATA[<blockquote>
 <p>Survey:NTT,as it was.</p>
 </blockquote>]]></description>
 </item>
 <item>
     <title>WayToFFT Part 2</title>
-    <link>https://galoishlee.github.io/waytofft-part-2/</link>
+    <link>http://localhost:1313/waytofft-part-2/</link>
     <pubDate>Fri, 08 Aug 2025 15:19:24 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/waytofft-part-2/</guid>
+    <guid>http://localhost:1313/waytofft-part-2/</guid>
     <description><![CDATA[<h1 id="way-to-ntt">Way To NTT&hellip;&hellip;</h1>
 <blockquote>
 <p>Note</p>
@@ -56,10 +72,10 @@
 </item>
 <item>
     <title>Vectorspace Matters</title>
-    <link>https://galoishlee.github.io/vectorspace-matters/</link>
+    <link>http://localhost:1313/vectorspace-matters/</link>
     <pubDate>Sun, 16 Mar 2025 19:37:17 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/vectorspace-matters/</guid>
+    <guid>http://localhost:1313/vectorspace-matters/</guid>
     <description><![CDATA[<h1 id="by-which-to-rule-them-all">By which to Rule Them All</h1>
 <p></p>
 <blockquote>
@@ -69,46 +85,22 @@
 </item>
 <item>
     <title>Way-To-MPKC From UOV</title>
-    <link>https://galoishlee.github.io/uov/</link>
+    <link>http://localhost:1313/uov/</link>
     <pubDate>Wed, 13 Nov 2024 19:39:56 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/uov/</guid>
+    <guid>http://localhost:1313/uov/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>BadAgent0x00 Intro</title>
-    <link>https://galoishlee.github.io/badagent0x00-intro/</link>
+    <link>http://localhost:1313/badagent0x00-intro/</link>
     <pubDate>Sun, 13 Oct 2024 12:41:37 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/badagent0x00-intro/</guid>
+    <guid>http://localhost:1313/badagent0x00-intro/</guid>
     <description><![CDATA[<h1 id="reread-bad-agent">Reread: Bad Agent:</h1>
 <p><strong>Inserting and Activating Backdoor Attacks in LLM Agents</strong></p>
 <p>References: <a href="https://github.com/DPamK/BadAgent" target="_blank" rel="noopener noreffer ">https://github.com/DPamK/BadAgent</a></p>
 <p>keyword &#x26f5; : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web</p>
-]]></description>
-</item>
-<item>
-    <title>Pae Attack</title>
-    <link>https://galoishlee.github.io/pae-attack/</link>
-    <pubDate>Sat, 27 Jul 2024 19:07:08 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/pae-attack/</guid>
-    <description><![CDATA[<p>Reading: PAE</p>
-<p></p>
-<p><strong>Trustworthy deep learning.</strong></p>
-]]></description>
-</item>
-<item>
-    <title>WayToFFT Part 1</title>
-    <link>https://galoishlee.github.io/waytofft-part-1/</link>
-    <pubDate>Mon, 01 Jul 2024 14:23:54 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/waytofft-part-1/</guid>
-    <description><![CDATA[<p>从拉格朗日插值法到 FFT. Part-1.</p>
-<blockquote>
-<p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
-</blockquote>
-<p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>
 ]]></description>
 </item>
 </channel>

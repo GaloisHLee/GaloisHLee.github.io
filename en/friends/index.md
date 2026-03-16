@@ -26,7 +26,7 @@
 
 {{< friend name="De1ty" url="https://night-sun.github.io/" logo="https://s2.loli.net/2024/11/06/LRMwr7V8Tea1QtH.png" word="He makes simple choices" >}}
 
-{{< friend name="GSBP" url="https://night-sun.github.io/" logo="https://gsbp0.github.io/img/GSBP.jpg" word="什么都想学，什么都不会" >}}
+{{< friend name="GSBP" url="https://gsbp0.github.io/" logo="https://gsbp0.github.io/img/GSBP.jpg" word="什么都想学，什么都不会" >}}
 
 
 
