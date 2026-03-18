@@ -2,62 +2,202 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on As it was</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://galoishlee.github.io/tags/</link>
     <description>Recent content in Tags on As it was</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Bls</title>
-      <link>http://localhost:1313/tags/bls/</link>
-      <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/bls/</guid>
+      <title>Air</title>
+      <link>https://galoishlee.github.io/tags/air/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/air/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Arithmetization</title>
+      <link>https://galoishlee.github.io/tags/arithmetization/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/arithmetization/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Commitment</title>
+      <link>https://galoishlee.github.io/tags/commitment/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/commitment/</guid>
       <description></description>
     </item>
     <item>
       <title>Cryptography</title>
-      <link>http://localhost:1313/tags/cryptography/</link>
+      <link>https://galoishlee.github.io/tags/cryptography/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/cryptography/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Discrete-Log</title>
+      <link>https://galoishlee.github.io/tags/discrete-log/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/discrete-log/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fiat-Shamir</title>
+      <link>https://galoishlee.github.io/tags/fiat-shamir/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/fiat-shamir/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fri</title>
+      <link>https://galoishlee.github.io/tags/fri/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/fri/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Groth16</title>
+      <link>https://galoishlee.github.io/tags/groth16/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/groth16/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Interactive-Proof</title>
+      <link>https://galoishlee.github.io/tags/interactive-proof/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/interactive-proof/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ipa</title>
+      <link>https://galoishlee.github.io/tags/ipa/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ipa/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kzg</title>
+      <link>https://galoishlee.github.io/tags/kzg/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/kzg/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Math</title>
+      <link>https://galoishlee.github.io/tags/math/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/math/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pairing</title>
+      <link>https://galoishlee.github.io/tags/pairing/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/pairing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pedersen</title>
+      <link>https://galoishlee.github.io/tags/pedersen/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/pedersen/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Polynomial-Commitment</title>
+      <link>https://galoishlee.github.io/tags/polynomial-commitment/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/polynomial-commitment/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Qap</title>
+      <link>https://galoishlee.github.io/tags/qap/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/qap/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>R1cs</title>
+      <link>https://galoishlee.github.io/tags/r1cs/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/r1cs/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Schnorr</title>
+      <link>https://galoishlee.github.io/tags/schnorr/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/schnorr/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sigma-Protocol</title>
+      <link>https://galoishlee.github.io/tags/sigma-protocol/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/sigma-protocol/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Snark</title>
+      <link>https://galoishlee.github.io/tags/snark/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/snark/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Zero-Knowledge</title>
+      <link>https://galoishlee.github.io/tags/zero-knowledge/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/zero-knowledge/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bls</title>
+      <link>https://galoishlee.github.io/tags/bls/</link>
       <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/cryptography/</guid>
+      <guid>https://galoishlee.github.io/tags/bls/</guid>
       <description></description>
     </item>
     <item>
       <title>Elliptic-Curve</title>
-      <link>http://localhost:1313/tags/elliptic-curve/</link>
+      <link>https://galoishlee.github.io/tags/elliptic-curve/</link>
       <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/elliptic-curve/</guid>
+      <guid>https://galoishlee.github.io/tags/elliptic-curve/</guid>
       <description></description>
     </item>
     <item>
       <title>Rfc</title>
-      <link>http://localhost:1313/tags/rfc/</link>
+      <link>https://galoishlee.github.io/tags/rfc/</link>
       <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/rfc/</guid>
+      <guid>https://galoishlee.github.io/tags/rfc/</guid>
       <description></description>
     </item>
     <item>
       <title>安装</title>
-      <link>http://localhost:1313/tags/installation/</link>
+      <link>https://galoishlee.github.io/tags/installation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/installation/</guid>
+      <guid>https://galoishlee.github.io/tags/installation/</guid>
       <description></description>
     </item>
     <item>
       <title>内容</title>
-      <link>http://localhost:1313/tags/content/</link>
+      <link>https://galoishlee.github.io/tags/content/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/content/</guid>
+      <guid>https://galoishlee.github.io/tags/content/</guid>
       <description></description>
     </item>
     <item>
       <title>配置</title>
-      <link>http://localhost:1313/tags/configuration/</link>
+      <link>https://galoishlee.github.io/tags/configuration/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/tags/configuration/</guid>
+      <guid>https://galoishlee.github.io/tags/configuration/</guid>
       <description></description>
     </item>
   </channel>

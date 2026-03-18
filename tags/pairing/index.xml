@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pairing on As it was</title>
+    <link>https://galoishlee.github.io/tags/pairing/</link>
+    <description>Recent content in Pairing on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/pairing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Groth16：从 QAP 到配对检验方程</title>
+      <link>https://galoishlee.github.io/groth16-from-qap/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/groth16-from-qap/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: Groth16 as a derivation, not a magic trick.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;Groth16 最容易被记成一句营销话术：proof 只有三个群元素，验证很快，所以它很强。这个说法不假，但几乎没解释任何东西。真正该理解的是：这三个群元素到底在编码什么；它们为什么足以代表一个 QAP witness；以及最后那条 pairing product equation 为什么不是凭空出现的黑箱检查，而是 QAP identity 在秘密点评估之后的压缩形式。&lt;/p&gt;&#xA;&lt;p&gt;前两篇已经把接口准备好了。第 4 篇给出&lt;/p&gt;&#xA;$$&#xA;A_{\mathbf{w}}(X)B_{\mathbf{w}}(X) - C_{\mathbf{w}}(X) = H(X)Z(X),&#xA;$$&lt;p&gt;第 5 篇解释了 KZG 风格的核心直觉：多项式关系可以通过秘密点 $\tau$ 上的群编码与 pairing check 来验证。Groth16 本质上就是把这条思路做到了 QAP satisfiability relation 上，但它还额外引入了若干 trapdoors，把 witness 可伪造空间压得非常窄，最终只留下三段 proof tuple。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这篇不打算把 Groth16 写成一个“比别的 SNARK 更短”的结果，而是把这条推导链写出来：&lt;/p&gt;&#xA;$$&#xA;\text{QAP relation}&#xA;\longrightarrow&#xA;\text{CRS at secret point}&#xA;\longrightarrow&#xA;\text{proof tuple } (A,B,C)&#xA;\longrightarrow&#xA;\text{pairing product equation}.&#xA;$$</description>
+    </item>
+  </channel>
+</rss>

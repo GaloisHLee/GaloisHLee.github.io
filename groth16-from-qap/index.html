@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Groth16：从 QAP 到配对检验方程 - As it was</title><meta name="Description" content="把 Groth16 从 QAP 满足性关系一路推到 CRS、proof 三元组与最终 pairing product equation。"><meta property="og:title" content="Groth16：从 QAP 到配对检验方程">
+<meta property="og:description" content="把 Groth16 从 QAP 满足性关系一路推到 CRS、proof 三元组与最终 pairing product equation。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/groth16-from-qap/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Groth16：从 QAP 到配对检验方程">
+<meta name="twitter:description" content="把 Groth16 从 QAP 满足性关系一路推到 CRS、proof 三元组与最终 pairing product equation。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/groth16-from-qap/" /><link rel="prev" href="https://galoishlee.github.io/sigma-schnorr-fiat-shamir/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Groth16：从 QAP 到配对检验方程",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/groth16-from-qap\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, groth16, snark, qap, pairing","wordcount":  3285 ,
+        "url": "https:\/\/galoishlee.github.io\/groth16-from-qap\/","datePublished": "2026-03-18T00:00:00+08:00","dateModified": "2026-03-18T00:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "把 Groth16 从 QAP 满足性关系一路推到 CRS、proof 三元组与最终 pairing product equation。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/groth16-from-qap/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/groth16-from-qap/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Groth16：从 QAP 到配对检验方程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-03-18">2026-03-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3285 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#groth16-消费的对象是什么">Groth16 消费的对象是什么</a>
+      <ul>
+        <li><a href="#instance-witness-and-public-inputs">Instance, Witness, And Public Inputs</a></li>
+      </ul>
+    </li>
+    <li><a href="#crs-不是一团黑箱">CRS 不是一团黑箱</a>
+      <ul>
+        <li><a href="#the-role-of">The Role Of </a></li>
+        <li><a href="#alpha-beta-delta">Alpha, Beta, Delta</a></li>
+        <li><a href="#toxic-waste-and-ceremony-intuition">Toxic Waste And Ceremony Intuition</a></li>
+      </ul>
+    </li>
+    <li><a href="#proof-三元组在编码什么">Proof 三元组在编码什么</a>
+      <ul>
+        <li><a href="#a-and-b-elements">A And B Elements</a></li>
+        <li><a href="#the-c-element">The C Element</a></li>
+        <li><a href="#why-three-group-elements-are-enough">Why Three Group Elements Are Enough</a></li>
+      </ul>
+    </li>
+    <li><a href="#从-quotient-polynomial-到-pairing-方程">从 quotient polynomial 到 pairing 方程</a>
+      <ul>
+        <li><a href="#evaluate-the-qap-identity-at-the-secret-point">Evaluate The QAP Identity At The Secret Point</a></li>
+        <li><a href="#move-to-pairing-space">Move To Pairing Space</a></li>
+        <li><a href="#the-pairing-product-check">The Pairing Product Check</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#completeness-intuition">Completeness Intuition</a></li>
+      </ul>
+    </li>
+    <li><a href="#knowledge-soundness-与-trusted-setup-边界">Knowledge Soundness 与 Trusted Setup 边界</a>
+      <ul>
+        <li><a href="#knowledge-soundness-assumptions">Knowledge Soundness Assumptions</a></li>
+        <li><a href="#what-toxic-waste-leakage-breaks">What Toxic Waste Leakage Breaks</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: Groth16 as a derivation, not a magic trick.</p>
+</blockquote>
+<p>Groth16 最容易被记成一句营销话术：proof 只有三个群元素，验证很快，所以它很强。这个说法不假，但几乎没解释任何东西。真正该理解的是：这三个群元素到底在编码什么；它们为什么足以代表一个 QAP witness；以及最后那条 pairing product equation 为什么不是凭空出现的黑箱检查，而是 QAP identity 在秘密点评估之后的压缩形式。</p>
+<p>前两篇已经把接口准备好了。第 4 篇给出</p>
+$$
+A_{\mathbf{w}}(X)B_{\mathbf{w}}(X) - C_{\mathbf{w}}(X) = H(X)Z(X),
+$$<p>第 5 篇解释了 KZG 风格的核心直觉：多项式关系可以通过秘密点 $\tau$ 上的群编码与 pairing check 来验证。Groth16 本质上就是把这条思路做到了 QAP satisfiability relation 上，但它还额外引入了若干 trapdoors，把 witness 可伪造空间压得非常窄，最终只留下三段 proof tuple。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>所以这篇不打算把 Groth16 写成一个“比别的 SNARK 更短”的结果，而是把这条推导链写出来：</p>
+$$
+\text{QAP relation}
+\longrightarrow
+\text{CRS at secret point}
+\longrightarrow
+\text{proof tuple } (A,B,C)
+\longrightarrow
+\text{pairing product equation}.
+$$<h2 id="groth16-消费的对象是什么">Groth16 消费的对象是什么</h2>
+<p>Groth16 并不直接处理电路。它处理的是已经算术化完成的 QAP statement。</p>
+<p>回忆上一篇，给定 witness 向量 $\mathbf{w}$ 后，QAP 把约束满足性压成</p>
+$$
+A_{\mathbf{w}}(X)B_{\mathbf{w}}(X) - C_{\mathbf{w}}(X) = H(X)Z(X),
+$$<p>其中：</p>
+<ul>
+<li>$A_{\mathbf{w}}(X), B_{\mathbf{w}}(X), C_{\mathbf{w}}(X)$ 由 witness 系数组合得到</li>
+<li>$Z(X)$ 是约束点集合的 vanishing polynomial</li>
+<li>$H(X)$ 是 quotient polynomial</li>
+</ul>
+<p>这条式子的含义很直接：若 witness 满足所有约束，则左边在所有约束点上为零，因此必然被 $Z(X)$ 整除。</p>
+<h3 id="instance-witness-and-public-inputs">Instance, Witness, And Public Inputs</h3>
+<p>Groth16 里并不是所有 witness 都是私有的。通常我们把 witness 向量拆成：</p>
+$$
+\mathbf{w} = (\mathbf{x}_{\text{pub}}, \mathbf{x}_{\text{priv}}),
+$$<p>其中公开输入会被嵌进 verifier 可见的 statement 中，私有部分只由 prover 持有。</p>
+<p>所以 Groth16 最终证明的 statement 不是“存在任意一个 witness”，而是：</p>
+<blockquote>
+<p>对固定公开输入 $\mathbf{x}<em>{\text{pub}}$，存在某个私有 witness $\mathbf{x}</em>{\text{priv}}$，使得对应 QAP identity 成立。</p>
+</blockquote>
+<p>这点很重要，因为 verifier 最后确实要在 pairing check 里显式接触公开输入相关项。</p>
+<h2 id="crs-不是一团黑箱">CRS 不是一团黑箱</h2>
+<p>Groth16 的 setup 经常被压缩成一句 “需要 trusted setup”。这不够。更准确的说法是：Groth16 需要一个结构化参考串 CRS，它在秘密点上编码了 QAP 多项式，同时还注入了若干额外 trapdoors，用于限制伪造证明的自由度。</p>
+<h3 id="the-role-of">The Role Of \(\tau\)</h3>
+<p>第一层 trapdoor 是</p>
+$$
+\tau.
+$$<p>它的角色和上一篇 KZG 里的秘密点评估一样：把多项式关系固定在某个隐藏点上检查。因为若</p>
+$$
+A_{\mathbf{w}}(X)B_{\mathbf{w}}(X)-C_{\mathbf{w}}(X)=H(X)Z(X),
+$$<p>作为多项式恒等式成立，那么在 $X=\tau$ 处也有</p>
+$$
+A_{\mathbf{w}}(\tau)B_{\mathbf{w}}(\tau)-C_{\mathbf{w}}(\tau)=H(\tau)Z(\tau).
+$$<p>Groth16 的 CRS 会给出一系列元素，使 prover 能在不知道 $\tau$ 的情况下，仍然构造这些多项式在 $\tau$ 上的群编码。</p>
+<h3 id="alpha-beta-delta">Alpha, Beta, Delta</h3>
+<p>Groth16 还引入额外 trapdoors，例如</p>
+$$
+\alpha,\ \beta,\ \delta.
+$$<p>这些量的角色不是重复 $\tau$ 的功能，而是切断某些伪造空间。</p>
+<p>粗略理解：</p>
+<ul>
+<li>$\alpha,\beta$ 把 proof 中的主元素绑到同一组 witness 线性组合上</li>
+<li>$\delta$ 控制 prover 可以自由加入的随机化空间，并把这些随机化限制在 verifier 可检查的结构里</li>
+</ul>
+<p>如果只有 $\tau$，系统更接近“单纯把 QAP 多项式放到秘密点”的世界；而加入 $\alpha,\beta,\delta$ 后，proof 元素之间开始具备更强的 algebraic linkage，最终才有可能把证明压成很小的三元组。</p>
+<h3 id="toxic-waste-and-ceremony-intuition">Toxic Waste And Ceremony Intuition</h3>
+<p>Groth16 的 trusted setup 危险点也必须拆开讲。所谓 toxic waste，不只是某一个秘密值，而是这些 trapdoors 的整体泄露。</p>
+<p>若 setup 方保留了足够多的 trapdoor 信息，它就可能伪造满足 verifier pairing equation 的 proof，而不需要真实 witness。原因不是“配对群不安全”，而是 verifier 的整个检查本来就依赖这些隐藏结构参数保证某些表示不可伪造。</p>
+<p>所以 trusted setup ceremony 的目标不是生成一个好看的参数文件，而是确保：</p>
+<ul>
+<li>有人知道参数如何生成</li>
+<li>但没有任何单一方保留完整 toxic waste</li>
+</ul>
+<p>这也是 Powers of Tau 类 ceremony 存在的原因。</p>
+<h2 id="proof-三元组在编码什么">Proof 三元组在编码什么</h2>
+<p>Groth16 proof 通常写成三个群元素：</p>
+$$
+\pi = (A, B, C),
+$$<p>其中 $A$ 落在 $G_1$，$B$ 落在 $G_2$，$C$ 落在 $G_1$。如果只记住“只有三个元素”，还是没有回答它们分别带了什么信息。</p>
+<h3 id="a-and-b-elements">A And B Elements</h3>
+<p>先看前两个元素。它们本质上是在秘密点上编码 witness 相关的线性组合，并加上随机化项。例如可以把它们的直觉写成</p>
+$$
+A \sim g_1^{\alpha + A_{\mathbf{w}}(\tau) + r\delta},
+$$$$
+B \sim g_2^{\beta + B_{\mathbf{w}}(\tau) + s\delta},
+$$<p>其中 $r,s$ 是 prover 自选随机数。</p>
+<p>这里不要把具体常数布局看成唯一重要的记忆点。更重要的是结构：</p>
+<ul>
+<li>$A$ 编码了与 $A_{\mathbf{w}}(\tau)$ 相关的 witness 信息</li>
+<li>$B$ 编码了与 $B_{\mathbf{w}}(\tau)$ 相关的 witness 信息</li>
+<li>两者都掺入 trapdoor offsets 与随机化，防止 proof 直接暴露底层表示</li>
+</ul>
+<h3 id="the-c-element">The C Element</h3>
+<p>第三个元素 $C$ 最容易被当成“剩下的那一部分”。更准确地说，$C$ 负责吸收：</p>
+<ul>
+<li>quotient polynomial $H(\tau)$ 相关项</li>
+<li>witness cross terms</li>
+<li>与随机化变量 $r,s$ 相关、必须被验证方程平衡掉的项</li>
+</ul>
+<p>直觉上，它是把 “左边乘起来之后会多出来但又必须被控制的那些项” 一并编码进 proof。</p>
+<p>如果没有 $C$，verifier 只能知道某种粗糙的乘积关系；而有了 $C$，就可以把 QAP identity 的剩余部分与随机化补偿全部折进一个额外群元素里。</p>
+<h3 id="why-three-group-elements-are-enough">Why Three Group Elements Are Enough</h3>
+<p>Groth16 的小 proof 并不来自“把所有东西都压平了”。它来自更精细的事实：</p>
+<ol>
+<li>QAP 已经把 many constraints 压成一条 divisibility relation</li>
+<li>CRS 已经把多项式族固定在秘密点上</li>
+<li>$\alpha,\beta,\delta$ 把伪造自由度切到了一个很小的 algebraic subspace</li>
+<li>pairing 可以在乘法层面同时检查多个编码关系</li>
+</ol>
+<p>所以最后 verifier 不需要看很多开点证明，也不需要看完整 witness commitment，只需要看三个 carefully structured group elements。</p>
+<blockquote>
+<p>Key Observation.
+“Why three group elements are enough” 的答案不是压缩技巧，而是 QAP reduction + structured CRS + pairing bilinearity 共同减少了 verifier 必须显式看到的对象数量。</p>
+</blockquote>
+<h2 id="从-quotient-polynomial-到-pairing-方程">从 quotient polynomial 到 pairing 方程</h2>
+<p>现在进入最核心的一步：最终 pairing product equation 为什么成立。</p>
+<h3 id="evaluate-the-qap-identity-at-the-secret-point">Evaluate The QAP Identity At The Secret Point</h3>
+<p>既然 witness 正确，就有</p>
+$$
+A_{\mathbf{w}}(X)B_{\mathbf{w}}(X)-C_{\mathbf{w}}(X)=H(X)Z(X).
+$$<p>在 $X=\tau$ 上评估：</p>
+$$
+A_{\mathbf{w}}(\tau)B_{\mathbf{w}}(\tau)-C_{\mathbf{w}}(\tau)=H(\tau)Z(\tau).
+$$<p>这就是 Groth16 想检查的代数核心。区别只是 verifier 既不知道 $\tau$，也不想直接看这些标量值，于是只能看它们的群编码。</p>
+<h3 id="move-to-pairing-space">Move To Pairing Space</h3>
+<p>pairing 的双线性让我们可以把标量乘法转成群元素之间的可检验关系：</p>
+$$
+e(g_1^a, g_2^b) = e(g_1, g_2)^{ab}.
+$$<p>因此，只要 $A$ 和 $B$ 分别编码了与 $A_{\mathbf{w}}(\tau)$、$B_{\mathbf{w}}(\tau)$ 相关的量，那么</p>
+$$
+e(A, B)
+$$<p>自然会生成这些量的乘积结构。与此同时，$C$ 与 verifier 预先拿到的 CRS 元素一起，负责把</p>
+$$
+C_{\mathbf{w}}(\tau),\ H(\tau)Z(\tau),
+$$<p>以及公开输入项、随机化补偿项都移到等式另一边。</p>
+<h3 id="the-pairing-product-check">The Pairing Product Check</h3>
+<p>Groth16 最终 verifier 检查的形式可理解为</p>
+<h1 id="ea-b">$$
+e(A, B)</h1>
+<p>e(\alpha g_1, \beta g_2)
+\cdot
+e(\text{public-input encoding}, \gamma g_2)
+\cdot
+e(C, \delta g_2),
+$$</p>
+<p>这里省略了具体符号布局，但结构很清楚：</p>
+<ul>
+<li>左边来自 proof 中前两个主元素的乘积</li>
+<li>右边第一项固定 CRS 中的 trapdoor anchors</li>
+<li>右边第二项吸收公开输入</li>
+<li>右边第三项吸收 quotient / witness cross terms / randomization terms</li>
+</ul>
+<p>于是 verifier 实际上是在问：</p>
+<blockquote>
+<p>这三个 proof elements 是否共同编码了一个满足 QAP identity 的 witness，并且它们之间的代数关系与 CRS trapdoors 一致？</p>
+</blockquote>
+<p>这就是 pairing product equation 的本意。它不是在“神秘地验证三个点”，而是在 pairing 空间中重现 QAP relation 的平衡式。</p>
+<h3 id="completeness-intuition">Completeness Intuition</h3>
+<p>诚实 prover 为什么会过？</p>
+<p>因为它从真实 witness 出发，先构造正确的</p>
+$$
+A_{\mathbf{w}}(\tau),\ B_{\mathbf{w}}(\tau),\ C_{\mathbf{w}}(\tau),\ H(\tau),
+$$<p>再按 CRS 规定的线性组合和随机化规则生成 $A,B,C$。由于底层 QAP identity 已经成立，所有在 pairing 空间里展开的项最终会刚好相消，留下 verifier 检查所要求的平衡方程。</p>
+<p>这本质上和前一篇 KZG 的 opening equation 是同一类思路：先有 polynomial identity，再把它搬到秘密点评估，再用双线性工具压成可检查关系。区别只是 Groth16 把这个过程做得更结构化，也更针对 QAP witness relation。</p>
+<h2 id="knowledge-soundness-与-trusted-setup-边界">Knowledge Soundness 与 Trusted Setup 边界</h2>
+<p>Groth16 的安全性不能只写 soundness。更准确地说，它要强调 knowledge soundness。</p>
+<h3 id="knowledge-soundness-assumptions">Knowledge Soundness Assumptions</h3>
+<p>Groth16 不是纯信息论 proof。它的知识可靠性依赖 pairing-friendly groups 上的代数假设，以及 extractor 能从某类成功 prover 中恢复 witness 的叙事。</p>
+<p>也就是说，正确表述不是：</p>
+<blockquote>
+<p>“没人能伪造证明。”</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p>“若有人能构造通过 verifier pairing check 的 proof，那么在相应代数假设下，应可将其视为知道某个满足 QAP relation 的 witness。”</p>
+</blockquote>
+<p>这里的 <code>knowledge</code> 不是心理学意义，而是 extractor-based cryptographic meaning。</p>
+<h3 id="what-toxic-waste-leakage-breaks">What Toxic Waste Leakage Breaks</h3>
+<p>一旦 toxic waste 泄露，knowledge soundness 也会被破坏。因为攻击者可能直接利用 trapdoors 构造满足 pairing equation 的代数对象，而不需要真实 witness。</p>
+<p>所以 trusted setup 风险不是“参数最好别泄露”这种软提醒，而是：</p>
+<ul>
+<li>setup 正确时，proof compression 与 verifier efficiency 成立</li>
+<li>setup 泄露时，伪造空间会被重新打开</li>
+</ul>
+<p>这也解释了为什么 Groth16 虽然非常实用，但 ceremony 边界永远是它架构的一部分，而不是部署细节。</p>
+<h2 id="summary">Summary</h2>
+<p>Groth16 若从结果往回看，会像一个只有三个群元素的神秘 SNARK；但若从 QAP 往前推，它的结构其实很连贯。</p>
+<p>第一步，QAP 已经把电路满足性压成</p>
+$$
+A_{\mathbf{w}}(X)B_{\mathbf{w}}(X)-C_{\mathbf{w}}(X)=H(X)Z(X).
+$$<p>第二步，CRS 用秘密点 $\tau$ 和额外 trapdoors $\alpha,\beta,\delta$ 把这条多项式关系搬进结构化群编码。</p>
+<p>第三步，proof 三元组 $(A,B,C)$ 分别承载主 witness 组合、乘积结构和 quotient/randomization 补偿项。</p>
+<p>第四步，verifier 通过 pairing product equation 检查这些对象是否共同平衡成 QAP relation 在秘密点评估后的等式。</p>
+<p>所以 Groth16 的小 proof 不是魔法，而是：</p>
+<ul>
+<li>QAP reduction</li>
+<li>structured CRS</li>
+<li>bilinear pairings</li>
+<li>carefully constrained proof shape</li>
+</ul>
+<p>共同作用的结果。</p>
+<p>下一篇若转向 STARK，视角会正好形成对照：不再依赖 toxic waste 和 pairing，而改走 AIR、FRI 和 transparent low-degree testing 的路线。</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Jens Groth, <em>On the Size of Pairing-based Non-interactive Arguments</em>, 2016.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Powers of Tau and structured setup ceremony references.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-03-18</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/groth16-from-qap/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/groth16-from-qap/" data-title="Groth16：从 QAP 到配对检验方程" data-hashtags="cryptography,groth16,snark,qap,pairing"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/groth16-from-qap/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/groth16-from-qap/" data-title="Groth16：从 QAP 到配对检验方程"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/groth16-from-qap/" data-title="Groth16：从 QAP 到配对检验方程"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/groth16-from-qap/" data-title="Groth16：从 QAP 到配对检验方程"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/groth16/">Groth16</a>,&nbsp;<a href="/tags/snark/">Snark</a>,&nbsp;<a href="/tags/qap/">Qap</a>,&nbsp;<a href="/tags/pairing/">Pairing</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/sigma-schnorr-fiat-shamir/" class="prev" rel="prev" title="Sigma 协议的统一视角：Schnorr、表示证明与 Fiat-Shamir"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Sigma 协议的统一视角：Schnorr、表示证明与 Fiat-Shamir</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

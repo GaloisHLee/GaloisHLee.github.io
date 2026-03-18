@@ -1,107 +1,89 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel><title>As it was</title>
-        <link>http://localhost:1313/</link>
+        <link>https://galoishlee.github.io/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</lastBuildDate>
-            <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</lastBuildDate>
+            <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Groth16：从 QAP 到配对检验方程</title>
+    <link>https://galoishlee.github.io/groth16-from-qap/</link>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/groth16-from-qap/</guid>
+    <description><![CDATA[把 Groth16 从 QAP 满足性关系一路推到 CRS、proof 三元组与最终 pairing product equation。]]></description>
+</item>
+<item>
+    <title>Sigma 协议的统一视角：Schnorr、表示证明与 Fiat-Shamir</title>
+    <link>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</link>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</guid>
+    <description><![CDATA[把 Sigma 协议写成 commit-challenge-response 的统一模板，并用 Schnorr、表示证明和 Fiat-Shamir 明确提取与模拟边界。]]></description>
+</item>
+<item>
+    <title>从算术电路到 R1CS、QAP 与 AIR</title>
+    <link>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</link>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</guid>
+    <description><![CDATA[把 computation 依次翻译成算术电路、R1CS、QAP 与 AIR 这几种代数接口，说明 SNARK 与 STARK 实际消费的对象是什么。]]></description>
+</item>
+<item>
+    <title>多项式承诺的统一看法：KZG、IPA、FRI</title>
+    <link>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</link>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</guid>
+    <description><![CDATA[把 KZG、IPA、FRI 放到同一个 polynomial commitment interface 下，比较它们如何证明 evaluation 和 low-degree claims。]]></description>
+</item>
+<item>
+    <title>零知识证明的最小理论框架</title>
+    <link>https://galoishlee.github.io/zk-minimal-framework/</link>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/zk-minimal-framework/</guid>
+    <description><![CDATA[从语言、见证、交互证明到 simulator-based zero knowledge 与 knowledge soundness 的最小定义链。]]></description>
+</item>
+<item>
+    <title>有限域、循环群、离散对数与 Pedersen 承诺</title>
+    <link>https://galoishlee.github.io/fields-groups-pedersen/</link>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/fields-groups-pedersen/</guid>
+    <description><![CDATA[把标量域、循环群、离散对数假设与 Pedersen 承诺放进同一条代数与安全性推导链。]]></description>
+</item>
+<item>
     <title>Hash To Curve</title>
-    <link>http://localhost:1313/hash-to-curve/</link>
+    <link>https://galoishlee.github.io/hash-to-curve/</link>
     <pubDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>http://localhost:1313/hash-to-curve/</guid>
+    <guid>https://galoishlee.github.io/hash-to-curve/</guid>
     <description><![CDATA[Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points.]]></description>
 </item>
 <item>
     <title>WayToZK 01</title>
-    <link>http://localhost:1313/waytozk-01/</link>
+    <link>https://galoishlee.github.io/waytozk-01/</link>
     <pubDate>Fri, 26 Dec 2025 14:11:06 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>http://localhost:1313/waytozk-01/</guid>
+    <guid>https://galoishlee.github.io/waytozk-01/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>AboutXL</title>
-    <link>http://localhost:1313/aboutxl/</link>
+    <link>https://galoishlee.github.io/aboutxl/</link>
     <pubDate>Tue, 02 Dec 2025 16:33:26 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>http://localhost:1313/aboutxl/</guid>
+    <guid>https://galoishlee.github.io/aboutxl/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>HFE</title>
-    <link>http://localhost:1313/hfe/</link>
+    <link>https://galoishlee.github.io/hfe/</link>
     <pubDate>Mon, 17 Nov 2025 18:21:51 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>http://localhost:1313/hfe/</guid>
+    <guid>https://galoishlee.github.io/hfe/</guid>
     <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>NPI</title>
-    <link>http://localhost:1313/nip/</link>
-    <pubDate>Wed, 27 Aug 2025 16:51:16 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://localhost:1313/nip/</guid>
-    <description><![CDATA[<blockquote>
-<p>Note:Noisy Polynomial Interpolation Problem</p>
-</blockquote>]]></description>
-</item>
-<item>
-    <title>WayToNTT Part 0</title>
-    <link>http://localhost:1313/waytontt-part-0/</link>
-    <pubDate>Sat, 09 Aug 2025 15:19:24 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://localhost:1313/waytontt-part-0/</guid>
-    <description><![CDATA[<blockquote>
-<p>Survey:NTT,as it was.</p>
-</blockquote>]]></description>
-</item>
-<item>
-    <title>WayToFFT Part 2</title>
-    <link>http://localhost:1313/waytofft-part-2/</link>
-    <pubDate>Fri, 08 Aug 2025 15:19:24 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://localhost:1313/waytofft-part-2/</guid>
-    <description><![CDATA[<h1 id="way-to-ntt">Way To NTT&hellip;&hellip;</h1>
-<blockquote>
-<p>Note</p>
-</blockquote>
-<p>The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE).</p>
-]]></description>
-</item>
-<item>
-    <title>Vectorspace Matters</title>
-    <link>http://localhost:1313/vectorspace-matters/</link>
-    <pubDate>Sun, 16 Mar 2025 19:37:17 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://localhost:1313/vectorspace-matters/</guid>
-    <description><![CDATA[<h1 id="by-which-to-rule-them-all">By which to Rule Them All</h1>
-<p></p>
-<blockquote>
-<p>上回书说到 UOV &hellip;</p>
-</blockquote>
-]]></description>
-</item>
-<item>
-    <title>Way-To-MPKC From UOV</title>
-    <link>http://localhost:1313/uov/</link>
-    <pubDate>Wed, 13 Nov 2024 19:39:56 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://localhost:1313/uov/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>BadAgent0x00 Intro</title>
-    <link>http://localhost:1313/badagent0x00-intro/</link>
-    <pubDate>Sun, 13 Oct 2024 12:41:37 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://localhost:1313/badagent0x00-intro/</guid>
-    <description><![CDATA[<h1 id="reread-bad-agent">Reread: Bad Agent:</h1>
-<p><strong>Inserting and Activating Backdoor Attacks in LLM Agents</strong></p>
-<p>References: <a href="https://github.com/DPamK/BadAgent" target="_blank" rel="noopener noreffer ">https://github.com/DPamK/BadAgent</a></p>
-<p>keyword &#x26f5; : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web</p>
-]]></description>
 </item>
 </channel>
 </rss>

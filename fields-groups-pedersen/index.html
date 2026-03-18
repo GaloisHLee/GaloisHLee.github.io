@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>有限域、循环群、离散对数与 Pedersen 承诺 - As it was</title><meta name="Description" content="把标量域、循环群、离散对数假设与 Pedersen 承诺放进同一条代数与安全性推导链。"><meta property="og:title" content="有限域、循环群、离散对数与 Pedersen 承诺">
+<meta property="og:description" content="把标量域、循环群、离散对数假设与 Pedersen 承诺放进同一条代数与安全性推导链。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/fields-groups-pedersen/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="有限域、循环群、离散对数与 Pedersen 承诺">
+<meta name="twitter:description" content="把标量域、循环群、离散对数假设与 Pedersen 承诺放进同一条代数与安全性推导链。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/fields-groups-pedersen/" /><link rel="prev" href="https://galoishlee.github.io/hash-to-curve/" /><link rel="next" href="https://galoishlee.github.io/zk-minimal-framework/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "有限域、循环群、离散对数与 Pedersen 承诺",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/fields-groups-pedersen\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, commitment, pedersen, discrete-log","wordcount":  4024 ,
+        "url": "https:\/\/galoishlee.github.io\/fields-groups-pedersen\/","datePublished": "2026-03-18T00:00:00+08:00","dateModified": "2026-03-18T00:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "把标量域、循环群、离散对数假设与 Pedersen 承诺放进同一条代数与安全性推导链。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/fields-groups-pedersen/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/fields-groups-pedersen/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">有限域、循环群、离散对数与 Pedersen 承诺</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-03-18">2026-03-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4024 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#scalar-field-and-prime-order-group">Scalar Field And Prime-Order Group</a>
+      <ul>
+        <li><a href="#why-messages-live-in">Why Messages Live In </a></li>
+        <li><a href="#two-generators-one-hidden-relation">Two Generators, One Hidden Relation</a></li>
+      </ul>
+    </li>
+    <li><a href="#discrete-log-assumption">Discrete Log Assumption</a>
+      <ul>
+        <li><a href="#setup-requirement">Setup Requirement</a></li>
+      </ul>
+    </li>
+    <li><a href="#pedersen-commitment-as-a-linear-encoding">Pedersen Commitment As A Linear Encoding</a>
+      <ul>
+        <li><a href="#instance-and-witness-view">Instance And Witness View</a></li>
+        <li><a href="#commitment-equation-decomposition">Commitment Equation Decomposition</a></li>
+      </ul>
+    </li>
+    <li><a href="#perfect-hiding-a-distribution-argument">Perfect Hiding: A Distribution Argument</a>
+      <ul>
+        <li><a href="#step-1-fix-the-message">Step 1: Fix The Message</a></li>
+        <li><a href="#step-2-compare-two-messages">Step 2: Compare Two Messages</a></li>
+        <li><a href="#why-this-is-stronger-than-computational-hiding">Why This Is Stronger Than Computational Hiding</a></li>
+      </ul>
+    </li>
+    <li><a href="#computational-binding-two-openings-break-discrete-log">Computational Binding: Two Openings Break Discrete Log</a>
+      <ul>
+        <li><a href="#step-1-assume-a-double-opening">Step 1: Assume A Double Opening</a></li>
+        <li><a href="#step-2-why--must-be-invertible">Step 2: Why  Must Be Invertible</a></li>
+        <li><a href="#the-reduction-view">The Reduction View</a></li>
+      </ul>
+    </li>
+    <li><a href="#if--is-known-binding-dies-immediately">If  Is Known, Binding Dies Immediately</a></li>
+    <li><a href="#linear-relation-view-why-this-matters-for-zk">Linear Relation View: Why This Matters For ZK</a>
+      <ul>
+        <li><a href="#first-the-witness-structure-is-explicit">First, The Witness Structure Is Explicit</a></li>
+        <li><a href="#second-verification-is-algebraic">Second, Verification Is Algebraic</a></li>
+        <li><a href="#third-additivity-comes-for-free">Third, Additivity Comes For Free</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: Pedersen commitments as the first concrete algebraic interface in the ZK series.</p>
+</blockquote>
+<p>上一篇把 relation、instance、witness、soundness、zero knowledge、knowledge soundness 的接口钉住了。这一篇开始把这些抽象对象落到具体代数对象上，但只选最小够用的一组: 标量域 $\mathbb{Z}_q$、一个 prime-order 循环群 $G$、两个生成元 $g,h$，以及一个承诺式子</p>
+$$
+C = g^m h^r.
+$$<p>这个式子看起来很短，但后面几篇会不断回到它。消息 $m$ 和随机数 $r$ 都是标量；群元素 $C$ 是公开 instance；opening 则是 witness $(m,r)$。如果把这些对象先写清楚，后面再看表示证明、Schnorr、Fiat-Shamir 时，很多结构就不再像“新协议”，而只是同一个关系换了一个验证方式。</p>
+<p>Pedersen 承诺最值得写的不是“它同时 hiding 和 binding”这句口号，而是两条具体推导: 第一，为什么对固定消息，随机 $r$ 会把 $g^m h^r$ 推成群上的均匀分布，因此得到 perfect hiding；第二，为什么一旦有人给出两组不同的 opening，就能从</p>
+$$
+g^m h^r = g^{m'} h^{r'}
+$$<p>直接解出 $\log_g h$，因此 binding 只能是 computational 的。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h2 id="scalar-field-and-prime-order-group">Scalar Field And Prime-Order Group</h2>
+<p>先固定最小代数环境。</p>
+<p>取一个素数 $q$。记</p>
+$$
+\mathbb{F}_q \cong \mathbb{Z}_q = \mathbb{Z}/q\mathbb{Z},
+$$<p>它既是一个有限域，也是后文的标量空间。然后取一个阶为 $q$ 的循环群 $G$，写作 multiplicative notation。群中的指数都按模 $q$ 运算，所以消息、随机数、挑战、响应这些标量对象都自然落在 $\mathbb{Z}_q$ 上。</p>
+<p>这里的“有限域”和“循环群”不是两段独立背景，而是一对绑定对象:</p>
+<ul>
+<li>$\mathbb{Z}_q$ 提供标量运算</li>
+<li>$G$ 提供指数编码后的公开对象</li>
+</ul>
+<p>如果 $g \in G$ 是一个生成元，那么每个群元素都可写成 $g^a$，其中 $a \in \mathbb{Z}_q$。这就是后面所有基于离散对数的协议能够把“线性方程”搬到群里的根本原因。</p>
+<h3 id="why-messages-live-in">Why Messages Live In \(\mathbb{Z}_q\)</h3>
+<p>Pedersen 承诺不是对任意大整数直接工作。它的自然消息空间是 $\mathbb{Z}_q$。原因不复杂:</p>
+<ol>
+<li>群的指数本来就按模 $q$ 计算</li>
+<li>若把消息视为整数，真正生效的仍然只是其模 $q$ 的剩余类</li>
+<li>binding 与 opening 的等式推导也都发生在 $\mathbb{Z}_q$</li>
+</ol>
+<p>因此，写</p>
+$$
+C = g^m h^r
+$$<p>时，默认应当读作</p>
+$$
+m, r \in \mathbb{Z}_q,\quad C \in G.
+$$<p>这一步不先说清楚，后面看“双开封推出一个线性方程”就会失焦，因为那个线性方程不是在整数环里，而是在模 $q$ 的域里。</p>
+<h3 id="two-generators-one-hidden-relation">Two Generators, One Hidden Relation</h3>
+<p>再取另一个生成元 $h \in G$。由于 $G$ 是循环群，数学上必然存在某个</p>
+$$
+\alpha \in \mathbb{Z}_q^\*
+$$<p>使得</p>
+$$
+h = g^\alpha.
+$$<p>所以很多资料说的“generator independence”若字面理解成“$g$ 与 $h$ 没有离散对数关系”，那是错的。在循环群里，它们总有关系。真正需要的是:</p>
+<blockquote>
+<p>setup 不应暴露这个关系，也就是 adversary 不应知道 $\alpha = \log_g h$。</p>
+</blockquote>
+<p>这是 Pedersen 承诺里最容易被说糊的地方。不是“随机挑两个生成元就好了”，而是“挑完之后，没人知道它们之间的离散对数关系”。</p>
+<p>若有人知道 $\alpha$，绑定性会直接塌掉。这个结论后面会显式算出来。</p>
+<h2 id="discrete-log-assumption">Discrete Log Assumption</h2>
+<p>既然 $h=g^\alpha$，那么一个自然计算问题是:</p>
+<p>给定 $(G, g, h)$，求出 $\alpha$。</p>
+<p>这就是离散对数问题。对应的 hardness assumption 是，对所选群族与安全参数而言，没有高效算法能以非忽略概率恢复这个 $\alpha$。</p>
+<p>Pedersen 承诺的 binding 恰好站在这里。它不是信息论 binding，而是“如果你能制造双开封，我就能拿你的算法去解离散对数”。</p>
+<p>所以这篇一定要把两类安全性分开:</p>
+<ul>
+<li>hiding 是信息论的</li>
+<li>binding 是计算的</li>
+</ul>
+<p>这两者不是对称性质。</p>
+<h3 id="setup-requirement">Setup Requirement</h3>
+<p>Pedersen setup 常被写成“choose generators $g,h$”。更准确地说，应当是:</p>
+<ol>
+<li>选定一个 prime-order 群 $G$</li>
+<li>取两个生成元 $g,h \in G$</li>
+<li>保证没有参与者知道 $\alpha = \log_g h$</li>
+</ol>
+<p>如果 setup 方知道 $\alpha$，它就拿到了 equivocation trapdoor。因为</p>
+$$
+C = g^m h^r = g^m g^{\alpha r} = g^{m+\alpha r}.
+$$<p>一旦知道 $\alpha$，就可以在保持 $C$ 不变的前提下，把 opening 从 $(m,r)$ 改写成任意别的消息。这个推导后面会正式写。</p>
+<h2 id="pedersen-commitment-as-a-linear-encoding">Pedersen Commitment As A Linear Encoding</h2>
+<p>现在给出构造。</p>
+<p>给定公开参数 $(G, q, g, h)$，对消息 $m \in \mathbb{Z}_q$：</p>
+<ol>
+<li>随机采样 $r \xleftarrow{$} \mathbb{Z}_q$</li>
+<li>输出承诺</li>
+</ol>
+$$
+\mathrm{Com}(m; r) = g^m h^r \in G.
+$$<p>opening 就是二元组 $(m,r)$。验证则只需检查</p>
+$$
+C \stackrel{?}= g^m h^r.
+$$<h3 id="instance-and-witness-view">Instance And Witness View</h3>
+<p>如果用上一篇的关系语言来写，可以定义</p>
+$$
+R_{\mathrm{Ped}}(C, (m,r)) = 1 \iff C = g^m h^r.
+$$<p>于是：</p>
+<ul>
+<li>instance 是承诺值 $C$</li>
+<li>witness 是 opening $(m,r)$</li>
+</ul>
+<p>这已经是一个非常标准的“知道某个表示”的关系。下一篇写 Sigma 协议时，本质上就是围绕这个 relation 去做 proof of representation。</p>
+<h3 id="commitment-equation-decomposition">Commitment Equation Decomposition</h3>
+<p>Pedersen 承诺最值得盯住的不是结果式子，而是它背后的线性分解。</p>
+<p>若设</p>
+$$
+h = g^\alpha,
+$$<p>则</p>
+$$
+C = g^m h^r = g^m g^{\alpha r} = g^{m + \alpha r}.
+$$<p>这说明承诺实质上把标量对 $(m,r)$ 压成了同一个群元素里的线性组合</p>
+$$
+m + \alpha r \pmod q.
+$$<p>如果 $\alpha$ 未知，这个线性关系仍然存在，但外部无法把 $C$ 反解成 $(m,r)$。这正是承诺同时具备 hiding 与 binding 的来源:</p>
+<ul>
+<li>随机数 $r$ 提供遮蔽</li>
+<li>未知的 $\alpha$ 阻止随意重写 opening</li>
+</ul>
+<p>换句话说，Pedersen 不是“在消息上再乘个随机数”这么粗糙。它是在群里编码了一个带隐藏系数的线性关系。</p>
+<h2 id="perfect-hiding-a-distribution-argument">Perfect Hiding: A Distribution Argument</h2>
+<p>先看 hiding。</p>
+<p>Pedersen 的 hiding 不是“感觉上随机数很多”，而是严格的分布命题:</p>
+<blockquote>
+<p>对任意固定消息 $m \in \mathbb{Z}_q$，当 $r \xleftarrow{$} \mathbb{Z}_q$ 时，$\mathrm{Com}(m;r)$ 在群 $G$ 上均匀分布。</p>
+</blockquote>
+<p>只要这个命题成立，perfect hiding 就立刻跟着成立，因为不同消息导出的承诺分布完全相同。</p>
+<h3 id="step-1-fix-the-message">Step 1: Fix The Message</h3>
+<p>固定某个 $m$。考虑映射</p>
+$$
+\phi_m : \mathbb{Z}_q \to G,\qquad r \mapsto g^m h^r.
+$$<p>因为 $h$ 是 $G$ 的生成元，而 $G$ 的阶是 $q$，映射</p>
+$$
+r \mapsto h^r
+$$<p>是从 $\mathbb{Z}_q$ 到 $G$ 的双射。再左乘一个固定群元素 $g^m$，仍然是双射。因此 $\phi_m$ 是双射。</p>
+<p>既然 $r$ 在 $\mathbb{Z}_q$ 上均匀，那么 $\phi_m(r)$ 就在 $G$ 上均匀。</p>
+<h3 id="step-2-compare-two-messages">Step 2: Compare Two Messages</h3>
+<p>设 $m_0, m_1 \in \mathbb{Z}_q$ 是任意两条消息。因为对每个固定消息，承诺分布都等于 $G$ 上的均匀分布，所以</p>
+$$
+\mathrm{Com}(m_0; r) \equiv U_G \equiv \mathrm{Com}(m_1; r),
+$$<p>其中 $U_G$ 表示群上的均匀分布。</p>
+<p>因此，哪怕攻击者算力无限，只看见 $C$ 也无法区分它来自 $m_0$ 还是 $m_1$。这就是 perfect hiding。</p>
+<h3 id="why-this-is-stronger-than-computational-hiding">Why This Is Stronger Than Computational Hiding</h3>
+<p>这里没有使用离散对数假设，也没有限制攻击者算力。分布完全相同，所以 distinguisher 的优势恰好为 $0$。</p>
+<p>这就是“perfect”这个词真正表示的内容。它不是“大概很强”，而是：</p>
+$$
+\forall m_0, m_1,\quad \mathsf{Dist}(\mathrm{Com}(m_0; r), \mathrm{Com}(m_1; r)) = 0.
+$$<p>很多承诺方案只有 computational hiding，而 Pedersen 在这点上更强。</p>
+<h2 id="computational-binding-two-openings-break-discrete-log">Computational Binding: Two Openings Break Discrete Log</h2>
+<p>现在看 binding。</p>
+<p>Pedersen 绝不可能是 perfect binding。因为同一个群元素 $C$ 背后本来就有许多可能的 $(m,r)$ 线性组合。真正阻止 adversary 找到第二组 opening 的，不是信息论唯一性，而是它不知道 $\alpha = \log_g h$。</p>
+<p>所以 binding 的正确表述是：</p>
+<blockquote>
+<p>如果存在高效 adversary 能以非忽略概率输出同一承诺的两组不同 opening，那么就可用它来高效求解离散对数。</p>
+</blockquote>
+<h3 id="step-1-assume-a-double-opening">Step 1: Assume A Double Opening</h3>
+<p>假设 adversary 输出</p>
+$$
+(C, m, r, m', r')
+$$<p>满足</p>
+$$
+C = g^m h^r = g^{m'} h^{r'}
+$$<p>且</p>
+$$
+m \ne m'.
+$$<p>由两式相等可得</p>
+$$
+g^m h^r = g^{m'} h^{r'}
+\Longrightarrow g^{m-m'} = h^{r'-r}.
+$$<p>再代入 $h = g^\alpha$：</p>
+$$
+g^{m-m'} = g^{\alpha(r'-r)}.
+$$<p>由于群阶是素数 $q$，指数在 $\mathbb{Z}_q$ 中比较，于是得到</p>
+$$
+m - m' = \alpha (r' - r) \pmod q.
+$$<h3 id="step-2-why--must-be-invertible">Step 2: Why \(r' - r\) Must Be Invertible</h3>
+<p>若 $r&rsquo; = r$，上式会推出 $m=m&rsquo;$，这与双开封要求不同消息矛盾。因此</p>
+$$
+r' - r \ne 0 \pmod q.
+$$<p>而在域 $\mathbb{Z}_q$ 里，每个非零元素都可逆，所以</p>
+$$
+(r' - r)^{-1}
+$$<p>存在。于是可以直接解出</p>
+$$
+\alpha = (m - m')(r' - r)^{-1} \pmod q.
+$$<p>也就是</p>
+$$
+\alpha = \log_g h.
+$$<p>这正是 binding 规约的核心。</p>
+<h3 id="the-reduction-view">The Reduction View</h3>
+<p>把上面的等式链改写成规约语言就是：</p>
+<ol>
+<li>规约者接收一个离散对数实例 $(G, q, g, h)$</li>
+<li>它把这组参数直接交给双开封 adversary</li>
+<li>若 adversary 返回同一承诺的两组不同 opening</li>
+<li>规约者就按上式恢复 $\alpha = \log_g h$</li>
+</ol>
+<p>因此，只要离散对数在该群上难解，高效双开封也应当难以发生。这就是 computational binding。</p>
+<blockquote>
+<p>Key Observation.
+Pedersen 的 binding 不是“一个承诺只对应一个 opening”，而是“想构造两个不同 opening，等价于求出隐藏的离散对数关系”。</p>
+</blockquote>
+<h2 id="if--is-known-binding-dies-immediately">If \(\alpha\) Is Known, Binding Dies Immediately</h2>
+<p>前面已经说过 setup trapdoor 是危险点，这里把它正式算出来。</p>
+<p>仍然写</p>
+$$
+h = g^\alpha.
+$$<p>如果某人知道 $\alpha$，并且手里已经有一个合法 opening $(m,r)$，对应承诺</p>
+$$
+C = g^m h^r = g^{m+\alpha r},
+$$<p>那么它想把同一个 $C$ 改开为任意另一个消息 $m^*$，只需取</p>
+$$
+r^\* = r + (m - m^\*)\alpha^{-1} \pmod q.
+$$<p>验证一下：</p>
+$$
+g^{m^\*} h^{r^\*}
+= g^{m^\*} g^{\alpha r^\*}
+= g^{m^\* + \alpha r + m - m^\*}
+= g^{m + \alpha r}
+= C.
+$$<p>所以知道 $\alpha$ 就能把一个承诺开成任意消息。这说明 setup 的真实要求不是“参数公开即可”，而是“参数公开，但生成元之间的离散对数关系不被任何一方掌握”。</p>
+<p>这也是为什么很多场景会通过 hash-to-group 或多方生成参数来避免单方持有 trapdoor。</p>
+<h2 id="linear-relation-view-why-this-matters-for-zk">Linear Relation View: Why This Matters For ZK</h2>
+<p>到这里，Pedersen 承诺已经不只是一个“藏消息”的工具了。更重要的是，它给了我们一个非常适合做零知识证明的 relation：</p>
+$$
+C = g^m h^r.
+$$<p>这个 relation 有三个好处。</p>
+<h3 id="first-the-witness-structure-is-explicit">First, The Witness Structure Is Explicit</h3>
+<p>witness 不是一个黑箱秘密，而是一个向量式对象 $(m,r)$。这会让后面“证明知道 opening”自然变成“证明知道某个线性表示”。</p>
+<h3 id="second-verification-is-algebraic">Second, Verification Is Algebraic</h3>
+<p>验证条件就是一个显式群等式。Sigma 协议最喜欢这样的关系，因为：</p>
+<ul>
+<li>可以围绕它构造 commitment-challenge-response</li>
+<li>可以从两份 transcript 做 special soundness 提取</li>
+<li>可以构造 honest-verifier simulator</li>
+</ul>
+<p>换句话说，Pedersen 承诺不是零知识系统的外围组件，而是后续很多协议的 statement layer。</p>
+<h3 id="third-additivity-comes-for-free">Third, Additivity Comes For Free</h3>
+<p>虽然本文先只写单消息承诺，但它已经显露出线性结构：</p>
+$$
+\mathrm{Com}(m_1; r_1)\mathrm{Com}(m_2; r_2)
+= g^{m_1+m_2} h^{r_1+r_2}
+= \mathrm{Com}(m_1+m_2; r_1+r_2).
+$$<p>这意味着群乘法对应标量加法。后面做表示证明、范围证明、向量承诺接口时，这条线性结构会反复出现。</p>
+<p>这里先不展开多消息版本，只保留一个判断：Pedersen 的价值不只是 commitment，而是它把“线性关系 + 随机掩码 + 群验证”等式打包成了一个极小接口。</p>
+<h2 id="summary">Summary</h2>
+<p>这一篇其实只固定了四件事。</p>
+<p>第一，标量在 $\mathbb{Z}_q$ 上，群元素在 prime-order 循环群 $G$ 中，消息与随机数都应被视作模 $q$ 的对象。</p>
+<p>第二，Pedersen 承诺</p>
+$$
+C = g^m h^r
+$$<p>不是随意拼起来的式子，而是把 $(m,r)$ 编码成群里的线性组合。</p>
+<p>第三，perfect hiding 来自一个严格的分布事实：对固定 $m$，映射</p>
+$$
+r \mapsto g^m h^r
+$$<p>是到群 $G$ 的双射，因此承诺分布与消息无关。</p>
+<p>第四，binding 只能是 computational 的。因为若存在两组不同 opening，就能从</p>
+$$
+g^m h^r = g^{m'} h^{r'}
+$$<p>推出</p>
+$$
+\alpha = (m-m')(r'-r)^{-1} = \log_g h.
+$$<p>所以 Pedersen 的 binding 不是唯一开封，而是“双开封会泄露隐藏的离散对数关系”。</p>
+<p>下一篇进入 Sigma 协议时，我们就会把这个 relation 直接当作 statement 来证明：不是再介绍一个全新的世界，而是开始研究如何围绕这样的代数关系构造 transcript、simulator 与 extractor。</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Torben Pryds Pedersen, <em>Non-Interactive and Information-Theoretic Secure Verifiable Secret Sharing</em>, 1991. The commitment construction and its hiding/binding split are standardly attributed to Pedersen commitments.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Dan Boneh and Victor Shoup, <em>A Graduate Course in Applied Cryptography</em>, commitment-related chapters.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-03-18</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/fields-groups-pedersen/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/fields-groups-pedersen/" data-title="有限域、循环群、离散对数与 Pedersen 承诺" data-hashtags="cryptography,commitment,pedersen,discrete-log"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/fields-groups-pedersen/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/fields-groups-pedersen/" data-title="有限域、循环群、离散对数与 Pedersen 承诺"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/fields-groups-pedersen/" data-title="有限域、循环群、离散对数与 Pedersen 承诺"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/fields-groups-pedersen/" data-title="有限域、循环群、离散对数与 Pedersen 承诺"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/commitment/">Commitment</a>,&nbsp;<a href="/tags/pedersen/">Pedersen</a>,&nbsp;<a href="/tags/discrete-log/">Discrete-Log</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/hash-to-curve/" class="prev" rel="prev" title="Hash To Curve"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Hash To Curve</a>
+            <a href="/zk-minimal-framework/" class="next" rel="next" title="零知识证明的最小理论框架">零知识证明的最小理论框架<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

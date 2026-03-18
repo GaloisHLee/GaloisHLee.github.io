@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fiat-Shamir on As it was</title>
+    <link>https://galoishlee.github.io/tags/fiat-shamir/</link>
+    <description>Recent content in Fiat-Shamir on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/fiat-shamir/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sigma 协议的统一视角：Schnorr、表示证明与 Fiat-Shamir</title>
+      <link>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: sigma protocols as the first reusable proof skeleton of the series.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上一篇把 Pedersen 承诺写成了一个 relation：&lt;/p&gt;&#xA;$$&#xA;C = g^m h^r.&#xA;$$&lt;p&gt;这一篇开始研究，怎样围绕这种 relation 构造一个既能 extraction、又能 simulation 的三步证明骨架。真正需要记住的不是 “Schnorr” 这个名字，而是同一个模板：first message 先把 witness 压进一个承诺式对象，verifier 给出一个公币 challenge，prover 再用线性响应把 witness 带回来。&lt;/p&gt;&#xA;&lt;p&gt;Sigma 协议之所以重要，不是因为它是某个古典协议家族，而是因为它把三件后面一直会重复出现的东西压进了同一份 transcript：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;commitment / first message&lt;/li&gt;&#xA;&lt;li&gt;extractor 需要的两份 accepting transcripts&lt;/li&gt;&#xA;&lt;li&gt;simulator 需要重建的 transcript distribution&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;这也是它成为后续现代证明系统桥梁的原因。Schnorr 证明离散对数是最小例子，表示证明是直接推广，而 Fiat-Shamir 则显示这套骨架一旦被 hash 取代 challenge，交互虽然消失，模型边界却一起换掉了。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>零知识证明的最小理论框架 - As it was</title><meta name="Description" content="从语言、见证、交互证明到 simulator-based zero knowledge 与 knowledge soundness 的最小定义链。"><meta property="og:title" content="零知识证明的最小理论框架">
+<meta property="og:description" content="从语言、见证、交互证明到 simulator-based zero knowledge 与 knowledge soundness 的最小定义链。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/zk-minimal-framework/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="零知识证明的最小理论框架">
+<meta name="twitter:description" content="从语言、见证、交互证明到 simulator-based zero knowledge 与 knowledge soundness 的最小定义链。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/zk-minimal-framework/" /><link rel="prev" href="https://galoishlee.github.io/fields-groups-pedersen/" /><link rel="next" href="https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "零知识证明的最小理论框架",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/zk-minimal-framework\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, zero-knowledge, interactive-proof, math","wordcount":  4228 ,
+        "url": "https:\/\/galoishlee.github.io\/zk-minimal-framework\/","datePublished": "2026-03-18T00:00:00+08:00","dateModified": "2026-03-18T00:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从语言、见证、交互证明到 simulator-based zero knowledge 与 knowledge soundness 的最小定义链。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/zk-minimal-framework/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/zk-minimal-framework/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">零知识证明的最小理论框架</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-03-18">2026-03-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4228 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-principles-relation-language-instance-witness">First Principles: Relation, Language, Instance, Witness</a>
+      <ul>
+        <li><a href="#transcript-versus-verifier-view">Transcript Versus Verifier View</a></li>
+      </ul>
+    </li>
+    <li><a href="#interactive-proof-的最小定义">Interactive Proof 的最小定义</a>
+      <ul>
+        <li><a href="#completeness">Completeness</a></li>
+        <li><a href="#soundness">Soundness</a></li>
+        <li><a href="#proof-versus-argument">Proof Versus Argument</a></li>
+      </ul>
+    </li>
+    <li><a href="#从-verifier-view-到-zero-knowledge">从 Verifier View 到 Zero Knowledge</a>
+      <ul>
+        <li><a href="#honest-verifier-的-view">Honest Verifier 的 View</a></li>
+        <li><a href="#perfect-statistical-computational">Perfect, Statistical, Computational</a></li>
+      </ul>
+    </li>
+    <li><a href="#为什么直觉不够-一条最小定义链">为什么直觉不够: 一条最小定义链</a>
+      <ul>
+        <li><a href="#hvzk-为什么不等于-full-zk">HVZK 为什么不等于 Full ZK</a></li>
+        <li><a href="#参数边界也属于定义的一部分">参数边界也属于定义的一部分</a></li>
+      </ul>
+    </li>
+    <li><a href="#knowledge-soundness-不是-plain-soundness">Knowledge Soundness 不是 Plain Soundness</a>
+      <ul>
+        <li><a href="#第一soundness-与-knowledge-soundness-的量词不同">第一，Soundness 与 Knowledge Soundness 的量词不同</a></li>
+        <li><a href="#第二true-statement-也可能缺少-knowledge-guarantee">第二，True Statement 也可能缺少 Knowledge Guarantee</a></li>
+      </ul>
+    </li>
+    <li><a href="#一个极小的接口视角">一个极小的接口视角</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: GMR 1989, Goldreich, and the standard zero-knowledge definition chain.</p>
+</blockquote>
+<p>开篇先不讲洞穴故事，也不讲“验证者虽然信了但什么都没学到”这种直觉口号。后面整条 ZK 系列都会反复调用同一批对象: relation、language、instance、witness、prover、verifier、transcript、view、simulator、extractor。第一篇的任务，只是把这些对象之间的接口一次性钉死。</p>
+<p>零知识证明真正容易混掉的，不是某个协议细节，而是哪些性质分别由 completeness、soundness、zero knowledge、knowledge soundness 约束；哪些结论只对 honest verifier 成立；哪些地方已经从 proof 退到了 argument。只要这些边界不先写清楚，后面看到 Sigma、Fiat-Shamir、SNARK、STARK 时就会不断把不同层次的结论混在一起。</p>
+<p>本文给出一个最小理论框架: 从 $R(x, w)$ 定义语言，到交互证明的接受事件，再到 verifier view 与 simulator 的 indistinguishability，最后补上 argument/proof 与 knowledge soundness 的分界。它不是一篇历史综述，而是一份后续文章默认继承的接口说明书。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h2 id="first-principles-relation-language-instance-witness">First Principles: Relation, Language, Instance, Witness</h2>
+<p>零知识证明不是“证明一个命题”这么宽泛。它的最小对象是一个二元关系</p>
+$$
+R \subseteq \mathcal{X} \times \mathcal{W},
+$$<p>其中 $x \in \mathcal{X}$ 是 instance，$w \in \mathcal{W}$ 是 witness。由关系 $R$ 诱导出的语言是</p>
+$$
+L_R = \{x \in \mathcal{X} \mid \exists w \in \mathcal{W},\ R(x, w) = 1 \}.
+$$<p>这一步必须先固定，因为后面所有性质都围绕下面这个结构展开:</p>
+<ul>
+<li>prover 试图说服 verifier 某个 $x$ 属于 $L_R$</li>
+<li>witness $w$ 是 prover 的额外信息，使得 $R(x, w) = 1$</li>
+<li>verifier 通常不直接看到 $w$</li>
+</ul>
+<blockquote>
+<p>Formal Definition.
+一个零知识协议讨论的对象不是“事实”本身，而是 relation membership: 给定公开实例 $x$，证明者知道某个见证 $w$，使得 $R(x, w)=1$。</p>
+</blockquote>
+<p>例如，离散对数关系可以写成</p>
+$$
+R_{\mathrm{DL}}((G, g, y), w) = 1 \iff y = g^w.
+$$<p>这里公开实例是 $(G, g, y)$，见证是指数 $w$。这已经足够支撑后面 Schnorr 风格 proof of knowledge 的讨论，但本文先停在接口层，不展开具体协议。</p>
+<h3 id="transcript-versus-verifier-view">Transcript Versus Verifier View</h3>
+<p>进入交互之后，至少要区分两个对象:</p>
+<ol>
+<li>transcript: 双方发送的消息序列</li>
+<li>verifier view: verifier 在执行中“看到”的全部信息</li>
+</ol>
+<p>如果协议轮数为 $t$，那么 transcript 可写成</p>
+$$
+\tau = (m_1, m_2, \dots, m_t).
+$$<p>但 verifier view 通常比 transcript 更大。对于一个 verifier $V^*$，它的 view 可以写成</p>
+$$
+\mathrm{View}_{V^\*}^{P}(x, w; z) = (x, z, r, m_1, \dots, m_t),
+$$<p>其中 $r$ 是 verifier 的随机性，$z$ 是 auxiliary input。后面 zero knowledge 定义里，simulator 要模拟的是这个 view 的分布，而不只是消息串本身。</p>
+<p>这是第一条必须守住的边界: transcript 是外层消息对象，view 是分布对象；只讨论 transcript 常常不足以表述 zero knowledge。</p>
+<h2 id="interactive-proof-的最小定义">Interactive Proof 的最小定义</h2>
+<p>现在引入两台交互机器: prover $P$ 与 verifier $V$。给定 instance $x$，若 prover 还持有见证 $w$，则运行记为</p>
+$$
+\langle P(w), V \rangle(x).
+$$<p>verifier 最终输出 accept 或 reject。交互证明的第一层只有两个性质: completeness 和 soundness。</p>
+<h3 id="completeness">Completeness</h3>
+<p>当 $x \in L_R$ 且 prover 确实持有满足 $R(x, w)=1$ 的 witness 时，诚实双方运行应当接受。形式上可写成</p>
+$$
+\Pr[\langle P(w), V \rangle(x) = 1] \ge 1 - \varepsilon_c(\lambda),
+$$<p>其中 $\varepsilon_c(\lambda)$ 通常是 negligible，很多协议甚至要求 perfect completeness，即接受概率恰好为 $1$。</p>
+<p>completeness 只回答一个问题: 真命题加真见证时，系统会不会把正确输入误杀。它不涉及“学到了什么”，也不涉及“伪造者能做到什么”。</p>
+<h3 id="soundness">Soundness</h3>
+<p>soundness 约束的是假命题。若 $x \notin L_R$，则任意作弊 prover $P^*$ 都不应高概率骗过 verifier:</p>
+$$
+\Pr[\langle P^\*, V \rangle(x) = 1] \le \varepsilon_s(\lambda).
+$$<p>这里最重要的不是公式，而是量词顺序:</p>
+<ul>
+<li>先固定一个假的 instance $x \notin L_R$</li>
+<li>再对任意作弊 prover $P^*$ 取上界</li>
+<li>最后要求接受概率足够小</li>
+</ul>
+<p>很多口语化解释会把 soundness 说成“证明者不会撒谎”。这不准确。soundness 只是在说: 对不在语言里的实例，想让 verifier 接受会很难。</p>
+<h3 id="proof-versus-argument">Proof Versus Argument</h3>
+<p>这一层马上出现第一条硬边界。</p>
+<p>如果 soundness 对任意甚至无限算力 prover 都成立，我们通常称其为 proof。若 soundness 只对 probabilistic polynomial-time cheating prover 成立，那么它是 argument。</p>
+<p>所以：</p>
+<ul>
+<li>proof: 信息论或无条件地排除了伪造接受</li>
+<li>argument: 只在计算边界内排除了伪造接受</li>
+</ul>
+<p>现代零知识系统里，大量对象其实是 argument，不是 proof。原因很简单: 一旦 soundness 依赖离散对数、pairing hardness、Fiat-Shamir random oracle、low-degree testing 假设之类的计算前提，它就已经不再是对无限算力 prover 的陈述。</p>
+<p>这一点必须在第一篇就写清楚，否则后面很容易把“系统很安全”误读成“这是 proof，而不是 argument”。</p>
+<h2 id="从-verifier-view-到-zero-knowledge">从 Verifier View 到 Zero Knowledge</h2>
+<p>到目前为止，我们只约束了“真的要能过，假的不该过”。这还不是零知识。zero knowledge 讨论的是: 在接受性之外，verifier 究竟学到了什么。</p>
+<p>最常见的误解是把它说成“验证者没有获得任何信息”。这句话几乎总是错误的，因为 verifier 至少学到了一个事实:</p>
+$$
+x \in L_R.
+$$<p>zero knowledge 的正确说法不是“没有信息”，而是“除了 statement validity 及其可从中高效推导出的内容外，没有获得额外知识”。而这句话若不通过 simulator 形式化，实际上仍然是空的。</p>
+<h3 id="honest-verifier-的-view">Honest Verifier 的 View</h3>
+<p>若先只看 honest verifier，定义会简单一些。诚实 verifier $V$ 按协议规定产生随机性和挑战，因而其 view 分布是确定的：</p>
+$$
+\mathrm{View}_{V}^{P}(x, w) = (x, r, \tau).
+$$<p>如果存在一个高效算法 $\mathrm{Sim}$，仅从公开 instance $x$ 就能生成一个分布，与真实交互中的 verifier view 近似不可区分，那么我们说协议是 zero knowledge 的某种形式。</p>
+<p>形式上：</p>
+$$
+\mathrm{Sim}(x) \approx \mathrm{View}_{V}^{P}(x, w).
+$$<p>这里的 $\approx$ 需要具体化。</p>
+<h3 id="perfect-statistical-computational">Perfect, Statistical, Computational</h3>
+<p>根据“近似”的强弱不同，zero knowledge 分成三层:</p>
+<ol>
+<li>perfect zero knowledge: 两个分布完全相同</li>
+<li>statistical zero knowledge: 两个分布的统计距离可忽略</li>
+<li>computational zero knowledge: 任意高效 distinguisher 都无法有效区分</li>
+</ol>
+<p>强弱关系是</p>
+$$
+\text{perfect} \Rightarrow \text{statistical} \Rightarrow \text{computational}.
+$$<p>如果一个协议只对诚实 verifier 满足这个条件，通常称为 HVZK, honest-verifier zero knowledge。若对任意多项式时间恶意 verifier $V^*$ 都存在 simulator，则才是更一般的 ZK:</p>
+$$
+\forall V^\* \in \mathrm{PPT},\ \exists \mathrm{Sim}_{V^\*}\ \text{s.t.}\ \mathrm{Sim}_{V^\*}(x, z) \approx \mathrm{View}_{V^\*}^{P}(x, w; z).
+$$<p>这比 HVZK 强得多，因为恶意 verifier 可以偏离协议、嵌入辅助输入、按自选策略生成挑战。</p>
+<blockquote>
+<p>Key Observation.
+zero knowledge 真正约束的对象是 real view distribution 和 simulated view distribution 之间的关系，而不是某句“泄露了多少”的直觉描述。</p>
+</blockquote>
+<h2 id="为什么直觉不够-一条最小定义链">为什么直觉不够: 一条最小定义链</h2>
+<p>现在把前面的对象串起来。</p>
+<p>给定 relation $R$，我们先得到语言</p>
+$$
+L_R = \{x \mid \exists w,\ R(x,w)=1\}.
+$$<p>随后定义一个交互协议 $(P, V)$，它必须先满足：</p>
+<ol>
+<li>completeness: 真实例加真 witness 能让 verifier 接受</li>
+<li>soundness or argument soundness: 假实例不能被高概率伪造为真</li>
+</ol>
+<p>但如果要称其为 zero knowledge，还必须再补一条分布要求：</p>
+<ol start="3">
+<li>对某类 verifier，真实 view 与 simulator 输出不可区分</li>
+</ol>
+<p>用更压缩的写法，这条链是</p>
+$$
+R(x,w)=1
+\Longrightarrow x \in L_R
+\Longrightarrow \Pr[\langle P(w),V\rangle(x)=1]\ \text{高}
+$$<p>以及</p>
+$$
+x \notin L_R
+\Longrightarrow \Pr[\langle P^\*,V\rangle(x)=1]\ \text{低},
+$$<p>同时</p>
+$$
+\mathrm{View}_{V^\*}^{P}(x,w;z) \approx \mathrm{Sim}_{V^\*}(x,z).
+$$<p>这三条不是一个性质的不同说法，而是三个不同维度:</p>
+<ul>
+<li>completeness 关心正确性</li>
+<li>soundness 关心伪造接受</li>
+<li>zero knowledge 关心 view distribution</li>
+</ul>
+<p>如果不把 verifier view 写出来，“验证者没有获得额外信息”这句话其实没有参照对象。额外信息相对于什么定义？是 transcript，还是 verifier 的内部随机性，还是包含 auxiliary input 的完整 execution state？这些不写清楚，zero knowledge 就只剩修辞。</p>
+<h3 id="hvzk-为什么不等于-full-zk">HVZK 为什么不等于 Full ZK</h3>
+<p>HVZK 的 simulator 只需要重现诚实 verifier 的 view。很多经典协议在这一步并不难，因为诚实 verifier 的挑战或随机性是按固定分布来的，simulator 可以“先采 challenge，再倒推出 transcript”。</p>
+<p>但一旦 verifier 恶意化，问题就变了:</p>
+<ul>
+<li>verifier 可以让消息依赖辅助输入 $z$</li>
+<li>verifier 可以选择异常挑战分布</li>
+<li>verifier 可以把协议嵌进更大的环境中联合执行</li>
+</ul>
+<p>所以 HVZK 常常只是第一步，不是最终目标。后面看到 Fiat-Shamir 时，这个边界尤其关键: 某些协议的 HVZK 很自然，但转到非交互或更强环境之后，定义和证明义务都会变。</p>
+<h3 id="参数边界也属于定义的一部分">参数边界也属于定义的一部分</h3>
+<p>还需要避免一个常见偷懒动作: 只写“概率很小”而不写小到什么程度。</p>
+<p>密码学里通常要求错误概率是 negligible function，即对任意多项式 $p(\lambda)$，在足够大安全参数 $\lambda$ 下都有</p>
+$$
+\mu(\lambda) < \frac{1}{p(\lambda)}.
+$$<p>不写 negligible，只说“很难”或“几乎不可能”，在理论上没有可组合性。因为后续规约、并行重复、知识提取、Fiat-Shamir 转换，都会显式消耗这些误差项。</p>
+<h2 id="knowledge-soundness-不是-plain-soundness">Knowledge Soundness 不是 Plain Soundness</h2>
+<p>plain soundness 只讨论假实例 $x \notin L_R$。它说的是: 伪造一个假命题的接受记录很难。</p>
+<p>knowledge soundness 要求更强。它讨论的是另一件事:</p>
+<p>如果某个 prover 能让 verifier 接受一个 instance，那么它是否“真的知道”某个 witness？</p>
+<p>这就引入 extractor。非正式地说，若存在一个高效算法 $E$，能够通过访问 prover 的行为恢复出 witness，那么协议就有 proof of knowledge 风格的保证。一个常见接口写法是:</p>
+$$
+\Pr[\text{accept}] - \Pr[R(x, E^{P^\*}(x)) = 1] \le \kappa(\lambda),
+$$<p>其中 $\kappa(\lambda)$ 是 knowledge error。它表达的不是“每次接受都必然抽出 witness”，而是“接受概率与可抽取性之间的缺口受到控制”。</p>
+<p>这里要特别注意两点。</p>
+<h3 id="第一soundness-与-knowledge-soundness-的量词不同">第一，Soundness 与 Knowledge Soundness 的量词不同</h3>
+<p>plain soundness 只需要保证:</p>
+$$
+x \notin L_R \Rightarrow \Pr[\text{accept}] \text{ 很低}.
+$$<p>knowledge soundness 则要求:</p>
+$$
+\text{若 } \Pr[\text{accept}] \text{ 足够高，则应能构造 extractor 恢复 witness。}
+$$<p>前者只排除了“假命题骗过系统”，后者还试图把“成功证明”与“拥有见证”绑定起来。</p>
+<h3 id="第二true-statement-也可能缺少-knowledge-guarantee">第二，True Statement 也可能缺少 Knowledge Guarantee</h3>
+<p>即使 $x \in L_R$，plain soundness 仍然什么都没说。因为 soundness 根本不讨论真实例上的作弊 prover。理论上，可能存在一个 prover 能在真实例上制造接受 transcript，但我们却无法从它那里抽取 witness。</p>
+<p>这就是为什么后面进入 Sigma 协议、proof of representation、SNARK knowledge soundness 时，extractor 会变成核心对象。只说 soundness 远远不够。</p>
+<blockquote>
+<p>Quick Note.
+“accepting transcript exists” 与 “prover knows a witness” 不是同义句。两者之间缺的正是 extractor 论证。</p>
+</blockquote>
+<h2 id="一个极小的接口视角">一个极小的接口视角</h2>
+<p>如果把本文压缩成一个后续可复用的模板，可以写成下面这样。</p>
+<p>给定公开 instance $x$，我们先问：</p>
+<ol>
+<li>证明目标是什么语言成员性问题？</li>
+<li>witness 的形式是什么？</li>
+<li>verifier 接受的显式条件是什么？</li>
+<li>假实例上的伪造概率如何界定？</li>
+<li>real view 与 simulated view 的距离如何界定？</li>
+<li>若要证明 knowledge soundness，extractor 的接口是什么？</li>
+</ol>
+<p>后面几乎所有系统都只是把这六个问题搬到不同代数对象上：</p>
+<ul>
+<li>在承诺与 Sigma 协议里，关系落在群元素与线性关系上</li>
+<li>在 R1CS/QAP/AIR 里，关系落在向量与多项式恒等式上</li>
+<li>在 KZG/FRI/PLONKish 里，acceptance condition 变成开点等式、低度性测试或 grand product identity</li>
+</ul>
+<p>接口变了，定义链不变。</p>
+<h2 id="summary">Summary</h2>
+<p>零知识证明的最小理论框架并不复杂，但它必须分层:</p>
+<ul>
+<li>relation/language 固定“在证明什么”</li>
+<li>completeness/soundness 固定“何时接受、何时拒绝”</li>
+<li>simulator-based zero knowledge 固定“view 是否可被模拟”</li>
+<li>argument/proof 区分 soundness 的计算边界</li>
+<li>knowledge soundness 通过 extractor 把“接受”与“知道 witness”连接起来</li>
+</ul>
+<p>如果没有这套分层，后面的协议分析很容易退化成模糊直觉: 有时把 HVZK 当成 full ZK，有时把 argument 当成 proof，有时把 soundness 当成 knowledge soundness。这些混淆都不是术语洁癖问题，而是会直接污染后续证明结构的问题。</p>
+<p>下一篇会把这个接口落到有限域、循环群、离散对数与 Pedersen 承诺上。届时 relation 不再只是抽象谓词，而会变成具体的代数约束；simulator 与 extractor 也会开始有真正可写下来的形式。</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Shafi Goldwasser, Silvio Micali, and Charles Rackoff, <em>The Knowledge Complexity of Interactive Proof Systems</em>, 1989.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Oded Goldreich, <em>Foundations of Cryptography, Volume 1</em>, zero-knowledge related chapters.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-03-18</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/zk-minimal-framework/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/zk-minimal-framework/" data-title="零知识证明的最小理论框架" data-hashtags="cryptography,zero-knowledge,interactive-proof,math"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/zk-minimal-framework/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/zk-minimal-framework/" data-title="零知识证明的最小理论框架"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/zk-minimal-framework/" data-title="零知识证明的最小理论框架"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/zk-minimal-framework/" data-title="零知识证明的最小理论框架"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/zero-knowledge/">Zero-Knowledge</a>,&nbsp;<a href="/tags/interactive-proof/">Interactive-Proof</a>,&nbsp;<a href="/tags/math/">Math</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/fields-groups-pedersen/" class="prev" rel="prev" title="有限域、循环群、离散对数与 Pedersen 承诺"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>有限域、循环群、离散对数与 Pedersen 承诺</a>
+            <a href="/polynomial-commitments-kzg-ipa-fri/" class="next" rel="next" title="多项式承诺的统一看法：KZG、IPA、FRI">多项式承诺的统一看法：KZG、IPA、FRI<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

@@ -2,20 +2,62 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cryptography on As it was</title>
-    <link>http://localhost:1313/tags/cryptography/</link>
+    <link>https://galoishlee.github.io/tags/cryptography/</link>
     <description>Recent content in Cryptography on As it was</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/cryptography/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/cryptography/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Groth16：从 QAP 到配对检验方程</title>
+      <link>https://galoishlee.github.io/groth16-from-qap/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/groth16-from-qap/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: Groth16 as a derivation, not a magic trick.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;Groth16 最容易被记成一句营销话术：proof 只有三个群元素，验证很快，所以它很强。这个说法不假，但几乎没解释任何东西。真正该理解的是：这三个群元素到底在编码什么；它们为什么足以代表一个 QAP witness；以及最后那条 pairing product equation 为什么不是凭空出现的黑箱检查，而是 QAP identity 在秘密点评估之后的压缩形式。&lt;/p&gt;&#xA;&lt;p&gt;前两篇已经把接口准备好了。第 4 篇给出&lt;/p&gt;&#xA;$$&#xA;A_{\mathbf{w}}(X)B_{\mathbf{w}}(X) - C_{\mathbf{w}}(X) = H(X)Z(X),&#xA;$$&lt;p&gt;第 5 篇解释了 KZG 风格的核心直觉：多项式关系可以通过秘密点 $\tau$ 上的群编码与 pairing check 来验证。Groth16 本质上就是把这条思路做到了 QAP satisfiability relation 上，但它还额外引入了若干 trapdoors，把 witness 可伪造空间压得非常窄，最终只留下三段 proof tuple。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这篇不打算把 Groth16 写成一个“比别的 SNARK 更短”的结果，而是把这条推导链写出来：&lt;/p&gt;&#xA;$$&#xA;\text{QAP relation}&#xA;\longrightarrow&#xA;\text{CRS at secret point}&#xA;\longrightarrow&#xA;\text{proof tuple } (A,B,C)&#xA;\longrightarrow&#xA;\text{pairing product equation}.&#xA;$$</description>
+    </item>
+    <item>
+      <title>Sigma 协议的统一视角：Schnorr、表示证明与 Fiat-Shamir</title>
+      <link>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: sigma protocols as the first reusable proof skeleton of the series.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上一篇把 Pedersen 承诺写成了一个 relation：&lt;/p&gt;&#xA;$$&#xA;C = g^m h^r.&#xA;$$&lt;p&gt;这一篇开始研究，怎样围绕这种 relation 构造一个既能 extraction、又能 simulation 的三步证明骨架。真正需要记住的不是 “Schnorr” 这个名字，而是同一个模板：first message 先把 witness 压进一个承诺式对象，verifier 给出一个公币 challenge，prover 再用线性响应把 witness 带回来。&lt;/p&gt;&#xA;&lt;p&gt;Sigma 协议之所以重要，不是因为它是某个古典协议家族，而是因为它把三件后面一直会重复出现的东西压进了同一份 transcript：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;commitment / first message&lt;/li&gt;&#xA;&lt;li&gt;extractor 需要的两份 accepting transcripts&lt;/li&gt;&#xA;&lt;li&gt;simulator 需要重建的 transcript distribution&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;这也是它成为后续现代证明系统桥梁的原因。Schnorr 证明离散对数是最小例子，表示证明是直接推广，而 Fiat-Shamir 则显示这套骨架一旦被 hash 取代 challenge，交互虽然消失，模型边界却一起换掉了。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从算术电路到 R1CS、QAP 与 AIR</title>
+      <link>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: arithmetization as interface design, not notation churn.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前面三篇一直在准备同一件事：证明系统不会直接消费“某个程序跑对了”这种语义句子。它们消费的是某种 algebraic surface，最好能被承诺、挑战、开点、低度测试或者 pairing equation 直接处理。到了这一篇，主角不再是 transcript skeleton，而是 computation 本身如何被翻译成代数约束。&lt;/p&gt;&#xA;&lt;p&gt;如果只用一句话概括算术化，它就是把“计算正确”改写成“某个 witness 满足一组 field 上的代数关系”。但这句话还不够，因为后面的证明系统并不直接吃“很多条关系”。它们更喜欢的是：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;向量上的 rank-1 constraints&lt;/li&gt;&#xA;&lt;li&gt;多项式上的恒等式或整除关系&lt;/li&gt;&#xA;&lt;li&gt;execution trace 上的 transition constraints&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;所以这一篇真正要写清楚的不是名词，而是两条链：&lt;/p&gt;&#xA;$$&#xA;\text{circuit} \longrightarrow \text{R1CS} \longrightarrow \text{QAP}&#xA;$$&lt;p&gt;以及&lt;/p&gt;&#xA;$$&#xA;\text{trace} \longrightarrow \text{AIR}.&#xA;$$&lt;p&gt;两条链的共同目标都是同一个：把 computation 变成一个证明系统能消费的 polynomial object。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>多项式承诺的统一看法：KZG、IPA、FRI</title>
+      <link>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: one article, three schemes, one interface.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前一篇已经把 computation 变成了多项式对象：QAP 里有 $A_{\mathbf{w}}, B_{\mathbf{w}}, C_{\mathbf{w}}, H, Z$，AIR 里有 trace polynomials 与 composition polynomial。到了这里，问题不再是“如何把程序写成多项式”，而是“如何承诺这些多项式，并在不泄露全部系数的前提下证明某些点值或低度性声明”。&lt;/p&gt;&#xA;&lt;p&gt;如果把 KZG、IPA、FRI 分别介绍，很容易写成三段协议百科。更有用的视角是：三者都在回答同一个问题，只是 machinery 不一样。这个问题可以先压成最小形式：&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;我已经对一个多项式 $f(X)$ 做了承诺。现在我要证明在点 $z$ 上，它的取值确实是 $y = f(z)$，或者至少证明它来自某个低度多项式家族。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;在这个统一接口下：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;KZG 把 opening 变成 pairing verification equation&lt;/li&gt;&#xA;&lt;li&gt;IPA 把 opening 变成 coefficient vector 和 evaluation vector 的 inner-product proof&lt;/li&gt;&#xA;&lt;li&gt;FRI 把 low-degree claim 变成 repeated folding and query consistency checks&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;所以这一篇的重点不是“哪个更好”，而是它们各自把 evaluation proof 压成了什么对象，又因此带来了什么 setup、proof size 和 verifier cost。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>零知识证明的最小理论框架</title>
+      <link>https://galoishlee.github.io/zk-minimal-framework/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/zk-minimal-framework/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: GMR 1989, Goldreich, and the standard zero-knowledge definition chain.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;开篇先不讲洞穴故事，也不讲“验证者虽然信了但什么都没学到”这种直觉口号。后面整条 ZK 系列都会反复调用同一批对象: relation、language、instance、witness、prover、verifier、transcript、view、simulator、extractor。第一篇的任务，只是把这些对象之间的接口一次性钉死。&lt;/p&gt;&#xA;&lt;p&gt;零知识证明真正容易混掉的，不是某个协议细节，而是哪些性质分别由 completeness、soundness、zero knowledge、knowledge soundness 约束；哪些结论只对 honest verifier 成立；哪些地方已经从 proof 退到了 argument。只要这些边界不先写清楚，后面看到 Sigma、Fiat-Shamir、SNARK、STARK 时就会不断把不同层次的结论混在一起。&lt;/p&gt;&#xA;&lt;p&gt;本文给出一个最小理论框架: 从 $R(x, w)$ 定义语言，到交互证明的接受事件，再到 verifier view 与 simulator 的 indistinguishability，最后补上 argument/proof 与 knowledge soundness 的分界。它不是一篇历史综述，而是一份后续文章默认继承的接口说明书。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>有限域、循环群、离散对数与 Pedersen 承诺</title>
+      <link>https://galoishlee.github.io/fields-groups-pedersen/</link>
+      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/fields-groups-pedersen/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: Pedersen commitments as the first concrete algebraic interface in the ZK series.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上一篇把 relation、instance、witness、soundness、zero knowledge、knowledge soundness 的接口钉住了。这一篇开始把这些抽象对象落到具体代数对象上，但只选最小够用的一组: 标量域 $\mathbb{Z}_q$、一个 prime-order 循环群 $G$、两个生成元 $g,h$，以及一个承诺式子&lt;/p&gt;&#xA;$$&#xA;C = g^m h^r.&#xA;$$&lt;p&gt;这个式子看起来很短，但后面几篇会不断回到它。消息 $m$ 和随机数 $r$ 都是标量；群元素 $C$ 是公开 instance；opening 则是 witness $(m,r)$。如果把这些对象先写清楚，后面再看表示证明、Schnorr、Fiat-Shamir 时，很多结构就不再像“新协议”，而只是同一个关系换了一个验证方式。&lt;/p&gt;&#xA;&lt;p&gt;Pedersen 承诺最值得写的不是“它同时 hiding 和 binding”这句口号，而是两条具体推导: 第一，为什么对固定消息，随机 $r$ 会把 $g^m h^r$ 推成群上的均匀分布，因此得到 perfect hiding；第二，为什么一旦有人给出两组不同的 opening，就能从&lt;/p&gt;&#xA;$$&#xA;g^m h^r = g^{m&#39;} h^{r&#39;}&#xA;$$&lt;p&gt;直接解出 $\log_g h$，因此 binding 只能是 computational 的。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Hash To Curve</title>
-      <link>http://localhost:1313/hash-to-curve/</link>
+      <link>https://galoishlee.github.io/hash-to-curve/</link>
       <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>http://localhost:1313/hash-to-curve/</guid>
+      <guid>https://galoishlee.github.io/hash-to-curve/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: RFC 9380, &lt;em&gt;Hashing to Elliptic Curves&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;Core problem: given an arbitrary byte string, produce a point in the correct elliptic-curve subgroup, with the distribution and side-channel properties a protocol actually needs. This is not “hash to an $x$ and try to solve for $y$”.&lt;/p&gt;&#xA;&lt;p&gt;The RFC answer is a pipeline, not a trick:&lt;/p&gt;&#xA;$$&#xA;\text{bytes} \rightarrow \text{field elements} \rightarrow \text{curve points} \rightarrow \text{subgroup points}&#xA;$$&lt;p&gt;plus domain separation and constant-time constraints.&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;This note only tracks that structure: what object the RFC is defining, why &lt;code&gt;encode_to_curve&lt;/code&gt; and &lt;code&gt;hash_to_curve&lt;/code&gt; differ, and why suites such as secp256k1 and BLS12-381 are built the way they are.&lt;/p&gt;</description>
     </item>
   </channel>
