@@ -328,4 +328,3 @@ $$
 [^gmr]: Shafi Goldwasser, Silvio Micali, and Charles Rackoff, *The Knowledge Complexity of Interactive Proof Systems*, 1989.
 [^goldreich]: Oded Goldreich, *Foundations of Cryptography, Volume 1*, zero-knowledge related chapters.
 
-

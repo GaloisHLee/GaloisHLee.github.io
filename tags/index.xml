@@ -9,160 +9,20 @@
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://galoishlee.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Air</title>
-      <link>https://galoishlee.github.io/tags/air/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/air/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Arithmetization</title>
-      <link>https://galoishlee.github.io/tags/arithmetization/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/arithmetization/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Commitment</title>
-      <link>https://galoishlee.github.io/tags/commitment/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/commitment/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Cryptography</title>
-      <link>https://galoishlee.github.io/tags/cryptography/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/cryptography/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Discrete-Log</title>
-      <link>https://galoishlee.github.io/tags/discrete-log/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/discrete-log/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Fiat-Shamir</title>
-      <link>https://galoishlee.github.io/tags/fiat-shamir/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/fiat-shamir/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Fri</title>
-      <link>https://galoishlee.github.io/tags/fri/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/fri/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Groth16</title>
-      <link>https://galoishlee.github.io/tags/groth16/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/groth16/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Interactive-Proof</title>
-      <link>https://galoishlee.github.io/tags/interactive-proof/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/interactive-proof/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Ipa</title>
-      <link>https://galoishlee.github.io/tags/ipa/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/ipa/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Kzg</title>
-      <link>https://galoishlee.github.io/tags/kzg/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/kzg/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Math</title>
-      <link>https://galoishlee.github.io/tags/math/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/math/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pairing</title>
-      <link>https://galoishlee.github.io/tags/pairing/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/pairing/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pedersen</title>
-      <link>https://galoishlee.github.io/tags/pedersen/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/pedersen/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Polynomial-Commitment</title>
-      <link>https://galoishlee.github.io/tags/polynomial-commitment/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/polynomial-commitment/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Qap</title>
-      <link>https://galoishlee.github.io/tags/qap/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/qap/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>R1cs</title>
-      <link>https://galoishlee.github.io/tags/r1cs/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/r1cs/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Schnorr</title>
-      <link>https://galoishlee.github.io/tags/schnorr/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/schnorr/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Sigma-Protocol</title>
-      <link>https://galoishlee.github.io/tags/sigma-protocol/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/sigma-protocol/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Snark</title>
-      <link>https://galoishlee.github.io/tags/snark/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/snark/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Zero-Knowledge</title>
-      <link>https://galoishlee.github.io/tags/zero-knowledge/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/zero-knowledge/</guid>
-      <description></description>
-    </item>
     <item>
       <title>Bls</title>
       <link>https://galoishlee.github.io/tags/bls/</link>
       <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
       <guid>https://galoishlee.github.io/tags/bls/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cryptography</title>
+      <link>https://galoishlee.github.io/tags/cryptography/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/cryptography/</guid>
       <description></description>
     </item>
     <item>
@@ -177,6 +37,342 @@
       <link>https://galoishlee.github.io/tags/rfc/</link>
       <pubDate>Mon, 16 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
       <guid>https://galoishlee.github.io/tags/rfc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Blob</title>
+      <link>https://galoishlee.github.io/tags/blob/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/blob/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bls12-381</title>
+      <link>https://galoishlee.github.io/tags/bls12-381/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/bls12-381/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Eip-4844</title>
+      <link>https://galoishlee.github.io/tags/eip-4844/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/eip-4844/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ethereum</title>
+      <link>https://galoishlee.github.io/tags/ethereum/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ethereum/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kzg</title>
+      <link>https://galoishlee.github.io/tags/kzg/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/kzg/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pairing</title>
+      <link>https://galoishlee.github.io/tags/pairing/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/pairing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Alt_bn128</title>
+      <link>https://galoishlee.github.io/tags/alt_bn128/</link>
+      <pubDate>Mon, 15 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/alt_bn128/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bn254</title>
+      <link>https://galoishlee.github.io/tags/bn254/</link>
+      <pubDate>Mon, 15 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/bn254/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Precompile</title>
+      <link>https://galoishlee.github.io/tags/precompile/</link>
+      <pubDate>Mon, 15 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/precompile/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ecc</title>
+      <link>https://galoishlee.github.io/tags/ecc/</link>
+      <pubDate>Sun, 14 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ecc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Snark</title>
+      <link>https://galoishlee.github.io/tags/snark/</link>
+      <pubDate>Sun, 14 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/snark/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web3</title>
+      <link>https://galoishlee.github.io/tags/web3/</link>
+      <pubDate>Sun, 14 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/web3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ecdsa</title>
+      <link>https://galoishlee.github.io/tags/ecdsa/</link>
+      <pubDate>Sat, 13 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ecdsa/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ehnp</title>
+      <link>https://galoishlee.github.io/tags/ehnp/</link>
+      <pubDate>Sat, 13 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ehnp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hnp</title>
+      <link>https://galoishlee.github.io/tags/hnp/</link>
+      <pubDate>Sat, 13 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/hnp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Side-Channel</title>
+      <link>https://galoishlee.github.io/tags/side-channel/</link>
+      <pubDate>Sat, 13 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/side-channel/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bitcoin</title>
+      <link>https://galoishlee.github.io/tags/bitcoin/</link>
+      <pubDate>Fri, 12 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/bitcoin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Schnorr</title>
+      <link>https://galoishlee.github.io/tags/schnorr/</link>
+      <pubDate>Fri, 12 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/schnorr/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Secp256k1</title>
+      <link>https://galoishlee.github.io/tags/secp256k1/</link>
+      <pubDate>Fri, 12 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/secp256k1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Engineering</title>
+      <link>https://galoishlee.github.io/tags/engineering/</link>
+      <pubDate>Wed, 10 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/engineering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Plonkish</title>
+      <link>https://galoishlee.github.io/tags/plonkish/</link>
+      <pubDate>Wed, 10 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/plonkish/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Soundness</title>
+      <link>https://galoishlee.github.io/tags/soundness/</link>
+      <pubDate>Wed, 10 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/soundness/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Zkevm</title>
+      <link>https://galoishlee.github.io/tags/zkevm/</link>
+      <pubDate>Wed, 10 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/zkevm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Halo</title>
+      <link>https://galoishlee.github.io/tags/halo/</link>
+      <pubDate>Tue, 09 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/halo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ipa</title>
+      <link>https://galoishlee.github.io/tags/ipa/</link>
+      <pubDate>Tue, 09 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ipa/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nova</title>
+      <link>https://galoishlee.github.io/tags/nova/</link>
+      <pubDate>Tue, 09 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/nova/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Recursion</title>
+      <link>https://galoishlee.github.io/tags/recursion/</link>
+      <pubDate>Tue, 09 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/recursion/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Custom-Gates</title>
+      <link>https://galoishlee.github.io/tags/custom-gates/</link>
+      <pubDate>Mon, 08 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/custom-gates/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Grand-Product</title>
+      <link>https://galoishlee.github.io/tags/grand-product/</link>
+      <pubDate>Mon, 08 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/grand-product/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lookup</title>
+      <link>https://galoishlee.github.io/tags/lookup/</link>
+      <pubDate>Mon, 08 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/lookup/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Plonk</title>
+      <link>https://galoishlee.github.io/tags/plonk/</link>
+      <pubDate>Mon, 08 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/plonk/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Air</title>
+      <link>https://galoishlee.github.io/tags/air/</link>
+      <pubDate>Sun, 07 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/air/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fri</title>
+      <link>https://galoishlee.github.io/tags/fri/</link>
+      <pubDate>Sun, 07 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/fri/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Low-Degree-Testing</title>
+      <link>https://galoishlee.github.io/tags/low-degree-testing/</link>
+      <pubDate>Sun, 07 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/low-degree-testing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stark</title>
+      <link>https://galoishlee.github.io/tags/stark/</link>
+      <pubDate>Sun, 07 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/stark/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Groth16</title>
+      <link>https://galoishlee.github.io/tags/groth16/</link>
+      <pubDate>Sat, 06 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/groth16/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Qap</title>
+      <link>https://galoishlee.github.io/tags/qap/</link>
+      <pubDate>Sat, 06 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/qap/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Polynomial-Commitment</title>
+      <link>https://galoishlee.github.io/tags/polynomial-commitment/</link>
+      <pubDate>Fri, 05 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/polynomial-commitment/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Arithmetization</title>
+      <link>https://galoishlee.github.io/tags/arithmetization/</link>
+      <pubDate>Thu, 04 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/arithmetization/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>R1cs</title>
+      <link>https://galoishlee.github.io/tags/r1cs/</link>
+      <pubDate>Thu, 04 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/r1cs/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fiat-Shamir</title>
+      <link>https://galoishlee.github.io/tags/fiat-shamir/</link>
+      <pubDate>Wed, 03 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/fiat-shamir/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sigma-Protocol</title>
+      <link>https://galoishlee.github.io/tags/sigma-protocol/</link>
+      <pubDate>Wed, 03 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/sigma-protocol/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Commitment</title>
+      <link>https://galoishlee.github.io/tags/commitment/</link>
+      <pubDate>Tue, 02 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/commitment/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Discrete-Log</title>
+      <link>https://galoishlee.github.io/tags/discrete-log/</link>
+      <pubDate>Tue, 02 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/discrete-log/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pedersen</title>
+      <link>https://galoishlee.github.io/tags/pedersen/</link>
+      <pubDate>Tue, 02 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/pedersen/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Interactive-Proof</title>
+      <link>https://galoishlee.github.io/tags/interactive-proof/</link>
+      <pubDate>Mon, 01 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/interactive-proof/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Math</title>
+      <link>https://galoishlee.github.io/tags/math/</link>
+      <pubDate>Mon, 01 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/math/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Zero-Knowledge</title>
+      <link>https://galoishlee.github.io/tags/zero-knowledge/</link>
+      <pubDate>Mon, 01 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/zero-knowledge/</guid>
       <description></description>
     </item>
     <item>

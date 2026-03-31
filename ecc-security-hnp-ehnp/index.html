@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP - As it was</title><meta name="Description" content="从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。"><meta property="og:title" content="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP">
+<meta property="og:description" content="从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/ecc-security-hnp-ehnp/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP">
+<meta name="twitter:description" content="从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/ecc-security-hnp-ehnp/" /><link rel="prev" href="https://galoishlee.github.io/secp256k1-signature-mechanisms/" /><link rel="next" href="https://galoishlee.github.io/pairing-friendly-curves-motivation/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/ecc-security-hnp-ehnp\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, ecc, ecdsa, hnp, ehnp, side-channel, web3","wordcount":  4053 ,
+        "url": "https:\/\/galoishlee.github.io\/ecc-security-hnp-ehnp\/","datePublished": "2025-12-13T08:00:00+08:00","dateModified": "2025-12-13T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/ecc-security-hnp-ehnp/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/ecc-security-hnp-ehnp/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP</h1><h2 class="single-subtitle">nonce 泄漏、侧信道与 Web3 signer 风险的统一视角</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-13">2025-12-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4053 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#threat-model曲线层安全不是签名实现的全部安全">Threat Model：曲线层安全不是签名实现的全部安全</a>
+      <ul>
+        <li><a href="#ecdlp-security-assumption-给出的基线"><code>ECDLP security assumption</code> 给出的基线</a></li>
+        <li><a href="#实现泄漏与协议误用如何改变问题类型">实现泄漏与协议误用如何改变问题类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#从-ecdsa-signing-equation-到-hidden-number-style-relation">从 ECDSA signing equation 到 hidden-number style relation</a>
+      <ul>
+        <li><a href="#最小-ecdsa-signing-equation">最小 ECDSA signing equation</a></li>
+        <li><a href="#把-nonce-泄漏改写成线性约束">把 nonce 泄漏改写成线性约束</a></li>
+      </ul>
+    </li>
+    <li><a href="#hnpec-hnp-与-ehnp-的区别">HNP、EC-HNP 与 EHNP 的区别</a>
+      <ul>
+        <li><a href="#hnp带近似信息的-hidden-number">HNP：带近似信息的 hidden number</a></li>
+        <li><a href="#ec-hnp把约束放回椭圆曲线签名接口">EC-HNP：把约束放回椭圆曲线签名接口</a></li>
+        <li><a href="#ehnp泄漏模型变丰富时会发生什么">EHNP：泄漏模型变丰富时会发生什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#把攻击前提映射到真实的-web3-签名环境">把攻击前提映射到真实的 Web3 签名环境</a>
+      <ul>
+        <li><a href="#nonce-bias-与弱随机数">nonce bias 与弱随机数</a></li>
+        <li><a href="#partial-nonce-leakage-与-side-channel-trace"><code>partial nonce leakage</code> 与 side-channel trace</a></li>
+        <li><a href="#fault-injection重放与接口误用">fault injection、重放与接口误用</a></li>
+      </ul>
+    </li>
+    <li><a href="#曲线层安全实现泄漏与协议误用要分开看">曲线层安全、实现泄漏与协议误用要分开看</a></li>
+    <li><a href="#工程实现对接">工程实现对接</a>
+      <ul>
+        <li><a href="#rfc6979-与-deterministic-nonce">RFC6979 与 deterministic nonce</a></li>
+        <li><a href="#constant-timewnaf-与-signer-isolation">constant-time、<code>wNAF</code> 与 signer isolation</a></li>
+        <li><a href="#审计时该检查什么">审计时该检查什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: ECDLP is the baseline, not the whole risk surface.</p>
+</blockquote>
+<p>前两篇已经把 ECC 子系列里最容易混淆的两件事拆开了: 哪些协议只消费普通离散对数群，哪些协议需要 pairing；以及为什么账户层长期绑定 secp256k1。这一篇继续沿着账户层往下走，但焦点不再是“签名接口长什么样”，而是“签名接口在哪里失守”。</p>
+<p>对椭圆曲线签名来说，曲线层首先给出的安全基线是 <code>ECDLP security assumption</code>。如果敌手只能看到公钥 $P=dG$，却拿不到关于私钥 $d$ 和临时标量 $k$ 的额外泄漏，那么攻击目标仍然是离散对数问题本身。但真实系统并不总是在这个理想模型里运行。wallet and signing implementations 会暴露 nonce 生成、缓存访问、功耗、分支、fault handling 和接口复用等边界，而这些边界往往把问题从“解曲线上的离散对数”改写成“恢复带泄漏的 secret scalar”。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>ECDSA 的危险点尤其集中在 nonce。只要签名方程里的 nonce 有重复、偏置、部分泄漏，或者可由 side-channel trace 提供不完整信息，攻击者面对的就不再是 black-box ECDLP，而是某种 hidden-number style relation。也正是因此，HNP / EC-HNP / EHNP 不是只存在于格论教科书里的标签，而是现实账户系统在弱随机数、硬件钱包、远程 signer 和实现缺陷下会真正碰到的攻击视角。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<blockquote>
+<p>Quick Note.
+This article connects ECDSA nonce leakage to hidden-number style linear constraints. It also distinguishes HNP, EC-HNP, and EHNP rather than flattening them into a generic lattice-attack label, covers nonce bias, partial leakage, and side-channel trace models relevant to wallet and signing implementations, and separates curve-level security from implementation leakage and protocol misuse.</p>
+</blockquote>
+<h2 id="threat-model曲线层安全不是签名实现的全部安全">Threat Model：曲线层安全不是签名实现的全部安全</h2>
+<h3 id="ecdlp-security-assumption-给出的基线"><code>ECDLP security assumption</code> 给出的基线</h3>
+<p>把基线写清很重要。对阶为 $n$ 的群，给定生成元 $G$ 与公钥</p>
+$$
+P = dG,
+$$<p>如果敌手只能把公钥当作黑盒群元素来观察，那么它需要恢复私钥 $d$。这就是 ECDLP 的基本形状。曲线参数选择、群阶、实现是否避免小子群或 invalid-curve 问题，这些都属于 curve-level security。</p>
+<p>但对 ECDSA 系统来说，仅有这条基线远远不够。真实敌手常常不是只看见 $P$，而是还能收集大量签名 $(r_i, s_i)$、消息哈希 $z_i$、签名时间、功耗轨迹、窗口访存模式或故障注入后的异常执行结果。此时问题已经不是“能否直接求解 $d$ 的离散对数”，而是“能否把带泄漏的 nonce 约束整理成可恢复 $d$ 的线性关系”。</p>
+<h3 id="实现泄漏与协议误用如何改变问题类型">实现泄漏与协议误用如何改变问题类型</h3>
+<p>这里至少要分三层：</p>
+<ul>
+<li>曲线层：ECDLP、群阶、cofactor、点验证、invalid-curve / twist 安全</li>
+<li>实现层：nonce 生成、partial nonce leakage、wNAF trace、cache timing、power trace、fault injection</li>
+<li>协议层：签名接口复用、跨域消息处理、错误的 deterministic nonce 上下文、重复签名状态</li>
+</ul>
+<p>这三层经常被混着说，结果是攻击报告一旦写到“格攻击恢复 ECDSA 私钥”，读者会误以为是曲线本身失守。更准确的说法是：many practical breaks come from implementation leakage and protocol misuse, not from a direct failure of the curve-level ECDLP assumption.</p>
+<h2 id="从-ecdsa-signing-equation-到-hidden-number-style-relation">从 ECDSA signing equation 到 hidden-number style relation</h2>
+<h3 id="最小-ecdsa-signing-equation">最小 ECDSA signing equation</h3>
+<p>设私钥为 $d$，公钥为 $P=dG$。对消息哈希 $z$，签名者取 nonce $k$，计算</p>
+$$
+R = kG, \qquad r = x(R) \bmod n,
+$$<p>再定义</p>
+$$
+s = k^{-1}(z + rd) \bmod n.
+$$<p>把这个式子乘回去，可得</p>
+$$
+sk \equiv z + rd \pmod n.
+$$<p>或者写成</p>
+$$
+rd - sk + z \equiv 0 \pmod n.
+$$<p>这一步已经暴露了 ECDSA 的脆弱面：nonce $k$ 和私钥 $d$ 在同一个模方程里线性耦合。</p>
+<h3 id="把-nonce-泄漏改写成线性约束">把 nonce 泄漏改写成线性约束</h3>
+<p>This section derives the hidden-number style relation from the ECDSA signing equation.</p>
+<p>如果攻击者完全知道某次签名的 $k$，那么</p>
+$$
+d \equiv (sk - z) r^{-1} \pmod n,
+$$<p>私钥会被立即恢复。真实攻击更常见的不是完整泄漏，而是 <code>nonce bias and partial nonce leakage</code>。于是可以把 nonce 写成</p>
+$$
+k_i = \hat{k}_i + \delta_i,
+$$<p>其中 $\hat{k}_i$ 是攻击者已知或可猜测的部分，$\delta_i$ 是较小的未知误差项。代回签名方程得</p>
+$$
+s_i(\hat{k}_i + \delta_i) \equiv z_i + r_i d \pmod n,
+$$<p>整理为</p>
+$$
+r_i d - s_i \delta_i \equiv s_i \hat{k}_i - z_i \pmod n.
+$$<p>一旦 $\delta_i$ 的范围足够小，或者样本足够多，这组关系就会变成典型的 hidden-number style linear constraints。攻击者不再直接求解离散对数，而是利用部分已知的 nonce 结构，把未知量压进格约化或最近向量类问题。</p>
+<p>这个转化解释了为什么 ECDSA 对 nonce 异常敏感：签名等式本身就把 secret key 和 ephemeral nonce 放进了同一条可线性化的约束里。</p>
+<h2 id="hnpec-hnp-与-ehnp-的区别">HNP、EC-HNP 与 EHNP 的区别</h2>
+<h3 id="hnp带近似信息的-hidden-number">HNP：带近似信息的 hidden number</h3>
+<p>HNP 的抽象轮廓是：有一个隐藏标量 $\alpha$，攻击者观察到若干形如</p>
+$$
+t_i \alpha + b_i \approx a_i
+$$<p>的约束，其中“近似”来自高位、低位、区间或某种可控误差。HNP 本身不要求这些量来自椭圆曲线签名；它只是说，若同一个 hidden number 在多条近似线性关系里反复出现，就可能被恢复。</p>
+<h3 id="ec-hnp把约束放回椭圆曲线签名接口">EC-HNP：把约束放回椭圆曲线签名接口</h3>
+<p>EC-HNP 的意义，是把 HNP 的抽象关系落回 ECDSA 或相关 elliptic-curve 签名接口。此时 hidden number 不再是抽象变量，而是和签名方程直接耦合的私钥或 nonce 相关量。攻击者观测到的是：</p>
+<ul>
+<li>签名样本 $(r_i, s_i)$</li>
+<li>消息哈希 $z_i$</li>
+<li>某种关于 nonce 的偏置信息或部分位信息</li>
+</ul>
+<p>于是 HNP 的“近似线性关系”不再是外部给定，而是从 ECDSA signing equation 中系统地产生出来。In this sense, EC-HNP is the elliptic-curve instantiation of the hidden-number viewpoint.</p>
+<h3 id="ehnp泄漏模型变丰富时会发生什么">EHNP：泄漏模型变丰富时会发生什么</h3>
+<p>EHNP 常用来表示 extended hidden number problem 视角，也就是泄漏模型不再只是“某些高位或低位已知”，而是允许更复杂的不规则信息，例如：</p>
+<ul>
+<li>windowed multiplication 泄漏出的局部窗口信息</li>
+<li><code>wNAF trace</code> 暗示的 signed-digit 模式</li>
+<li>带噪声的 side-channel 分类结果</li>
+<li>非连续 bit positions 的偏置信息</li>
+</ul>
+<p>This article shows how leakage assumptions change the attack model from HNP to EC-HNP and EHNP.</p>
+<p>从写作上更重要的一点是，不要把 HNP、EC-HNP 与 EHNP 压成一个宽泛的“lattice attack”标签。差异不只在名词，而在攻击者能看到什么、误差边界有多小、样本需求有多少，以及恢复步骤如何建模。</p>
+<h2 id="把攻击前提映射到真实的-web3-签名环境">把攻击前提映射到真实的 Web3 签名环境</h2>
+<h3 id="nonce-bias-与弱随机数">nonce bias 与弱随机数</h3>
+<p>最经典的一类问题是 nonce 分布不均匀。假设 signer 的随机数生成器有偏置，或者某些高位在统计上更容易落到固定模式，那么攻击者就可能从链上或日志里收集大批签名样本，进而构造 HNP 类约束。Biased Nonce Sense 之所以有杀伤力，正因为这类攻击不要求侧信道探针，只要求大规模可观测签名样本。<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>这类风险更像运维和实现事故：</p>
+<ul>
+<li>弱 RNG</li>
+<li>随机源复用</li>
+<li>虚拟化环境里熵不足</li>
+<li>多租户 signer 共享状态</li>
+</ul>
+<h3 id="partial-nonce-leakage-与-side-channel-trace"><code>partial nonce leakage</code> 与 side-channel trace</h3>
+<p>另一类攻击更贴近硬件钱包、HSM 和远程 signer。此时攻击者未必能完整读出 nonce，但可以从 cache timing、power analysis、EM trace 或分支行为中得到部分信息。只要这些信息足以把 $k_i$ 压成“已知部分 + 小误差项”的形式，就会自然进入 EC-HNP 或 EHNP。</p>
+<p>典型泄漏接口包括：</p>
+<ul>
+<li>标量乘中的窗口访存模式</li>
+<li>非 constant-time 条件分支</li>
+<li><code>wNAF trace</code> 暴露的 signed-digit 模式</li>
+<li>异常处理路径泄漏出的重试或归约信息</li>
+</ul>
+<p>Return of the Hidden Number Problem 这一脉络的重要性就在于，它把这些 seemingly low-level side-channel observations 和高层私钥恢复直接连了起来。<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h3 id="fault-injection重放与接口误用">fault injection、重放与接口误用</h3>
+<p>fault injection 不一定总会落到 HNP 类问题，但它经常会扩大泄漏面。例如：</p>
+<ul>
+<li>让某些乘法或模约减步骤跳过</li>
+<li>让 deterministic nonce 的输入上下文不完整</li>
+<li>诱导 signer 重复使用部分内部状态</li>
+</ul>
+<p>这些情况有些更像协议误用，有些更像实现缺陷。区分这两类很重要，因为“如何修补”完全不同。修曲线参数解决不了 deterministic nonce 上下文拼接错误；加更多样本也不一定能修复一个会在故障下注入重复状态的签名服务。</p>
+<p>This article maps attack preconditions to realistic Web3 signing environments.</p>
+<p>在 Web3 语境里，可以把这些环境粗分为三类：</p>
+<ul>
+<li>本地钱包：风险集中在设备侧信道、浏览器扩展接口和签名请求隔离</li>
+<li>硬件钱包 / HSM：风险集中在物理侧信道、fault model 和标量乘实现</li>
+<li>后端 signer / 托管服务：风险集中在随机数、并发、状态复用、日志和 API 域分离</li>
+</ul>
+<h2 id="曲线层安全实现泄漏与协议误用要分开看">曲线层安全、实现泄漏与协议误用要分开看</h2>
+<p>把这三层放在一张表里，会比口号更清楚。</p>
+<table>
+  <thead>
+      <tr>
+          <th>层级</th>
+          <th>核心问题</th>
+          <th>典型失败模式</th>
+          <th>解决路径</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>曲线层</td>
+          <td>ECDLP 是否足够强、点验证是否完备</td>
+          <td>小子群、invalid-curve、参数选择错误</td>
+          <td>选对曲线与群参数，做输入点验证</td>
+      </tr>
+      <tr>
+          <td>实现层</td>
+          <td>nonce 和标量乘是否泄漏</td>
+          <td>nonce bias、partial nonce leakage、cache/power/EM leakage、<code>wNAF trace</code></td>
+          <td>constant-time、signer isolation、侧信道加固</td>
+      </tr>
+      <tr>
+          <td>协议层</td>
+          <td>接口是否在正确上下文中使用</td>
+          <td>域分离错误、deterministic nonce 上下文缺失、重放与状态复用</td>
+          <td>API 边界、域分离、状态管理与审计</td>
+      </tr>
+  </tbody>
+</table>
+<p>This section separates curve-level security from implementation leakage and protocol misuse.</p>
+<p>很多争论卡住，是因为有人把所有问题都归为“曲线不安全”，也有人把所有问题都归为“实现写烂了”。更准确的看法是：curve-level security defines the algebraic baseline, while implementation leakage and protocol misuse define the practical attack surface.</p>
+<h2 id="工程实现对接">工程实现对接</h2>
+<h3 id="rfc6979-与-deterministic-nonce">RFC6979 与 deterministic nonce</h3>
+<p>RFC6979 的价值，在于把 ECDSA nonce 生成从“依赖外部随机源每次都不出错”收紧到一个 deterministic procedure。它显著降低了弱随机数和重复 nonce 的风险，但不意味着攻击面彻底消失。</p>
+<p>RFC6979 解决的是：</p>
+<ul>
+<li>低质量随机数导致的 nonce bias</li>
+<li>签名服务偶发重复 nonce</li>
+<li>由熵源质量波动带来的灾难性故障</li>
+</ul>
+<p>它不直接解决的是：</p>
+<ul>
+<li>side-channel 泄漏出的 partial nonce 信息</li>
+<li>fault injection 打断正常执行</li>
+<li>跨协议或跨上下文错误复用签名输入</li>
+</ul>
+<h3 id="constant-timewnaf-与-signer-isolation">constant-time、<code>wNAF</code> 与 signer isolation</h3>
+<p>如果实现仍在标量乘、窗口选择、条件分支和异常路径上泄漏行为模式，那么 deterministic nonce 依然可能被 EHNP 类模型利用。工程上更实在的要求是：</p>
+<ul>
+<li>标量乘和模运算保持 constant-time</li>
+<li>尽量避免将 <code>wNAF</code>、窗口表访问和异常分支暴露成可测 side-channel</li>
+<li>将 signer 放在最小可见接口后面，减少外部对签名过程的观测面</li>
+<li>对硬件设备单独考虑 power / EM / fault model，而不是套用软件系统假设</li>
+</ul>
+<h3 id="审计时该检查什么">审计时该检查什么</h3>
+<p>如果把这篇压成一份 audit checklist，我会优先看下面几项：</p>
+<ul>
+<li>nonce 生成是否严格符合 RFC6979 或对应规范</li>
+<li>是否存在重复状态、并发复用或错误缓存导致的 nonce correlation</li>
+<li>标量乘实现是否 constant-time，窗口访存是否可被外部观测</li>
+<li>是否存在可形成 <code>partial nonce leakage</code> 的日志、debug、telemetry 或错误处理路径</li>
+<li>wallet and signing implementations 是否把消息域、链 ID、账户上下文与 deterministic nonce 输入正确绑定</li>
+<li>是否有硬件钱包、HSM、远程 signer 各自独立的 threat model 与 side-channel 假设</li>
+</ul>
+<p>真正值得警惕的不是某篇论文里的格参数有多花，而是系统是否在持续制造“同一个 secret scalar 出现在许多条近似线性关系里”的条件。</p>
+<h2 id="总结">总结</h2>
+<p>ECDLP 仍然是椭圆曲线签名安全性的基线，但它不是现实风险面的全部。对 ECDSA 而言，一旦 nonce 偏置、部分泄漏或 side-channel 进入系统，攻击者面对的就不再是纯粹的离散对数，而是 hidden-number style relation。</p>
+<p>所以第 3 篇真正想固定下来的判断框架只有一句：先问曲线层有没有给出足够强的代数基线，再问 signer 实现是否持续泄漏了把基线绕开的信息。前一个问题决定“理论上难不难解”，后一个问题决定“现实里会不会被攻破”。</p>
+<p>下一篇进入 pairing-friendly curves 时，这个框架仍然有效。曲线类型会改变协议接口，但不会取消一个事实：实际安全性永远是 algebraic assumption、implementation boundary 和 protocol discipline 的交集。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Nick Howgrave-Graham and Nigel Smart, <em>Lattice Attacks on Digital Signature Schemes</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Keegan Ryan, <em>Return of the Hidden Number Problem</em>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Joachim Breitner and Nadia Heninger, <em>Biased Nonce Sense</em>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Miroslav Hlavac and Tomas Rosa, <em>Extended Hidden Number Problem and Its Cryptanalytic Applications</em>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-13</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ecc-security-hnp-ehnp/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/ecc-security-hnp-ehnp/" data-title="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP" data-hashtags="cryptography,ecc,ecdsa,hnp,ehnp,side-channel,web3"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/ecc-security-hnp-ehnp/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/ecc-security-hnp-ehnp/" data-title="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/ecc-security-hnp-ehnp/" data-title="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/ecc-security-hnp-ehnp/" data-title="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/ecc/">Ecc</a>,&nbsp;<a href="/tags/ecdsa/">Ecdsa</a>,&nbsp;<a href="/tags/hnp/">Hnp</a>,&nbsp;<a href="/tags/ehnp/">Ehnp</a>,&nbsp;<a href="/tags/side-channel/">Side-Channel</a>,&nbsp;<a href="/tags/web3/">Web3</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/secp256k1-signature-mechanisms/" class="prev" rel="prev" title="secp256k1 的协议定位与签名机制"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>secp256k1 的协议定位与签名机制</a>
+            <a href="/pairing-friendly-curves-motivation/" class="next" rel="next" title="Pairing-Friendly Curves 的数学结构与协议动机">Pairing-Friendly Curves 的数学结构与协议动机<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

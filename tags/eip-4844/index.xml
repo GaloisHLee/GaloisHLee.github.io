@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eip-4844 on As it was</title>
+    <link>https://galoishlee.github.io/tags/eip-4844/</link>
+    <description>Recent content in Eip-4844 on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 16 Dec 2025 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/eip-4844/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KZG 多项式承诺的曲线基础及其协议应用</title>
+      <link>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: KZG turns polynomial objects into deployable commitments.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;到 ECC 子系列的最后一篇，问题已经收缩得很具体了。前面几篇分别回答了 why not one curve、账户层为什么停在 secp256k1、pairing-friendly curves 为什么进入 verifier、以及 Ethereum 为什么在 BN254 与 BLS12-381 之间形成长期工程张力。到了 EIP-4844，pairing-friendly curve 不再只是 verifier 的数学背景，而是直接进入 data-availability commitment workflow。&lt;/p&gt;&#xA;&lt;p&gt;这里真正要理解的，不是“BLS12-381 为什么常出现”，而是“KZG commitments 为什么会自然进入 blob workflow”。如果一个协议只需要对数据做普通哈希承诺，那么 pairing-friendly curve 完全可以不出现；但如果协议既想对多项式对象做常数大小承诺，又想对某个 evaluation claim 给出紧凑 opening proof，那么 verifier 最终就会落到 pairing equation 上，而这也是 KZG commitments and opening proofs rely on pairing-friendly curves 的根本原因。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇的顺序会比“直接讲 blob”更慢半步：先定义 polynomial commitment object，再写 minimal KZG opening verification equation，随后把这个对象映射到 &lt;code&gt;EIP-4844 blobs&lt;/code&gt; 的 commitment / proof / verification workflow，最后把 &lt;code&gt;trusted setup&lt;/code&gt; 从尾注抬成 first-class protocol constraint，并在文末给出工程实现对接。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article explains why KZG commitments and opening proofs rely on pairing-friendly curves. It also gives the minimal KZG opening verification equation, shows the role of BLS12-381 in modern Ethereum data-availability commitments, maps the polynomial commitment object to the blob-commitment workflow in EIP-4844, and makes trusted setup a first-class protocol constraint rather than an afterthought.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

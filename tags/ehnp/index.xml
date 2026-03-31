@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ehnp on As it was</title>
+    <link>https://galoishlee.github.io/tags/ehnp/</link>
+    <description>Recent content in Ehnp on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 13 Dec 2025 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/ehnp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP</title>
+      <link>https://galoishlee.github.io/ecc-security-hnp-ehnp/</link>
+      <pubDate>Sat, 13 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/ecc-security-hnp-ehnp/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: ECDLP is the baseline, not the whole risk surface.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前两篇已经把 ECC 子系列里最容易混淆的两件事拆开了: 哪些协议只消费普通离散对数群，哪些协议需要 pairing；以及为什么账户层长期绑定 secp256k1。这一篇继续沿着账户层往下走，但焦点不再是“签名接口长什么样”，而是“签名接口在哪里失守”。&lt;/p&gt;&#xA;&lt;p&gt;对椭圆曲线签名来说，曲线层首先给出的安全基线是 &lt;code&gt;ECDLP security assumption&lt;/code&gt;。如果敌手只能看到公钥 $P=dG$，却拿不到关于私钥 $d$ 和临时标量 $k$ 的额外泄漏，那么攻击目标仍然是离散对数问题本身。但真实系统并不总是在这个理想模型里运行。wallet and signing implementations 会暴露 nonce 生成、缓存访问、功耗、分支、fault handling 和接口复用等边界，而这些边界往往把问题从“解曲线上的离散对数”改写成“恢复带泄漏的 secret scalar”。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;ECDSA 的危险点尤其集中在 nonce。只要签名方程里的 nonce 有重复、偏置、部分泄漏，或者可由 side-channel trace 提供不完整信息，攻击者面对的就不再是 black-box ECDLP，而是某种 hidden-number style relation。也正是因此，HNP / EC-HNP / EHNP 不是只存在于格论教科书里的标签，而是现实账户系统在弱随机数、硬件钱包、远程 signer 和实现缺陷下会真正碰到的攻击视角。&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article connects ECDSA nonce leakage to hidden-number style linear constraints. It also distinguishes HNP, EC-HNP, and EHNP rather than flattening them into a generic lattice-attack label, covers nonce bias, partial leakage, and side-channel trace models relevant to wallet and signing implementations, and separates curve-level security from implementation leakage and protocol misuse.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

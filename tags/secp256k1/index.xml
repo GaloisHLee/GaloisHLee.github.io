@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Secp256k1 on As it was</title>
+    <link>https://galoishlee.github.io/tags/secp256k1/</link>
+    <description>Recent content in Secp256k1 on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 12 Dec 2025 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/secp256k1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>secp256k1 的协议定位与签名机制</title>
+      <link>https://galoishlee.github.io/secp256k1-signature-mechanisms/</link>
+      <pubDate>Fri, 12 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/secp256k1-signature-mechanisms/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: same curve, different signature interfaces.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上一篇已经把 Web3 里的曲线职责图画出来了。这一篇只把账户层单独拎出来：为什么 Bitcoin 和 Ethereum 长期把 secp256k1 当作账户与交易签名曲线，而不是换到 pairing-friendly curve；以及为什么在同一条曲线上，ECDSA 和 Schnorr 会导向不同的协议接口和工程边界。&lt;/p&gt;&#xA;&lt;p&gt;账户层消费的不是 pairing，也不是多项式 opening proof，而是普通离散对数群上的签名验证关系。这件事决定了 secp256k1 的核心价值并不在“它是哪条曲线”，而在“它背后的实现生态、签名接口和安全边界是否足够稳定”。因此这篇文章真正要比较的对象不是 secp256k1 vs BLS12-381，而是 secp256k1 上的 ECDSA vs Schnorr。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;如果把账户层写成“曲线教程”，重点会跑偏。更有用的顺序是：先说明 secp256k1 为什么留在账户层，再写 ECDSA 的最小验证关系和它对 nonce 的敏感性，再写 Schnorr 如何在同一条曲线上改写签名接口，最后把这些差异落到 Bitcoin、Ethereum、&lt;code&gt;libsecp256k1&lt;/code&gt;、RFC 6979 与钱包实现的现实接口上。&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article separates ECDSA and Schnorr verification logic while keeping both on the same curve family. It also explains protocol fit for Bitcoin and Ethereum account usage, and connects implementation constraints to constant-time scalar arithmetic.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Web3 语境下椭圆曲线密码学的系统分工</title>
+      <link>https://galoishlee.github.io/web3-ecc-system-division/</link>
+      <pubDate>Thu, 11 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/web3-ecc-system-division/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: this is a system map, not an ECC primer.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;在 Web3 里谈椭圆曲线密码学，最常见的误读是把所有场景压成同一个问题: “既然都是 ECC，为什么不选一条最强的曲线统一掉？”这个问题本身就错了。账户签名、共识聚合签名、链上 zkSNARK 验证、EIP-4844 里的 KZG commitment，虽然都使用了椭圆曲线上的群对象，但它们消费的代数接口并不相同，因此几乎不会自然收敛到同一条曲线。&lt;/p&gt;&#xA;&lt;p&gt;如果只看“安全位数”，现实会显得很奇怪。Bitcoin 和 Ethereum 的账户层长期绑定在 secp256k1；Ethereum 的链上 zk verifier 历史上却依赖 BN254/alt_bn128 预编译；到了 BLS 聚合签名与 KZG，又几乎总会碰到 BLS12-381。这里真正决定系统形态的，不只是密码学安全性，还包括预编译、gas 成本、标准化、已有库、证明系统接口，以及协议是否依赖 pairing。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇不重讲椭圆曲线的群律，也不把三条曲线写成百科词条。更有用的做法是先画出一张职责图: 哪些系统只需要普通离散对数群，哪些系统必须进入 pairing-friendly curve，哪些场景看似是“曲线选择”，其实首先是“链上可用性和 verifier 成本”的问题。到文末，再把这张图压成工程实现对接清单。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article explicitly distinguishes ordinary elliptic-curve groups from pairing-friendly curves. It also states the historical role of BN254/alt_bn128 in Ethereum and contrasts it with the modern role of BLS12-381. Finally, it treats trusted setup as a protocol-level constraint rather than an intrinsic ECC property.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding - As it was</title><meta name="Description" content="把 Bulletproofs、Halo、Nova/Folding 放进同一条 IPA-to-recursion 主线，解释压缩、accumulation、folding 与 IVC 的对象差异。"><meta property="og:title" content="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding">
+<meta property="og:description" content="把 Bulletproofs、Halo、Nova/Folding 放进同一条 IPA-to-recursion 主线，解释压缩、accumulation、folding 与 IVC 的对象差异。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding">
+<meta name="twitter:description" content="把 Bulletproofs、Halo、Nova/Folding 放进同一条 IPA-to-recursion 主线，解释压缩、accumulation、folding 与 IVC 的对象差异。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" /><link rel="prev" href="https://galoishlee.github.io/plonkish-permutation-lookups/" /><link rel="next" href="https://galoishlee.github.io/zkevm-constraint-soundness/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/ipa-recursion-bulletproofs-halo-nova\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, ipa, recursion, halo, nova","wordcount":  3042 ,
+        "url": "https:\/\/galoishlee.github.io\/ipa-recursion-bulletproofs-halo-nova\/","datePublished": "2025-12-09T08:00:00+08:00","dateModified": "2025-12-09T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "把 Bulletproofs、Halo、Nova/Folding 放进同一条 IPA-to-recursion 主线，解释压缩、accumulation、folding 与 IVC 的对象差异。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/ipa-recursion-bulletproofs-halo-nova/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/ipa-recursion-bulletproofs-halo-nova/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-09">2025-12-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3042 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么-ipa-天然通向递归">为什么 IPA 天然通向递归</a></li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#what-logarithmic-really-means">What “Logarithmic” Really Means</a></li>
+      </ul>
+    </li>
+    <li><a href="#bulletproofs压缩-skeleton">Bulletproofs：压缩 skeleton</a>
+      <ul>
+        <li><a href="#from-relation-to-inner-product">From Relation To Inner Product</a></li>
+        <li><a href="#repeated-folding">Repeated Folding</a></li>
+      </ul>
+    </li>
+    <li><a href="#为什么递归验证不是简单套娃">为什么递归验证不是简单套娃</a></li>
+    <li><a href="#halo累积-verification-obligations">Halo：累积 verification obligations</a>
+      <ul>
+        <li><a href="#accumulator-as-new-instance-claim">Accumulator As New Instance Claim</a></li>
+        <li><a href="#deferred-verification">Deferred Verification</a></li>
+      </ul>
+    </li>
+    <li><a href="#folding-不是-accumulation">Folding 不是 Accumulation</a>
+      <ul>
+        <li><a href="#accumulation-merges-claims-to-verify">Accumulation Merges Claims To Verify</a></li>
+        <li><a href="#folding-merges-instances-themselves">Folding Merges Instances Themselves</a></li>
+      </ul>
+    </li>
+    <li><a href="#nova面向-ivc-的-folded-instance">Nova：面向 IVC 的 folded instance</a>
+      <ul>
+        <li><a href="#why-a-relaxed-instance-appears">Why A Relaxed Instance Appears</a></li>
+        <li><a href="#folded-instance-construction">Folded Instance Construction</a></li>
+        <li><a href="#ivc-oriented-reasoning">IVC-Oriented Reasoning</a></li>
+      </ul>
+    </li>
+    <li><a href="#统一视角对象在逐步变化">统一视角：对象在逐步变化</a>
+      <ul>
+        <li><a href="#bulletproofs">Bulletproofs</a></li>
+        <li><a href="#halo">Halo</a></li>
+        <li><a href="#nova--folding">Nova / Folding</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: recursion through the IPA lens.</p>
+</blockquote>
+<p>这一篇最容易写错的方式，是把 Bulletproofs、Halo、Nova 分成三段协议摘要。那样会丢掉真正重要的主线：inner-product machinery 为什么天然会把系统推向 recursion；以及“可递归的对象”到底在不同系统里发生了什么变化。</p>
+<p>若只从结果看：</p>
+<ul>
+<li>Bulletproofs 给出对数级压缩证明</li>
+<li>Halo 给出递归验证路线</li>
+<li>Nova 给出 folding / IVC</li>
+</ul>
+<p>这三句都不假，但还是太散。更有用的看法是：它们都在处理“证明对象如何被继续压缩”这个问题，只是压缩的对象不同。</p>
+<p>在这条线上：</p>
+<ul>
+<li>Bulletproofs 压缩的是高维 relation 本身</li>
+<li>Halo 累积的是 verification obligations</li>
+<li>Nova 折叠的是 instance / witness state</li>
+</ul>
+<p>所以这一篇的主角不是 chronology，而是对象变化：从证明一个 instance claim，到维护一个 accumulator，再到维护一个可继续折叠的证明状态。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h2 id="为什么-ipa-天然通向递归">为什么 IPA 天然通向递归</h2>
+<p>inner-product argument, IPA，最核心的不是某个特定应用，而是这样一种压缩原理：</p>
+<blockquote>
+<p>高维代数关系若能被重写成内积声明，就可以通过 repeated halving 在对数轮里压缩。</p>
+</blockquote>
+<p>设有向量</p>
+$$
+\mathbf{a}, \mathbf{b} \in \mathbb{F}^n,
+$$<p>要证明</p>
+$$
+\langle \mathbf{a}, \mathbf{b} \rangle = t.
+$$<p>若把向量拆成左右两半</p>
+$$
+\mathbf{a} = (\mathbf{a}_L, \mathbf{a}_R),\qquad
+\mathbf{b} = (\mathbf{b}_L, \mathbf{b}_R),
+$$<p>则内积可以拆成</p>
+<h1 id="langle-mathbfa-mathbfb-rangle">$$
+\langle \mathbf{a}, \mathbf{b} \rangle</h1>
+<p>\langle \mathbf{a}_L, \mathbf{b}_L \rangle
++
+\langle \mathbf{a}_R, \mathbf{b}_R \rangle.
+$$</p>
+<p>再用一轮挑战把左右部分线性混合，就能把长度 $n$ 的证明变成长度 $n/2$ 的新证明。反复进行后，最终只剩一个很小的终点检查。</p>
+<h3 id="what-logarithmic-really-means">What “Logarithmic” Really Means</h3>
+<p>所谓 IPA 的“对数级证明”不是平白出现的 succinctness，而是每一轮都做了维度减半：</p>
+$$
+n \to n/2 \to n/4 \to \cdots \to 1.
+$$<p>所以它本质上是一条 compression chain。后面 recursion 之所以自然接上来，就是因为：</p>
+<ul>
+<li>你已经在逐轮压缩一个证明对象</li>
+<li>你开始关心这种压缩是否还能继续嵌套、继续延迟、继续累积</li>
+</ul>
+<p>这就是从 IPA 到 recursion 的第一座桥。</p>
+<h2 id="bulletproofs压缩-skeleton">Bulletproofs：压缩 skeleton</h2>
+<p>Bulletproofs 在这条线上最该保留的，不是 confidential transactions 的应用背景，而是它展示了 IPA 如何成为一个通用压缩 skeleton。</p>
+<h3 id="from-relation-to-inner-product">From Relation To Inner Product</h3>
+<p>很多高维约束最终可以改写成一个内积声明，再加上一些承诺一致性条件。Bulletproofs 的 insight 是：</p>
+<p>若 verifier 不需要逐分量看到向量，而只需被说服某个承诺向量满足内积关系，那么 IPA 正好给出一个很自然的对数级证明。</p>
+<p>因此，Bulletproofs 的真正贡献可以用一句更抽象的话概括：</p>
+<blockquote>
+<p>把“高维 witness relation”变成“可递归折叠的内积验证对象”。</p>
+</blockquote>
+<h3 id="repeated-folding">Repeated Folding</h3>
+<p>每一轮 IPA transcript 都会发送左右交叉项承诺，然后根据 verifier challenge，把：</p>
+<ul>
+<li>witness vector</li>
+<li>evaluation vector</li>
+<li>基底向量</li>
+</ul>
+<p>一起折叠成更短的新对象。</p>
+<p>于是证明对象不再是静态 instance claim，而是“一个正在被压缩的 relation state”。这点非常关键，因为它已经在心理上把我们从“验证一份最终证明”带向“维护一个可以继续压缩的证明过程”。</p>
+<h2 id="为什么递归验证不是简单套娃">为什么递归验证不是简单套娃</h2>
+<p>到了 recursion，最直觉的想法是：</p>
+<blockquote>
+<p>那就在证明里再跑一次 verifier。</p>
+</blockquote>
+<p>这当然可以作为定义起点，但工程上通常很糟。因为 verifier 本身要做：</p>
+<ul>
+<li>承诺检查</li>
+<li>多项式开点检查</li>
+<li>transcript 吸收</li>
+<li>有时还要做 pairings 或复杂 MSM</li>
+</ul>
+<p>若每一层都完整重跑上一层 verifier，递归成本会很快变成新的瓶颈。</p>
+<p>所以 recursion 里真正的问题不是“能不能嵌套 verifier”，而是：</p>
+<blockquote>
+<p>能否把越来越多的 verification obligations 压成一个更小、更可继续处理的对象？</p>
+</blockquote>
+<p>这就引出了 accumulation。</p>
+<h2 id="halo累积-verification-obligations">Halo：累积 verification obligations</h2>
+<p>Halo 的关键转向在于，它不把 recursion 理解成“每次都 fully verify 前一份证明”，而是把多份待验证义务压缩成一个 accumulator。</p>
+<h3 id="accumulator-as-new-instance-claim">Accumulator As New Instance Claim</h3>
+<p>accumulation 的视角是：</p>
+<ul>
+<li>原本 verifier 有很多独立验证义务</li>
+<li>现在把这些义务组合成一个新的 instance claim</li>
+<li>之后只需证明“这个 accumulator 的验证义务是合法累积来的”</li>
+</ul>
+<p>所以递归对象不再是“旧证明全文”，而是“压缩后的验证义务”。</p>
+<p>这和 Bulletproofs 的压缩 skeleton 一脉相承，但对象已经变化：</p>
+<ul>
+<li>Bulletproofs 压 relation dimension</li>
+<li>Halo 压 verification obligations</li>
+</ul>
+<h3 id="deferred-verification">Deferred Verification</h3>
+<p>Halo 路线的直觉可以理解为 deferred verification。也就是：</p>
+<p>我不必在当前层把所有低层证明彻底验完，只要把“尚未验完但已被正确打包”的义务转交给下一个 accumulator 即可。</p>
+<p>这正是 recursion 真正可扩展的原因之一。否则，递归只是在复制 verifier，而不是在压缩验证工作。</p>
+<blockquote>
+<p>Key Observation.
+accumulation 不是“合并很多 proofs”这么含糊，它更准确地是在合并 many verification claims into one compressed obligation。</p>
+</blockquote>
+<h2 id="folding-不是-accumulation">Folding 不是 Accumulation</h2>
+<p>接下来必须把一个很常见的混淆拆开：accumulation 和 folding 不是同义词。</p>
+<h3 id="accumulation-merges-claims-to-verify">Accumulation Merges Claims To Verify</h3>
+<p>在 accumulation 视角里，主角是 verification obligations。你关心的是：</p>
+<ul>
+<li>哪些证明还没完全验完</li>
+<li>如何把这些待验证条件压到更小对象里</li>
+<li>verifier 以后只需继续处理这个更小对象</li>
+</ul>
+<p>也就是说，被压缩的是“验证任务”。</p>
+<h3 id="folding-merges-instances-themselves">Folding Merges Instances Themselves</h3>
+<p>在 folding 视角里，主角则是 instance / witness 对象本身。你不只是把验证义务打包，而是把两个实例直接合成一个新实例，使得：</p>
+<blockquote>
+<p>新实例可满足，当且仅当旧实例对某种组合意义下可满足。</p>
+</blockquote>
+<p>也就是说，被压缩的是“问题对象”。</p>
+<p>这一区别很重要，因为它决定了系统究竟更像：</p>
+<ul>
+<li>递归 verifier pipeline</li>
+</ul>
+<p>还是</p>
+<ul>
+<li>incremental proving state machine</li>
+</ul>
+<p>Halo 更偏前者，Nova 更偏后者。这就是全文需要保留的 accumulation vs folding distinction：前者压的是 verification obligations，后者折叠的是 instance / witness 对象本身。</p>
+<h2 id="nova面向-ivc-的-folded-instance">Nova：面向 IVC 的 folded instance</h2>
+<p>Nova 代表的路线，是把 folding 做成 first-class object。</p>
+<h3 id="why-a-relaxed-instance-appears">Why A Relaxed Instance Appears</h3>
+<p>如果想把两个实例直接折叠成一个新实例，通常需要允许某种“残差”或“松弛”存在。否则，两份独立约束很难无损地塞进一个同类型实例里。</p>
+<p>因此 Nova 类系统会引入 relaxed instance 的想法：新的实例不仅包含原始 instance 信息，还允许带着一个受控的 residual term，一起进入下一轮。</p>
+<p>这一步的意义不是数学装饰，而是为了让“实例可继续被折叠”这件事成为闭合操作。</p>
+<h3 id="folded-instance-construction">Folded Instance Construction</h3>
+<p>高层直觉上，若有两个实例</p>
+$$
+I_1,\ I_2
+$$<p>及其 witness</p>
+$$
+w_1,\ w_2,
+$$<p>folding scheme 会用随机挑战 $\rho$ 构造一个新实例</p>
+$$
+I^\* = I_1 + \rho I_2
+$$<p>以及对应 folded witness</p>
+$$
+w^\* = w_1 + \rho w_2,
+$$<p>再把残差项一起吸收到 relaxed relation 中。</p>
+<p>具体公式取决于所折叠的约束系统，但关键直觉不变：</p>
+<ul>
+<li>不是把两个 verifier 任务合并</li>
+<li>而是把两个 instance/witness 对直接线性组合成一个新对象</li>
+</ul>
+<p>这就是 folded instance construction at a high level：两个实例及其 witness 经过随机线性组合，连同 relaxed residual 一起形成可继续递推的新实例。</p>
+<h3 id="ivc-oriented-reasoning">IVC-Oriented Reasoning</h3>
+<p>Nova 路线最自然的系统目标是 IVC, Incrementally Verifiable Computation。也就是说，计算不是一次性全部证明完，而是：</p>
+<ol>
+<li>当前步骤生成一个新的 computation state</li>
+<li>把旧 state proof 和新 step relation 折叠进一个新证明状态</li>
+<li>这个新状态继续进入下一步</li>
+</ol>
+<p>这样，证明系统的主对象就变成了一个持续演化的 folded state，而不只是某份静态终稿证明。</p>
+<p>所以 Nova 一系真正改变的，不只是 proof compression，而是把 proving 本身改写成 stateful process。</p>
+<h2 id="统一视角对象在逐步变化">统一视角：对象在逐步变化</h2>
+<p>现在把三条路线放回同一主线里。</p>
+<h3 id="bulletproofs">Bulletproofs</h3>
+<p>它告诉我们：高维 relation 可以通过 inner-product folding 压到对数大小。</p>
+<h3 id="halo">Halo</h3>
+<p>它告诉我们：递归对象不必是完整 proof，可以是被压缩后的 verification obligation，也就是 accumulator。</p>
+<h3 id="nova--folding">Nova / Folding</h3>
+<p>它告诉我们：甚至连 verification obligation 都不必是唯一主角，instance 本身也可以被折叠成一个持续演化的新对象。</p>
+<p>于是，“递归证明”这个词在现代语境下至少包含三种不同层次：</p>
+<ul>
+<li>relation compression</li>
+<li>obligation accumulation</li>
+<li>instance/state folding</li>
+</ul>
+<p>如果不把这三层拆开，很多系统会被误看成只是同一个想法的不同命名。</p>
+<h2 id="summary">Summary</h2>
+<p>这条 IPA-to-recursion 主线，其实是在不断改变“被压缩的对象”。</p>
+<p>先是 Bulletproofs：</p>
+<ul>
+<li>内积关系被对数级折叠</li>
+</ul>
+<p>然后是 Halo：</p>
+<ul>
+<li>多个 verification claims 被压成 accumulator</li>
+</ul>
+<p>再到 Nova：</p>
+<ul>
+<li>instance / witness state 本身被 folded into a relaxed state</li>
+</ul>
+<p>所以 recursion 不是简单把 verifier 套进 verifier，而是在寻找一个可以跨轮维护、持续压缩、持续组合的证明对象。</p>
+<p>如果把现代 proving system 设计看成一条连续演化线，那么这篇的关键词应该是：</p>
+<ul>
+<li>compression</li>
+<li>accumulator</li>
+<li>folded instance</li>
+<li>incremental state</li>
+</ul>
+<p>下一篇进入 zkEVM 与工程约束时，这条线会落到更具体的问题上：真正的大系统里，到底哪些约束设计会让 soundness 漏掉，哪些状态对象必须被严格维护，哪些“看起来只是工程实现”的选择会直接变成证明语义的一部分。</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Benedikt Bünz et al., <em>Bulletproofs: Short Proofs for Confidential Transactions and More</em>, 2018.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Sean Bowe, Jack Grigg, and Daira Hopwood, <em>Halo: Recursive Proof Composition without a Trusted Setup</em>, 2019.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Srinath Setty et al., <em>Nova: Recursive Zero-Knowledge Arguments from Folding Schemes</em>, 2021/2022 line of work.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-09</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ipa-recursion-bulletproofs-halo-nova/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" data-title="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding" data-hashtags="cryptography,ipa,recursion,halo,nova"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" data-title="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" data-title="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" data-title="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/ipa/">Ipa</a>,&nbsp;<a href="/tags/recursion/">Recursion</a>,&nbsp;<a href="/tags/halo/">Halo</a>,&nbsp;<a href="/tags/nova/">Nova</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/plonkish-permutation-lookups/" class="prev" rel="prev" title="PLONKish 体系：置换论证、lookup 与自定义门"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>PLONKish 体系：置换论证、lookup 与自定义门</a>
+            <a href="/zkevm-constraint-soundness/" class="next" rel="next" title="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns">zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

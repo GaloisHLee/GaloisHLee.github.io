@@ -3,57 +3,9 @@
         <link>https://galoishlee.github.io/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</lastBuildDate>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</lastBuildDate>
             <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
-    <title>Groth16：从 QAP 到配对检验方程</title>
-    <link>https://galoishlee.github.io/groth16-from-qap/</link>
-    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/groth16-from-qap/</guid>
-    <description><![CDATA[把 Groth16 从 QAP 满足性关系一路推到 CRS、proof 三元组与最终 pairing product equation。]]></description>
-</item>
-<item>
-    <title>Sigma 协议的统一视角：Schnorr、表示证明与 Fiat-Shamir</title>
-    <link>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</link>
-    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</guid>
-    <description><![CDATA[把 Sigma 协议写成 commit-challenge-response 的统一模板，并用 Schnorr、表示证明和 Fiat-Shamir 明确提取与模拟边界。]]></description>
-</item>
-<item>
-    <title>从算术电路到 R1CS、QAP 与 AIR</title>
-    <link>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</link>
-    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</guid>
-    <description><![CDATA[把 computation 依次翻译成算术电路、R1CS、QAP 与 AIR 这几种代数接口，说明 SNARK 与 STARK 实际消费的对象是什么。]]></description>
-</item>
-<item>
-    <title>多项式承诺的统一看法：KZG、IPA、FRI</title>
-    <link>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</link>
-    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</guid>
-    <description><![CDATA[把 KZG、IPA、FRI 放到同一个 polynomial commitment interface 下，比较它们如何证明 evaluation 和 low-degree claims。]]></description>
-</item>
-<item>
-    <title>零知识证明的最小理论框架</title>
-    <link>https://galoishlee.github.io/zk-minimal-framework/</link>
-    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/zk-minimal-framework/</guid>
-    <description><![CDATA[从语言、见证、交互证明到 simulator-based zero knowledge 与 knowledge soundness 的最小定义链。]]></description>
-</item>
-<item>
-    <title>有限域、循环群、离散对数与 Pedersen 承诺</title>
-    <link>https://galoishlee.github.io/fields-groups-pedersen/</link>
-    <pubDate>Wed, 18 Mar 2026 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/fields-groups-pedersen/</guid>
-    <description><![CDATA[把标量域、循环群、离散对数假设与 Pedersen 承诺放进同一条代数与安全性推导链。]]></description>
-</item>
-<item>
     <title>Hash To Curve</title>
     <link>https://galoishlee.github.io/hash-to-curve/</link>
     <pubDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</pubDate>
@@ -70,20 +22,68 @@
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>AboutXL</title>
-    <link>https://galoishlee.github.io/aboutxl/</link>
-    <pubDate>Tue, 02 Dec 2025 16:33:26 &#43;0800</pubDate>
+    <title>KZG 多项式承诺的曲线基础及其协议应用</title>
+    <link>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</link>
+    <pubDate>Tue, 16 Dec 2025 08:00:00 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/aboutxl/</guid>
-    <description><![CDATA[]]></description>
+    <guid>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</guid>
+    <description><![CDATA[解释 KZG commitments 为什么依赖 pairing-friendly curves，写出最小 opening verification equation，并把它映射到 EIP-4844 blob workflow。]]></description>
 </item>
 <item>
-    <title>HFE</title>
-    <link>https://galoishlee.github.io/hfe/</link>
-    <pubDate>Mon, 17 Nov 2025 18:21:51 &#43;0800</pubDate>
+    <title>Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381</title>
+    <link>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</link>
+    <pubDate>Mon, 15 Dec 2025 08:00:00 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://galoishlee.github.io/hfe/</guid>
-    <description><![CDATA[]]></description>
+    <guid>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</guid>
+    <description><![CDATA[从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。]]></description>
+</item>
+<item>
+    <title>Pairing-Friendly Curves 的数学结构与协议动机</title>
+    <link>https://galoishlee.github.io/pairing-friendly-curves-motivation/</link>
+    <pubDate>Sun, 14 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/pairing-friendly-curves-motivation/</guid>
+    <description><![CDATA[定义 pairing-friendly curves 的最小双线性结构，并说明它为什么会成为 BLS signatures、SNARK verifier 和 KZG opening verification 的共同协议接口。]]></description>
+</item>
+<item>
+    <title>椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP</title>
+    <link>https://galoishlee.github.io/ecc-security-hnp-ehnp/</link>
+    <pubDate>Sat, 13 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/ecc-security-hnp-ehnp/</guid>
+    <description><![CDATA[从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。]]></description>
+</item>
+<item>
+    <title>secp256k1 的协议定位与签名机制</title>
+    <link>https://galoishlee.github.io/secp256k1-signature-mechanisms/</link>
+    <pubDate>Fri, 12 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/secp256k1-signature-mechanisms/</guid>
+    <description><![CDATA[解释 secp256k1 为什么长期绑定 Web3 账户层，以及同一条曲线下 ECDSA 与 Schnorr 如何对应不同的协议性质和工程约束。]]></description>
+</item>
+<item>
+    <title>Web3 语境下椭圆曲线密码学的系统分工</title>
+    <link>https://galoishlee.github.io/web3-ecc-system-division/</link>
+    <pubDate>Thu, 11 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/web3-ecc-system-division/</guid>
+    <description><![CDATA[解释 Web3 中 secp256k1、BN254/alt_bn128、BLS12-381 为何并存，以及它们分别服务于账户签名、链上 zk 验证、聚合签名和 KZG。]]></description>
+</item>
+<item>
+    <title>zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns</title>
+    <link>https://galoishlee.github.io/zkevm-constraint-soundness/</link>
+    <pubDate>Wed, 10 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/zkevm-constraint-soundness/</guid>
+    <description><![CDATA[从约束设计、memory consistency、under-constrained circuits、Fiat-Shamir transcript 与系统边界出发，整理 zkEVM 的工程化 soundness 风险。]]></description>
+</item>
+<item>
+    <title>IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding</title>
+    <link>https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/</link>
+    <pubDate>Tue, 09 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/</guid>
+    <description><![CDATA[把 Bulletproofs、Halo、Nova/Folding 放进同一条 IPA-to-recursion 主线，解释压缩、accumulation、folding 与 IVC 的对象差异。]]></description>
 </item>
 </channel>
 </rss>

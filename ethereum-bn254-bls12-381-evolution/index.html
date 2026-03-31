@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381 - As it was</title><meta name="Description" content="从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。"><meta property="og:title" content="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381">
+<meta property="og:description" content="从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381">
+<meta name="twitter:description" content="从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" /><link rel="prev" href="https://galoishlee.github.io/pairing-friendly-curves-motivation/" /><link rel="next" href="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/ethereum-bn254-bls12-381-evolution\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, ethereum, bn254, alt_bn128, bls12-381, pairing, precompile","wordcount":  2879 ,
+        "url": "https:\/\/galoishlee.github.io\/ethereum-bn254-bls12-381-evolution\/","datePublished": "2025-12-15T08:00:00+08:00","dateModified": "2025-12-15T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/ethereum-bn254-bls12-381-evolution/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/ethereum-bn254-bls12-381-evolution/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381</h1><h2 class="single-subtitle">precompile、gas 与部署摩擦如何反向塑造密码学可用性</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-15">2025-12-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2879 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么-ethereum-的曲线演化首先是接口史">为什么 Ethereum 的曲线演化首先是接口史</a></li>
+    <li><a href="#bn254--alt_bn128-为什么先落地">BN254 / alt_bn128 为什么先落地</a>
+      <ul>
+        <li><a href="#eip-196-与-eip-197">EIP-196 与 EIP-197</a></li>
+        <li><a href="#为什么链上-verifier-因此变得可行">为什么链上 verifier 因此变得可行</a></li>
+      </ul>
+    </li>
+    <li><a href="#eip-1108gas-repricing-如何改变协议现实">EIP-1108：gas repricing 如何改变协议现实</a>
+      <ul>
+        <li><a href="#为什么-gas-调整会改变-verifier-choice">为什么 gas 调整会改变 verifier choice</a></li>
+        <li><a href="#verifier-cost-与-deployability-的直接关系">verifier cost 与 deployability 的直接关系</a></li>
+      </ul>
+    </li>
+    <li><a href="#bls12-381-为什么形成升级压力">BLS12-381 为什么形成升级压力</a>
+      <ul>
+        <li><a href="#security-margin-与-ecosystem-maturity">security margin 与 ecosystem maturity</a></li>
+        <li><a href="#eip-2537-与-deployment-friction">EIP-2537 与 deployment friction</a></li>
+      </ul>
+    </li>
+    <li><a href="#一张工程对照表">一张工程对照表</a></li>
+    <li><a href="#工程实现对接">工程实现对接</a>
+      <ul>
+        <li><a href="#precompile-boundary-与-library-support">precompile boundary 与 library support</a></li>
+        <li><a href="#serializationsubgroup-checks-与-protocol-integration">serialization、subgroup checks 与 protocol integration</a></li>
+        <li><a href="#为-kzg--eip-4844-做-handoff">为 KZG / EIP-4844 做 handoff</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: Ethereum curve history is interface history first.</p>
+</blockquote>
+<p>上一篇已经把 pairing-friendly curves 的数学接口说清了，但 Ethereum 的工程现实从来不只是“知道 pairing 有用”这么简单。真正决定协议能不能落地的，往往不是抽象上的 verifier compression，而是 execution layer 到底暴露了什么接口、这些接口的 gas 怎么定价、以及库和工具链是否能稳定消费这些接口。</p>
+<p>所以 Ethereum 中配对友好曲线的演化路径，首先是一段接口史。BN254/alt_bn128 之所以先进入链上主流，不是因为今天回头看它最优雅，而是因为它先被 precompile 暴露成了真实可调用能力。相反，BLS12-381 虽然在安全 margin 和现代生态上形成了明显的 upgrade pressure，但 deployment friction 也更真实，执行层并不会因为“它看起来更好”就自动完成迁移。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>这一篇的重点因此不是“比较两条曲线谁更先进”，而是按时间线回答三件事：为什么 Ethereum adopted BN254/alt_bn128 precompiles early，gas-cost considerations 怎样直接改变 protocol feasibility，以及 BLS12-381 为什么持续构成升级压力却又没有简单替换掉 BN254。文末再把这条时间线压成工程实现对接清单。<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<blockquote>
+<p>Quick Note.
+This article explains why Ethereum adopted BN254/alt_bn128 precompiles early. It also contrasts BN254 and BLS12-381 in security margin, ecosystem maturity, and deployment friction, maps Ethereum precompile history to cryptographic capability changes, relates curve choice to verifier cost and deployability, and ties gas pricing and precompile availability to protocol feasibility.</p>
+</blockquote>
+<h2 id="为什么-ethereum-的曲线演化首先是接口史">为什么 Ethereum 的曲线演化首先是接口史</h2>
+<p>如果只站在密码学教科书里看，问题很容易被写成“哪条 pairing-friendly curve 更好”。但在 Ethereum 里，真正更接近一线工程的问题是：EVM 有没有把相关运算暴露成可调用接口？如果没有，那么再漂亮的配对友好曲线也只是 paper design，不是 deployable protocol surface。</p>
+<p>这就是为什么 execution layer availability 必须比抽象优雅先进入讨论。对链上 verifier 来说，pairing 不是“最好有”，而是“没有接口就根本做不了”。而一旦接口真的存在，gas pricing 和 precompile availability 就会直接决定哪类证明系统、哪类 verifier 和哪类 curve choice 变得可行。</p>
+<p>This article ties gas pricing and precompile availability to protocol feasibility.</p>
+<h2 id="bn254--alt_bn128-为什么先落地">BN254 / alt_bn128 为什么先落地</h2>
+<h3 id="eip-196-与-eip-197">EIP-196 与 EIP-197</h3>
+<p>Ethereum 早期给 pairing-friendly curve 打开的入口，是 <code>alt_bn128 precompiles</code>。EIP-196 提供了椭圆曲线加法和标量乘预编译，EIP-197 则把 pairing check 也带进了执行层。到这里，链上合约第一次拥有了一个现实意义上的 pairing verifier surface。<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>从 capability 角度看，这一步的变化很具体：</p>
+<ul>
+<li>没有 precompile 之前，链上几乎不可能承受 pairing 运算</li>
+<li>有了 add / mul / pairing check 之后，证明系统的 verifier 才具备进入合约的机会</li>
+</ul>
+<p>This section maps Ethereum precompile history to cryptographic capability changes.</p>
+<h3 id="为什么链上-verifier-因此变得可行">为什么链上 verifier 因此变得可行</h3>
+<p>对 zk verifier 来说，问题从来不是“pairing 在数学上能不能定义”，而是“pairing equation 能不能在智能合约里以可承受成本被执行”。当 EIP-196 和 EIP-197 把 BN254/alt_bn128 相关操作标准化为 precompile 之后，早期链上 verifier 的 deployability 才真正成立。</p>
+<p>换句话说，Ethereum adopted BN254/alt_bn128 precompiles early 不是因为它预言了未来几十年的最优曲线，而是因为当时 execution-layer capability 需要一个现实可用、实现边界相对清楚的 pairing-friendly interface，而 BN254 先被做成了这个接口。</p>
+<h2 id="eip-1108gas-repricing-如何改变协议现实">EIP-1108：gas repricing 如何改变协议现实</h2>
+<h3 id="为什么-gas-调整会改变-verifier-choice">为什么 gas 调整会改变 verifier choice</h3>
+<p>很多工程讨论会把 gas repricing 写成“参数微调”，但对密码学协议来说，它常常不是次要变量。EIP-1108 下调了 alt_bn128 precompiles 的 gas 成本，这意味着同一种 verifier 结构，在 repricing 前后会呈现完全不同的部署吸引力。<sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p><code>gas-cost considerations</code> 在这里不是附注，而是协议 feasibility 的一部分。链上 verifier 需要的不是“理论上能算”，而是“在用户和应用能接受的成本窗口里算”。</p>
+<h3 id="verifier-cost-与-deployability-的直接关系">verifier cost 与 deployability 的直接关系</h3>
+<p>This section relates curve choice to verifier cost and deployability.</p>
+<p>更直接地看，curve choice 在 Ethereum 里总是和 verifier cost 绑定出现。因为链上协议实际消费的不是“曲线名字”，而是：</p>
+<ul>
+<li>某条曲线对应的 precompile 是否存在</li>
+<li>这些 precompile 的 gas 价格是否让 verifier 可承受</li>
+<li>开发者和 prover 是否愿意围绕这一成本结构组织协议</li>
+</ul>
+<p>一旦把这三个条件放回去，就会发现 EIP-1108 实际上是在重新定义“哪些 zk verifier 是可部署的”。</p>
+<h2 id="bls12-381-为什么形成升级压力">BLS12-381 为什么形成升级压力</h2>
+<h3 id="security-margin-与-ecosystem-maturity">security margin 与 ecosystem maturity</h3>
+<p>随着协议栈继续前进，BN254 的现实短板逐渐变得更明显。这里不必把它写成危言耸听，但有两个判断很难绕开：</p>
+<ul>
+<li>BN254 的安全 margin 相比现代预期更紧</li>
+<li>围绕 BLS signatures、现代 pairing 库和新一代协议接口，<code>BLS12-381 upgrade pressure</code> 持续增加</li>
+</ul>
+<p>这就是为什么 BLS12-381 在工程讨论里反复出现。它并不只是“另一条 pairing-friendly curve”，而是一个在现代安全边界、生态工具链和协议复用上更有吸引力的目标。</p>
+<p>This section contrasts BN254 and BLS12-381 in security margin, ecosystem maturity, and deployment friction.</p>
+<h3 id="eip-2537-与-deployment-friction">EIP-2537 与 deployment friction</h3>
+<p>但升级压力不等于自动落地。EIP-2537 试图把 BLS12-381 运算也暴露成 precompile，正说明生态已经感受到执行层的接口缺口。与此同时，这也暴露了 deployment friction 的现实：增加新的 precompile、修改客户端实现、统一测试向量、处理 serialization 与 subgroup checks，都不是一句“换曲线”能解决的。<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>所以 BLS12-381 的故事更像这样：</p>
+<ul>
+<li>数学和安全性层面，它给出更强的现代吸引力</li>
+<li>协议和生态层面，它和 BLS 聚合签名、KZG 等接口天然对接</li>
+<li>执行层层面，它仍然受到 precompile adoption 和兼容性路径的制约</li>
+</ul>
+<p>这也是为什么“BN254 已经过时，所以很快会被完全替代”这种说法在工程上太粗糙。</p>
+<h2 id="一张工程对照表">一张工程对照表</h2>
+<p>把 BN254 和 BLS12-381 压成一张 Ethereum 语境下的表，会更容易扫读。</p>
+<table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>BN254 / alt_bn128</th>
+          <th>BLS12-381</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>历史角色</td>
+          <td>早期链上 zk verifier 的现实入口</td>
+          <td>现代 pairing 生态与新协议的升级目标</td>
+      </tr>
+      <tr>
+          <td>执行层可用性</td>
+          <td>已有 <code>alt_bn128 precompiles</code></td>
+          <td>需要额外 precompile / client support</td>
+      </tr>
+      <tr>
+          <td>gas 现实</td>
+          <td>EIP-1108 后更可部署</td>
+          <td>执行层缺口让 deployability 更复杂</td>
+      </tr>
+      <tr>
+          <td>安全与生态</td>
+          <td>历史包袱更重，安全 margin 偏紧</td>
+          <td>现代库、现代协议和更强安全预期</td>
+      </tr>
+      <tr>
+          <td>工程压力</td>
+          <td>已部署、已消费、难以轻易抛弃</td>
+          <td>upgrade pressure 强，但 deployment friction 也强</td>
+      </tr>
+  </tbody>
+</table>
+<p>这张表真正想说的是：Ethereum 中的曲线演化从来不是线性替代，而是历史可用性和现代压力长期并存。</p>
+<h2 id="工程实现对接">工程实现对接</h2>
+<h3 id="precompile-boundary-与-library-support">precompile boundary 与 library support</h3>
+<p>现实部署里最容易踩坑的，通常不是“理论上理解了 BN254 和 BLS12-381 的差异”，而是没有把 precompile boundary 和 userland library boundary 分开。</p>
+<p>工程上至少要问：</p>
+<ul>
+<li>协议运行在哪一层，execution 还是 consensus</li>
+<li>verifier 依赖的 curve operation 是走 precompile 还是走用户态库</li>
+<li>library 是否对 subgroup checks、serialization 和 invalid input 做了明确边界</li>
+</ul>
+<p>这些边界不清，curve choice 很容易在实现阶段变成 deployability 问题。</p>
+<h3 id="serializationsubgroup-checks-与-protocol-integration">serialization、subgroup checks 与 protocol integration</h3>
+<p>pairing-friendly curves 进入协议后，serialization 和 subgroup checks 永远不是收尾工作，而是第一层 integration boundary。尤其当系统一部分运行在链上、一部分运行在 prover 或 off-chain service 里时，编码规则和 subgroup discipline 是否一致，直接决定 protocol integration 是否可靠。</p>
+<p>这也是为什么 deployment friction 不该只理解成“还没上链”。更准确的说法是：它包含了客户端支持、测试向量、编码约束、gas 成本、接口一致性和运维成熟度。</p>
+<h3 id="为-kzg--eip-4844-做-handoff">为 KZG / EIP-4844 做 handoff</h3>
+<p>到这里，第 5 篇真正做完的事只有一件：把 Ethereum pairing curve story 从“曲线优劣比较”收束成“execution-layer capability、gas pricing 和 deployment surface 的历史”。下一篇进入 KZG / EIP-4844 时，主线会继续收缩到更具体的问题：为什么 modern Ethereum data availability commitments 会自然落到 BLS12-381，以及 trusted setup 怎样重新回到协议主轴。</p>
+<h2 id="总结">总结</h2>
+<p>Ethereum 中配对友好曲线的演化路径，本质上是 capability、cost 和 deployment surface 的共同演化。BN254 先落地，是因为它先被 execution layer 做成了真实接口；BLS12-381 形成升级压力，是因为现代协议、安全 margin 和生态成熟度都在把系统往那个方向推。</p>
+<p>因此这一篇最想固定下来的判断线是：在 Ethereum 里，curve choice 从来不是抽象偏好，而是 precompile availability、gas-cost considerations、library maturity 和 protocol demand 的交叉结果。</p>
+<p>下一篇进入 KZG / EIP-4844 时，这条线会更具体：pairing-friendly curve 不再只是 verifier 友好，而是直接变成数据可用性承诺工作流的一部分。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>EIP-196, <em>Precompiled contracts for addition and scalar multiplication on the alt_bn128 curve</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>EIP-197, <em>Precompiled contracts for optimal ate pairing check on the alt_bn128 curve</em>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>EIP-2537, <em>Precompile for BLS12-381 curve operations</em>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>EIP-1108, <em>Reduce alt_bn128 precompile gas costs</em>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-15</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/ethereum-bn254-bls12-381-evolution/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" data-title="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381" data-hashtags="cryptography,ethereum,bn254,alt_bn128,bls12-381,pairing,precompile"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" data-title="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" data-title="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" data-title="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/ethereum/">Ethereum</a>,&nbsp;<a href="/tags/bn254/">Bn254</a>,&nbsp;<a href="/tags/alt_bn128/">Alt_bn128</a>,&nbsp;<a href="/tags/bls12-381/">Bls12-381</a>,&nbsp;<a href="/tags/pairing/">Pairing</a>,&nbsp;<a href="/tags/precompile/">Precompile</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/pairing-friendly-curves-motivation/" class="prev" rel="prev" title="Pairing-Friendly Curves 的数学结构与协议动机"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Pairing-Friendly Curves 的数学结构与协议动机</a>
+            <a href="/kzg-bls12-381-eip-4844/" class="next" rel="next" title="KZG 多项式承诺的曲线基础及其协议应用">KZG 多项式承诺的曲线基础及其协议应用<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

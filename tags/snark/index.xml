@@ -9,12 +9,19 @@
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 14 Dec 2025 08:00:00 +0800</lastBuildDate>
     <atom:link href="https://galoishlee.github.io/tags/snark/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pairing-Friendly Curves 的数学结构与协议动机</title>
+      <link>https://galoishlee.github.io/pairing-friendly-curves-motivation/</link>
+      <pubDate>Sun, 14 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/pairing-friendly-curves-motivation/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: pairing is a verifier interface, not a prestige upgrade.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前 3 篇已经把 ECC 子系列的前半段压实了：Web3 为什么不会只用一条曲线，账户层为什么长期停在 secp256k1，以及 signer-side 风险如何从 ECDLP 走向 nonce leakage。到这里，新的问题自然出现：既然账户层不需要 pairing，为什么 BLS signatures、SNARK verifier 和 KZG 却总会把 pairing-friendly curves 拉进来？&lt;/p&gt;&#xA;&lt;p&gt;关键不在“这类曲线更先进”，而在“这类协议的 verifier 从一开始就需要另一种代数接口”。普通离散对数群擅长表达签名关系；pairing-friendly setting 则擅长把分散在多个群元素、多个约束甚至多个消息上的关系压缩成少数几个 pairing checks。也就是说，这里发生的不是曲线选型审美，而是 protocol verification compression。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇不会把 pairing 写成完整教材。更有用的顺序是：先定义最小 bilinear map properties，再给出一个 minimal pairing equation pattern，随后分别说明 BLS signatures、SNARK verifier intuition 和 KZG opening verification 为什么会消费同一类接口。最后再把这些数学对象压成工程实现对接边界。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article defines the minimal bilinear map properties needed for protocol use. It also explains why pairings enable aggregate signature verification and polynomial opening verification, gives the minimal pairing equation pattern, and shows the mapping from bilinearity to protocol verification compression. It deliberately avoids expanding into full Miller-loop or final-exponentiation implementation details.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
     <item>
       <title>Groth16：从 QAP 到配对检验方程</title>
       <link>https://galoishlee.github.io/groth16-from-qap/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <pubDate>Sat, 06 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
       <guid>https://galoishlee.github.io/groth16-from-qap/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: Groth16 as a derivation, not a magic trick.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;Groth16 最容易被记成一句营销话术：proof 只有三个群元素，验证很快，所以它很强。这个说法不假，但几乎没解释任何东西。真正该理解的是：这三个群元素到底在编码什么；它们为什么足以代表一个 QAP witness；以及最后那条 pairing product equation 为什么不是凭空出现的黑箱检查，而是 QAP identity 在秘密点评估之后的压缩形式。&lt;/p&gt;&#xA;&lt;p&gt;前两篇已经把接口准备好了。第 4 篇给出&lt;/p&gt;&#xA;$$&#xA;A_{\mathbf{w}}(X)B_{\mathbf{w}}(X) - C_{\mathbf{w}}(X) = H(X)Z(X),&#xA;$$&lt;p&gt;第 5 篇解释了 KZG 风格的核心直觉：多项式关系可以通过秘密点 $\tau$ 上的群编码与 pairing check 来验证。Groth16 本质上就是把这条思路做到了 QAP satisfiability relation 上，但它还额外引入了若干 trapdoors，把 witness 可伪造空间压得非常窄，最终只留下三段 proof tuple。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这篇不打算把 Groth16 写成一个“比别的 SNARK 更短”的结果，而是把这条推导链写出来：&lt;/p&gt;&#xA;$$&#xA;\text{QAP relation}&#xA;\longrightarrow&#xA;\text{CRS at secret point}&#xA;\longrightarrow&#xA;\text{proof tuple } (A,B,C)&#xA;\longrightarrow&#xA;\text{pairing product equation}.&#xA;$$</description>
     </item>

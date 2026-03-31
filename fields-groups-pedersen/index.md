@@ -440,4 +440,3 @@ $$
 [^pedersen]: Torben Pryds Pedersen, *Non-Interactive and Information-Theoretic Secure Verifiable Secret Sharing*, 1991. The commitment construction and its hiding/binding split are standardly attributed to Pedersen commitments.
 [^bs]: Dan Boneh and Victor Shoup, *A Graduate Course in Applied Cryptography*, commitment-related chapters.
 
-

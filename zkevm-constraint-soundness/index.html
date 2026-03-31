@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns - As it was</title><meta name="Description" content="从约束设计、memory consistency、under-constrained circuits、Fiat-Shamir transcript 与系统边界出发，整理 zkEVM 的工程化 soundness 风险。"><meta property="og:title" content="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns">
+<meta property="og:description" content="从约束设计、memory consistency、under-constrained circuits、Fiat-Shamir transcript 与系统边界出发，整理 zkEVM 的工程化 soundness 风险。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/zkevm-constraint-soundness/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns">
+<meta name="twitter:description" content="从约束设计、memory consistency、under-constrained circuits、Fiat-Shamir transcript 与系统边界出发，整理 zkEVM 的工程化 soundness 风险。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/zkevm-constraint-soundness/" /><link rel="prev" href="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" /><link rel="next" href="https://galoishlee.github.io/web3-ecc-system-division/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/zkevm-constraint-soundness\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, zkevm, soundness, plonkish, engineering","wordcount":  3933 ,
+        "url": "https:\/\/galoishlee.github.io\/zkevm-constraint-soundness\/","datePublished": "2025-12-10T08:00:00+08:00","dateModified": "2025-12-10T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从约束设计、memory consistency、under-constrained circuits、Fiat-Shamir transcript 与系统边界出发，整理 zkEVM 的工程化 soundness 风险。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/zkevm-constraint-soundness/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/zkevm-constraint-soundness/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-10">2025-12-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3933 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#证明系统到底在验证什么">证明系统到底在验证什么</a>
+      <ul>
+        <li><a href="#one-vm-many-auxiliary-consistency-tasks">One VM, Many Auxiliary Consistency Tasks</a></li>
+      </ul>
+    </li>
+    <li><a href="#memory-and-state-consistency-are-the-real-backbone">Memory And State Consistency Are The Real Backbone</a>
+      <ul>
+        <li><a href="#memory-consistency">Memory Consistency</a></li>
+        <li><a href="#queues-sorting-and-state-roots">Queues, Sorting, And State Roots</a></li>
+      </ul>
+    </li>
+    <li><a href="#under-constrained-circuits-usually-mean-missing-linkage">Under-Constrained Circuits Usually Mean Missing Linkage</a>
+      <ul>
+        <li><a href="#local-checks-can-all-pass">Local Checks Can All Pass</a></li>
+        <li><a href="#a-toy-soundness-bug-from-missing-constraint-linkage">A Toy Soundness Bug From Missing Constraint Linkage</a></li>
+      </ul>
+    </li>
+    <li><a href="#lookuprange-与-transcript-都会扩大攻击面">Lookup、Range 与 Transcript 都会扩大攻击面</a>
+      <ul>
+        <li><a href="#lookup-and-range-assumptions">Lookup And Range Assumptions</a></li>
+        <li><a href="#fiat-shamir-and-transcript-misuse-pitfalls">Fiat-Shamir And Transcript Misuse Pitfalls</a></li>
+      </ul>
+    </li>
+    <li><a href="#system-level-soundness-boundary">System-Level Soundness Boundary</a>
+      <ul>
+        <li><a href="#engineering-attack-surface-checklist">Engineering Attack Surface Checklist</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#工程实现对接">工程实现对接</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: soundness is only as strong as the constrained surface.</p>
+</blockquote>
+<p>zkEVM 文章最容易写歪的地方，是把“有 EVM opcode、能出 proof、链上 verifier 接受”误当成安全性本身。真正需要抓住的是：proof 只覆盖那些被约束、被 commitment 绑定、再被 transcript 吸收进去的对象。任何没有被这条链路真正绑住的语义，都不在证明系统的 soundness boundary 里。</p>
+<p>所以这篇不讨论产品对比，而讨论 engineering attack surface。zkEVM 不等于“把客户端代码翻译成电路”；更准确地说，它是把 opcode 语义、memory read/write、storage queue、状态根更新、lookup 表、递归聚合这些对象拆成一组 constraint obligations，再证明这些 obligations 一起闭合。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>也因此，最典型的 failure mode 不是某条大公式明显写错，而是 linkage 丢了。某个 selector 没把实例绑定到正确路径，某个 queue payload 没和前一层结果相等，某个 lookup 只检查 limb 合法却没检查重组，某个 challenge 没吸收所有 commitments。只要缺一条边，prover 就可能构造一个“局部都像样、全局却不是你想证明的执行”的 witness。</p>
+<h2 id="证明系统到底在验证什么">证明系统到底在验证什么</h2>
+<p>zkEVM 从来不是直接“执行 EVM”。它做的是 opcode semantics to constraint obligation mapping：把每条 opcode 想表达的语义，拆成电路真正能检查的局部约束与跨模块一致性义务。</p>
+<p>以一条简化的 <code>SSTORE</code> 风格语义为例，程序员脑中的语义大致是：</p>
+<ol>
+<li>从当前上下文读出 address、slot、value</li>
+<li>根据当前 state 计算写入前后的状态差异</li>
+<li>更新 storage、refund、access list 或其他相关状态</li>
+<li>把新的全局状态承诺到下一步</li>
+</ol>
+<p>但在约束系统里，这些语义会被分解成：</p>
+<ol>
+<li>opcode decoder 约束当前 row 的 selector 是否对应 <code>SSTORE</code></li>
+<li>witness columns 提供 address、slot、value 等局部对象</li>
+<li>lookup 和 range checks 保证字节分解、字段范围、编码格式合法</li>
+<li>memory / storage queues 记录读写事件</li>
+<li>排序或去重电路检查这些事件满足时间顺序与键一致性</li>
+<li>递归或聚合层最终只验证若干 commitments 与 accumulator 关系</li>
+</ol>
+<p>这里真正危险的点在于：EVM 语义在工程上已经被拆成很多局部 obligations。只要其中一条 linkage 没被电路表达出来，系统证明的就不再是“这条 opcode 的真实语义”，而只是“某些局部对象分别长得像合法片段”。</p>
+<h3 id="one-vm-many-auxiliary-consistency-tasks">One VM, Many Auxiliary Consistency Tasks</h3>
+<p>这也是为什么现代 zkEVM 通常不是单电路。Polygon zkEVM 文档把主状态机与 ROM、memory、binary、hash、storage 等状态机拆开来描述；zkSync Era 的电路文档则明确区分 Main VM、storage sorter、code decommitter、RAM permutation 等辅助电路；Scroll 的证明栈也强调把 execution trace、证明生成、递归聚合拆成多层。<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> <sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>拆分本身不是问题。问题在于拆分之后，安全性不再只看某一个局部 gate，而要看这些模块之间是不是形成了闭环。</p>
+<blockquote>
+<p>Key Observation.
+proof 证明的不是“解释器看起来像在跑”，而是“所有被拆开的局部 obligations 共同锁死了同一条 execution trace”。</p>
+</blockquote>
+<h2 id="memory-and-state-consistency-are-the-real-backbone">Memory And State Consistency Are The Real Backbone</h2>
+<p>很多人第一次看 zkEVM，会把注意力放在 opcode arithmetic、hash gadget、precompile gadget 这些显眼模块上。但从 soundness 角度看，真正更像 backbone 的是 memory and state consistency constraints。</p>
+<p>原因很直接。大系统里，单步局部语义通常不难写；难的是保证：</p>
+<ul>
+<li>这一步读到的值，真的是前面某一步写进去的值</li>
+<li>这次 storage update，真的是对同一个 key 做的前后更新</li>
+<li>rollback、refund、access list、nonce、balance 这些状态不是各自漂移</li>
+<li>递归聚合前后的 commitments 的确绑定的是同一份历史</li>
+</ul>
+<p>这就是 memory and state consistency constraints 的核心。</p>
+<h3 id="memory-consistency">Memory Consistency</h3>
+<p>把内存读写写成事件流之后，最朴素的正确性条件其实只有一句：</p>
+<blockquote>
+<p>对同一个地址和时刻，最后一次写入必须决定之后读出的值。</p>
+</blockquote>
+<p>但为了把它变成可证明对象，系统通常会把读写事件编码成某种 queue 或 multiset，再借助排序、permutation、timestamp 检查等机制去表达：</p>
+$$
+\text{read}(addr, t) \Rightarrow \text{value} = \text{last-write-before}(addr, t).
+$$<p>一旦这条关系没有被完整表达，局部电路即便都成立，prover 仍可能让“当前 opcode 看到的 value”和“全局 memory history 里的 value”发生偏离。</p>
+<h3 id="queues-sorting-and-state-roots">Queues, Sorting, And State Roots</h3>
+<p>这也是 auxiliary circuits 存在的主要原因。它们并不是“给主电路加速”的配件，而是在负责 global consistency：</p>
+<ul>
+<li>memory queue 负责把局部读写事件送入全局历史</li>
+<li>sorter 负责把同一 key 或地址的事件排到可比较顺序</li>
+<li>state root / storage root 更新负责把局部变化压成 commitment 边界</li>
+<li>recursion / aggregation 层负责把很多局部 obligations 再压成更小的 verifier surface</li>
+</ul>
+<p>zkSync 的 storage sorter 文档就很适合拿来看这个问题：主 VM 不会独立承担所有全局一致性，很多正确性其实被转移到 queue、sorting 与后续连接电路去消费。<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>所以 memory consistency 不是“另一个模块”，而是 zkEVM 里所有模块最终都要返回去满足的 global invariant。</p>
+<h2 id="under-constrained-circuits-usually-mean-missing-linkage">Under-Constrained Circuits Usually Mean Missing Linkage</h2>
+<p>under-constrained circuits 这个词很常见，但很多时候说得还是太抽象。更直接一点：</p>
+<blockquote>
+<p>under-constrained circuit risk 的本质，不是 prover 找到了一条违反公式的路径，而是系统根本没有把预期语义完整写成公式。</p>
+</blockquote>
+<p>换句话说，某些自由度本来应该被锁死，却仍留在 witness 里。</p>
+<h3 id="local-checks-can-all-pass">Local Checks Can All Pass</h3>
+<p>这类 bug 的可怕之处在于，它们经常满足下面的表象：</p>
+<ul>
+<li>selector 检查通过了</li>
+<li>lookup 表查到了</li>
+<li>range check 也过了</li>
+<li>queue 事件格式合法</li>
+<li>最终 quotient 看上去没有问题</li>
+</ul>
+<p>但这些只说明“局部片段各自合法”，不说明“它们描述的是同一个 execution fact”。</p>
+<p>Trail of Bits 在 Halo2 相关案例里指出过类似教训：如果约束系统没有把本该相等的对象真正连起来，证明系统会接受大量并非设计者预期的 witness。<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<h3 id="a-toy-soundness-bug-from-missing-constraint-linkage">A Toy Soundness Bug From Missing Constraint Linkage</h3>
+<p>看一个极简 toy bug。设某条 opcode 需要把 ALU 结果 <code>r</code> 写入 memory queue，并且系统分别做了两类检查：</p>
+<ol>
+<li><code>r</code> 经过 lookup and range assumptions，证明它是合法的 32-byte decomposition</li>
+<li>memory queue append 约束了写入事件 <code>q = (addr, ts, v)</code> 的格式</li>
+</ol>
+<p>如果设计者忘了加上</p>
+$$
+v = r
+$$<p>这条 linkage，那么 prover 可以这样做：</p>
+<ol>
+<li>提供一个局部合法的 <code>r</code>，让 ALU 与 lookup 检查全部通过</li>
+<li>再提供另一个同样格式合法的 <code>v</code>，把它写进 memory queue</li>
+<li>后续 memory consistency 只看到 queue 里的 <code>v</code></li>
+</ol>
+<p>于是电路实际证明的是：</p>
+<ul>
+<li>“我算出了某个合法的 <code>r</code>”</li>
+<li>“我也写入了某个合法的 <code>v</code>”、</li>
+</ul>
+<p>却没有证明“被写入的就是算出来的那个值”。这就是一个 example of a soundness bug from missing constraint linkage。</p>
+<p>这个例子故意很小，但它足够表达现实里的 bug 形态：缺的往往不是大结构，而是一条把两个局部合法对象绑成同一个事实的等式、selector 条件或 permutation relation。</p>
+<h2 id="lookuprange-与-transcript-都会扩大攻击面">Lookup、Range 与 Transcript 都会扩大攻击面</h2>
+<p>写到这里，危险边界已经比较清楚了。下面两类对象尤其容易让人产生“已经检查过了”的错觉。</p>
+<h3 id="lookup-and-range-assumptions">Lookup And Range Assumptions</h3>
+<p>lookup and range assumptions 确实能显著降低电路复杂度，但它们也引入了额外信任边界：</p>
+<ul>
+<li>table 本身是否真表达了你想要的语义</li>
+<li>limb 合法是否真的推出原对象合法</li>
+<li>decomposition 与 recomposition 是否双向绑定</li>
+<li>不同列之间是不是只做了局部 membership，却没做全局一致性</li>
+</ul>
+<p>例如一个 256-bit word 被拆成若干 limb，每个 limb 都通过 range check，并不自动推出原 word 被正确使用。若缺少</p>
+$$
+x = \sum_{i=0}^{k-1} 2^{w i} x_i
+$$<p>这样的 recomposition 约束，系统可能只证明“这些 limb 分别在范围内”，却没有证明“它们就是这个 word 的真实分解”。</p>
+<p>这类问题和上面的 queue linkage 是同一类 bug：局部合法，不等于全局语义闭合。</p>
+<h3 id="fiat-shamir-and-transcript-misuse-pitfalls">Fiat-Shamir And Transcript Misuse Pitfalls</h3>
+<p>同样，Fiat-Shamir and transcript misuse pitfalls 往往不是“哈希函数坏了”，而是 transcript 没把应该绑定的对象全都吸收进去。</p>
+<p>如果 challenge 没有绑定：</p>
+<ul>
+<li>某个 auxiliary queue commitment</li>
+<li>某个 lookup table commitment</li>
+<li>某个 recursive layer 的 accumulator state</li>
+<li>某个 instance boundary 上的公开承诺</li>
+</ul>
+<p>那么 prover 可能在 challenge 生成后仍保留额外自由度，等于把一部分应该固定的 witness 留到了后面。</p>
+<p>从工程视角看，transcript 的职责不是“把协议串起来”，而是把所有必须被 challenge 绑定的 commitments 关进同一个不可回退的顺序里。只要顺序、覆盖面或域分离做错，soundness 就可能从系统边界漏出去。</p>
+<h2 id="system-level-soundness-boundary">System-Level Soundness Boundary</h2>
+<p>现在可以回到开头那句话：proof 只覆盖被约束并被 commitment 绑定的对象。</p>
+<p>所以 system-level soundness boundary 必须明确区分两件事：</p>
+<ol>
+<li>电路层是否完整表达了预期语义</li>
+<li>系统运行模式是否真的在消费这些被证明的语义</li>
+</ol>
+<p>如果某个 dev/test mode 允许 mock finalization、跳过真实 proof、或把某些 bridge / settlement 步骤交给外部治理逻辑，那它们都不属于密码学证明自动覆盖的范围。Scroll 的文档就明确把 proof generation、aggregation 与不同部署模式区分开来。<sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>这不是在贬低系统，而是在明确边界。工程上最危险的误解，恰恰是把“某个模块有 proof”误当成“整个系统没有额外 trust assumption”。</p>
+<h3 id="engineering-attack-surface-checklist">Engineering Attack Surface Checklist</h3>
+<p>如果把这篇压成一份审计清单，我会先查这几类点：</p>
+<ol>
+<li>opcode semantics to constraint obligation mapping 是否有缺边</li>
+<li>memory and state consistency constraints 是否真的闭合到队列、排序与状态承诺</li>
+<li>是否存在 under-constrained circuits，尤其是 selector、equality linkage、recomposition linkage 漏掉的地方</li>
+<li>lookup and range assumptions 是否只检查了局部合法性，而没有检查全局绑定</li>
+<li>Fiat-Shamir and transcript misuse pitfalls 是否可能让 challenge 在少吸收对象的情况下生成</li>
+<li>recursive aggregation 有没有遗漏某个 accumulator / commitment 边界</li>
+<li>系统部署与运维模式是否超出了 proof 真正覆盖的 system-level soundness boundary</li>
+</ol>
+<p>这份清单也是本文真正想给出的 engineering attack surface。</p>
+<h2 id="summary">Summary</h2>
+<p>zkEVM 的安全性不能只看“有没有证明系统”，而要看证明系统到底绑定了什么。</p>
+<p>这条线可以压成四句话：</p>
+<ol>
+<li>zkEVM 的核心是 opcode semantics to constraint obligation mapping，而不是把解释器原样搬进电路</li>
+<li>memory consistency 与更一般的 memory and state consistency constraints 是全局 backbone</li>
+<li>under-constrained circuits 往往来自 missing constraint linkage，而不是单条公式的显眼错误</li>
+<li>lookup and range assumptions、Fiat-Shamir transcript、recursive aggregation 与部署模式一起定义了 system-level soundness boundary</li>
+</ol>
+<p>所以真正的工程问题不是“proof 跑出来没有”，而是“系统有没有把它声称在证明的那件事，完整而闭合地写进约束、commitment 与 transcript”。</p>
+<h2 id="工程实现对接">工程实现对接</h2>
+<p>如果把这篇落回工程动作，最值得保留的是三件事：</p>
+<ul>
+<li>设计阶段先画 dependency graph，明确每个 opcode 结果最终被哪些 queue、state root、accumulator 消费</li>
+<li>审计阶段优先找 missing linkage，而不是先找大公式里的显眼代数错误</li>
+<li>测试阶段构造 adversarial witness，用“局部都合法、全局不一致”的方式去撞 under-constrained circuits</li>
+</ul>
+<p>这比泛泛地说“加强测试”和“提高覆盖率”更接近 zk 系统真正的失效路径。</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Polygon zkEVM, <em>Main state machine</em>, <a href="https://docs.polygon.technology/zkEVM/architecture/zkprover/main-state-machine/" target="_blank" rel="noopener noreffer ">https://docs.polygon.technology/zkEVM/architecture/zkprover/main-state-machine/</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>ZKsync Era Docs, <em>Circuits overview</em>, <a href="https://docs.zksync.io/zksync-protocol/circuits/circuits" target="_blank" rel="noopener noreffer ">https://docs.zksync.io/zksync-protocol/circuits/circuits</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Scroll Docs, <em>Proof generation</em>, <a href="https://docs.scroll.io/en/technology/prover/proof-generation/" target="_blank" rel="noopener noreffer ">https://docs.scroll.io/en/technology/prover/proof-generation/</a>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>ZKsync Era Docs, <em>Main VM</em>, <a href="https://docs.zksync.io/zksync-protocol/circuits/circuits/main-vm" target="_blank" rel="noopener noreffer ">https://docs.zksync.io/zksync-protocol/circuits/circuits/main-vm</a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>ZKsync Era Docs, <em>Storage sorter</em>, <a href="https://docs.zksync.io/zksync-protocol/circuits/circuits/storage-sorter" target="_blank" rel="noopener noreffer ">https://docs.zksync.io/zksync-protocol/circuits/circuits/storage-sorter</a>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Trail of Bits, <em>A Riel Dilemma in Halo2 CE</em>, <a href="https://blog.trailofbits.com/2024/02/20/a-riel-dilemma-in-halo2-ce/" target="_blank" rel="noopener noreffer ">https://blog.trailofbits.com/2024/02/20/a-riel-dilemma-in-halo2-ce/</a>.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-10</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/zkevm-constraint-soundness/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/zkevm-constraint-soundness/" data-title="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns" data-hashtags="cryptography,zkevm,soundness,plonkish,engineering"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/zkevm-constraint-soundness/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/zkevm-constraint-soundness/" data-title="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/zkevm-constraint-soundness/" data-title="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/zkevm-constraint-soundness/" data-title="zkEVM 与 ZK 系统安全性：约束设计、内存一致性与 soundness footguns"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/zkevm/">Zkevm</a>,&nbsp;<a href="/tags/soundness/">Soundness</a>,&nbsp;<a href="/tags/plonkish/">Plonkish</a>,&nbsp;<a href="/tags/engineering/">Engineering</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/ipa-recursion-bulletproofs-halo-nova/" class="prev" rel="prev" title="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding</a>
+            <a href="/web3-ecc-system-division/" class="next" rel="next" title="Web3 语境下椭圆曲线密码学的系统分工">Web3 语境下椭圆曲线密码学的系统分工<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

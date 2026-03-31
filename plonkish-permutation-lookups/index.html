@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>PLONKish 体系：置换论证、lookup 与自定义门 - As it was</title><meta name="Description" content="把 PLONKish 写成一个统一设计空间：copy constraints、grand product、lookup 和 custom gate 如何落在同一个列多项式证明面上。"><meta property="og:title" content="PLONKish 体系：置换论证、lookup 与自定义门">
+<meta property="og:description" content="把 PLONKish 写成一个统一设计空间：copy constraints、grand product、lookup 和 custom gate 如何落在同一个列多项式证明面上。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/plonkish-permutation-lookups/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PLONKish 体系：置换论证、lookup 与自定义门">
+<meta name="twitter:description" content="把 PLONKish 写成一个统一设计空间：copy constraints、grand product、lookup 和 custom gate 如何落在同一个列多项式证明面上。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/plonkish-permutation-lookups/" /><link rel="prev" href="https://galoishlee.github.io/stark-air-fri/" /><link rel="next" href="https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PLONKish 体系：置换论证、lookup 与自定义门",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/plonkish-permutation-lookups\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, plonk, lookup, grand-product, custom-gates","wordcount":  3015 ,
+        "url": "https:\/\/galoishlee.github.io\/plonkish-permutation-lookups\/","datePublished": "2025-12-08T08:00:00+08:00","dateModified": "2025-12-08T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "把 PLONKish 写成一个统一设计空间：copy constraints、grand product、lookup 和 custom gate 如何落在同一个列多项式证明面上。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/plonkish-permutation-lookups/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/plonkish-permutation-lookups/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">PLONKish 体系：置换论证、lookup 与自定义门</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-08">2025-12-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3015 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#plonkish-证明面长什么样">PLONKish 证明面长什么样</a>
+      <ul>
+        <li><a href="#rows-columns-and-selectors">Rows, Columns, And Selectors</a></li>
+      </ul>
+    </li>
+    <li><a href="#从-copy-constraints-到-permutation-argument">从 copy constraints 到 permutation argument</a>
+      <ul>
+        <li><a href="#what-copy-constraints-actually-say">What Copy Constraints Actually Say</a></li>
+        <li><a href="#permutation-encoding">Permutation Encoding</a></li>
+        <li><a href="#grand-product-polynomial">Grand Product Polynomial</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#why-this-matters">Why This Matters</a></li>
+      </ul>
+    </li>
+    <li><a href="#lookup把表成员关系压成-multiset-relation">Lookup：把表成员关系压成 multiset relation</a>
+      <ul>
+        <li><a href="#why-plain-gates-hurt">Why Plain Gates Hurt</a></li>
+        <li><a href="#table-membership-as-multiset-equality">Table Membership As Multiset Equality</a></li>
+        <li><a href="#lookup-relation-as-a-first-class-constraint">Lookup Relation As A First-Class Constraint</a></li>
+      </ul>
+    </li>
+    <li><a href="#custom-gates-不是免费表达力">Custom Gates 不是免费表达力</a>
+      <ul>
+        <li><a href="#packing-more-semantics-per-row">Packing More Semantics Per Row</a></li>
+        <li><a href="#degree-selectors-and-prover-cost">Degree, Selectors, And Prover Cost</a></li>
+        <li><a href="#why-this-becomes-a-system-design-problem">Why This Becomes A System Design Problem</a></li>
+      </ul>
+    </li>
+    <li><a href="#统一视角一切都在重写约束接口">统一视角：一切都在重写约束接口</a>
+      <ul>
+        <li><a href="#permutation-argument">Permutation Argument</a></li>
+        <li><a href="#lookup">Lookup</a></li>
+        <li><a href="#custom-gates">Custom Gates</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: PLONKish as a design space, not a single protocol.</p>
+</blockquote>
+<p>到了这一阶段，证明系统讨论的重点已经不再是“有没有多项式承诺”或者“有没有低度测试”，而是你把 computation 摆成什么 witness surface。PLONKish 的意义就在这里：它把现代 proving systems 的证明面固定成了 rows、columns、selectors、copy constraints、lookup tables、custom gates 这些对象，然后允许设计者在这个面上不断加表达力。</p>
+<p>如果把 permutation、lookup、custom gates 分开讲，很容易误以为它们是三种后来加上的 feature。更准确的理解是：它们都在回答同一个问题，</p>
+<blockquote>
+<p>当 witness 被排成列多项式之后，系统如何表达“这些列之间哪些值必须相等、哪些值必须属于某张表、以及每一行到底允许执行什么语义”？</p>
+</blockquote>
+<p>PLONKish 的主角因此不是某篇单独论文，而是 grand-product machinery 和基于 selector 的约束设计。copy constraints 被重写成 permutation relation；lookup 被重写成 multiset relation；custom gates 则不断给 quotient degree、selector count、column layout 和 prover cost 施压。</p>
+<p>这一篇的主线因此也不是 feature list，而是同一个 proving surface 上的三类约束重写。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h2 id="plonkish-证明面长什么样">PLONKish 证明面长什么样</h2>
+<p>PLONKish 最先改变的，是 witness 的组织方式。</p>
+<p>不同于 QAP 那种更“全局插值后一次性消费”的感觉，PLONKish 更像是把 witness 放进若干列，然后在每一行上施加局部代数条件。设评估域为</p>
+$$
+H = \{\omega^0, \omega^1, \dots, \omega^{n-1}\}.
+$$<p>每一列 witness 被插值成列多项式，例如</p>
+$$
+a(X),\ b(X),\ c(X),
+$$<p>它们在点 $\omega^i$ 上的值，就是第 $i$ 行对应列的 witness 值。</p>
+<h3 id="rows-columns-and-selectors">Rows, Columns, And Selectors</h3>
+<p>最经典的门约束可以写成</p>
+$$
+q_M(X)a(X)b(X)+q_L(X)a(X)+q_R(X)b(X)+q_O(X)c(X)+q_C(X)=0
+$$<p>在所有 $X \in H$ 上成立。</p>
+<p>这里：</p>
+<ul>
+<li>$a,b,c$ 是 witness columns</li>
+<li>$q_M,q_L,q_R,q_O,q_C$ 是 selector polynomials</li>
+</ul>
+<p>selector 的作用是：不是每一行都执行同一条语义，而是用多项式系数选择某一行上哪些项激活、哪些项关闭。</p>
+<p>所以 PLONKish 的 proving surface 不是“一个庞大的约束矩阵”，而是：</p>
+<ul>
+<li>列多项式承载 witness</li>
+<li>selector 多项式承载 gate semantics</li>
+<li>域点逐行承载局部约束</li>
+</ul>
+<p>这比纯 QAP 更适合表达现代系统常见的 copy constraints 和 richer gate semantics。</p>
+<h2 id="从-copy-constraints-到-permutation-argument">从 copy constraints 到 permutation argument</h2>
+<p>PLONKish 真正变聪明的地方，是它没有把“两个位置的值必须相等”继续硬编码成大量显式约束，而是把这些 copy constraints 改写成 permutation consistency。</p>
+<h3 id="what-copy-constraints-actually-say">What Copy Constraints Actually Say</h3>
+<p>在电路或行列布局里，copy constraint 的含义很朴素：</p>
+<ul>
+<li>某一行某一列的值，应当等于另一行另一列的值</li>
+<li>一个逻辑变量在不同 gate 位置复用时，所有出现点必须一致</li>
+</ul>
+<p>如果直接为每对位置写显式相等约束，系统会很笨重。PLONK 的做法是：不逐对检查，而是把整组“应该相等的位置”编码进一个排列。</p>
+<h3 id="permutation-encoding">Permutation Encoding</h3>
+<p>设每个位置都带有一个身份标签 id，例如列编号和行编号的组合。copy constraint 指定了一组置换 $\sigma$，把“原始位置标签”映射到“应该与之相等的位置标签”。</p>
+<p>于是问题从</p>
+<blockquote>
+<p>这些位置两两相等吗？</p>
+</blockquote>
+<p>改写成</p>
+<blockquote>
+<p>witness values 加上位置标签后，原始序列和置换后序列是否表示同一个 multiset？</p>
+</blockquote>
+<p>这就是 permutation argument 的核心转换。</p>
+<h3 id="grand-product-polynomial">Grand Product Polynomial</h3>
+<p>PLONK 不会直接逐点比较两个 multiset，而是引入一个 grand-product polynomial $Z(X)$，递推地累计两边比值。直觉上，可写成</p>
+<h1 id="zomegai1">$$
+Z(\omega^{i+1})</h1>
+<p>Z(\omega^i)
+\cdot
+\frac{
+(a_i + \beta \cdot \mathrm{id}<em>{a,i} + \gamma)
+(b_i + \beta \cdot \mathrm{id}</em>{b,i} + \gamma)
+(c_i + \beta \cdot \mathrm{id}_{c,i} + \gamma)</p>
+<p>}{
+(a_i + \beta \cdot \sigma_{a,i} + \gamma)
+(b_i + \beta \cdot \sigma_{b,i} + \gamma)
+(c_i + \beta \cdot \sigma_{c,i} + \gamma)
+}.
+$$</p>
+<p>这里 $\beta,\gamma$ 是随机挑战，用来把“值 + 位置标签”压成单个 field 元素，避免攻击者在不同分量上做巧妙抵消。</p>
+<p>如果 copy constraints 全都满足，那么分子和分母描述的是同一个 multiset，累计乘积最终应当回到 1；于是 $Z(X)$ 作为一个 witness polynomial，可以在边界条件和递推关系下被 verifier 检查。</p>
+<blockquote>
+<p>Key Observation.
+grand product 不是附加技巧，而是 PLONKish 把全局相等约束压成单一 witness object 的核心 machinery。</p>
+</blockquote>
+<h3 id="why-this-matters">Why This Matters</h3>
+<p>有了 permutation argument，系统不再需要把变量复用翻译成大量手写等式。copy constraints 被收缩成：</p>
+<ul>
+<li>一个排列编码</li>
+<li>一个 grand-product witness</li>
+<li>一组 boundary / transition-like 约束</li>
+</ul>
+<p>这使得列式 witness layout 和复用变量之间的关系变得非常可扩展。</p>
+<h2 id="lookup把表成员关系压成-multiset-relation">Lookup：把表成员关系压成 multiset relation</h2>
+<p>仅仅有 permutation argument 还不够。很多工程约束并不是“两个位置相等”，而是“某个 witness 值必须属于某张合法表”。典型例子是：</p>
+<ul>
+<li>range check</li>
+<li>byte decomposition</li>
+<li>固定 opcode table</li>
+<li>某种预定义函数关系表</li>
+</ul>
+<p>如果不用 lookup，而只靠普通门去表达这些关系，row count 往往会爆炸。</p>
+<h3 id="why-plain-gates-hurt">Why Plain Gates Hurt</h3>
+<p>以 range check 为例。若想证明某个值 $x$ 在 $[0, 2^8)$ 内，仅用普通低次数门去展开，通常需要很多 bit-decomposition 或 carry constraints。逻辑没错，但门数和列布局压力会很大。</p>
+<p>lookup 的思路是换问法：</p>
+<blockquote>
+<p>与其证明这个值逐步满足一堆基础位约束，不如直接证明它出现在一张合法表里。</p>
+</blockquote>
+<h3 id="table-membership-as-multiset-equality">Table Membership As Multiset Equality</h3>
+<p>设 witness 中需要查表的一组值为</p>
+$$
+f_1,\dots,f_m,
+$$<p>固定表中的值为</p>
+$$
+t_1,\dots,t_N.
+$$<p>lookup 的核心不在“查”，而在把</p>
+$$
+\{f_i\}
+$$<p>属于表的关系，重写成某种 multiset equality / inclusion relation。不同方案实现细节不同，但直觉一致：</p>
+<ul>
+<li>要么把 witness lookups 与 table entries 做排序拼接，证明排序后相邻差分满足结构关系</li>
+<li>要么构造类似 grand-product 的累计对象，证明两边压缩后的 multiset 一致</li>
+</ul>
+<p>所以 lookup 本质上不是数组访问，而是：</p>
+<blockquote>
+<p>table membership to multiset relation.</p>
+</blockquote>
+<h3 id="lookup-relation-as-a-first-class-constraint">Lookup Relation As A First-Class Constraint</h3>
+<p>这一步一旦有了，系统表达力会明显增强。比如某些非线性或离散约束，本来需要很多普通门，现在只要：</p>
+<ol>
+<li>把候选值放进 lookup witness 列</li>
+<li>指定固定表列</li>
+<li>证明 lookup relation 成立</li>
+</ol>
+<p>代价当然不是零。lookup 会引入额外列、额外排序对象或额外 grand-product 结构，但在很多场景下，这比硬把逻辑拆成基础门更便宜。</p>
+<h2 id="custom-gates-不是免费表达力">Custom Gates 不是免费表达力</h2>
+<p>PLONKish 的第三个核心对象是 custom gates。它们的直觉很简单：别让每一行只表达最基础的乘加关系，而是允许一行承载更多语义。</p>
+<h3 id="packing-more-semantics-per-row">Packing More Semantics Per Row</h3>
+<p>比如一个 custom gate 可以在一行里表达：</p>
+<ul>
+<li>某种特定线性组合</li>
+<li>一次 range chunk relation</li>
+<li>一次椭圆曲线加法局部约束</li>
+<li>一小段 hash round 的局部语义</li>
+</ul>
+<p>这会减少总 row 数，因为同样的 computation 被压进更丰富的每行语义里。</p>
+<h3 id="degree-selectors-and-prover-cost">Degree, Selectors, And Prover Cost</h3>
+<p>但 custom gates 从来不是白来的。表达力越强，系统通常要支付以下几类代价：</p>
+<ul>
+<li>quotient polynomial degree 上升</li>
+<li>selector 多项式更复杂</li>
+<li>witness 列布局更紧张</li>
+<li>prover 在构造和开点这些对象时成本更高</li>
+</ul>
+<p>换句话说，custom gate 不是“多加一个 feature”，而是直接改变 proving surface 的工程平衡点。</p>
+<p>如果一个 gate 设计得太激进，虽然 row count 下降了，但 quotient degree 可能上升，最终导致证明大小、开点复杂度或者实现难度反而更糟。</p>
+<h3 id="why-this-becomes-a-system-design-problem">Why This Becomes A System Design Problem</h3>
+<p>这就是为什么到了 Halo2 一类实现里，讨论重点经常变成：</p>
+<ul>
+<li>advice / fixed / instance columns 怎么排</li>
+<li>哪些关系值得做 custom gate</li>
+<li>哪些关系更适合做 lookup</li>
+<li>copy constraints 和 lookup constraints 会不会互相挤压布局</li>
+</ul>
+<p>也就是说，现代 proving system 已经不是“选一个协议然后填 witness”这么简单，而是在设计一个约束 DSL。</p>
+<h2 id="统一视角一切都在重写约束接口">统一视角：一切都在重写约束接口</h2>
+<p>现在把这三者放回同一个表面。</p>
+<h3 id="permutation-argument">Permutation Argument</h3>
+<p>它处理的是：</p>
+<blockquote>
+<p>不同位置上的值必须是同一个逻辑变量。</p>
+</blockquote>
+<p>实现方式是 permutation encoding + grand product。</p>
+<h3 id="lookup">Lookup</h3>
+<p>它处理的是：</p>
+<blockquote>
+<p>witness 值必须属于某个合法表。</p>
+</blockquote>
+<p>实现方式是 multiset relation，常常也会借用 grand-product or sorting machinery。</p>
+<h3 id="custom-gates">Custom Gates</h3>
+<p>它处理的是：</p>
+<blockquote>
+<p>每一行到底允许表达多丰富的局部语义。</p>
+</blockquote>
+<p>实现方式是 selector-polynomial design，加上对 degree / columns / prover cost 的控制。</p>
+<p>所以 PLONKish 真正统一的，不是某个单一协议公式，而是一套 row/column based proving surface：</p>
+<ul>
+<li>witness 被摆进列</li>
+<li>gate semantics 由 selectors 决定</li>
+<li>copy constraints 由 permutation argument 管</li>
+<li>table membership 由 lookup relation 管</li>
+<li>系统表达力与 proving 成本由 custom gate 设计压平衡</li>
+</ul>
+<blockquote>
+<p>Quick Note.
+PLONKish 不是“PLONK 加几个补丁”，而是一整套现代 proving system 的约束设计语言。</p>
+</blockquote>
+<h2 id="summary">Summary</h2>
+<p>如果只记住 PLONKish 支持 permutation、lookup、custom gates，这还只是 feature list。更有用的总结是：</p>
+<ol>
+<li>witness surface 被固定成 rows、columns 和 selector polynomials</li>
+<li>copy constraints 被重写成 permutation relation</li>
+<li>permutation relation 被压成 grand-product polynomial</li>
+<li>table membership 被重写成 lookup multiset relation</li>
+<li>custom gates 决定每一行到底能塞多少语义，并同时改变 degree、布局和 prover cost</li>
+</ol>
+<p>所以 PLONKish 的核心不是某条单独方程，而是“如何设计约束接口，使现代 proving system 既能表达复杂语义，又不把 proving cost 推爆”。</p>
+<p>下一篇进入 IPA / Halo / Nova / folding 时，这种“系统设计空间”的感觉还会更强，因为递归和 accumulation 会进一步把 proving surface 从静态约束推向跨 proof-state 的接口设计。</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Ariel Gabizon, Zachary J. Williamson, and Oana Ciobotaru, <em>PLONK: Permutations over Lagrange-bases for Oecumenical Noninteractive arguments of Knowledge</em>, 2019.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Ariel Gabizon and Zachary J. Williamson, <em>plookup: A simplified polynomial protocol for lookup tables</em>, 2020.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/plonkish-permutation-lookups/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/plonkish-permutation-lookups/" data-title="PLONKish 体系：置换论证、lookup 与自定义门" data-hashtags="cryptography,plonk,lookup,grand-product,custom-gates"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/plonkish-permutation-lookups/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/plonkish-permutation-lookups/" data-title="PLONKish 体系：置换论证、lookup 与自定义门"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/plonkish-permutation-lookups/" data-title="PLONKish 体系：置换论证、lookup 与自定义门"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/plonkish-permutation-lookups/" data-title="PLONKish 体系：置换论证、lookup 与自定义门"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/plonk/">Plonk</a>,&nbsp;<a href="/tags/lookup/">Lookup</a>,&nbsp;<a href="/tags/grand-product/">Grand-Product</a>,&nbsp;<a href="/tags/custom-gates/">Custom-Gates</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/stark-air-fri/" class="prev" rel="prev" title="STARK：AIR、低度测试与透明性"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>STARK：AIR、低度测试与透明性</a>
+            <a href="/ipa-recursion-bulletproofs-halo-nova/" class="next" rel="next" title="IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding">IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

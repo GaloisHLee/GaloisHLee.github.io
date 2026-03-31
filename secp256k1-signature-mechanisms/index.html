@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>secp256k1 的协议定位与签名机制 - As it was</title><meta name="Description" content="解释 secp256k1 为什么长期绑定 Web3 账户层，以及同一条曲线下 ECDSA 与 Schnorr 如何对应不同的协议性质和工程约束。"><meta property="og:title" content="secp256k1 的协议定位与签名机制">
+<meta property="og:description" content="解释 secp256k1 为什么长期绑定 Web3 账户层，以及同一条曲线下 ECDSA 与 Schnorr 如何对应不同的协议性质和工程约束。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/secp256k1-signature-mechanisms/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="secp256k1 的协议定位与签名机制">
+<meta name="twitter:description" content="解释 secp256k1 为什么长期绑定 Web3 账户层，以及同一条曲线下 ECDSA 与 Schnorr 如何对应不同的协议性质和工程约束。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/secp256k1-signature-mechanisms/" /><link rel="prev" href="https://galoishlee.github.io/web3-ecc-system-division/" /><link rel="next" href="https://galoishlee.github.io/ecc-security-hnp-ehnp/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "secp256k1 的协议定位与签名机制",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/secp256k1-signature-mechanisms\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, ecc, secp256k1, ecdsa, schnorr, bitcoin, ethereum","wordcount":  3503 ,
+        "url": "https:\/\/galoishlee.github.io\/secp256k1-signature-mechanisms\/","datePublished": "2025-12-12T08:00:00+08:00","dateModified": "2025-12-12T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "解释 secp256k1 为什么长期绑定 Web3 账户层，以及同一条曲线下 ECDSA 与 Schnorr 如何对应不同的协议性质和工程约束。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/secp256k1-signature-mechanisms/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/secp256k1-signature-mechanisms/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">secp256k1 的协议定位与签名机制</h1><h2 class="single-subtitle">从 ECDSA 到 Schnorr 的账户层接口演化</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-12">2025-12-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3503 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么账户层长期绑定-secp256k1">为什么账户层长期绑定 secp256k1</a></li>
+    <li><a href="#ecdsa历史主力接口">ECDSA：历史主力接口</a>
+      <ul>
+        <li><a href="#最小签名与验证关系">最小签名与验证关系</a></li>
+        <li><a href="#为什么-ecdsa-对-nonce-异常敏感">为什么 ECDSA 对 nonce 异常敏感</a></li>
+        <li><a href="#可塑性与-low-s-normalization">可塑性与 low-s normalization</a></li>
+      </ul>
+    </li>
+    <li><a href="#schnorr同一条曲线上的接口升级">Schnorr：同一条曲线上的接口升级</a>
+      <ul>
+        <li><a href="#最小验证关系">最小验证关系</a></li>
+        <li><a href="#线性批量验证与多签组合">线性、批量验证与多签组合</a></li>
+        <li><a href="#bip-340-的-nonce-与-domain-separation">BIP-340 的 nonce 与 domain separation</a></li>
+      </ul>
+    </li>
+    <li><a href="#bitcoin-与-ethereum-如何不同地消费-secp256k1">Bitcoin 与 Ethereum 如何不同地消费 secp256k1</a>
+      <ul>
+        <li><a href="#bitcoin曲线不变接口升级">Bitcoin：曲线不变，接口升级</a></li>
+        <li><a href="#ethereumeoaecdsa-与-ecrecover">Ethereum：EOA、ECDSA 与 <code>ecrecover</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#工程实现对接">工程实现对接</a>
+      <ul>
+        <li><a href="#libsecp256k1-的工程哲学"><code>libsecp256k1</code> 的工程哲学</a></li>
+        <li><a href="#rfc-6979synthetic-nonce-与-side-channel">RFC 6979、synthetic nonce 与 side-channel</a></li>
+        <li><a href="#审计时该检查什么">审计时该检查什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: same curve, different signature interfaces.</p>
+</blockquote>
+<p>上一篇已经把 Web3 里的曲线职责图画出来了。这一篇只把账户层单独拎出来：为什么 Bitcoin 和 Ethereum 长期把 secp256k1 当作账户与交易签名曲线，而不是换到 pairing-friendly curve；以及为什么在同一条曲线上，ECDSA 和 Schnorr 会导向不同的协议接口和工程边界。</p>
+<p>账户层消费的不是 pairing，也不是多项式 opening proof，而是普通离散对数群上的签名验证关系。这件事决定了 secp256k1 的核心价值并不在“它是哪条曲线”，而在“它背后的实现生态、签名接口和安全边界是否足够稳定”。因此这篇文章真正要比较的对象不是 secp256k1 vs BLS12-381，而是 secp256k1 上的 ECDSA vs Schnorr。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>如果把账户层写成“曲线教程”，重点会跑偏。更有用的顺序是：先说明 secp256k1 为什么留在账户层，再写 ECDSA 的最小验证关系和它对 nonce 的敏感性，再写 Schnorr 如何在同一条曲线上改写签名接口，最后把这些差异落到 Bitcoin、Ethereum、<code>libsecp256k1</code>、RFC 6979 与钱包实现的现实接口上。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<blockquote>
+<p>Quick Note.
+This article separates ECDSA and Schnorr verification logic while keeping both on the same curve family. It also explains protocol fit for Bitcoin and Ethereum account usage, and connects implementation constraints to constant-time scalar arithmetic.</p>
+</blockquote>
+<h2 id="为什么账户层长期绑定-secp256k1">为什么账户层长期绑定 secp256k1</h2>
+<p>在 Web3 语境里，账户层首先要解决的问题不是“如何压 verifier”，而是“如何让某个公开账户标识稳定地绑定一个可验证的签名接口”。这意味着账户层消费的是普通离散对数群上的签名关系，而不是 pairing-friendly curve 上的双线性验证结构。</p>
+<p>secp256k1 在这里之所以长期稳定，不是因为它抽象上“最先进”，而是因为它同时满足了几件现实事情：</p>
+<ul>
+<li>它有稳定的标准参数来源</li>
+<li>它在 Bitcoin 和 Ethereum 里长期部署</li>
+<li>它拥有高质量实现和成熟审计历史</li>
+<li>它足以支撑账户层所需的签名验证接口</li>
+</ul>
+<p>换句话说，账户层没有动机为了不存在的 verifier 压缩需求去切换到 pairing-friendly curve。账户层真正需要的是一个实现成熟、常数时间、接口边界清晰的 prime-order group setting，而 secp256k1 恰好已经满足这一点。<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<h2 id="ecdsa历史主力接口">ECDSA：历史主力接口</h2>
+<p>在 secp256k1 上，账户层最熟悉的历史接口是 ECDSA。它不是因为曲线本身特别“像 ECDSA”才绑定在一起，而是因为长期系统实现首先围绕它组织起来。</p>
+<h3 id="最小签名与验证关系">最小签名与验证关系</h3>
+<p>设私钥为 $d$，公钥为</p>
+$$
+P = dG.
+$$<p>对消息哈希 $z$，签名者选取 nonce $k$，并计算</p>
+$$
+R = kG, \qquad r = x(R) \bmod n,
+$$<p>再定义</p>
+$$
+s = k^{-1}(z + rd) \bmod n.
+$$<p>这就是 ECDSA 的最小签名关系。验证时，给定 $(r,s)$，验证者计算</p>
+$$
+u_1 = z s^{-1}, \qquad u_2 = r s^{-1},
+$$<p>然后检查</p>
+$$
+r \stackrel{?}= x(u_1 G + u_2 P) \bmod n.
+$$<p>This is the minimal ECDSA verification equation.</p>
+<p>这个形式已经足够说明账户层的接口特征：验证者只需要普通群上的标量乘法和点加法，不需要 pairing，也不需要额外的 verifier algebra。</p>
+<h3 id="为什么-ecdsa-对-nonce-异常敏感">为什么 ECDSA 对 nonce 异常敏感</h3>
+<p>ECDSA 的工程负担，很大一部分都来自 nonce。</p>
+<p>从</p>
+$$
+s = k^{-1}(z + rd)
+$$<p>出发，可改写为</p>
+$$
+k = s^{-1}(z + rd) \bmod n.
+$$<p>这意味着只要 $k$ 有重复、偏置或部分泄漏，私钥 $d$ 就可能被直接恢复或转化为后续的 hidden-number style 问题。也就是说，ECDSA 的安全边界不只取决于离散对数假设，还强烈依赖 nonce 生成和实现侧信道。<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>所以 RFC 6979 的意义并不是“给 ECDSA 一个可选优化”，而是在工程上把随机 nonce 生成这个脆弱点尽量收紧为 deterministic procedure。它不改变 ECDSA verifier 的数学形式，但明显改变了实现风险面。</p>
+<h3 id="可塑性与-low-s-normalization">可塑性与 low-s normalization</h3>
+<p>ECDSA 还有一个工程上很重要、但在数学笔记里经常被一笔带过的点：可塑性。</p>
+<p>因为在群阶模 $n$ 下，若 $(r,s)$ 是有效签名，那么 $(r, n-s)$ 也会对应同一验证关系。这意味着如果协议层不加额外约束，同一个签名语义可能有两个编码表示。</p>
+<p>账户系统因此通常需要额外规则来约束签名规范化，最常见的就是 low-s normalization。这里的重点不是“数学上这很优雅”，而是账户层需要稳定的 transaction identity 和签名编码接口，而不是把可塑性问题留给上层业务来兜底。</p>
+<h2 id="schnorr同一条曲线上的接口升级">Schnorr：同一条曲线上的接口升级</h2>
+<p>Schnorr 并没有把 secp256k1 换掉。它做的是另一件事：在同一条曲线上，把签名接口改写成更线性的形式。BIP-340 的意义，正是在这里。<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h3 id="最小验证关系">最小验证关系</h3>
+<p>Schnorr 签名在最小形式下可写成：</p>
+$$
+R = kG, \qquad e = H(R \| P \| m), \qquad s = k + ed \bmod n.
+$$<p>验证时检查</p>
+$$
+sG \stackrel{?}= R + eP.
+$$<p>This is the minimal Schnorr verification equation.</p>
+<p>和 ECDSA 相比，这个关系最大的特征不是“更短”或者“更现代”，而是它更线性。验证器看到的是一个直接的群等式，而不是包含模逆和 $x$ 坐标投影的间接关系。</p>
+<h3 id="线性批量验证与多签组合">线性、批量验证与多签组合</h3>
+<p>一旦验证关系变成</p>
+$$
+sG = R + eP,
+$$<p>很多高层协议就自然多了。线性结构意味着多个公钥和多个 nonce 的组合可以更直接地进入多签和批量验证逻辑。BIP-340 里就明确把 batch verification 作为正式接口的一部分，而这正是账户层协议升级最重要的收益之一。<sup id="fnref2:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>这里要注意，Schnorr 的价值不是“把 secp256k1 改造成另一条曲线”，而是让同一条曲线更适合：</p>
+<ul>
+<li>多签和门限签名的上层构造</li>
+<li>更直接的 batch verification</li>
+<li>更清晰的编码和验证接口</li>
+</ul>
+<p>所以这一节最准确的标题不是“新曲线替代旧曲线”，而是“同一条曲线上的协议接口升级”。</p>
+<p>The contrast on malleability and composability is the real protocol difference here: ECDSA carries historical malleability pressure and weaker composition properties, while Schnorr is built around a linear relation that is far friendlier to composability, batch verification, and multisignature constructions.</p>
+<h3 id="bip-340-的-nonce-与-domain-separation">BIP-340 的 nonce 与 domain separation</h3>
+<p>Schnorr 也不是“公式线性了，所以实现自然更简单”。BIP-340 明确给了自己的 nonce 生成和 domain separation 约束。</p>
+<p>尤其要注意两点：</p>
+<ol>
+<li>它使用的是 synthetic nonce 设计，而不是简单照搬 RFC 6979</li>
+<li>它把 challenge 和消息处理放进更明确的 tagged hash / domain separation 语境</li>
+</ol>
+<p>这说明同样在 secp256k1 上，ECDSA 和 Schnorr 不能共享一套含糊的“签名实现常识”。曲线相同，不代表 nonce、编码、消息预处理和验证接口都能共用。</p>
+<h2 id="bitcoin-与-ethereum-如何不同地消费-secp256k1">Bitcoin 与 Ethereum 如何不同地消费 secp256k1</h2>
+<p>如果只写 ECDSA 和 Schnorr 的公式，这篇文章还不够工程。更关键的是：相同曲线，在 Bitcoin 和 Ethereum 里被消费成了不同的账户层接口。</p>
+<h3 id="bitcoin曲线不变接口升级">Bitcoin：曲线不变，接口升级</h3>
+<p>Bitcoin 的演化可以概括成一句话：底层仍是 secp256k1，但签名接口从历史上的 ECDSA 走向了 BIP-340 Schnorr。</p>
+<p>这意味着 Bitcoin 并没有说“账户层不再需要 secp256k1”，而是说“账户层仍然需要这条曲线，但更适合在其上采用更线性的签名接口”。因此，曲线 continuity 和 protocol upgrade 在这里是同时成立的。</p>
+<h3 id="ethereumeoaecdsa-与-ecrecover">Ethereum：EOA、ECDSA 与 <code>ecrecover</code></h3>
+<p>Ethereum 的账户层消费方式不同。对 externally owned accounts 来说，执行层长期围绕 ECDSA/secp256k1 组织，并通过 <code>ecrecover</code> 暴露公钥恢复相关接口。Yellow Paper 在相关附录里把 <code>ECDSARECOVER</code> 作为执行环境的一部分来定义。<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>这意味着 Ethereum 对 secp256k1 的消费更偏“账户恢复与交易签名接口”，而不是像 Bitcoin 那样把 Schnorr 作为新的主签名协议引入链上主流程。</p>
+<p>所以“Bitcoin 和 Ethereum 都使用 secp256k1”这句话虽然没错，但工程上太粗。更准确的说法是：</p>
+<ul>
+<li>Bitcoin：同一曲线下，主签名接口在升级</li>
+<li>Ethereum：同一曲线下，账户恢复和 ECDSA 接口仍是主路径</li>
+</ul>
+<p>曲线相同，protocol consumption 不同。</p>
+<h2 id="工程实现对接">工程实现对接</h2>
+<p>到这里，真正需要落地的是实现边界，而不是再多记几条公式。</p>
+<h3 id="libsecp256k1-的工程哲学"><code>libsecp256k1</code> 的工程哲学</h3>
+<p>账户层最怕的不是“曲线名写错”，而是实现层在标量算术、常数时间、nonce、编码和 API 边界上出问题。</p>
+<p>For secp256k1 systems, implementation constraints connect directly to constant-time scalar arithmetic.</p>
+<p><code>libsecp256k1</code> 的长期价值就在于，它把账户层真正脆弱的部分当作一等问题来处理：</p>
+<ul>
+<li>常数时间标量运算</li>
+<li>明确的 signing / verification / key handling 边界</li>
+<li>对 malformed inputs 和边界条件的严格处理</li>
+<li>为上层协议保留稳定接口，而不是把细节泄漏给业务代码</li>
+</ul>
+<p>因此在账户系统里，安全性常常首先取决于“是不是在消费一个高质量 secp256k1 implementation”，其次才是你对曲线名称有没有背熟。</p>
+<h3 id="rfc-6979synthetic-nonce-与-side-channel">RFC 6979、synthetic nonce 与 side-channel</h3>
+<p>这一节最容易被写糊。更准确的区分是：</p>
+<ul>
+<li>ECDSA 工程上常依赖 RFC 6979 把 nonce 生成收紧</li>
+<li>BIP-340 Schnorr 有自己的 synthetic nonce 处理语境</li>
+</ul>
+<p>二者都在回答同一个工程问题：nonce 不应成为可恢复私钥的脆弱入口。但它们的具体处理方式并不相同，不能把“deterministic nonce”当成一个无差别总标签。</p>
+<p>此外，即使 nonce 方案设计正确，side-channel 和 fault injection 仍然可能在真实设备上打开额外泄漏面。这也是为什么账户层实现一定要把 constant-time 和 signing environment isolation 当作一等公民。</p>
+<h3 id="审计时该检查什么">审计时该检查什么</h3>
+<p>如果要把这一篇压成审计清单，我会优先看下面几项：</p>
+<ul>
+<li>nonce 生成是否和协议规范一致</li>
+<li>是否存在重复签名状态、弱随机数或跨上下文复用</li>
+<li>是否有 low-s normalization 和签名编码约束</li>
+<li>是否错误混用了 ECDSA 与 Schnorr 的消息处理和 domain separation</li>
+<li>是否直接暴露了不必要的底层 secp256k1 接口给业务代码</li>
+</ul>
+<p>对账户层来说，这些问题比“曲线参数有没有抄错”更现实。</p>
+<h2 id="总结">总结</h2>
+<p>secp256k1 在 Web3 里最重要的角色，不是“某条著名曲线”，而是账户层长期消费的那条曲线。</p>
+<p>在这条曲线上：</p>
+<ul>
+<li>ECDSA 是历史主力接口</li>
+<li>Schnorr 是同一曲线上的协议接口升级</li>
+<li>Bitcoin 和 Ethereum 使用了相同曲线，但并没有消费成同一种签名协议形态</li>
+</ul>
+<p>所以这一篇真正想说明的不是“secp256k1 比谁更强”，而是：</p>
+<blockquote>
+<p>账户层首先绑定的是一个普通离散对数群接口；曲线家族稳定之后，真正决定协议性质和工程边界的是签名机制、nonce 处理、实现质量和执行环境接口。</p>
+</blockquote>
+<p>下一篇再沿这条线往下走，就会自然进入安全性分析：一旦 nonce、side-channel 或 trace 泄漏进入系统，ECDSA 为什么会落到 HNP、EC-HNP 与 EHNP 这类问题。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>SEC Group, <em>SEC 2: Recommended Elliptic Curve Domain Parameters</em>, Version 2.0. <a href="https://www.secg.org/sec2-v2.pdf" target="_blank" rel="noopener noreffer ">https://www.secg.org/sec2-v2.pdf</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Pieter Wuille et al., <em>BIP-340: Schnorr Signatures for secp256k1</em>. <a href="https://bips.xyz/0340" target="_blank" rel="noopener noreffer ">https://bips.xyz/0340</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Thomas Pornin, <em>RFC 6979: Deterministic Usage of the Digital Signature Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm (ECDSA)</em>. <a href="https://www.rfc-editor.org/rfc/rfc6979.html" target="_blank" rel="noopener noreffer ">https://www.rfc-editor.org/rfc/rfc6979.html</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p><code>bitcoin-core/secp256k1</code> repository. <a href="https://github.com/bitcoin-core/secp256k1" target="_blank" rel="noopener noreffer ">https://github.com/bitcoin-core/secp256k1</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Gavin Wood, <em>Ethereum: A Secure Decentralised Generalised Transaction Ledger (Yellow Paper)</em>. <a href="https://ethereum.github.io/yellowpaper/paper.pdf" target="_blank" rel="noopener noreffer ">https://ethereum.github.io/yellowpaper/paper.pdf</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-12</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/secp256k1-signature-mechanisms/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/secp256k1-signature-mechanisms/" data-title="secp256k1 的协议定位与签名机制" data-hashtags="cryptography,ecc,secp256k1,ecdsa,schnorr,bitcoin,ethereum"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/secp256k1-signature-mechanisms/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/secp256k1-signature-mechanisms/" data-title="secp256k1 的协议定位与签名机制"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/secp256k1-signature-mechanisms/" data-title="secp256k1 的协议定位与签名机制"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/secp256k1-signature-mechanisms/" data-title="secp256k1 的协议定位与签名机制"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/ecc/">Ecc</a>,&nbsp;<a href="/tags/secp256k1/">Secp256k1</a>,&nbsp;<a href="/tags/ecdsa/">Ecdsa</a>,&nbsp;<a href="/tags/schnorr/">Schnorr</a>,&nbsp;<a href="/tags/bitcoin/">Bitcoin</a>,&nbsp;<a href="/tags/ethereum/">Ethereum</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/web3-ecc-system-division/" class="prev" rel="prev" title="Web3 语境下椭圆曲线密码学的系统分工"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Web3 语境下椭圆曲线密码学的系统分工</a>
+            <a href="/ecc-security-hnp-ehnp/" class="next" rel="next" title="椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP">椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

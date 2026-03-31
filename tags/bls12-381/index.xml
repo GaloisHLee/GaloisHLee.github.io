@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bls12-381 on As it was</title>
+    <link>https://galoishlee.github.io/tags/bls12-381/</link>
+    <description>Recent content in Bls12-381 on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 16 Dec 2025 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/bls12-381/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KZG 多项式承诺的曲线基础及其协议应用</title>
+      <link>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</link>
+      <pubDate>Tue, 16 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: KZG turns polynomial objects into deployable commitments.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;到 ECC 子系列的最后一篇，问题已经收缩得很具体了。前面几篇分别回答了 why not one curve、账户层为什么停在 secp256k1、pairing-friendly curves 为什么进入 verifier、以及 Ethereum 为什么在 BN254 与 BLS12-381 之间形成长期工程张力。到了 EIP-4844，pairing-friendly curve 不再只是 verifier 的数学背景，而是直接进入 data-availability commitment workflow。&lt;/p&gt;&#xA;&lt;p&gt;这里真正要理解的，不是“BLS12-381 为什么常出现”，而是“KZG commitments 为什么会自然进入 blob workflow”。如果一个协议只需要对数据做普通哈希承诺，那么 pairing-friendly curve 完全可以不出现；但如果协议既想对多项式对象做常数大小承诺，又想对某个 evaluation claim 给出紧凑 opening proof，那么 verifier 最终就会落到 pairing equation 上，而这也是 KZG commitments and opening proofs rely on pairing-friendly curves 的根本原因。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇的顺序会比“直接讲 blob”更慢半步：先定义 polynomial commitment object，再写 minimal KZG opening verification equation，随后把这个对象映射到 &lt;code&gt;EIP-4844 blobs&lt;/code&gt; 的 commitment / proof / verification workflow，最后把 &lt;code&gt;trusted setup&lt;/code&gt; 从尾注抬成 first-class protocol constraint，并在文末给出工程实现对接。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article explains why KZG commitments and opening proofs rely on pairing-friendly curves. It also gives the minimal KZG opening verification equation, shows the role of BLS12-381 in modern Ethereum data-availability commitments, maps the polynomial commitment object to the blob-commitment workflow in EIP-4844, and makes trusted setup a first-class protocol constraint rather than an afterthought.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381</title>
+      <link>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</link>
+      <pubDate>Mon, 15 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: Ethereum curve history is interface history first.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上一篇已经把 pairing-friendly curves 的数学接口说清了，但 Ethereum 的工程现实从来不只是“知道 pairing 有用”这么简单。真正决定协议能不能落地的，往往不是抽象上的 verifier compression，而是 execution layer 到底暴露了什么接口、这些接口的 gas 怎么定价、以及库和工具链是否能稳定消费这些接口。&lt;/p&gt;&#xA;&lt;p&gt;所以 Ethereum 中配对友好曲线的演化路径，首先是一段接口史。BN254/alt_bn128 之所以先进入链上主流，不是因为今天回头看它最优雅，而是因为它先被 precompile 暴露成了真实可调用能力。相反，BLS12-381 虽然在安全 margin 和现代生态上形成了明显的 upgrade pressure，但 deployment friction 也更真实，执行层并不会因为“它看起来更好”就自动完成迁移。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;这一篇的重点因此不是“比较两条曲线谁更先进”，而是按时间线回答三件事：为什么 Ethereum adopted BN254/alt_bn128 precompiles early，gas-cost considerations 怎样直接改变 protocol feasibility，以及 BLS12-381 为什么持续构成升级压力却又没有简单替换掉 BN254。文末再把这条时间线压成工程实现对接清单。&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article explains why Ethereum adopted BN254/alt_bn128 precompiles early. It also contrasts BN254 and BLS12-381 in security margin, ecosystem maturity, and deployment friction, maps Ethereum precompile history to cryptographic capability changes, relates curve choice to verifier cost and deployability, and ties gas pricing and precompile availability to protocol feasibility.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Web3 语境下椭圆曲线密码学的系统分工</title>
+      <link>https://galoishlee.github.io/web3-ecc-system-division/</link>
+      <pubDate>Thu, 11 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/web3-ecc-system-division/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: this is a system map, not an ECC primer.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;在 Web3 里谈椭圆曲线密码学，最常见的误读是把所有场景压成同一个问题: “既然都是 ECC，为什么不选一条最强的曲线统一掉？”这个问题本身就错了。账户签名、共识聚合签名、链上 zkSNARK 验证、EIP-4844 里的 KZG commitment，虽然都使用了椭圆曲线上的群对象，但它们消费的代数接口并不相同，因此几乎不会自然收敛到同一条曲线。&lt;/p&gt;&#xA;&lt;p&gt;如果只看“安全位数”，现实会显得很奇怪。Bitcoin 和 Ethereum 的账户层长期绑定在 secp256k1；Ethereum 的链上 zk verifier 历史上却依赖 BN254/alt_bn128 预编译；到了 BLS 聚合签名与 KZG，又几乎总会碰到 BLS12-381。这里真正决定系统形态的，不只是密码学安全性，还包括预编译、gas 成本、标准化、已有库、证明系统接口，以及协议是否依赖 pairing。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇不重讲椭圆曲线的群律，也不把三条曲线写成百科词条。更有用的做法是先画出一张职责图: 哪些系统只需要普通离散对数群，哪些系统必须进入 pairing-friendly curve，哪些场景看似是“曲线选择”，其实首先是“链上可用性和 verifier 成本”的问题。到文末，再把这张图压成工程实现对接清单。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article explicitly distinguishes ordinary elliptic-curve groups from pairing-friendly curves. It also states the historical role of BN254/alt_bn128 in Ethereum and contrasts it with the modern role of BLS12-381. Finally, it treats trusted setup as a protocol-level constraint rather than an intrinsic ECC property.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

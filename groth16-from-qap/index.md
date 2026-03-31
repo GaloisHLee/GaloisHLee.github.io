@@ -317,4 +317,3 @@ $$
 [^groth16]: Jens Groth, *On the Size of Pairing-based Non-interactive Arguments*, 2016.
 [^pot]: Powers of Tau and structured setup ceremony references.
 
-

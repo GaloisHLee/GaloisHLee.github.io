@@ -429,4 +429,3 @@ $$
 [^groth16]: Jens Groth, *On the Size of Pairing-based Non-interactive Arguments*, 2016. QAP-based zkSNARK interface background.
 [^stark]: Eli Ben-Sasson et al., *Scalable, Transparent, and Post-Quantum Secure Computational Integrity*, 2018. AIR and low-degree testing background.
 
-

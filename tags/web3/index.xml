@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web3 on As it was</title>
+    <link>https://galoishlee.github.io/tags/web3/</link>
+    <description>Recent content in Web3 on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 14 Dec 2025 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/web3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pairing-Friendly Curves 的数学结构与协议动机</title>
+      <link>https://galoishlee.github.io/pairing-friendly-curves-motivation/</link>
+      <pubDate>Sun, 14 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/pairing-friendly-curves-motivation/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: pairing is a verifier interface, not a prestige upgrade.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前 3 篇已经把 ECC 子系列的前半段压实了：Web3 为什么不会只用一条曲线，账户层为什么长期停在 secp256k1，以及 signer-side 风险如何从 ECDLP 走向 nonce leakage。到这里，新的问题自然出现：既然账户层不需要 pairing，为什么 BLS signatures、SNARK verifier 和 KZG 却总会把 pairing-friendly curves 拉进来？&lt;/p&gt;&#xA;&lt;p&gt;关键不在“这类曲线更先进”，而在“这类协议的 verifier 从一开始就需要另一种代数接口”。普通离散对数群擅长表达签名关系；pairing-friendly setting 则擅长把分散在多个群元素、多个约束甚至多个消息上的关系压缩成少数几个 pairing checks。也就是说，这里发生的不是曲线选型审美，而是 protocol verification compression。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇不会把 pairing 写成完整教材。更有用的顺序是：先定义最小 bilinear map properties，再给出一个 minimal pairing equation pattern，随后分别说明 BLS signatures、SNARK verifier intuition 和 KZG opening verification 为什么会消费同一类接口。最后再把这些数学对象压成工程实现对接边界。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article defines the minimal bilinear map properties needed for protocol use. It also explains why pairings enable aggregate signature verification and polynomial opening verification, gives the minimal pairing equation pattern, and shows the mapping from bilinearity to protocol verification compression. It deliberately avoids expanding into full Miller-loop or final-exponentiation implementation details.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP</title>
+      <link>https://galoishlee.github.io/ecc-security-hnp-ehnp/</link>
+      <pubDate>Sat, 13 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/ecc-security-hnp-ehnp/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: ECDLP is the baseline, not the whole risk surface.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前两篇已经把 ECC 子系列里最容易混淆的两件事拆开了: 哪些协议只消费普通离散对数群，哪些协议需要 pairing；以及为什么账户层长期绑定 secp256k1。这一篇继续沿着账户层往下走，但焦点不再是“签名接口长什么样”，而是“签名接口在哪里失守”。&lt;/p&gt;&#xA;&lt;p&gt;对椭圆曲线签名来说，曲线层首先给出的安全基线是 &lt;code&gt;ECDLP security assumption&lt;/code&gt;。如果敌手只能看到公钥 $P=dG$，却拿不到关于私钥 $d$ 和临时标量 $k$ 的额外泄漏，那么攻击目标仍然是离散对数问题本身。但真实系统并不总是在这个理想模型里运行。wallet and signing implementations 会暴露 nonce 生成、缓存访问、功耗、分支、fault handling 和接口复用等边界，而这些边界往往把问题从“解曲线上的离散对数”改写成“恢复带泄漏的 secret scalar”。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;ECDSA 的危险点尤其集中在 nonce。只要签名方程里的 nonce 有重复、偏置、部分泄漏，或者可由 side-channel trace 提供不完整信息，攻击者面对的就不再是 black-box ECDLP，而是某种 hidden-number style relation。也正是因此，HNP / EC-HNP / EHNP 不是只存在于格论教科书里的标签，而是现实账户系统在弱随机数、硬件钱包、远程 signer 和实现缺陷下会真正碰到的攻击视角。&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article connects ECDSA nonce leakage to hidden-number style linear constraints. It also distinguishes HNP, EC-HNP, and EHNP rather than flattening them into a generic lattice-attack label, covers nonce bias, partial leakage, and side-channel trace models relevant to wallet and signing implementations, and separates curve-level security from implementation leakage and protocol misuse.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Web3 语境下椭圆曲线密码学的系统分工</title>
+      <link>https://galoishlee.github.io/web3-ecc-system-division/</link>
+      <pubDate>Thu, 11 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/web3-ecc-system-division/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: this is a system map, not an ECC primer.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;在 Web3 里谈椭圆曲线密码学，最常见的误读是把所有场景压成同一个问题: “既然都是 ECC，为什么不选一条最强的曲线统一掉？”这个问题本身就错了。账户签名、共识聚合签名、链上 zkSNARK 验证、EIP-4844 里的 KZG commitment，虽然都使用了椭圆曲线上的群对象，但它们消费的代数接口并不相同，因此几乎不会自然收敛到同一条曲线。&lt;/p&gt;&#xA;&lt;p&gt;如果只看“安全位数”，现实会显得很奇怪。Bitcoin 和 Ethereum 的账户层长期绑定在 secp256k1；Ethereum 的链上 zk verifier 历史上却依赖 BN254/alt_bn128 预编译；到了 BLS 聚合签名与 KZG，又几乎总会碰到 BLS12-381。这里真正决定系统形态的，不只是密码学安全性，还包括预编译、gas 成本、标准化、已有库、证明系统接口，以及协议是否依赖 pairing。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇不重讲椭圆曲线的群律，也不把三条曲线写成百科词条。更有用的做法是先画出一张职责图: 哪些系统只需要普通离散对数群，哪些系统必须进入 pairing-friendly curve，哪些场景看似是“曲线选择”，其实首先是“链上可用性和 verifier 成本”的问题。到文末，再把这张图压成工程实现对接清单。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Quick Note.&#xA;This article explicitly distinguishes ordinary elliptic-curve groups from pairing-friendly curves. It also states the historical role of BN254/alt_bn128 in Ethereum and contrasts it with the modern role of BLS12-381. Finally, it treats trusted setup as a protocol-level constraint rather than an intrinsic ECC property.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

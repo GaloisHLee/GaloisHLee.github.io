@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Low-Degree-Testing on As it was</title>
+    <link>https://galoishlee.github.io/tags/low-degree-testing/</link>
+    <description>Recent content in Low-Degree-Testing on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 07 Dec 2025 08:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/low-degree-testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>STARK：AIR、低度测试与透明性</title>
+      <link>https://galoishlee.github.io/stark-air-fri/</link>
+      <pubDate>Sun, 07 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/stark-air-fri/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: STARK as a proof pipeline, not a brand label.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;如果说 Groth16 的关键词是 &lt;code&gt;QAP + CRS + pairing equation&lt;/code&gt;，那么 STARK 的关键词就是 &lt;code&gt;trace + AIR + FRI&lt;/code&gt;。把它说成“没有 trusted setup 的 SNARK”不算错，但也没抓住结构。真正要理解的是：STARK 证明的对象不是一个静态约束向量，而是一整张 execution trace；AIR 不是一个术语包装，而是把这张 trace 的合法性写成代数关系；FRI 则不是附在最后的 appendix，而是整个 soundness contract 的后半段。&lt;/p&gt;&#xA;&lt;p&gt;前一篇已经把 FRI 放到 polynomial commitment / low-degree testing 的统一接口里了。这一篇要把它放回系统级视角：trace 怎样变成列多项式，边界条件和转移条件怎样被压成 composition polynomial，以及为什么“低度”在这里不是顺带属性，而是 verifier 最终抓住 cheating trace 的主要证据。&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇的主链不是：&lt;/p&gt;&#xA;$$&#xA;\text{AIR}\quad\text{and}\quad\text{FRI}&#xA;$$&lt;p&gt;而是：&lt;/p&gt;&#xA;$$&#xA;\text{trace}&#xA;\longrightarrow&#xA;\text{AIR constraints}&#xA;\longrightarrow&#xA;\text{composition polynomial}&#xA;\longrightarrow&#xA;\text{FRI low-degree test}.&#xA;$$</description>
+    </item>
+  </channel>
+</rss>

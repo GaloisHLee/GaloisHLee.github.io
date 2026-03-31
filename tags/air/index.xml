@@ -9,12 +9,19 @@
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 07 Dec 2025 08:00:00 +0800</lastBuildDate>
     <atom:link href="https://galoishlee.github.io/tags/air/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>STARK：AIR、低度测试与透明性</title>
+      <link>https://galoishlee.github.io/stark-air-fri/</link>
+      <pubDate>Sun, 07 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/stark-air-fri/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: STARK as a proof pipeline, not a brand label.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;如果说 Groth16 的关键词是 &lt;code&gt;QAP + CRS + pairing equation&lt;/code&gt;，那么 STARK 的关键词就是 &lt;code&gt;trace + AIR + FRI&lt;/code&gt;。把它说成“没有 trusted setup 的 SNARK”不算错，但也没抓住结构。真正要理解的是：STARK 证明的对象不是一个静态约束向量，而是一整张 execution trace；AIR 不是一个术语包装，而是把这张 trace 的合法性写成代数关系；FRI 则不是附在最后的 appendix，而是整个 soundness contract 的后半段。&lt;/p&gt;&#xA;&lt;p&gt;前一篇已经把 FRI 放到 polynomial commitment / low-degree testing 的统一接口里了。这一篇要把它放回系统级视角：trace 怎样变成列多项式，边界条件和转移条件怎样被压成 composition polynomial，以及为什么“低度”在这里不是顺带属性，而是 verifier 最终抓住 cheating trace 的主要证据。&lt;/p&gt;&#xA;&lt;p&gt;所以这一篇的主链不是：&lt;/p&gt;&#xA;$$&#xA;\text{AIR}\quad\text{and}\quad\text{FRI}&#xA;$$&lt;p&gt;而是：&lt;/p&gt;&#xA;$$&#xA;\text{trace}&#xA;\longrightarrow&#xA;\text{AIR constraints}&#xA;\longrightarrow&#xA;\text{composition polynomial}&#xA;\longrightarrow&#xA;\text{FRI low-degree test}.&#xA;$$</description>
+    </item>
     <item>
       <title>从算术电路到 R1CS、QAP 与 AIR</title>
       <link>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</link>
-      <pubDate>Wed, 18 Mar 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <pubDate>Thu, 04 Dec 2025 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
       <guid>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: arithmetization as interface design, not notation churn.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;前面三篇一直在准备同一件事：证明系统不会直接消费“某个程序跑对了”这种语义句子。它们消费的是某种 algebraic surface，最好能被承诺、挑战、开点、低度测试或者 pairing equation 直接处理。到了这一篇，主角不再是 transcript skeleton，而是 computation 本身如何被翻译成代数约束。&lt;/p&gt;&#xA;&lt;p&gt;如果只用一句话概括算术化，它就是把“计算正确”改写成“某个 witness 满足一组 field 上的代数关系”。但这句话还不够，因为后面的证明系统并不直接吃“很多条关系”。它们更喜欢的是：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;向量上的 rank-1 constraints&lt;/li&gt;&#xA;&lt;li&gt;多项式上的恒等式或整除关系&lt;/li&gt;&#xA;&lt;li&gt;execution trace 上的 transition constraints&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;所以这一篇真正要写清楚的不是名词，而是两条链：&lt;/p&gt;&#xA;$$&#xA;\text{circuit} \longrightarrow \text{R1CS} \longrightarrow \text{QAP}&#xA;$$&lt;p&gt;以及&lt;/p&gt;&#xA;$$&#xA;\text{trace} \longrightarrow \text{AIR}.&#xA;$$&lt;p&gt;两条链的共同目标都是同一个：把 computation 变成一个证明系统能消费的 polynomial object。&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;</description>
     </item>

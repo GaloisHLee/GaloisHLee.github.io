@@ -442,4 +442,3 @@ FRI 用的是 even/odd decomposition 与 repeated folding，把低度性压成 q
 [^bulletproofs]: Benedikt Bünz et al., *Bulletproofs: Short Proofs for Confidential Transactions and More*, 2018. Inner-product argument sections.
 [^fri]: Eli Ben-Sasson et al., FRI / STARK related references on low-degree testing and transparent proof systems.
 
-

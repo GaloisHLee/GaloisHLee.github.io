@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>KZG 多项式承诺的曲线基础及其协议应用 - As it was</title><meta name="Description" content="解释 KZG commitments 为什么依赖 pairing-friendly curves，写出最小 opening verification equation，并把它映射到 EIP-4844 blob workflow。"><meta property="og:title" content="KZG 多项式承诺的曲线基础及其协议应用">
+<meta property="og:description" content="解释 KZG commitments 为什么依赖 pairing-friendly curves，写出最小 opening verification equation，并把它映射到 EIP-4844 blob workflow。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/kzg-bls12-381-eip-4844/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KZG 多项式承诺的曲线基础及其协议应用">
+<meta name="twitter:description" content="解释 KZG commitments 为什么依赖 pairing-friendly curves，写出最小 opening verification equation，并把它映射到 EIP-4844 blob workflow。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" /><link rel="prev" href="https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/" /><link rel="next" href="https://galoishlee.github.io/waytozk-01/" /><link rel="stylesheet" href="/css/style.min.3f4dd71b0e7fc12a84f3214cf872ccb63aa272f06dc4fa3ffd906ddcfac004db.css" integrity="sha256-P03XGw5/wSqE8yFM+HLMtjqicvBtxPo//ZBt3PrABNs="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "KZG 多项式承诺的曲线基础及其协议应用",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/kzg-bls12-381-eip-4844\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, kzg, bls12-381, ethereum, eip-4844, pairing, blob","wordcount":  2783 ,
+        "url": "https:\/\/galoishlee.github.io\/kzg-bls12-381-eip-4844\/","datePublished": "2025-12-16T08:00:00+08:00","dateModified": "2025-12-16T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "解释 KZG commitments 为什么依赖 pairing-friendly curves，写出最小 opening verification equation，并把它映射到 EIP-4844 blob workflow。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/kzg-bls12-381-eip-4844/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/kzg-bls12-381-eip-4844/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">KZG 多项式承诺的曲线基础及其协议应用</h1><h2 class="single-subtitle">从 BLS12-381 到 EIP-4844 blob workflow 的最小推导</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-16">2025-12-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2783 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么-kzg-会进入-eip-4844">为什么 KZG 会进入 EIP-4844</a></li>
+    <li><a href="#formal-objectkzg-commitments">Formal Object：<code>KZG commitments</code></a>
+      <ul>
+        <li><a href="#structured-reference-string">structured reference string</a></li>
+        <li><a href="#多项式承诺与-opening-claim">多项式承诺与 opening claim</a></li>
+      </ul>
+    </li>
+    <li><a href="#minimal-kzg-opening-verification-equation">minimal KZG opening verification equation</a>
+      <ul>
+        <li><a href="#商多项式视角">商多项式视角</a></li>
+        <li><a href="#pairing-verification-形状">pairing verification 形状</a></li>
+      </ul>
+    </li>
+    <li><a href="#从-polynomial-commitment-object-到-blob-workflow">从 polynomial commitment object 到 blob workflow</a>
+      <ul>
+        <li><a href="#blob-commitmentproof-与-verifier">blob commitment、proof 与 verifier</a></li>
+        <li><a href="#bls12-381-在工作流里的角色"><code>BLS12-381</code> 在工作流里的角色</a></li>
+      </ul>
+    </li>
+    <li><a href="#trusted-setup-不是尾注"><code>trusted setup</code> 不是尾注</a>
+      <ul>
+        <li><a href="#为什么-setup-在-kzg-里是结构性约束">为什么 setup 在 KZG 里是结构性约束</a></li>
+        <li><a href="#工程师该如何理解-toxic-waste-风险">工程师该如何理解 toxic waste 风险</a></li>
+      </ul>
+    </li>
+    <li><a href="#工程实现对接">工程实现对接</a>
+      <ul>
+        <li><a href="#library-boundary-与-serialization">library boundary 与 serialization</a></li>
+        <li><a href="#blob-verification-integration"><code>blob-verification integration</code></a></li>
+        <li><a href="#作为-ecc-子系列的收尾">作为 ECC 子系列的收尾</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: KZG turns polynomial objects into deployable commitments.</p>
+</blockquote>
+<p>到 ECC 子系列的最后一篇，问题已经收缩得很具体了。前面几篇分别回答了 why not one curve、账户层为什么停在 secp256k1、pairing-friendly curves 为什么进入 verifier、以及 Ethereum 为什么在 BN254 与 BLS12-381 之间形成长期工程张力。到了 EIP-4844，pairing-friendly curve 不再只是 verifier 的数学背景，而是直接进入 data-availability commitment workflow。</p>
+<p>这里真正要理解的，不是“BLS12-381 为什么常出现”，而是“KZG commitments 为什么会自然进入 blob workflow”。如果一个协议只需要对数据做普通哈希承诺，那么 pairing-friendly curve 完全可以不出现；但如果协议既想对多项式对象做常数大小承诺，又想对某个 evaluation claim 给出紧凑 opening proof，那么 verifier 最终就会落到 pairing equation 上，而这也是 KZG commitments and opening proofs rely on pairing-friendly curves 的根本原因。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>所以这一篇的顺序会比“直接讲 blob”更慢半步：先定义 polynomial commitment object，再写 minimal KZG opening verification equation，随后把这个对象映射到 <code>EIP-4844 blobs</code> 的 commitment / proof / verification workflow，最后把 <code>trusted setup</code> 从尾注抬成 first-class protocol constraint，并在文末给出工程实现对接。</p>
+<blockquote>
+<p>Quick Note.
+This article explains why KZG commitments and opening proofs rely on pairing-friendly curves. It also gives the minimal KZG opening verification equation, shows the role of BLS12-381 in modern Ethereum data-availability commitments, maps the polynomial commitment object to the blob-commitment workflow in EIP-4844, and makes trusted setup a first-class protocol constraint rather than an afterthought.</p>
+</blockquote>
+<h2 id="为什么-kzg-会进入-eip-4844">为什么 KZG 会进入 EIP-4844</h2>
+<p>如果把 <code>EIP-4844 blobs</code> 理解成“链上多了一种大数据对象”，会漏掉关键点。EIP-4844 真正要解决的不是把字节串丢进链里，而是让协议能够围绕这些数据对象建立可验证、可传递、可压缩的承诺接口。</p>
+<p>这就是为什么 blob 不是普通哈希承诺。哈希可以证明“这个字节串对应这个 digest”，但它不直接提供多项式 evaluation claim 的紧凑 opening structure。KZG 则不同：它把一个多项式对象压成常数大小 commitment，同时允许 prover 对“在点 $z$ 处，值是否为 $y$”这类 claim 给出紧凑证明。</p>
+<p>于是 BLS12-381 在 modern Ethereum data-availability commitments 里的角色就变得具体了：它不是“某条大家现在更喜欢的曲线”，而是 KZG verifier 需要的 pairing-friendly setting 的工作曲线。</p>
+<h2 id="formal-objectkzg-commitments">Formal Object：<code>KZG commitments</code></h2>
+<h3 id="structured-reference-string">structured reference string</h3>
+<p>KZG 的起点不是消息，而是多项式 $f(X)$。为了对它做 commitment，协议首先需要一个 structured reference string。最小语境下，可以把它理解成某个隐藏标量 $\tau$ 诱导出来的一组群元素，例如</p>
+$$
+g_1, g_1^{\tau}, g_1^{\tau^2}, \ldots
+$$<p>以及配套的目标群侧对象。这里已经出现了本文必须单独抬出来的约束：<code>trusted setup</code>。因为 commitment object 不是从空气中长出来的，它依赖一个结构化参考字符串，而这正是 KZG 和普通无结构承诺的根本区别。</p>
+<h3 id="多项式承诺与-opening-claim">多项式承诺与 opening claim</h3>
+<p>对多项式 $f(X)$，KZG commitment 可以压成</p>
+$$
+C = g_1^{f(\tau)}.
+$$<p>这就是 <code>KZG commitments</code> 的最小对象。接下来，如果 prover 想证明</p>
+$$
+f(z) = y,
+$$<p>那么它需要给出一个 opening proof $\pi$，使 verifier 不必知道整个 $f(X)$，也不必看到 $f(\tau)$ 的秘密结构，就能检查这个 claim 是否成立。</p>
+<h2 id="minimal-kzg-opening-verification-equation">minimal KZG opening verification equation</h2>
+<h3 id="商多项式视角">商多项式视角</h3>
+<p>KZG opening proof 的关键在于商多项式</p>
+$$
+q(X)=\frac{f(X)-y}{X-z}.
+$$<p>这个对象存在的前提正是 $f(z)=y$。如果 claim 为真，那么 $f(X)-y$ 可以被 $(X-z)$ 整除，于是 prover 可以围绕 $q(X)$ 构造证明对象。</p>
+<h3 id="pairing-verification-形状">pairing verification 形状</h3>
+<p>This section gives the minimal KZG opening verification equation.</p>
+<p>在最小形状下，verifier 要检查的是</p>
+$$
+e(C / g_1^y, g_2) \stackrel{?}= e(\pi, g_2^{\tau-z}).
+$$<p>这就是 <code>minimal KZG opening verification equation</code>。</p>
+<p>一旦这条式子出现，为什么 <code>KZG commitments and opening proofs rely on pairing-friendly curves</code> 就已经不需要再靠口号解释了。左边编码的是 commitment 与 claimed value 的差，右边编码的是商多项式与结构化参考字符串的关系。verifier 真正比较的，不再是普通群里的签名等式，而是 pairing equation。</p>
+<h2 id="从-polynomial-commitment-object-到-blob-workflow">从 polynomial commitment object 到 blob workflow</h2>
+<h3 id="blob-commitmentproof-与-verifier">blob commitment、proof 与 verifier</h3>
+<p>This section gives the mapping from polynomial commitment object to blob-commitment workflow in EIP-4844.</p>
+<p>把抽象对象压到 <code>blob-commitment workflow in EIP-4844</code>，可以得到下面这张表：</p>
+<table>
+  <thead>
+      <tr>
+          <th>KZG 对象</th>
+          <th>协议角色</th>
+          <th>EIP-4844 语境</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>多项式 $f(X)$</td>
+          <td>被承诺的数据对象</td>
+          <td>blob 对应的数据多项式表示</td>
+      </tr>
+      <tr>
+          <td>commitment $C$</td>
+          <td>常数大小承诺</td>
+          <td>blob commitment</td>
+      </tr>
+      <tr>
+          <td>evaluation claim $(z, y)$</td>
+          <td>想验证的点值关系</td>
+          <td>某个 opening query</td>
+      </tr>
+      <tr>
+          <td>proof $\pi$</td>
+          <td>opening proof</td>
+          <td>blob verification proof</td>
+      </tr>
+      <tr>
+          <td>pairing verifier</td>
+          <td>检查 claim 是否成立</td>
+          <td>共识/验证流程中的 KZG verification</td>
+      </tr>
+  </tbody>
+</table>
+<p>这张表后面的关键结论是：EIP-4844 不是“先发明了 blob，再随手挑了 KZG”；而是 data-availability commitment workflow 需要一个既能紧凑承诺多项式对象、又能紧凑验证 opening claim 的接口，而 KZG 正好提供了这组对象。</p>
+<h3 id="bls12-381-在工作流里的角色"><code>BLS12-381</code> 在工作流里的角色</h3>
+<p><code>BLS12-381</code> 在这里的角色非常直接：它提供 KZG verifier 所依赖的 pairing-friendly setting。换句话说，curve choice 不是外围实现细节，而是 commitment object 能否被实际验证的一部分。</p>
+<p>这也是为什么上一章的 Ethereum 曲线演化不能单独看。<code>BLS12-381</code> 在 modern Ethereum data-availability commitments 中的重要性，不是因为它“流行”，而是因为 blob commitment 和 opening proof 的 verifier 最终消费的就是这一类 pairing-friendly curve interface。</p>
+<h2 id="trusted-setup-不是尾注"><code>trusted setup</code> 不是尾注</h2>
+<h3 id="为什么-setup-在-kzg-里是结构性约束">为什么 setup 在 KZG 里是结构性约束</h3>
+<p>很多工程叙事会把 trusted setup 写成“当然还有个 ceremony”。这种写法太轻。更准确的说法是：在 KZG 里，setup assumptions 是 commitment object 的一部分。如果结构化参考字符串的生成过程不可信，那么整个安全边界都会被污染。</p>
+<p>This article makes trusted setup a first-class protocol constraint rather than an afterthought.</p>
+<p>也就是说，<code>trusted setup</code> 不是 KZG 旁边的行政手续，而是协议本体的一部分。它和 pairing-friendly curve 一样，都是 verifier interface 的组成条件。</p>
+<h3 id="工程师该如何理解-toxic-waste-风险">工程师该如何理解 toxic waste 风险</h3>
+<p>如果用工程语言重写这个问题，真正需要问的是：</p>
+<ul>
+<li>setup ceremony 的假设是什么</li>
+<li>哪些对象必须被销毁或不可恢复</li>
+<li>library 和 integration 是否默认了 setup 输入永远可信</li>
+</ul>
+<p>只要这些前提没有被明确写进协议和实现边界里，KZG integration 就是不完整的。</p>
+<h2 id="工程实现对接">工程实现对接</h2>
+<h3 id="library-boundary-与-serialization">library boundary 与 serialization</h3>
+<p>现实系统里最先会出问题的，通常不是 pairing 公式写错，而是 object boundary 不清：</p>
+<ul>
+<li>commitment、proof 和 evaluation input 的 serialization 是否一致</li>
+<li>library 是否把 BLS12-381 群对象与 KZG object 清晰分开</li>
+<li>verifier 调用方是否明确知道哪些输入已经做 subgroup checks</li>
+</ul>
+<p>这些看起来像实现细节，但实际上直接决定 blob verification integration 是否可靠。</p>
+<h3 id="blob-verification-integration"><code>blob-verification integration</code></h3>
+<p>对协议工程师来说，<code>blob-verification integration</code> 真正要关心的是：在哪一层消费 commitment、在哪一层消费 opening proof、哪一段系统承担 verification，以及 setup assumptions 是否被正确继承到运行环境里。</p>
+<p>如果这些接线位置不清，系统很容易退化成“数学对象是对的，部署对象是糊的”。这也是为什么 KZG 的工程实现对接必须同时包含：</p>
+<ul>
+<li>曲线与 pairing library 边界</li>
+<li>setup ceremony 假设</li>
+<li>serialization 与 proof object 约束</li>
+<li>verifier workflow 的责任划分</li>
+</ul>
+<h3 id="作为-ecc-子系列的收尾">作为 ECC 子系列的收尾</h3>
+<p>到这里，ECC 子系列实际上收束成了一条很稳定的判断线：</p>
+<ul>
+<li>账户层问题先问普通离散对数群接口</li>
+<li>verifier compression 问 pairing-friendly curve</li>
+<li>进入 Ethereum 工程现实后，再问 precompile、gas、deployment friction</li>
+<li>进入 KZG / blob workflow 后，再把 <code>trusted setup</code> 和 object boundary 拉回主轴</li>
+</ul>
+<p>也就是说，曲线从来不是孤立选型，而是协议接口、实现边界和部署现实的交点。</p>
+<h2 id="总结">总结</h2>
+<p>KZG 之所以会成为 EIP-4844 blob workflow 的核心，不是因为它“先进”，而是因为它把 polynomial commitment object 和 opening proof 压成了实际可消费的 verifier interface。于是 pairing-friendly curve 在这里不再是背景知识，而是 commitment / proof / verification 整条链上的工作曲线。</p>
+<p>因此这一篇最想固定下来的判断线是：如果协议要对多项式对象做紧凑承诺，并对 evaluation claim 做紧凑验证，那么 KZG 会自然进入画面；而一旦 KZG 进入画面，<code>BLS12-381</code> 与 <code>trusted setup</code> 也就不再是可选注释，而是协议主轴本身。</p>
+<p>作为 ECC 子系列收尾，这也把前面 6 篇连成了一条线：不同曲线不是被“偏好”出来的，而是被账户接口、verifier compression、Ethereum execution surface 和 deployment constraints 一起推出来的。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Aniket Kate, Gregory M. Zaverucha, and Ian Goldberg, <em>Constant-Size Commitments to Polynomials and Their Applications</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>EIP-4844, <em>Shard Blob Transactions</em>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-12-16</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/kzg-bls12-381-eip-4844/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" data-title="KZG 多项式承诺的曲线基础及其协议应用" data-hashtags="cryptography,kzg,bls12-381,ethereum,eip-4844,pairing,blob"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" data-title="KZG 多项式承诺的曲线基础及其协议应用"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" data-title="KZG 多项式承诺的曲线基础及其协议应用"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/kzg-bls12-381-eip-4844/" data-title="KZG 多项式承诺的曲线基础及其协议应用"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/kzg/">Kzg</a>,&nbsp;<a href="/tags/bls12-381/">Bls12-381</a>,&nbsp;<a href="/tags/ethereum/">Ethereum</a>,&nbsp;<a href="/tags/eip-4844/">Eip-4844</a>,&nbsp;<a href="/tags/pairing/">Pairing</a>,&nbsp;<a href="/tags/blob/">Blob</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/ethereum-bn254-bls12-381-evolution/" class="prev" rel="prev" title="Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381</a>
+            <a href="/waytozk-01/" class="next" rel="next" title="WayToZK 01">WayToZK 01<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.dea2f4729cf4238b0f10574de00c14c580228238317ce61f8af3a410026c552b.js" integrity="sha256-3qL0cpz0I4sPEFdN4AwUxYAigjgxfOYfivOkEAJsVSs="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>
