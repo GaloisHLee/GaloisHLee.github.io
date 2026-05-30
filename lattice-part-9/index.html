@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ - As it was</title><meta name="Description" content="Reading: Peikert&#39;s survey as the wide-angle frame[^peikert-survey], Albrecht-Player-Scott for concrete-LWE attack modeling[^aps], Chen-Nguyen for BKZ quality heuristics[^cn11], the Homomorphic Encryption Standard for published parameter-table practice[^he-standard], and the LWE …"><meta property="og:title" content="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ">
+<meta property="og:description" content="Reading: Peikert&#39;s survey as the wide-angle frame[^peikert-survey], Albrecht-Player-Scott for concrete-LWE attack modeling[^aps], Chen-Nguyen for BKZ quality heuristics[^cn11], the Homomorphic Encryption Standard for published parameter-table practice[^he-standard], and the LWE …">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-9/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ">
+<meta name="twitter:description" content="Reading: Peikert&#39;s survey as the wide-angle frame[^peikert-survey], Albrecht-Player-Scott for concrete-LWE attack modeling[^aps], Chen-Nguyen for BKZ quality heuristics[^cn11], the Homomorphic Encryption Standard for published parameter-table practice[^he-standard], and the LWE …"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-9/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-8/" /><link rel="next" href="https://galoishlee.github.io/badagent0x00-intro/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-9\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "Lattice, LWE, BKZ, Concrete Security, Primal Attack, Dual Attack","wordcount":  3333 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-9\/","datePublished": "2024-09-25T12:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-9/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-9/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-09-25">2024-09-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3333 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reader-state-after-part-0-3">Reader State After Part 0-3</a>
+      <ul>
+        <li><a href="#notation-for-concrete-estimates">Notation For Concrete Estimates</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-reductions-do-not-set-parameters-for-you">Why Reductions Do Not Set Parameters For You</a>
+      <ul>
+        <li><a href="#what-the-reduction-gives">What The Reduction Gives</a></li>
+        <li><a href="#what-the-reduction-does-not-give">What The Reduction Does Not Give</a></li>
+      </ul>
+    </li>
+    <li><a href="#primal-and-dual-attack-viewpoints">Primal And Dual Attack Viewpoints</a>
+      <ul>
+        <li><a href="#primal-attacks">Primal Attacks</a></li>
+        <li><a href="#dual-attacks">Dual Attacks</a></li>
+      </ul>
+    </li>
+    <li><a href="#bkz-and-root-hermite-factor">BKZ And Root-Hermite Factor</a>
+      <ul>
+        <li><a href="#what-bkz-is-controlling">What BKZ Is Controlling</a></li>
+        <li><a href="#why-root-hermite-factor-appears-everywhere">Why Root-Hermite Factor Appears Everywhere</a></li>
+      </ul>
+    </li>
+    <li><a href="#from-reduction-quality-to-cost-estimates">From Reduction Quality To Cost Estimates</a>
+      <ul>
+        <li><a href="#block-size-to-work-factor">Block Size To Work Factor</a></li>
+        <li><a href="#scheme-parameters-to-attack-inputs">Scheme Parameters To Attack Inputs</a></li>
+      </ul>
+    </li>
+    <li><a href="#reading-estimator-outputs-as-models">Reading Estimator Outputs As Models</a>
+      <ul>
+        <li><a href="#what-an-estimator-assumes">What An Estimator Assumes</a></li>
+        <li><a href="#what-changes-between-kems-and-signatures">What Changes Between KEMs And Signatures</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Reading: Peikert&rsquo;s survey as the wide-angle frame<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, Albrecht-Player-Scott for concrete-LWE attack modeling<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, Chen-Nguyen for BKZ quality heuristics<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>, the Homomorphic Encryption Standard for published parameter-table practice<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>, and the LWE Estimator for the operational interface between these papers and actual numbers<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.</p>
+<p>Parts 0-3 fixed the geometric vocabulary: bases, reduced bases, SVP/CVP, cosets, and short modular witnesses. A deployed lattice scheme then adds concrete parameters such as dimension, modulus, secret distribution, error distribution, and sample count. None of those symbols, by itself, proves that one parameter set costs an attacker $2^{128}$ steps. That last sentence is not a theorem output. It is an attacker model layered on top of the theorem.</p>
+<p>So this chapter stays on the attacker side of the interface. The real objects are primal attacks, dual attacks, BKZ block size, root-Hermite factor, and the estimator-style chain that turns $(n,q,\chi,k,m)$ into a work factor only after a long list of modeling decisions has been fixed.</p>
+<p>This chapter therefore separates asymptotic hardness claims from concrete parameter-setting practice. It defines primal and dual attack viewpoints clearly, then uses concrete security estimation and attack-cost modeling to map parameter choices to attack-cost estimates.</p>
+<p>In that exact sense, the goal is to connect BKZ quality assumptions to concrete lattice-scheme security reasoning rather than to repeat a security badge from the reduction side.</p>
+<h2 id="reader-state-after-part-0-3">Reader State After Part 0-3</h2>
+<p>This chapter assumes only the first lattice layer:</p>
+<ul>
+<li>Part 0 gave the lattice object $\Lambda$ and the distinction between a lattice point and an arbitrary ambient vector.</li>
+<li>Part 1 explained why basis quality matters, via Gram-Schmidt lengths and approximate shortest vectors.</li>
+<li>Part 2 turned CVP into an algorithmic question: given a target near a lattice, can one recover the nearby lattice point or coset representative?</li>
+<li>Part 3 introduced exact modular relations and short witnesses, the same shape that later becomes SIS, ISIS, and LWE-style public data.</li>
+</ul>
+<p>Concrete security estimation is the attacker-side continuation of those four facts. An LWE sample says that a public vector is close, modulo $q$, to a structured lattice point. A primal attack asks whether that closeness can be decoded. A dual attack asks whether a short modular relation can cancel the secret and leave a detectable error bias. BKZ is the basis-reduction engine used to make either route plausible.</p>
+<p>So the central object is not a new cryptographic category. It is the same Part 0-3 geometry with numerical parameters attached:</p>
+$$
+\text{lattice dimension, determinant, target norm, and basis quality}
+\Longrightarrow
+\text{attack success condition}.
+$$<h3 id="notation-for-concrete-estimates">Notation For Concrete Estimates</h3>
+<p>The notation in this article is deliberately close to estimator input syntax:</p>
+<ul>
+<li>$n$ is the plain-LWE dimension.</li>
+<li>$m$ is the number of available LWE samples.</li>
+<li>$q$ is the modulus.</li>
+<li>$\chi$ is the error distribution; $\sigma$ denotes its standard deviation when a Gaussian approximation is used.</li>
+<li>$\alpha=\sigma/q$ is the normalized error rate used in many dual estimates.</li>
+<li>$\mathbf{s}$ is the secret vector and $\mathbf{e}$ is the error vector.</li>
+<li>$k$ is the module rank in Module-LWE; after coefficient expansion the effective dimension is often written $N=kn$.</li>
+<li>$d$ is the dimension of the attack lattice, not necessarily the same as $n$ or $N$.</li>
+<li>$\beta$ is the BKZ block size.</li>
+<li>$\delta_0(\beta)$ is the root-Hermite factor heuristic attached to BKZ-$\beta$.</li>
+</ul>
+<p>The IACR-style discipline is to keep four layers separate:</p>
+<ol>
+<li>theorem-level reduction;</li>
+<li>concrete attack family;</li>
+<li>lattice-reduction quality heuristic;</li>
+<li>classical or quantum cost model.</li>
+</ol>
+<p>A published security claim is meaningful only after all four layers are named.</p>
+<h2 id="why-reductions-do-not-set-parameters-for-you">Why Reductions Do Not Set Parameters For You</h2>
+<h3 id="what-the-reduction-gives">What The Reduction Gives</h3>
+<p>Use the standard LWE sample notation</p>
+$$
+A \in \mathbb{Z}_q^{m\times n},\qquad
+\mathbf{s}\in \mathbb{Z}_q^n,\qquad
+\mathbf{e}\leftarrow \chi^m,\qquad
+\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q.
+$$<p>What the reduction gives is structural confidence. In the plain-LWE line, Regev&rsquo;s worst-case-to-average-case theorem says that an efficient solver for average random LWE instances would imply efficient algorithms for worst-case approximate lattice problems in the corresponding dimension regime. Peikert&rsquo;s survey is still the cleanest reminder of what this means and what it does not mean: the theorem certifies that the assumption is connected to genuinely hard lattice geometry, not that a concrete table entry has already been priced out<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>Write that distinction explicitly:</p>
+$$
+\text{worst-case lattice hardness}
+\Longrightarrow
+\text{average-case LWE hardness}
+$$<p>is a reduction claim, while</p>
+$$
+(n,q,\chi,k,m)\Longrightarrow \text{ ``128-bit security'' }
+$$<p>is not.</p>
+<p>The same separation persists for RLWE or MLWE. A module or ring reduction tells you why the structured assumption is not ad hoc, but it still does not tell you the cheapest known attack on one exact Kyber-like or Dilithium-like parameter tuple. Signature assumptions have the same issue: SIS or Module-SIS style hardness explains why short forgeries should be difficult, yet the concrete gap between a norm bound and an attack cost still has to be modeled.</p>
+<blockquote>
+<p>Reduction boundary: reductions transfer hardness meaning; they do not publish an attacker runtime table.</p>
+</blockquote>
+<h3 id="what-the-reduction-does-not-give">What The Reduction Does Not Give</h3>
+<p>Concrete parameter setting needs attacker-side choices that the reduction never fixes for you:</p>
+<ul>
+<li>Which attack family is being optimized: primal, dual, hybrid, BKW-style, Arora-Ge style, or something structure-specific.</li>
+<li>Which objective is being measured: secret recovery, decision advantage, decoding, key recovery, or existential forgery.</li>
+<li>Which cost model is used for the lattice-reduction backend: classical sieve, quantum sieve, enumeration, or some calibrated hybrid.</li>
+<li>Which secret and noise distributions are assumed: uniform secret, small secret, sparse secret, centered binomial, discrete Gaussian, rounded ciphertext noise.</li>
+<li>How many samples are available, and whether the scheme leaks more effective equations through compression, reconciliation, failure behavior, or transcript structure.</li>
+</ul>
+<p>This is why imprecise language is too weak. Saying &ldquo;the reduction proves 128-bit security&rdquo; collapses several different layers:</p>
+<ol>
+<li>asymptotic reduction,</li>
+<li>attack selection,</li>
+<li>lattice-quality heuristic,</li>
+<li>runtime or memory model,</li>
+<li>implementation-facing parameter choice.</li>
+</ol>
+<p>Concrete security lives in layers 2-5. The reduction mostly justifies layer 1.</p>
+<h2 id="primal-and-dual-attack-viewpoints">Primal And Dual Attack Viewpoints</h2>
+<p>To keep the rest of the chapter grounded, fix the LWE sample relation again:</p>
+$$
+\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q.
+$$<p>For Module-LWE, read this in flattened form: a ring degree $n$ and module rank $k$ behave like an effective ambient dimension $N=kn$ once one expands coefficients. The attacker will often reason on that flattened object even if the scheme is implemented in $R_q^k$.</p>
+<h3 id="primal-attacks">Primal Attacks</h3>
+<p>The primal viewpoint is search-flavored. Instead of trying to distinguish distributions directly, it turns the samples into a lattice problem whose hidden short object encodes the secret or the error pattern. Depending on the exact reduction, the resulting task is described as bounded-distance decoding (BDD), unique shortest vector (uSVP), closest vector (CVP), or an embedding variant of one of these<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>The mental picture is:</p>
+<ul>
+<li>build a $q$-ary lattice from the public samples,</li>
+<li>interpret the LWE instance as a target point displaced by a short vector,</li>
+<li>use lattice reduction to make that short vector visible enough to decode.</li>
+</ul>
+<p>What is short here is not an abstract existential witness. It is tied to the concrete scheme parameters. If the coefficients of $\mathbf{e}$ have standard deviation $\sigma$, then the error norm is typically on the order of</p>
+$$
+\lVert\mathbf{e}\rVert \approx \sigma \sqrt{m}.
+$$<p>If the secret is also small, its norm contributes too. So the primal attack is governed by a comparison of two scales:</p>
+<ol>
+<li>the norm of the hidden target vector that the attacker hopes to expose or decode;</li>
+<li>the quality of the reduced basis produced by BKZ.</li>
+</ol>
+<p>The attacker-side view is the same Part 0-3 geometry with a noisy modular relation attached: the attacker tries to convert public noisy algebra back into a geometric decoding problem.</p>
+<p>The CVP/BDD lift is literal. Define the $q$-ary lattice generated by the sample matrix:</p>
+$$
+\Lambda_q(A)=\{A\mathbf{z}+q\mathbf{y}:\mathbf{z}\in\mathbb{Z}^n,\ \mathbf{y}\in\mathbb{Z}^m\}\subset\mathbb{Z}^m.
+$$<p>Because $\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q$, there exists an integer vector $\mathbf{y}$ such that</p>
+$$
+\mathbf{b}=A\mathbf{s}+q\mathbf{y}+\mathbf{e}.
+$$<p>Thus $\mathbf{b}$ is within distance $\lVert\mathbf{e}\rVert$ of the lattice point $A\mathbf{s}+q\mathbf{y}\in\Lambda_q(A)$. Search-LWE security, in this simplified primal picture, is exactly the claim that this near-lattice target is still too hard to decode at the chosen parameters.</p>
+<h3 id="dual-attacks">Dual Attacks</h3>
+<p>The dual viewpoint is distinguishing-flavored. It looks for a short relation among the public samples that annihilates the secret term modulo $q$.</p>
+<p>Take a vector $\mathbf{w}\in \mathbb{Z}^m$ such that</p>
+$$
+\mathbf{w}^\top A \equiv \mathbf{0}^\top \pmod q.
+$$<p>Then on a genuine LWE sample,</p>
+$$
+\begin{aligned}
+\mathbf{w}^\top \mathbf{b}
+&=
+\mathbf{w}^\top A\mathbf{s}+\mathbf{w}^\top \mathbf{e} \\
+&\equiv
+\mathbf{w}^\top \mathbf{e}
+\pmod q.
+\end{aligned}
+$$<p>If the error is narrow enough and $\mathbf{w}$ is short enough, then $\mathbf{w}^\top \mathbf{e}$ is measurably biased toward small values instead of being uniform mod $q$. On a uniform fake sample, the same statistic is uniform. So the dual attack reduces decision-LWE to the problem of producing a sufficiently short dual relation and then accumulating enough statistical evidence<sup id="fnref2:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>This is why the primal and dual labels should not be blurred:</p>
+<ul>
+<li>primal attacks want a decoding event or a short hidden witness,</li>
+<li>dual attacks want a short annihilator that turns structure into bias.</li>
+</ul>
+<p>In KEM analysis, both may be relevant because decision and search are both operationally meaningful. In signature analysis, the situation can diverge further because the concrete objective may be short-forgery search, transcript leakage, or secret-key recovery under repeated signing, not only plain LWE distinguishing.</p>
+<h2 id="bkz-and-root-hermite-factor">BKZ And Root-Hermite Factor</h2>
+<h3 id="what-bkz-is-controlling">What BKZ Is Controlling</h3>
+<p>BKZ is not itself an attack on LWE. It is the reduction engine that most lattice attacks call internally. Given a basis $B=(\mathbf{b}_1,\ldots,\mathbf{b}_d)$ of a $d$-dimensional lattice $\Lambda$, BKZ with block size $\beta$ tries to improve the basis by solving or approximating SVP inside projected blocks of dimension about $\beta$. Larger $\beta$ usually means better reduction quality and sharply higher cost<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>For concrete-security reasoning, that sentence matters more than the acronym expansion. The attacker is not asking &ldquo;can I run BKZ?&rdquo; The attacker is asking:</p>
+<ol>
+<li>what quality would BKZ-$\beta$ heuristically achieve on the attack lattice,</li>
+<li>is that quality enough for the primal or dual success condition,</li>
+<li>how expensive is that $\beta$ under a chosen backend model.</li>
+</ol>
+<p>Chen-Nguyen&rsquo;s BKZ 2.0 paper is the standard reference because it does not treat block size as a symbolic knob only; it ties block size to basis quality and simulated attack cost in a way that later concrete-LWE work reuses<sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<h3 id="why-root-hermite-factor-appears-everywhere">Why Root-Hermite Factor Appears Everywhere</h3>
+<p>The reason root-Hermite factor keeps showing up is that it compresses basis quality into one scalar. A common heuristic writes the BKZ quality achieved at block size $\beta$ as</p>
+$$
+\delta_0(\beta)
+\approx
+\left(
+\frac{\beta}{2\pi e}
+(\pi\beta)^{1/\beta}
+\right)^{\frac{1}{2(\beta-1)}}.
+$$<p>This is not a theorem one should quote as an exact identity for every lattice. It is the kind of heuristic quality proxy that concrete-security work uses because it turns &ldquo;good enough basis&rdquo; into algebra.</p>
+<p>Under the geometric-series-assumption style picture, the Gram-Schmidt lengths behave approximately like</p>
+$$
+\lVert\mathbf{b}_i^*\rVert
+\approx
+\delta_0(\beta)^{\,d-1-2(i-1)} \det(\Lambda)^{1/d},
+$$<p>and therefore the leading basis scale is roughly</p>
+$$
+\lVert\mathbf{b}_1\rVert
+\approx
+\delta_0(\beta)^{\,d-1}\det(\Lambda)^{1/d}.
+$$<p>That is why root-Hermite factor becomes the bridge variable between scheme parameters and attack cost. Determinants come from the scheme-induced lattice. Success thresholds come from the primal or dual objective. $\delta_0(\beta)$ is the compression layer that connects the two.</p>
+<p>Equivalently, many concrete estimates silently follow the same template:</p>
+$$
+\text{scheme parameters}
+\Longrightarrow
+\det(\Lambda),\ d,\ \text{target norm or bias}
+\Longrightarrow
+\delta_0^\star
+\Longrightarrow
+\beta^\star
+\Longrightarrow
+\text{cost}.
+$$<h2 id="from-reduction-quality-to-cost-estimates">From Reduction Quality To Cost Estimates</h2>
+<h3 id="block-size-to-work-factor">Block Size To Work Factor</h3>
+<p>Now write the estimator-style chain explicitly.</p>
+<p>For a primal attack, one first derives a target norm $R_{\mathrm{primal}}$ from the secret and error geometry. In a simplified embedding picture,</p>
+$$
+R_{\mathrm{primal}}
+\approx
+\sqrt{\lVert\mathbf{e}\rVert^2 + \lVert\mathbf{s}\rVert^2 + M^2},
+$$<p>where $M$ is the embedding parameter and the dimension is some $d\approx m+n$ or $d+1$, depending on the exact formulation. The attack asks for a basis good enough that the hidden short vector is no longer lost in the lattice bulk. A minimal heuristic success inequality is therefore</p>
+$$
+\delta_0(\beta)^{\,d-1}\det(\Lambda)^{1/d}
+\lesssim
+R_{\mathrm{primal}}.
+$$<p>One does not usually stop at this line, because it still contains the unknown $\beta$. The next step is to solve the inequality for the smallest block size $\beta^\star$ that makes the attack plausible. Only then does one attach a cost model such as</p>
+$$
+\log_2 T_{\mathrm{sieve}}(\beta^\star)
+\approx
+c_{\mathrm{sieve}}\beta^\star
+$$<p>or an enumeration-style model with a different dependence on $\beta^\star$. The constant is not universal. It depends on which sieve variant, which memory assumptions, and whether the estimate is classical or quantum.</p>
+<p>For a dual attack the chain is different, but the logic is the same. If BKZ on the dual lattice yields a short vector $\mathbf{w}$, then the decision bias is controlled by the Fourier decay of the error distribution. In the common Gaussian-style normalization one gets a bias of the rough form</p>
+$$
+\varepsilon_{\mathrm{dual}}
+\approx
+\exp\!\big(-2\pi^2 \alpha^2 \lVert\mathbf{w}\rVert^2\big),
+\qquad
+\alpha = \sigma/q.
+$$<p>So dual success means two things at once:</p>
+<ol>
+<li>BKZ must make $\lVert\mathbf{w}\rVert$ small enough.</li>
+<li>The adversary must have enough samples for that bias to become statistically visible.</li>
+</ol>
+<p>If the dual lattice has determinant $\det(\Lambda^\ast)$ and dimension $d$, then one again substitutes a BKZ-quality heuristic such as</p>
+$$
+\lVert\mathbf{w}\rVert
+\approx
+\delta_0(\beta)^{\,d}\det(\Lambda^\ast)^{1/d},
+$$<p>and solves backward from the bias threshold to the required block size. In the roughest sample-complexity view, the distinguisher only becomes meaningful once the accumulated evidence crosses a threshold such as</p>
+$$
+\sqrt{m}\,\varepsilon_{\mathrm{dual}} \gtrsim 1
+$$<p>or an equivalent likelihood-ratio criterion, so the same attack family factors into a geometric question and a statistical question.</p>
+<p>This is the cleanest way to separate asymptotic and concrete language. The theorem says the distributions are computationally hard to distinguish in an asymptotic sense. The concrete estimate says: under a BKZ-$\beta$ quality heuristic and a chosen cost model, the shortest useful dual relation should cost about so many bits of work.</p>
+<p>A useful attacker-side runbook is therefore:</p>
+<ol>
+<li>flatten the scheme into the attacker&rsquo;s parameter set, often with an effective dimension like $N=kn$ for MLWE;</li>
+<li>derive the attack lattice dimension $d$, determinant scale, and sample count actually available;</li>
+<li>translate the scheme&rsquo;s secret and noise distributions into either a target norm $R_{\mathrm{primal}}$ or a bias parameter $\varepsilon_{\mathrm{dual}}$;</li>
+<li>solve for the smallest $\beta$ whose heuristic $\delta_0(\beta)$ meets that target;</li>
+<li>price that $\beta$ under an explicit classical or quantum backend model.</li>
+</ol>
+<p>That is the concrete-security pipeline which estimator tools compress into one output table.</p>
+<h3 id="scheme-parameters-to-attack-inputs">Scheme Parameters To Attack Inputs</h3>
+<p>Estimator-style tools are useful because they automate the bookkeeping, not because they remove the modeling burden. The bookkeeping itself is already nontrivial:</p>
+<ul>
+<li>$n$ is the plain-LWE dimension or the ring degree.</li>
+<li>$k$ is the module rank, so MLWE often contributes an effective dimension $N=kn$ after coefficient expansion.</li>
+<li>$q$ controls lattice determinant scales, spacing in the dual, and the normalization of the noise rate.</li>
+<li>$\chi$ or $\sigma$ controls the error norm and therefore the decoding radius or dual bias.</li>
+<li>$m$ controls how many equations the attacker can use and often enters dimension-optimization choices directly.</li>
+<li>The secret distribution matters. Small or sparse secrets can shift which attack dominates.</li>
+</ul>
+<p>That last point is easy to understate. A paper or estimator input that assumes uniform $\mathbf{s}$ is not modeling the same attack landscape as one that assumes centered-binomial or sparse ternary secrets. The primal embedding geometry changes. The dual advantage changes. Hybrids that guess part of the secret become more or less attractive.</p>
+<p>Structured ring and module schemes add another layer. A Kyber-like MLWE instance is not just &ldquo;LWE with different constants.&rdquo; The attacker may flatten the module structure into a larger plain lattice, but the input still carries module rank, ring degree, coefficient distribution, rounding rules, and sometimes decryption-failure or reconciliation behavior that affect how one translates scheme syntax into attack syntax<sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+<p>Lattice signatures add a different complication. Falcon-like and Dilithium-like systems do not reduce to one single &ldquo;LWE security number.&rdquo; The attacker objective may be:</p>
+<ul>
+<li>recovering a signing key,</li>
+<li>finding a short forgery for a Module-SIS style relation,</li>
+<li>exploiting transcript structure or rejection-sampling leakage,</li>
+<li>or attacking an NTRU-style key equation.</li>
+</ul>
+<p>So even when the same BKZ language reappears, the concrete target condition is no longer identical to a KEM key-recovery condition. Trapdoors, Gaussian sampling, rejection sampling, and short-witness generation change the attack objective. The attacker sees those differences too.</p>
+<h2 id="reading-estimator-outputs-as-models">Reading Estimator Outputs As Models</h2>
+<h3 id="what-an-estimator-assumes">What An Estimator Assumes</h3>
+<p>The LWE Estimator is valuable precisely because it exposes, in executable form, the chain sketched above<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>. But the right way to read its output is:</p>
+<blockquote>
+<p>this is the cheapest modeled attack under the current assumptions,</p>
+</blockquote>
+<p>not:</p>
+<blockquote>
+<p>this is the theorem-certified cost of breaking the scheme.</p>
+</blockquote>
+<p>When an estimator reports that <code>dual</code>, <code>bdd</code>, <code>usvp</code>, or a hybrid variant is the winner, it has already fixed several hidden choices:</p>
+<ul>
+<li>the noise normalization,</li>
+<li>the secret distribution,</li>
+<li>the number of available samples,</li>
+<li>the lattice-reduction quality heuristic,</li>
+<li>the backend cost model,</li>
+<li>the classical versus quantum setting,</li>
+<li>and the success threshold used to declare an attack plausible.</li>
+</ul>
+<p>The Homomorphic Encryption Standard is a good secondary reference here because it presents concrete parameter tables only after fixing exactly these kinds of modeling choices, often with separate rows for classical or quantum estimates and with explicit caveats about secret distributions or noise growth assumptions<sup id="fnref2:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+<p>So an estimator output is best read as a model summary:</p>
+$$
+\text{chosen assumptions}
+\Longrightarrow
+\text{best modeled attack}
+\Longrightarrow
+\text{estimated cost}.
+$$<p>If you change the assumptions, you may change the winning attack. That is not a bug. It is the whole point.</p>
+<h3 id="what-changes-between-kems-and-signatures">What Changes Between KEMs And Signatures</h3>
+<p>The KEM/signature split makes this distinction unavoidable.</p>
+<p>For KEMs or encryption systems based on LWE/RLWE/MLWE, the main concrete questions are usually variants of:</p>
+<ul>
+<li>can the attacker recover the secret key,</li>
+<li>can the attacker distinguish structured samples from random,</li>
+<li>can compression or failure behavior amplify the attack surface.</li>
+</ul>
+<p>For lattice signatures, the main concrete questions often involve different interfaces:</p>
+<ul>
+<li>can the attacker produce a new short witness satisfying a public Module-SIS or NTRU-style relation,</li>
+<li>can repeated transcripts leak enough information to support key recovery,</li>
+<li>can implementation details in Gaussian or rejection sampling shift the concrete margin.</li>
+</ul>
+<p>This is why it is technically wrong to quote one naked &ldquo;128-bit&rdquo; number across both families without saying which objective it belongs to. A Module-LWE KEM and a Module-SIS signature may both invoke BKZ in their security discussion, yet the corresponding attack lattices, success conditions, and sample models are not the same.</p>
+<p>Peikert&rsquo;s survey framed lattice cryptography from the construction side. APS and the estimator line framed it from the cost-model side. Putting those together gives the right reading discipline:</p>
+<ol>
+<li>use reductions to justify why the assumption class matters,</li>
+<li>use primal or dual attack models to define a concrete adversary,</li>
+<li>use BKZ and root-Hermite-factor heuristics to turn success conditions into block sizes,</li>
+<li>use an explicit runtime model before attaching a security label.</li>
+</ol>
+<p>Any shortcut that skips step 2 or step 4 is usually where the modeling error enters.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The introductory geometry gave the lattice, coset, and short-witness language. Concrete lattice cryptography adds noisy linear relations, structured scheme families, and signing interfaces that need more than plain hardness. This chapter adds the attacker-side lens needed to price those objects.</p>
+<p>Concrete security for lattice schemes is not the direct output of a worst-case reduction. It is a modeling discipline. One picks a primal or dual viewpoint, derives the lattice geometry or the distinguishing bias, translates the needed success condition into a BKZ quality requirement, compresses that quality through a root-Hermite-factor heuristic, and only then maps block size to a runtime estimate.</p>
+<p>That is the reason careful papers and standards do not stop at &ldquo;128-bit secure.&rdquo; They say which problem, which attack family, which BKZ model, which secret distribution, which sample regime, and which cost assumptions are carrying that number.</p>
+<h2 id="references">References</h2>
+<p>Suggested reading order:</p>
+<ol>
+<li>Peikert first, for the reduction-level lattice-cryptography frame and the distinction between worst-case and average-case hardness.</li>
+<li>Albrecht-Player-Scott next, because it is the clean bridge from LWE parameters to concrete primal and dual attacks.</li>
+<li>Chen-Nguyen after that, for BKZ quality, root-Hermite factors, and block-size reasoning.</li>
+<li>The Homomorphic Encryption Standard parameter guidance next, to see how concrete estimates are reported in public parameter tables.</li>
+<li>The LWE Estimator documentation last, as an executable version of the attack-model bookkeeping rather than as an oracle.</li>
+</ol>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Chris Peikert (2016), <em>A Decade of Lattice Cryptography</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Martin R. Albrecht, Rachel Player, and Sam Scott (2015), <em>On the Concrete Hardness of Learning with Errors</em>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Yuanmi Chen and Phong Q. Nguyen (2011), <em>BKZ 2.0: Better Lattice Security Estimates</em>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>HomomorphicEncryption.org, <em>Homomorphic Encryption Standard</em>, current public standard and parameter guidance documents.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Martin R. Albrecht et al., <em>The LWE Estimator</em> project and documentation, <a href="https://github.com/malb/lwe-estimator" target="_blank" rel="noopener noreffer ">https://github.com/malb/lwe-estimator</a> and <a href="https://lattice-estimator.readthedocs.io/" target="_blank" rel="noopener noreffer ">https://lattice-estimator.readthedocs.io/</a>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-9/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-9/" data-title="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ" data-hashtags="Lattice,LWE,BKZ,Concrete Security,Primal Attack,Dual Attack"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-9/" data-hashtag="Lattice"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-9/" data-title="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-9/" data-title="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-9/" data-title="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/lwe/">LWE</a>,&nbsp;<a href="/tags/bkz/">BKZ</a>,&nbsp;<a href="/tags/concrete-security/">Concrete Security</a>,&nbsp;<a href="/tags/primal-attack/">Primal Attack</a>,&nbsp;<a href="/tags/dual-attack/">Dual Attack</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-part-8/" class="prev" rel="prev" title="Lattice Part 8: Identity-Based and Functional Encryption From Lattices"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Lattice Part 8: Identity-Based and Functional Encryption From Lattices</a>
+            <a href="/badagent0x00-intro/" class="next" rel="next" title="BadAgent0x00 Intro">BadAgent0x00 Intro<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

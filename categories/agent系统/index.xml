@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Agent系统 on As it was</title>
+    <link>https://galoishlee.github.io/categories/agent%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in Agent系统 on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 30 May 2026 20:37:52 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/categories/agent%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式</title>
+      <link>https://galoishlee.github.io/agent-psychometrics-runtime-irt/</link>
+      <pubDate>Sat, 23 May 2026 21:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/agent-psychometrics-runtime-irt/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: aggregate pass rate告诉我们的，只是Agent大概会不会做；它没有告诉我们Agent正在面对什么任务。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;code&gt;Agent Psychometrics&lt;/code&gt;这篇论文最有价值的地方，不是给Agent排行榜再加一层精度，而是把问题重新表述成“Agent能力、任务难度与成功概率”的关系问题。这个问题一旦成立，很多原本看起来像工程技巧的东西，就会变成统计校准、预算控制和路径选择的问题。它让我们第一次比较清楚地看到：Agent不是“能不能做”，而是“面对某类任务时，值得不值得继续做、该怎么做、做多久”。&lt;/p&gt;&#xA;&lt;p&gt;但这篇论文对运行时的启发，不能被机械搬运。Embedding、IRT、LLM-as-Judge都很强，但它们更适合放在后台经验层和难度校准层，而不是直接变成前台控制器。真正需要改造的，不是再造一个Planner，而是给现有Plan机制加一层Plan Control Layer。它负责把自然语言计划转成可审计对象，把审计转成执行约束，把重规划转成局部patch，而不是把整个计划推倒重写。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

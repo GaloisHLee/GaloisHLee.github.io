@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Primal Attack on As it was</title>
+    <link>https://galoishlee.github.io/tags/primal-attack/</link>
+    <description>Recent content in Primal Attack on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 30 May 2026 20:37:52 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/primal-attack/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)</title>
+      <link>https://galoishlee.github.io/lattice-hints-lu2025/</link>
+      <pubDate>Wed, 27 May 2026 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/lattice-hints-lu2025/</guid>
+      <description>&lt;p&gt;Reading: Lu, Feng, Pan (2025). &lt;em&gt;Solving LWE with Independent Hints about Secret and Errors.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;问题设定：&lt;/strong&gt; 给定 LWE 实例 \((A, \mathbf{b} = \mathbf{s}A + \mathbf{e} \bmod q)\) 和一组精确的侧信道 hint（关于 \(\mathbf{s}\) 或 \(\mathbf{e}\) 的内积值），构造 primal attack 格基进行密钥恢复。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;本文的改进：&lt;/strong&gt; 将 Nowakowski-May (ASIACRYPT 2023) 嵌入 hint 时使用的 LLL 约简替换为 Hermite 标准型（HNF）——一个多项式次数更低的整数线性代数操作。Kyber512 上 234 个完美 hint 的基构造从 2.16 小时降至 0.35 小时。格基维度与行列式与 MN23 等价，对完美 hint 行列式略有增大。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;本笔记关注：&lt;/strong&gt; (1) 构造链——hint 转为 lattice hint 后如何通过矩阵乘法嵌入 primal attack 格基；(2) HNF 比 LLL 快在哪——多项式次数的差距及其工程含义；(3) 论文未说但值得追问的部分——带噪 hint、联合 hint、attack pipeline 完整评测的缺失。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ</title>
+      <link>https://galoishlee.github.io/lattice-part-9/</link>
+      <pubDate>Wed, 25 Sep 2024 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/lattice-part-9/</guid>
+      <description>&lt;p&gt;Reading: Peikert&amp;rsquo;s survey as the wide-angle frame&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, Albrecht-Player-Scott for concrete-LWE attack modeling&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;, Chen-Nguyen for BKZ quality heuristics&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;, the Homomorphic Encryption Standard for published parameter-table practice&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;, and the LWE Estimator for the operational interface between these papers and actual numbers&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Parts 0-3 fixed the geometric vocabulary: bases, reduced bases, SVP/CVP, cosets, and short modular witnesses. A deployed lattice scheme then adds concrete parameters such as dimension, modulus, secret distribution, error distribution, and sample count. None of those symbols, by itself, proves that one parameter set costs an attacker $2^{128}$ steps. That last sentence is not a theorem output. It is an attacker model layered on top of the theorem.&lt;/p&gt;&#xA;&lt;p&gt;So this chapter stays on the attacker side of the interface. The real objects are primal attacks, dual attacks, BKZ block size, root-Hermite factor, and the estimator-style chain that turns $(n,q,\chi,k,m)$ into a work factor only after a long list of modeling decisions has been fixed.&lt;/p&gt;&#xA;&lt;p&gt;This chapter therefore separates asymptotic hardness claims from concrete parameter-setting practice. It defines primal and dual attack viewpoints clearly, then uses concrete security estimation and attack-cost modeling to map parameter choices to attack-cost estimates.&lt;/p&gt;&#xA;&lt;p&gt;In that exact sense, the goal is to connect BKZ quality assumptions to concrete lattice-scheme security reasoning rather than to repeat a security badge from the reduction side.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

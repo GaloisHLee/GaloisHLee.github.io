@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Pae Attack - As it was</title><meta name="Description" content="Reading: PAE ![image-20240727210213433](https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png) **Trustworthy deep learning.**"><meta property="og:title" content="Pae Attack">
+<meta property="og:description" content="Reading: PAE ![image-20240727210213433](https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png) **Trustworthy deep learning.**">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/pae-attack/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pae Attack">
+<meta name="twitter:description" content="Reading: PAE ![image-20240727210213433](https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png) **Trustworthy deep learning.**"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/pae-attack/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-7/" /><link rel="next" href="https://galoishlee.github.io/lattice-part-8/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Pae Attack",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/pae-attack\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  5477 ,
+        "url": "https:\/\/galoishlee.github.io\/pae-attack\/","datePublished": "2024-07-27T19:07:08+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/pae-attack/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/pae-attack/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Pae Attack</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-07-27">2024-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 5477 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 26 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#overview"><strong>Overview</strong></a></li>
+    <li><a href="#where-it-goes-">Where it goes ?</a></li>
+    <li><a href="#where-it-from">Where it from?</a></li>
+    <li><a href="#what-we-do-">What we do ?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#overview-1">overview</a></li>
+    <li><a href="#the-key-particularities-among-paes">The Key Particularities among PAEs</a></li>
+    <li><a href="#definition-of-paes">Definition of PAEs</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#the-manufacturing-process-oriented-paes">The Manufacturing Process Oriented PAEs</a>
+      <ul>
+        <li><a href="#touchable-attacks">Touchable Attacks:</a>
+          <ul>
+            <li><a href="#2d-attacks">2D attacks</a>
+              <ul>
+                <li><a href="#new-framework">New Framework</a></li>
+              </ul>
+            </li>
+            <li><a href="#3d-attacks">3D Attacks</a></li>
+          </ul>
+        </li>
+        <li><a href="#untouchable-attack">Untouchable attack</a>
+          <ul>
+            <li><a href="#lighting-attack">Lighting attack</a></li>
+            <li><a href="#audiospeech-attacks">Audio/Speech attacks</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#the-re-sampling-process-oriented-ones">The re-sampling process-oriented ones</a>
+      <ul>
+        <li><a href="#environment-oriented-attacks">Environment-oriented Attacks</a></li>
+        <li><a href="#sampler-oriented-attacks">Sampler-oriented Attacks</a></li>
+      </ul>
+    </li>
+    <li><a href="#other-pae-topics">Other PAE Topics</a>
+      <ul>
+        <li><a href="#the-natural-physical-adversarial-attacks">The Natural Physical Adversarial Attacks</a>
+          <ul>
+            <li><a href="#optimized-based-methods">Optimized-based methods</a></li>
+            <li><a href="#generative-model-based-methods">Generative model-based methods</a></li>
+          </ul>
+        </li>
+        <li><a href="#the-transferable-physical--adversarial--attacks---transferability">The Transferable Physical  Adversarial  Attacks - transferability</a></li>
+        <li><a href="#the-generalized-physical-adversarial--attacks---robustness">The Generalized Physical Adversarial  Attacks - robustness</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#defend-against-paes">Defend against PAEs</a>
+      <ul>
+        <li><a href="#data-end-defense-strategies">Data-end Defense Strategies</a></li>
+        <li>
+          <ul>
+            <li><a href="#the-adversarial-detecting">The adversarial detecting</a></li>
+            <li><a href="#the-adversarial-denoising">The adversarial denoising</a></li>
+            <li><a href="#the-adversarial-prompting">The adversarial prompting</a></li>
+          </ul>
+        </li>
+        <li><a href="#model-end-defense-strategies">Model-end Defense Strategies</a>
+          <ul>
+            <li><a href="#adversarial-training">Adversarial training</a></li>
+            <li><a href="#model-modification">Model modification</a></li>
+            <li><a href="#certified-robustness">Certified robustness</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#the-challenges-of-paes">The Challenges of PAEs</a>
+      <ul>
+        <li><a href="#generating-transferable-paes">Generating Transferable PAEs</a></li>
+        <li><a href="#generating-generalizable-paes">Generating Generalizable PAEs</a></li>
+        <li><a href="#evaluation-protocols">Evaluation Protocols</a></li>
+        <li><a href="#multi-sensor-and-closed-loop-systems">Multi-Sensor and Closed-Loop Systems</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-opportunities-of-paes">The Opportunities of PAEs</a>
+      <ul>
+        <li><a href="#evaluate-the-application-robustness-via-paes">Evaluate the Application Robustness via PAEs</a></li>
+        <li><a href="#protect-the-application-privacy-via-paes">Protect the Application Privacy via PAEs</a></li>
+        <li><a href="#bridge-digital-robustness-and-cyber-physical-security">Bridge Digital Robustness and Cyber-Physical Security</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#references--further-reading">References / Further Reading</a>
+      <ul>
+        <li><a href="#survey-literature">Survey Literature</a></li>
+        <li><a href="#physical-attack-foundations">Physical Attack Foundations</a></li>
+        <li><a href="#defense-and-evaluation">Defense and Evaluation</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Reading: PAE</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png"
+        data-srcset="https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png, https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png 1.5x, https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png"
+        title="image-20240727210213433" /></p>
+<p><strong>Trustworthy deep learning.</strong></p>
+<h1 id="a-survey-on-paes-attack">A survey on PAEs Attack.</h1>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/ce76YGiFdmf5y1g.png"
+        data-srcset="https://s2.loli.net/2024/07/29/ce76YGiFdmf5y1g.png, https://s2.loli.net/2024/07/29/ce76YGiFdmf5y1g.png 1.5x, https://s2.loli.net/2024/07/29/ce76YGiFdmf5y1g.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/ce76YGiFdmf5y1g.png"
+        title="image-20240729185406471" /></p>
+<h2 id="overview"><strong>Overview</strong></h2>
+<hr>
+<h2 id="where-it-goes-">Where it goes ?</h2>
+<p>The challenges are distributed in many AI application areas.</p>
+<p>Risk comes from application.</p>
+<ul>
+<li>CV,</li>
+<li>NLP</li>
+<li>ASR</li>
+</ul>
+<p>More precisely:</p>
+<blockquote>
+<p>auto-driving
+vision-based automatic check-out system
+vehicle classification and detection models
+&hellip;&hellip;</p>
+</blockquote>
+<h2 id="where-it-from">Where it from?</h2>
+<p>A critical question that what makes physical adversarial examples different from digital ones.</p>
+<p>basically three :</p>
+<ul>
+<li>characterization</li>
+<li>generating strategy</li>
+<li>attacking ability</li>
+</ul>
+<p><strong>Substantially</strong></p>
+<ul>
+<li><strong>digital-physical domain gap</strong></li>
+</ul>
+<blockquote>
+<p>the physical world is a complex and open environment, where it has several dynamics such as lighting, natural noises, and diverse transformations.</p>
+</blockquote>
+<p>On the one hand, it brings attack more various, but also harder on the other.</p>
+<h2 id="what-we-do-">What we do ?</h2>
+<p>A more <strong>distinct hierarchy</strong> of physical world adversarial example generation methods</p>
+<p>understanding of physical examples</p>
+<ul>
+<li>revisit the critical particularities of physical adversarial examples under the perspective of workflow give <strong>in-depth analysis</strong> in turn to induce the typical processes that might pose a great influence on adversarial examples generation.</li>
+</ul>
+<p><strong>Three important process</strong></p>
+<ul>
+<li>adversarial example <strong>optimization</strong> process</li>
+<li>adversarial example <strong>manufacturing</strong> process</li>
+<li>adversarial example <strong>resampling</strong> process</li>
+</ul>
+<p>where the last two process are specific to the <strong>physical</strong> adversarial attacks.</p>
+<p>Classify the PAEs:</p>
+<blockquote>
+<p>based on the summarized typical particularities and the critical attributes, with respect to identified typical processes, according to the hundreds of physical world attack studies. Backed up by the concluded attacking particularities of the key adversarial example generation processes</p>
+</blockquote>
+<p>Give a proposed hierarchy.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/27/Tbuk8Liq6f7yIxn.png"
+        data-srcset="https://s2.loli.net/2024/07/27/Tbuk8Liq6f7yIxn.png, https://s2.loli.net/2024/07/27/Tbuk8Liq6f7yIxn.png 1.5x, https://s2.loli.net/2024/07/27/Tbuk8Liq6f7yIxn.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/27/Tbuk8Liq6f7yIxn.png"
+        title="image-20240727210740497" /></p>
+<h1 id="section-ii---go--deep-into-physical-adversarial-examples">Section II - Go  Deep into physical adversarial examples</h1>
+<h2 id="overview-1">overview</h2>
+<p>The digital world and physical world, divide the adversarial examples into digital kinds and physical kinds.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/27/u9P4bAKJBwmDhN8.png"
+        data-srcset="https://s2.loli.net/2024/07/27/u9P4bAKJBwmDhN8.png, https://s2.loli.net/2024/07/27/u9P4bAKJBwmDhN8.png 1.5x, https://s2.loli.net/2024/07/27/u9P4bAKJBwmDhN8.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/27/u9P4bAKJBwmDhN8.png"
+        title="image-20240727211803069" /></p>
+<h2 id="the-key-particularities-among-paes">The Key Particularities among PAEs</h2>
+<p>What makes the PAEs different from the digital ones are the particular generation processes.</p>
+<p>manufacture the digitally-trained adversarial patterns into the physical environment of existing objects, which indicates a “virtual-to-real” process.</p>
+<p><strong>Key:</strong></p>
+<ul>
+<li>manufacture technique</li>
+<li>manufacture carrier</li>
+<li>sampling environment</li>
+<li>sampler quality</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/kmtedMsRgPQUn3x.png"
+        data-srcset="https://s2.loli.net/2024/07/29/kmtedMsRgPQUn3x.png, https://s2.loli.net/2024/07/29/kmtedMsRgPQUn3x.png 1.5x, https://s2.loli.net/2024/07/29/kmtedMsRgPQUn3x.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/kmtedMsRgPQUn3x.png"
+        title="image-20240729160749871" /></p>
+<ol>
+<li>basic attributes</li>
+<li>core attributes</li>
+<li>epitaxial attributes</li>
+</ol>
+<h2 id="definition-of-paes">Definition of PAEs</h2>
+<p><strong>adversarial examples</strong>
+</p>
+$$
+y^x \ne  \mathcal{F}(x_{adv}^{d}),x_{adv}^{d}=x + \delta
+$$<p>where $y^x$ is the ground-truth label of the input instance $x,\delta$ indicates the adversarial perturbation, and it satisfes $|\delta|&lt;\varepsilon$ (ε is a small enough radius and bigger than 0).</p>
+<p>Things changed in physical world.</p>
+<p><strong>modified definition into physical world</strong></p>
+$$
+y^x\neq\mathcal{F}(x_{adv}^p),\quad s.t.,\quad \Vert x_{adv}^p\Vert _ \aleph<\varepsilon, \\\\ x_{adv}^p=x+\mathcal{R}(\mathcal{M}(\delta),c),
+$$<ul>
+<li>$x_{adv}^p$ physical adversarial example</li>
+<li>$\mathcal{R}(\cdot)$ re-sampling function that represents the re-sampling process</li>
+<li>$\mathcal{M}(\cdot)$ manufacturing function that represents the manufacturing process</li>
+<li>$c$ a certain environment condition and comes from the real and infinite environment conditions that are denoted as $\mathbb{E},i.e.$, $c\in\mathbb{E}$</li>
+<li>the $|\cdot|_\aleph$ represents the evaluation metric that measures the naturalness of the PAE that input to the deployed artificial intelligence system</li>
+<li>$\aleph$ indicates the recognizable space of human beings to the PAEs.</li>
+</ul>
+<p>where $x_{adv}^p$ is the input physical adversarial example to the deployed deep models, $\mathcal{R}(\cdot)$ is the re-sampling function that represents the re-sampling process, $\mathcal{M}(\cdot)$ is the manufacturing function that represents the manufacturing process, $c$ is a certain environment condition and comes from the real and infinite environment conditions that are denoted as $\mathbb{E},i.e.$, $c\in\mathbb{E}$, the $|\cdot|_\aleph$ represents the evaluation metric that measures the naturalness of the PAE that input to the deployed artificial intelligence system, $\aleph$ indicates the recognizable space of human beings to the PAEs.</p>
+<p>To be brief, the $\aleph$ constraint imposed on the $\delta$ correlates to the **“suspicious” **extent of PAEs. More precisely, a very perceptible adversarial perturbation is not accepted in real scenarios.</p>
+<h1 id="section-iii-classify-paes">Section III .Classify PAEs</h1>
+<ul>
+<li>manufacturing process-oriented ones</li>
+<li>re-sampling process-oriented ones</li>
+<li>others ( aim at naturalness, transferability )</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/28/KQmGlZqCT8wVstj.png"
+        data-srcset="https://s2.loli.net/2024/07/28/KQmGlZqCT8wVstj.png, https://s2.loli.net/2024/07/28/KQmGlZqCT8wVstj.png 1.5x, https://s2.loli.net/2024/07/28/KQmGlZqCT8wVstj.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/28/KQmGlZqCT8wVstj.png"
+        title="image-20240728211515321" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/28/C7NTQy2H8sOF4uW.png"
+        data-srcset="https://s2.loli.net/2024/07/28/C7NTQy2H8sOF4uW.png, https://s2.loli.net/2024/07/28/C7NTQy2H8sOF4uW.png 1.5x, https://s2.loli.net/2024/07/28/C7NTQy2H8sOF4uW.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/28/C7NTQy2H8sOF4uW.png"
+        title="image-20240728233724530" /></p>
+<h2 id="the-manufacturing-process-oriented-paes">The Manufacturing Process Oriented PAEs</h2>
+<p>principles：</p>
+<ul>
+<li>material-driven</li>
+<li>task-driven</li>
+</ul>
+<p>Our categories</p>
+<ol>
+<li>touchable attacks</li>
+<li>untouchable attacks</li>
+</ol>
+<p>where the former indicates that the generated adversarial examples could be touched by hands and the latter could not.</p>
+<h3 id="touchable-attacks">Touchable Attacks:</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/wBu3ImdogNWhQYD.png"
+        data-srcset="https://s2.loli.net/2024/07/29/wBu3ImdogNWhQYD.png, https://s2.loli.net/2024/07/29/wBu3ImdogNWhQYD.png 1.5x, https://s2.loli.net/2024/07/29/wBu3ImdogNWhQYD.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/wBu3ImdogNWhQYD.png"
+        title="image-20240729001641266" /></p>
+<h4 id="2d-attacks">2D attacks</h4>
+<blockquote>
+<p>[22] M. Sharif, S. Bhagavatula, L. Bauer, and M. K. Reiter, “Accessorize to a crime: Real and stealthy attacks on state-of-the-art face recognition,” in Proceedings of the 2016 acm sigsac conference on computer and  communications security, pp. 1528–1540, 2016.</p>
+</blockquote>
+<p><strong>smoothness and practicability</strong></p>
+<p>Optimize process</p>
+<p>Total Variation Loss (using total-variation norm)
+</p>
+$$
+L_{tv}=\sum_{i,j}\sqrt{\left(p_{i+1,j}-p_{i,j}\right)^2+\left(p_{i,j+1}-p_{i,j}\right)^2}.
+$$<p>
+Loss function $L_{tv}$ .</p>
+<p><strong>practicability</strong></p>
+<p><strong>Non-Printability Score</strong></p>
+<p>Loss function $NPS(\hat{p})$ .
+</p>
+$$
+NPS(\hat{p})=\prod_{p\in P}|\hat{p}-p|.
+$$<p>The form of this PAEs is kind of simple.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/12ZpshtJ7dWSOCl.png"
+        data-srcset="https://s2.loli.net/2024/07/29/12ZpshtJ7dWSOCl.png, https://s2.loli.net/2024/07/29/12ZpshtJ7dWSOCl.png 1.5x, https://s2.loli.net/2024/07/29/12ZpshtJ7dWSOCl.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/12ZpshtJ7dWSOCl.png"
+        title="image-20240729001751147" /></p>
+<blockquote>
+<p>[23] J. Lu, H. Sibai, and E. Fabry, “Adversarial examples that fool detectors,” arXiv preprint arXiv:1712.02494, 2017.
+demonstrated a minimization procedure to create adversarial examples that fool Faster RCNN in stop sign and face detection tasks. However, due to the restrictive environmental conditions, this adversarial attack <strong>did not perform well</strong> in the physical world</p>
+</blockquote>
+<blockquote>
+<p>[24] A. Kurakin, I. J. Goodfellow, and S. Bengio, “Adversarial examples in  the physical world,” in 5th International Conference on Learning  Representations, pp. 24–26, 2017.</p>
+<p>demonstrated the possibility of crafting adversarial examples in the physical world by simply manufacturing printout adversarial examples, re-sampling them by a cellphone camera, and then feeding them into an image classification model.</p>
+</blockquote>
+<blockquote>
+<p>[4] K. Eykholt, I. Evtimov, E. Fernandes, B. Li, A. Rahmati, C. Xiao, A.  Prakash, T. Kohno, and D. Song, “Robust physical-world attacks on deep  learning visual classification,” in Proceedings of the IEEE conference  on computer vision and pattern recognition, pp. 1625–1634, 2018.</p>
+<p>first generated adversarial perturbations in the physical world against road sign classifiers and proposed the Robust Physical Perturbations (RP2) algorithm. By optimizing and manufacturing white-black bock perturbation, the authors successfully attacked the traffic sign recognition model.</p>
+</blockquote>
+<blockquote>
+<p>Robust Physical Perturbations (RP2) algorithm.</p>
+</blockquote>
+<blockquote>
+<p>[30] D. Song, K. Eykholt, I. Evtimov, E. Fernandes, B. Li, A. Rahmati, F. Tram`er, A. Prakash, and T. Kohno, “Physical adversarial examples for object detectors,” in 12th USENIX Workshop on Offensive Technologies (WOOT 18), (Baltimore, MD), USENIX Association, Aug. 2018.</p>
+<p>extended the RP2 algorithm to object detection tasks and manufactured colorful adversarial stop sign posters.</p>
+</blockquote>
+<blockquote>
+<p>[25] M. Lee and Z. Kolter, “On physical adversarial patches for object detection,” arXiv preprint arXiv:1906.11897, 2019.
+first proposed an adversarial patch-attacking method that could successfully attack detectors without having to overlap the target objects</p>
+</blockquote>
+<blockquote>
+<p>[26] S. Thys, W. V. Ranst, and T. Goedeme´, “Fooling automated  surveillance cameras: Adversarial patches to attack person detection,”  in 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition  Workshops (CVPRW), pp. 49–55, 2019.</p>
+<p>first generated physical adversarial patches against pedestrian detectors by optimizing a combination of adversarial objectness loss, TV loss, and NPS loss.</p>
+</blockquote>
+<p><strong>Robust Physical Perturbations (RP2) algorithm.</strong></p>
+<h5 id="new-framework">New Framework</h5>
+<p>previous modify adversarial examples in the perturbation process  to meet additional objectives</p>
+<p>This framework proposed a general framework to generate diverse adversarial examples. The authors utilized GANs and constructed adversarial generative nets (AGNs), which are flexible to accommodate various objectives,</p>
+<p>e.g., inconsciousness, robustness, and scalability.</p>
+<blockquote>
+<p>[31] T. Malzbender, D. Gelb, and H. Wolters, “Polynomial texture maps,” in  Proceedings of the 28th annual conference on Computer graphics and  interactive techniques, pp. 519–528, 2001.</p>
+<p>The authors leveraged the Polynomial Texture Maps approach [31] to get eyeglasses’ RGB values under specific luminance. By using this framework, the authors constructed adversarial eyeglasses and fooled classifiers for face recognition.</p>
+</blockquote>
+<p><strong>SNPS</strong></p>
+<blockquote>
+<p>[32] D. Wang, C. Li, S. Wen, Q.-L. Han, S. Nepal, X. Zhang, and Y. Xiang,  “Daedalus: Breaking nonmaximum suppression in object detection via  adversarial examples,” IEEE Transactions on Cybernetics, 2021.</p>
+</blockquote>
+<h4 id="3d-attacks">3D Attacks</h4>
+<p>Different 3D  attack scenes.</p>
+<blockquote>
+<p>In 2D patches is a good idea, but the spatial transformations are quite different from those of a real scene.</p>
+</blockquote>
+<p><strong>UPC</strong>  Universal Physical Camouflage</p>
+<p><strong>Technique and carrior</strong></p>
+<ol>
+<li>non-rigid or non-planar objects.</li>
+<li>flex or inflex surface</li>
+<li>changing , e. g . facing the color/texture fading</li>
+<li>specific shapes e. g.</li>
+<li>partial cover</li>
+</ol>
+<p><strong>optimization process</strong></p>
+<p>Let $f$ be an attack loss for misdetection, $g$ be the total-variation norm that enhances perturbations’ smoothness,</p>
+<p>then the <strong>optimization process</strong> can be formulated as:</p>
+$$
+\min \sum_i\mathbb{E_{t,t_{TPS},v}}[f(x_i,\delta)]+\lambda g(\delta)
+$$<p>where $\mathbb{E}$ denotes environment conditions containing a TPS transformation $t_{TPS}\in\mathcal{T_{TPS}}$, a conventional transformation $t\in\mathcal{T}$ and a Gaussian noise $v.$ Considering the difference between flexible and rigid materials, Hu $et.al.[29]$ utilized the toroidal cropping method to manufacture arbitrary length and expandable adversarial texture.</p>
+<p><strong>TPS</strong> - Thin Plate Spline</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/nQLVt5GaCXPWSom.png"
+        data-srcset="https://s2.loli.net/2024/07/29/nQLVt5GaCXPWSom.png, https://s2.loli.net/2024/07/29/nQLVt5GaCXPWSom.png 1.5x, https://s2.loli.net/2024/07/29/nQLVt5GaCXPWSom.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/nQLVt5GaCXPWSom.png"
+        title="image-20240729152022654" /></p>
+<h3 id="untouchable-attack">Untouchable attack</h3>
+<p>The untouchable attacks consist of lighting attacks and audio/speech attacks.</p>
+<h4 id="lighting-attack">Lighting attack</h4>
+<ul>
+<li>
+<p>placing a spactial light , e. g. programmable LED</p>
+</li>
+<li>
+<p>spatial light modulator, such as SLM in front of the photographic</p>
+</li>
+<li>
+<p>modify human  non-sensitive optical parameters</p>
+</li>
+<li>
+<p>add easily overlooked shadow, projection in special shape</p>
+</li>
+</ul>
+<p>All optimized.</p>
+<p>The perturbation generation process can be formulated as follows within the context of $\mathcal{T}$ modeling environment conditions $\mathbb{E}$, which also correlates to $\mathcal{R}(\cdot)$ mentioned previously, during the re-sampling process. Let $I_{amb}$ represent the image captured under ambient light conditions, $I_{sig}$ denote the image taken under the influence of fully illuminated attacker-controlled lighting, and $g(y+\delta)$ indicate the average impact of the signal on row $y{:}$
+</p>
+$$
+x_{adv}^p=\mathcal{T}(I_{amb})+\mathcal{T}(I_{sig})\cdot g(y+\delta).
+$$<p>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/NWzCqjeo7XgKydR.png"
+        data-srcset="https://s2.loli.net/2024/07/29/NWzCqjeo7XgKydR.png, https://s2.loli.net/2024/07/29/NWzCqjeo7XgKydR.png 1.5x, https://s2.loli.net/2024/07/29/NWzCqjeo7XgKydR.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/NWzCqjeo7XgKydR.png"
+        title="image-20240729143431456" /></p>
+<h4 id="audiospeech-attacks">Audio/Speech attacks</h4>
+<p>Speech recognition is a task to transcribe the audio/speech into text, which is then used to control the system, such as the audio assistant in mobile phones and automatic driving. Currently, some researchers develop over-the-air attacks against the deployed speech recognition system by playing the audio, impulse, and so on.</p>
+<blockquote>
+<p>To solve the instability issues during back-propagation in the frequency domain, the author used the Discrete Fourier Transform (<strong>DFT</strong>), allowing them can perform attacks in the time domain as the symmetry properties of the DFT after the perceptual measures are extracted from the original audio.</p>
+</blockquote>
+<p>The loss function of the manufacturing process can be summarized as:</p>
+$$
+\mathcal{L}(x,\delta,y)=\mathbb{E_{t\in\mathcal{T}}}[\mathcal{L_{net}}(f(t(x+\delta)),y)+\alpha\cdot\mathcal{L_{\theta}}(x,\delta)]
+$$<p>where the former term and the latter term refer to the <strong>robustness</strong> loss and <strong>imperceptibility</strong> loss, respectively.</p>
+<ul>
+<li>Voice assistants, <strong>Karplus-Strong algorithm</strong></li>
+<li>voice-controllable device</li>
+<li>DNN-based speaker recognition system</li>
+<li>&hellip;&hellip;</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/Bko4LsEGmcFSlZe.png"
+        data-srcset="https://s2.loli.net/2024/07/29/Bko4LsEGmcFSlZe.png, https://s2.loli.net/2024/07/29/Bko4LsEGmcFSlZe.png 1.5x, https://s2.loli.net/2024/07/29/Bko4LsEGmcFSlZe.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/Bko4LsEGmcFSlZe.png"
+        title="image-20240729152053669" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/OdIJBXsjft2EqAF.png"
+        data-srcset="https://s2.loli.net/2024/07/29/OdIJBXsjft2EqAF.png, https://s2.loli.net/2024/07/29/OdIJBXsjft2EqAF.png 1.5x, https://s2.loli.net/2024/07/29/OdIJBXsjft2EqAF.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/OdIJBXsjft2EqAF.png"
+        title="image-20240729144902192" /></p>
+<h2 id="the-re-sampling-process-oriented-ones">The re-sampling process-oriented ones</h2>
+<p><strong>Shift from digital to physical with loss.</strong></p>
+<p>After finishing manufacturing, the physical adversarial examples will take effect by being <strong>re-sampled</strong> and input into the deployed deep models in real artificial systems. And during this process, some of the key information correlated to the adversarial characteristics inside the PAEs might be affected and cause certain attacking ability degeneration due to the imperfect re-sampling, which could be also called physical-digital domain shifts. More precisely, this kind of physical-digital shift consists of 2 types as shown in Figure 9, i.e., the environment-caused and sampler-caused, therefore motivating us to categorize the re-sampling process-oriented PAEs into environment-oriented attacks and sampler-oriented attacks.</p>
+<h3 id="environment-oriented-attacks">Environment-oriented Attacks</h3>
+<p>Interference by natural factors:</p>
+<ul>
+<li>environmental lights  (CV)</li>
+<li>environmental noises (ASR)</li>
+<li>&hellip;&hellip;</li>
+</ul>
+<p>The physical attack performance is significantly impacted by environmental factors, such as light and weather, which motivates the researcher to take these factors into account during the optimization of PAEs. Du et.al. [75] proposed the physical adversarial attack for aerial imagery object detector, avoiding remote sensing reconnaissance. They design the tools for simulating re-sampling differences caused by atmospheric factors, including lightning, weather, and seasons. Finally, they optimize the adversarial patch by minimizing the following loss function:</p>
+$$
+\mathcal{L}=\mathbb{E_{t\in\mathcal{T}}}[\max(\mathcal{F}^b(t(x_{adv}^d)))]+\lambda_1\mathcal{L_{nps}}(\delta)+\lambda_2\mathcal{L_{tv}}(\delta)
+$$<p>where the first term is the adversarial loss to suppress the maximum prediction objectness score over the transformation distribution T , the second term ensures the optimized color is printable, and the last term is used to ensure the naturalness of the adversarial patch.
+</p>
+$$
+\min \mathcal{L}
+$$<p>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/8qm1l9pNuBfXho4.png"
+        data-srcset="https://s2.loli.net/2024/07/29/8qm1l9pNuBfXho4.png, https://s2.loli.net/2024/07/29/8qm1l9pNuBfXho4.png 1.5x, https://s2.loli.net/2024/07/29/8qm1l9pNuBfXho4.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/8qm1l9pNuBfXho4.png"
+        title="image-20240729152949999" /></p>
+<p><strong>Import DTN</strong></p>
+<ul>
+<li>brightness, contrast, color</li>
+<li>shadow</li>
+</ul>
+<p>Thus, the author devised a differentiable transformation network (DTN) to learn potential physical transformations (e.g., shadow). Once DTN is trained, the author <strong>optimizes the robust adversarial texture</strong> for the vehicle via DTN.</p>
+<p><strong>With light attack</strong></p>
+<blockquote>
+<p>As we mentioned above, the adversarial LED light attack [49] also concerns the environment inside the attacking scenario. During the perturbation generation process, they propose the function T , which can be regarded as the R(·) in our definition, to model environment conditions (including viewpoint and lighting changes). In this way, they take the environmental variation during re-sampling into account to preserve the attacking ability and cross the digital-physical domain.</p>
+</blockquote>
+<p><strong>For physical characteristics of voice</strong></p>
+<p>To alleviate the potential distortion caused by the environment, a line of works [16], [63], [66], [68], [69] has adopted the <strong>room impulse response (RIP)</strong> to mimic distortion caused by the process of the speech being played and recorded, which can be expressed as:
+</p>
+$$
+x_{adv}^d(t):r(t)=y_{adv}^p(t)*x_{adv}^d(-t),
+$$<p>where the $x_{adv}^d(t)$ is the audio clip, and the $y_{adv}^p(t)$ is the corresponding estimated recorded audio clip, * denotes the convolution operation. Then, RIP $r(t)$ incorporates the generation of $\delta$ by a transform $T(x)=x*r$, which reduces the impact of distortion brought by hardware and physical signal patch, significantly improving speech physical attack <strong>robustness.</strong></p>
+<h3 id="sampler-oriented-attacks">Sampler-oriented Attacks</h3>
+<p>Sampler waste adversarial information.</p>
+<blockquote>
+<p>The case in point is sampling angles in computer vision tasks, when taking photos from different perspectives, the sampled instances might show slight differences in shape and color, e.g., affine transformation-like difference, and overexpose.</p>
+</blockquote>
+<p>To confront the view perspective change in the physical world, Athalye et.al. [37] formulated the potential physical transformations (e.g., rotation, scale, resize) as a uniform formal that is the <strong>expectation</strong> over transformation (EOT), which is mathematically denoted as follows.</p>
+$$
+\delta=\mathbb{E_{t\thicksim\mathcal{T}}}[d(t(x_{adv}^d),t(x))].
+$$<p>The above formula is designed to alleviate the data domain gap caused by transformation, enhancing the robustness of the adversarial texture.</p>
+<p><strong>Useful tools function imported</strong></p>
+<p>To keep imperceptible, adversarial after the transformation.</p>
+<blockquote>
+<p>Specifically, they utilized the mask to constrain the perturbation to be located in the <strong>traffic sign area</strong>, and the position of the perturbation is optimized by imposing the L1 norm. The above optimization can be expressed as:
+</p>
+$$
+> \arg \min_\delta \lambda \Vert \delta\Vert_p+\mathcal{L_{nps}}(\delta)+\mathbb{E_{x\sim X^V}} \mathcal{L} (\mathcal{F}(x+t(\delta)),y),
+> $$<p>where the first term is used to bound the norm of δ for the patch’s imperceptible, the third term takes into account the transformation inside in x and applies the same transformation on δ and the $X^V$ includes the digital and physical collected training dataset.</p>
+</blockquote>
+<p>To mimic the perspective changing in the physical world as possible</p>
+<blockquote>
+<p>The adversarial UV  is wrapped over the vehicle by changing the camera position and rendered into  multi-view images. Thus, the adversarial UV texture is trained to optimize the following object function
+</p>
+$$
+> \arg\min_\delta\mathbb{E_{x\sim X,e\sim\mathbf{E}}}[\frac1n\sum_{p_i\in P}\mathcal{L}(\mathcal{F}(x_{adv}^d,p_i),y)],
+> $$<p>where <strong>E</strong> denotes the environment condition determined by the physical render, such as different <strong>viewpoints</strong> and <strong>distances</strong>; P indicates the output proposals of each image respective to the two-stage detector (e.g., Faster RCNN).</p>
+</blockquote>
+<p>Adversarial <strong>viewpoints</strong></p>
+<blockquote>
+<p>Recently, Dong et.al. [87] demonstrated that there exist adversarial viewpoints, where images captured under such viewpoints are <strong>hard</strong> to recognize for DNN models.
+They leveraged the Neural Radiance Fields (NeRF) technique to find the adversarial viewpoints. Specifically, they find the adversarial viewpoints by solving the following problem
+</p>
+$$
+> \max_{p(v)} \set{ \mathbb{E_{p(v)}}[\mathcal{L}(\mathcal{F}(\mathcal{G}(v)),y)]+\lambda\cdot\mathcal{H}(p(v)) }
+> $$<p>
+where $p(v)$ denotes the adversarial viewpoints distribution $\mathcal{G}(v)$ is the render function of NeRF, which renders an image with the input viewpoints; $\mathcal{H}(p(v))=\mathbb{E_{p(v)}}[-\log(p(v))]$ is the entropy of the distribution of $p(v).$</p>
+</blockquote>
+<p>To alleviate the influence of deformable.</p>
+<blockquote>
+<p>Xu et.al. [14] took the Think Plate Spline (TPS) [88] method into account when optimizing the wearable adversarial patch to model the topological transformation from texture to cloth caused by body movement. Specifically, they construct the adversarial examples as following
+</p>
+$$
+> x_{adv}^d=t_{env}(A+t(B-C+t_{color}(M_{c,i}\circ t_{TPS}(\delta+\mu v))),
+> $$<p>
+where $t_{env}\in\mathcal{T}$ indicates the environmental brightness transform, $t_{color}$ is a regression model that learns the color covert between the digital image and its printed counterpart, $t_{TPS}$ denotes the TPS transform; $A$ is the background region expect the person, B is the person-bounded region, and C is the cloth region of the person, $v\in\mathcal{N}(0,1)$ to improve the diversity of perturbation.</p>
+</blockquote>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/6fLYAKRI45jGUZr.png"
+        data-srcset="https://s2.loli.net/2024/07/29/6fLYAKRI45jGUZr.png, https://s2.loli.net/2024/07/29/6fLYAKRI45jGUZr.png 1.5x, https://s2.loli.net/2024/07/29/6fLYAKRI45jGUZr.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/6fLYAKRI45jGUZr.png"
+        title="image-20240729160129831" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/joyGW5TiEml42BH.png"
+        data-srcset="https://s2.loli.net/2024/07/29/joyGW5TiEml42BH.png, https://s2.loli.net/2024/07/29/joyGW5TiEml42BH.png 1.5x, https://s2.loli.net/2024/07/29/joyGW5TiEml42BH.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/joyGW5TiEml42BH.png"
+        title="image-20240729161630250" /></p>
+<h2 id="other-pae-topics">Other PAE Topics</h2>
+<h3 id="the-natural-physical-adversarial-attacks">The Natural Physical Adversarial Attacks</h3>
+<p>Physical adversarial attacks often prioritize achieving high performance by ignoring the extent of modifications made to adversarial patches or camouflages. However, noticeable alterations can alert potential victims, leading to the failure of the attack. To address this, research has concentrated on creating subtle perturbations that can be deployed in real-world scenarios without detection, enabling natural physical adversarial attacks. The primary techniques employed in this area are divided into two categories:</p>
+<ol>
+<li>
+<p><strong>Optimization-based Methods</strong>: These methods focus on refining individual adversarial examples to ensure that they are imperceptible while still effective in attacking the target model.</p>
+</li>
+<li>
+<p><strong>Generative Model-based Methods</strong>: In contrast to optimization-based methods, these approaches operate within the latent space of generative models that are trained on data. They leverage the learned distribution to generate adversarial examples that are both effective and difficult to detect.</p>
+</li>
+</ol>
+<p>The goal of this research is to develop adversarial attacks that maintain a <strong>natural appearance</strong>, increasing their <strong>stealthiness</strong> and likelihood of success when deployed against real-world systems.</p>
+<h4 id="optimized-based-methods">Optimized-based methods</h4>
+<p>Introduce another metric function.</p>
+<p>Initially, researchers attempted to make adversarial patches look like a particular benign patch to expose the security problems of deep learning models. A classical method applies the total-variation optimization objective mentioned in the previous sections, which improves the naturalness of the adversarial example in addition to improving the printability Duan $et.al.$ propose AdvCam [91] that minimizes  $\mathcal{L_s}$, $\mathcal{L_c}$ , $\mathcal{L_{tv}}$ .
+The naturalness loss can be formalized as:
+</p>
+$$
+\mathcal{L_{\text{nature}}}=\mathcal{L_s}+\mathcal{L_c}+\mathcal{L_{tv}}.
+$$<ul>
+<li>the style distance $\mathcal{L_s}$ between the patch and the referenced image</li>
+<li>the content distance $\mathcal{L_c}$ between the patch and the background</li>
+<li>maximizes the smoothness loss defined by the total-variation loss $\mathcal{L_{tv}}$</li>
+</ul>
+<h4 id="generative-model-based-methods">Generative model-based methods</h4>
+<p>In general, the generative method can be formulated as:
+</p>
+$$
+\mathcal{L_{natural}}=\mathbb{E_{x\sim P_{real},y\sim P_{adv}}}(\mathcal{D}(x,y)),
+$$<p>
+where $x\sim P_{real}$ are real data sampled from the training dataset, $P_{adv}$ is the distribution generated by the attack model $G_{\theta}(P_{real})$, and $\mathcal{D}(\cdot,\cdot)$ is the pre-defined (in VAE models) or adversarially learned (in GAN models) distance metric Specifically, $\tilde{\mathcal{D} } ( x, y) = - \log ( D_\theta ( x) ) - \log ( 1- D_\theta ( y) )$ in the vanilla <strong>GAN</strong>, where $D_\theta(\cdot)$ is the adversarially trained discriminator network.</p>
+<h3 id="the-transferable-physical--adversarial--attacks---transferability">The Transferable Physical  Adversarial  Attacks - transferability</h3>
+<p>The <strong>transferability</strong> of PAE measures whether the adversarial examples are highly aggressive <strong>across models.</strong></p>
+<blockquote>
+<p>Previous work on adversarial attacks in the digital world has shown that the same adversarial sample can exhibit generic attack capabilities for different deep learning models [101].</p>
+</blockquote>
+<p>Formally, referring to Eq.(1), for the generator $\delta (x)$ trained to maximize $\mathcal{D}(y^x,\mathcal{F_{1}}(x_{adv}^p)),s.t.\Vert x_{adv}^p\Vert _{\aleph} \lt \varepsilon$, the scenario of transferable physical adversarial attacks requires that the adversarial example $\delta(x)$ be evaluated and tested on other models:</p>
+$$
+\mathcal{D}(y^x,\mathcal{F_2}(x_{adv}^p)),\quad x_{adv}^p=x+\mathcal{R}(\mathcal{M}(\delta(x)),c),
+$$<p>where $\mathcal{F_1}$ and $\mathcal{F_2}$ are different models.</p>
+<h3 id="the-generalized-physical-adversarial--attacks---robustness">The Generalized Physical Adversarial  Attacks - robustness</h3>
+<p>The <strong>generalization</strong> ability of physical adversarial attacks, is another key to studying the limitation of the deep learning models in the real world</p>
+<p>In general, the generalization ability over different target objects and different transformations are two important generalization problems to consider.</p>
+<p>Formally, referring to Eq. (1), for the generator $\delta(x)$ trained to maximize $\mathcal{D}(y^x,\mathcal{F}(x_{adv}^p))$, s. t. $|x_{adv}^p|_\aleph&lt;\varepsilon $</p>
+$$
+x_{adv}^p=x+\mathcal{R}(\mathcal{M}(\delta(x)),c), x\sim P_x(x), c\sim P_c(c).
+$$<p>The scenario of generalized physical adversarial attacks requires that the adversarial example $\delta(x)$ be evaluated in <strong>other</strong> data set and environment conditions, and tested in the condition of:</p>
+$$
+x_{adv}^p=x+\mathcal{R}(\mathcal{M}(\delta(x)),c), x\sim P_x^{\prime}(x), c\sim P_c^{\prime}(c),
+$$<p>
+where $P_x$ and $P_x^{\prime}$ are different data distributions, and $P_c$ and $P_c^{\prime}$ are different environmental condition distributions.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/qG6HKnQT3lg5X8c.png"
+        data-srcset="https://s2.loli.net/2024/07/29/qG6HKnQT3lg5X8c.png, https://s2.loli.net/2024/07/29/qG6HKnQT3lg5X8c.png 1.5x, https://s2.loli.net/2024/07/29/qG6HKnQT3lg5X8c.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/qG6HKnQT3lg5X8c.png"
+        title="image-20240729170445174" /></p>
+<h1 id="section-iv--confront-physical-adversarial-examples">SECTION IV . CONFRONT PHYSICAL ADVERSARIAL EXAMPLES</h1>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/29/2L58AJynV7aZwxq.png"
+        data-srcset="https://s2.loli.net/2024/07/29/2L58AJynV7aZwxq.png, https://s2.loli.net/2024/07/29/2L58AJynV7aZwxq.png 1.5x, https://s2.loli.net/2024/07/29/2L58AJynV7aZwxq.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/29/2L58AJynV7aZwxq.png"
+        title="image-20240729004528896" /></p>
+<p>Threats makes necessity to protect intelligent applications.</p>
+<p>Mainstream strategies</p>
+<ul>
+<li>data-end defenses</li>
+<li>model-end defenses</li>
+</ul>
+<h2 id="defend-against-paes">Defend against PAEs</h2>
+<p>We still take the three processes of PAEs as the starting point for thinking, considering the two standards of the data side and the model side, and considering possible defense means in various directions.</p>
+<h3 id="data-end-defense-strategies">Data-end Defense Strategies</h3>
+<p>The data-end defense strategies aim to reduce the influence of adversarial perturbations, thus the sampled adversarial examples would be not allowed to mislead the deep models in deployed systems.</p>
+<h3></h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/08/02/GfA5F3g8MulXbVB.png"
+        data-srcset="https://s2.loli.net/2024/08/02/GfA5F3g8MulXbVB.png, https://s2.loli.net/2024/08/02/GfA5F3g8MulXbVB.png 1.5x, https://s2.loli.net/2024/08/02/GfA5F3g8MulXbVB.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/08/02/GfA5F3g8MulXbVB.png"
+        title="image-20240802212134142" /></p>
+<h4 id="the-adversarial-detecting">The adversarial detecting</h4>
+<p>Determining whether the input instances are adversarial. So just reject the input and evade the attack in turn.</p>
+<p>Idea is usually simple, and the practice often has different strategies.</p>
+<blockquote>
+<p>Summary of Adversarial Detection Methods</p>
+<ol>
+<li>
+<p><strong>SentiNet (Chou et.al.)</strong></p>
+<ul>
+<li>Detects <strong>universal adversarial patches</strong>.</li>
+<li>No model modifications required.</li>
+<li>Practical for real-world scenarios.</li>
+</ul>
+</li>
+<li>
+<p><strong>Ad-YOLO (Ji et.al.)</strong></p>
+<ul>
+<li>Utilizes YOLO architecture with an <strong>added &ldquo;patch&rdquo; class label</strong>.</li>
+<li>Effective in detecting adversarial patches compared to standard YOLO.</li>
+</ul>
+</li>
+<li>
+<p><strong>TaintRadar (Li et.al.)</strong></p>
+<ul>
+<li>Detects localized adversarial examples by identifying regions causing <strong>significant label variance.</strong></li>
+<li>Demonstrates effectiveness in digital and physical environments.</li>
+</ul>
+</li>
+<li>
+<p><strong>Segmentation Approach (Liu et.al.)</strong></p>
+<ul>
+<li>Trains a patch segmentor and performs shape completion to detect and remove adversarial patches from images.</li>
+</ul>
+</li>
+<li>
+<p><strong>Patch-Feature Energy-Driven Method</strong></p>
+<ul>
+<li>Removes deep characteristics of adversarial patches to protect detection models.</li>
+</ul>
+</li>
+<li>
+<p><strong>Patch Zero</strong></p>
+<ul>
+<li>Detects and nullifies adversarial patches to mitigate their influence.</li>
+</ul>
+</li>
+</ol>
+<p>Each method addresses different aspects of detecting and mitigating adversarial attacks in machine learning models.</p>
+</blockquote>
+<h4 id="the-adversarial-denoising">The adversarial denoising</h4>
+<p>This kind of defense method prevents models from being fooled by adversarial attacks at the instance level, i.e., straightly <strong>removing the injected perturbation or noises inside the adversarial examples</strong>. This kind of defense could also combine with the aforementioned adversarial detecting strategy, leading to better defending ability.</p>
+<p>A series of results from this idea:</p>
+<blockquote>
+<p>Summary of Adversarial Defense Methods</p>
+<p>Instance-Level Defense</p>
+<ul>
+<li><strong>Goal:</strong> Prevent models from being fooled by removing perturbations or noises within adversarial examples.</li>
+<li><strong>Combination:</strong> Can be combined with adversarial detection strategies for enhanced defense.</li>
+</ul>
+<ol>
+<li>
+<p><strong>Local Gradient Smoothing (LGS) (Nasser et.al.)</strong></p>
+<ul>
+<li>Targets physical attacks like Localized and Visible Adversarial Noise (LaVAN) and adversarial patches.</li>
+<li>Estimates regions with high probability of adversarial noise.</li>
+<li>Reduces gradient activity in these regions to correctly recognize adversarial examples.</li>
+</ul>
+</li>
+<li>
+<p><strong>Occlusion Method (McCoyd et.al.)</strong></p>
+<ul>
+<li>Mitigates influence from adversarial patches by partially occluding the image around candidate patch locations.</li>
+<li>Considered a form of denoising by destroying adversarial patches through occlusion.</li>
+</ul>
+</li>
+<li>
+<p><strong>Adversarial Pixel Masking (APM)</strong></p>
+<ul>
+<li>Defends against physical attacks, such as adversarial patches.</li>
+<li>Trains an adversarial pixel mask module to remove patches based on the generated mask.</li>
+</ul>
+</li>
+<li>
+<p><strong>Patch Zero</strong></p>
+<ul>
+<li>Functions as a denoising strategy.</li>
+<li>Combines adversarial detection and denoising to tackle adversarial attacks.</li>
+</ul>
+</li>
+</ol>
+<p>These methods enhance the robustness of models by either directly removing adversarial perturbations or by combining detection and denoising techniques.</p>
+</blockquote>
+<h4 id="the-adversarial-prompting">The adversarial prompting</h4>
+<p>Add information to offset the negative impact of adversarial perturbations, prompt what labels the models should truly predict via positive injections.</p>
+<blockquote>
+<p>Summary of Adversarial Prompting Defense Methods</p>
+<p>Adversarial Prompting</p>
+<ul>
+<li><strong>Goal:</strong> Achieve defense by adding information to counteract the negative impacts of adversarial perturbations, prompting models towards correct predictions with positive injections.</li>
+</ul>
+<ol>
+<li>
+<p><strong>Unadversarial Examples (Salman et.al.) [118]</strong></p>
+<ul>
+<li>Generates textures with prompting ability in a 3D environment.</li>
+<li>Creates &ldquo;robust objects&rdquo; based on deep models&rsquo; input-perturbation-sensitivity.</li>
+<li>Provides a new approach for physical adversarial defenses.</li>
+</ul>
+</li>
+<li>
+<p><strong>Preemptive Robustification (Moon et.al.) [119]</strong></p>
+<ul>
+<li>Defends against intercept-and-perturb behaviors in real scenarios.</li>
+<li>Utilizes a bi-level optimization scheme to discover robust perturbations that can be added to images.</li>
+</ul>
+</li>
+<li>
+<p><strong>Defensive Patch (Wang et.al.) [120]</strong></p>
+<ul>
+<li>Pre-injects positive patches into instances to aid image recognition.</li>
+<li>Enhances prompting intensity with strong global perceptual correlations and local identifiable patterns.</li>
+<li>Effective against both adversarial patches and common corruptions.</li>
+</ul>
+</li>
+<li>
+<p><strong>Amicable Aid (Unnamed Study) [121]</strong></p>
+<ul>
+<li>Generates visual prompting perturbations from the underlying manifold perspective.</li>
+<li>Provides universal improvement for classification.</li>
+</ul>
+</li>
+<li>
+<p><strong>Class-wise Adversarial Visual Prompting (Chen et.al.) [122]</strong></p>
+<ul>
+<li>Addresses the non-effectiveness of universal visual prompting.</li>
+<li>Proposes class-specific adversarial <strong>visual prompting</strong> for enhanced effectiveness.</li>
+</ul>
+</li>
+<li>
+<p><strong>Angelic Patch (Si et.al.)</strong></p>
+<ul>
+<li>Investigates visual adversarial prompting to enhance detection abilities of detectors.</li>
+</ul>
+</li>
+</ol>
+<p>These methods use various forms of positive injections and perturbations to guide models towards correct predictions, countering adversarial attacks.</p>
+</blockquote>
+<h3 id="model-end-defense-strategies">Model-end Defense Strategies</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/08/07/LIgGZrQ73DHbkcF.png"
+        data-srcset="https://s2.loli.net/2024/08/07/LIgGZrQ73DHbkcF.png, https://s2.loli.net/2024/08/07/LIgGZrQ73DHbkcF.png 1.5x, https://s2.loli.net/2024/08/07/LIgGZrQ73DHbkcF.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/08/07/LIgGZrQ73DHbkcF.png"
+        title="image-20240807192834851" /></p>
+<h4 id="adversarial-training">Adversarial training</h4>
+<p>Adversarial training is still the most direct model-end defense: expose the
+model to adversarial or physically simulated adversarial samples during
+training, then force the model to keep the right prediction under the attack
+distribution. For PAEs, the hard part is not the slogan of adversarial
+training, but the distribution.</p>
+<p>Digital adversarial training usually samples a perturbation around $x$. Physical
+adversarial training needs to sample the whole physical pipeline:</p>
+$$
+x_{adv}^p=x+\mathcal{R}(\mathcal{M}(\delta),c),\quad c\sim P_c.
+$$<p>So the defense objective is closer to:</p>
+$$
+\min_\theta\mathbb{E}_{(x,y),c}[\mathcal{L}(f_\theta(x+\mathcal{R}(\mathcal{M}(\delta),c)),y)].
+$$<p>This is why PAEs are harder than ordinary digital adversarial examples. The
+defender must decide what $P_c$ means: viewpoint, distance, illumination,
+weather, printing error, camera pipeline, compression, audio room impulse
+response, and even downstream tracking or control logic. If the simulated
+distribution is too narrow, adversarial training only protects the lab setup.
+If it is too wide, the training cost and clean accuracy loss become visible.</p>
+<h4 id="model-modification">Model modification</h4>
+<p>Model modification tries to reduce the sensitivity that makes PAEs work.
+Typical directions include robust feature learning, architecture changes,
+input preprocessing modules, detection heads for patch-like artifacts, and
+multi-stage decision rules that reject low-confidence or physically
+inconsistent observations.</p>
+<p>For physical attacks, a useful way to think is:</p>
+<ul>
+<li><strong>local artifacts</strong>: patches, stickers, eyeglasses, T-shirts, or camouflage
+often concentrate adversarial information in a local region;</li>
+<li><strong>global transformation</strong>: lighting, viewpoint, weather, and audio channels
+change the whole sample;</li>
+<li><strong>temporal inconsistency</strong>: in video or robotics, a successful one-frame
+attack may not remain stable across time.</li>
+</ul>
+<p>Thus a modified model should not only classify the current frame. It should
+also ask whether the evidence is spatially plausible, temporally stable, and
+consistent with other sensors.</p>
+<h4 id="certified-robustness">Certified robustness</h4>
+<p>Certified robustness gives a formal guarantee under an explicit perturbation
+set. In the digital setting, the perturbation set is often an $L_p$ ball. In
+the physical setting, this is too weak: a printable patch, a change of
+illumination, or a camera viewpoint shift may have a small semantic change but
+large pixel movement.</p>
+<p>For PAEs, a useful certificate would need to cover a transformation family:</p>
+$$
+\forall c\in\mathcal{C},\quad f(x)=f(x+\mathcal{R}(\mathcal{M}(\delta),c)).
+$$<p>The challenge is that $\mathcal{C}$ is not a clean mathematical object in most
+real systems. It may include camera optics, ISP behavior, compression,
+motion blur, non-rigid deformation, material reflectance, audio replay
+hardware, and environmental noise. This makes certified robustness valuable
+as a research target, but still limited as a complete defense for deployed
+PAE scenarios.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/08/07/weiQgbEujK2t4kR.png"
+        data-srcset="https://s2.loli.net/2024/08/07/weiQgbEujK2t4kR.png, https://s2.loli.net/2024/08/07/weiQgbEujK2t4kR.png 1.5x, https://s2.loli.net/2024/08/07/weiQgbEujK2t4kR.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/08/07/weiQgbEujK2t4kR.png"
+        title="image-20240807190805942" /></p>
+<h2 id="the-challenges-of-paes">The Challenges of PAEs</h2>
+<h3 id="generating-transferable-paes">Generating Transferable PAEs</h3>
+<p>Transferability asks whether one physical adversarial example remains
+aggressive across models. In the digital setting, transferability is already
+non-trivial; in the physical setting it is further weakened by the
+digital-physical gap.</p>
+<p>The survey perspective suggests that transferability depends on three layers:</p>
+<ol>
+<li><strong>model layer</strong>: whether $\mathcal{F}_1$ and $\mathcal{F}_2$ learn similar
+decision boundaries;</li>
+<li><strong>manufacturing layer</strong>: whether the printed, projected, replayed, or worn
+adversarial carrier preserves the optimized signal;</li>
+<li><strong>sampling layer</strong>: whether different cameras, microphones, viewpoints, and
+environmental conditions preserve the attack feature.</li>
+</ol>
+<p>So the transferable PAE problem is not only:</p>
+$$
+\mathcal{D}(y^x,\mathcal{F}_2(x_{adv}^p)).
+$$<p>It is more accurately a question of whether the same manufactured object or
+signal survives a new deployed pipeline:</p>
+$$
+x_{adv}^{p,2}=x+\mathcal{R}_2(\mathcal{M}(\delta),c_2).
+$$<p>This is where EOT-like optimization helps, but it does not remove the need for
+real physical validation.</p>
+<h3 id="generating-generalizable-paes">Generating Generalizable PAEs</h3>
+<p>Generalization is different from transferability. Transferability changes the
+model; generalization changes the object distribution or environment
+distribution. A patch that works on one stop sign, one shirt, one vehicle, or
+one room is not automatically a general physical attack.</p>
+<p>The survey&rsquo;s notation makes the issue explicit:</p>
+$$
+x\sim P_x(x),\quad c\sim P_c(c).
+$$<p>A generalized PAE should still work when:</p>
+$$
+x\sim P_x'(x),\quad c\sim P_c'(c).
+$$<p>This is hard because PAEs are tied to carrier geometry and material:</p>
+<ul>
+<li>2D printable attacks depend on printer gamut, viewing angle, and surface
+flatness;</li>
+<li>3D camouflage depends on mesh geometry, UV mapping, non-rigid deformation,
+and partial occlusion;</li>
+<li>audio attacks depend on speaker response, microphone response, room impulse
+response, and background noise;</li>
+<li>lighting attacks depend on sensor exposure, rolling shutter, and ambient
+illumination.</li>
+</ul>
+<p>The stronger the physical constraint, the harder it is to claim broad
+generalization.</p>
+<h3 id="evaluation-protocols">Evaluation Protocols</h3>
+<p>PAE papers are difficult to compare because the evaluation pipeline is often
+part of the attack. Two papers may both report high attack success rate, but
+one is tested on printed paper under fixed distance while another is tested
+under changing camera pose and natural light.</p>
+<p>A more useful evaluation should report:</p>
+<ul>
+<li>digital success rate before manufacturing;</li>
+<li>physical success rate after manufacturing and re-sampling;</li>
+<li>distance, angle, illumination, weather, and device range;</li>
+<li>naturalness or suspiciousness metric;</li>
+<li>attack cost and repeatability;</li>
+<li>whether the attack was tested against one model, one sensor, or a real
+deployed pipeline.</li>
+</ul>
+<p>Without this, PAEs look stronger or weaker than they really are.</p>
+<h3 id="multi-sensor-and-closed-loop-systems">Multi-Sensor and Closed-Loop Systems</h3>
+<p>Many real systems are not single-image classifiers. Autonomous driving,
+robotics, surveillance, access control, and voice assistants use pipelines:</p>
+$$
+\text{sensor}\rightarrow\text{preprocess}\rightarrow\text{model}\rightarrow\text{planner/controller}.
+$$<p>This creates two opposite effects. On the one hand, the attack surface becomes
+larger because the attacker may target perception, tracking, fusion, or control.
+On the other hand, a single-frame perturbation can be filtered out by temporal
+consistency, multi-sensor fusion, or downstream sanity checks.</p>
+<p>For future PAEs, the key question is no longer only whether a classifier is
+fooled. It is whether the whole perception-action system is pushed into a
+wrong but physically plausible state.</p>
+<h2 id="the-opportunities-of-paes">The Opportunities of PAEs</h2>
+<h3 id="evaluate-the-application-robustness-via-paes">Evaluate the Application Robustness via PAEs</h3>
+<p>PAEs are useful as a stress test for deployed AI. The point is not simply to
+make a model wrong. The point is to evaluate whether the application remains
+safe when the input channel is adversarially shaped.</p>
+<p>For a production system, a PAE test should cover:</p>
+<ul>
+<li>model robustness;</li>
+<li>sensor robustness;</li>
+<li>preprocessing robustness;</li>
+<li>fallback behavior when confidence or consistency is low;</li>
+<li>human-visible suspiciousness of the adversarial object.</li>
+</ul>
+<p>This turns PAEs into a security evaluation tool. A system that is only tested
+on clean digital datasets has not been tested against the physical interface
+where it is actually deployed.</p>
+<h3 id="protect-the-application-privacy-via-paes">Protect the Application Privacy via PAEs</h3>
+<p>PAEs can also be defensive. If adversarial perturbations are used to prevent
+unwanted recognition, tracking, or profiling, then the same mechanism becomes
+a privacy tool. Examples include adversarial clothing, adversarial makeup,
+privacy-preserving textures, and audio perturbations that reduce speaker or
+command recognition by unauthorized systems.</p>
+<p>The trade-off is practical: privacy-oriented PAEs must remain natural, cheap,
+repeatable, and robust under real environments. A perturbation that only works
+under one camera and one light source is not a usable privacy defense.</p>
+<h3 id="bridge-digital-robustness-and-cyber-physical-security">Bridge Digital Robustness and Cyber-Physical Security</h3>
+<p>The most important opportunity is conceptual. PAEs force adversarial machine
+learning to leave the pure pixel-space setting and enter cyber-physical
+security. The relevant object is not only $x+\delta$ but the whole chain:</p>
+$$
+\delta\rightarrow\mathcal{M}(\delta)\rightarrow\mathcal{R}(\mathcal{M}(\delta),c)\rightarrow\mathcal{F}(x_{adv}^p).
+$$<p>This chain connects optimization, materials, sensors, environments, and system
+behavior. It is a better model for real attacks than digital perturbation alone.</p>
+<h1 id="section-v-conclusion">Section V .CONCLUSION</h1>
+<p>Physical adversarial examples are not just digital adversarial examples printed
+out. The key difference is the extra physical pipeline: optimization,
+manufacturing, and re-sampling. The survey&rsquo;s formalization</p>
+$$
+x_{adv}^p=x+\mathcal{R}(\mathcal{M}(\delta),c)
+$$<p>is useful because it tells us where robustness can be lost and where defenses
+must be placed.</p>
+<p>From the attack side, PAEs need three properties at once:</p>
+<ul>
+<li><strong>effectiveness</strong>: the deployed model or system makes the wrong decision;</li>
+<li><strong>robustness</strong>: the attack survives manufacturing and environmental changes;</li>
+<li><strong>naturalness</strong>: the adversarial object or signal is not too suspicious.</li>
+</ul>
+<p>From the defense side, there is no single enough layer. Input detection can miss
+natural-looking attacks. Denoising can destroy useful information or fail under
+adaptive attacks. Adversarial training depends heavily on the simulated
+physical distribution. Certified robustness is still hard because the physical
+transformation set is not cleanly bounded.</p>
+<p>The cleanest reading is therefore: PAEs are a pipeline problem. A good attack
+optimizes across the pipeline, and a good defense audits the pipeline rather
+than only the final classifier.</p>
+<h2 id="references--further-reading">References / Further Reading</h2>
+<h3 id="survey-literature">Survey Literature</h3>
+<ul>
+<li>Jiakai Wang, Xianglong Liu, Jin Hu, Donghua Wang, Siyang Wu, Tingsong Jiang,
+Yuanfang Guo, Aishan Liu, and Jiantao Zhou, &ldquo;Adversarial Examples in the
+Physical World: A Survey,&rdquo; arXiv:2311.01473, 2023.
+This is the main survey behind the <code>optimization-manufacturing-resampling</code>
+reading frame.</li>
+<li>Donghua Wang, Wen Yao, Tingsong Jiang, Guijian Tang, and Xiaoqian Chen,
+&ldquo;A Survey on Physical Adversarial Attack in Computer Vision,&rdquo;
+arXiv:2209.14262, 2022.
+Useful for a task-oriented CV taxonomy of physical attacks.</li>
+<li>Hui Wei, Hao Tang, Xuemei Jia, Zhixiang Wang, Hanxun Yu, Zhubo Li,
+Shin&rsquo;ichi Satoh, Luc Van Gool, and Zheng Wang, &ldquo;Physical Adversarial Attack
+meets Computer Vision: A Decade Survey,&rdquo; IEEE TPAMI, 2024.
+Useful for the adversarial-medium view and evaluation metrics such as
+effectiveness, stealthiness, robustness, practicability, aesthetics, and
+economics.</li>
+<li>Xingxing Wei, Bangzheng Pu, Shiji Zhao, Jiefan Lu, and Baoyuan Wu, &ldquo;Visual
+Adversarial Attacks and Defenses in the Physical World: A Survey,&rdquo;
+arXiv:2211.01671, 2022.
+Useful for the task/form/method taxonomy and defense taxonomy.</li>
+<li>Kien Nguyen, Tharindu Fernando, Clinton Fookes, and Sridha Sridharan,
+&ldquo;Physical Adversarial Attacks for Surveillance: A Survey,&rdquo; IEEE TNNLS, 2023.
+Useful for surveillance-specific tasks: detection, identification, tracking,
+and action recognition.</li>
+<li>N. Akhtar and A. Mian, &ldquo;Threat of Adversarial Attacks on Deep Learning in
+Computer Vision: A Survey,&rdquo; IEEE Access, 2018.
+Older but useful for the digital-to-physical transition background.</li>
+</ul>
+<h3 id="physical-attack-foundations">Physical Attack Foundations</h3>
+<ul>
+<li>A. Kurakin, I. Goodfellow, and S. Bengio, &ldquo;Adversarial Examples in the
+Physical World,&rdquo; ICLR Workshop, 2017.</li>
+<li>A. Athalye, L. Engstrom, A. Ilyas, and K. Kwok, &ldquo;Synthesizing Robust
+Adversarial Examples,&rdquo; ICML, 2018.
+Introduces the EOT-style view that is central to robust physical attacks.</li>
+<li>K. Eykholt et al., &ldquo;Robust Physical-World Attacks on Deep Learning Visual
+Classification,&rdquo; CVPR, 2018.
+The RP2 road-sign attack is a canonical physical-world case.</li>
+<li>T. B. Brown et al., &ldquo;Adversarial Patch,&rdquo; arXiv:1712.09665, 2017.</li>
+<li>M. Sharif et al., &ldquo;Accessorize to a Crime: Real and Stealthy Attacks on
+State-of-the-Art Face Recognition,&rdquo; CCS, 2016.</li>
+<li>S. Thys, W. Van Ranst, and T. Goedeme, &ldquo;Fooling Automated Surveillance
+Cameras: Adversarial Patches to Attack Person Detection,&rdquo; CVPRW, 2019.</li>
+<li>K. Xu et al., &ldquo;Adversarial T-shirt! Evading Person Detectors in a Physical
+World,&rdquo; ECCV, 2020.</li>
+</ul>
+<h3 id="defense-and-evaluation">Defense and Evaluation</h3>
+<ul>
+<li>E. Chou et al., &ldquo;SentiNet: Detecting Localized Universal Attacks Against Deep
+Learning Systems,&rdquo; IEEE Security and Privacy Workshops, 2020.</li>
+<li>J. Chiang et al., &ldquo;Certified Defenses for Adversarial Patches,&rdquo; ICLR, 2020.</li>
+<li>J. Hayes, &ldquo;On Visible Adversarial Perturbations and Digital Watermarking,&rdquo;
+CVPRW, 2018.</li>
+<li>A. Salman et al., &ldquo;Unadversarial Examples: Designing Objects for Robust
+Vision,&rdquo; NeurIPS, 2021.</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/pae-attack/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/pae-attack/" data-title="Pae Attack"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/pae-attack/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/pae-attack/" data-title="Pae Attack"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/pae-attack/" data-title="Pae Attack"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/pae-attack/" data-title="Pae Attack"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-part-7/" class="prev" rel="prev" title="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption</a>
+            <a href="/lattice-part-8/" class="next" rel="next" title="Lattice Part 8: Identity-Based and Functional Encryption From Lattices">Lattice Part 8: Identity-Based and Functional Encryption From Lattices<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

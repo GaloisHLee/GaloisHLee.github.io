@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber - As it was</title><meta name="Description" content="Reading: Peikert’s survey spine[^peikert-survey], Regev’s lecture-note framing[^regev-notes], and the primary RLWE / Module-LWE / Kyber / NTRU papers[^rlwe][^module][^kyber][^ntru] are enough to keep the taxonomy straight. Part 4 already fixed the baseline: LWE is noisy linear …"><meta property="og:title" content="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber">
+<meta property="og:description" content="Reading: Peikert’s survey spine[^peikert-survey], Regev’s lecture-note framing[^regev-notes], and the primary RLWE / Module-LWE / Kyber / NTRU papers[^rlwe][^module][^kyber][^ntru] are enough to keep the taxonomy straight. Part 4 already fixed the baseline: LWE is noisy linear …">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-5/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber">
+<meta name="twitter:description" content="Reading: Peikert’s survey spine[^peikert-survey], Regev’s lecture-note framing[^regev-notes], and the primary RLWE / Module-LWE / Kyber / NTRU papers[^rlwe][^module][^kyber][^ntru] are enough to keep the taxonomy straight. Part 4 already fixed the baseline: LWE is noisy linear …"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-5/" /><link rel="prev" href="https://galoishlee.github.io/lattice-part-4/" /><link rel="next" href="https://galoishlee.github.io/lattice-part-6/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-5\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  2732 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-5\/","datePublished": "2024-06-21T14:40:26+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-5/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-5/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-06-21">2024-06-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2732 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 13 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reader-state-before-adding-rings">Reader State Before Adding Rings</a></li>
+    <li><a href="#why-add-algebraic-structure">Why Add Algebraic Structure</a>
+      <ul>
+        <li><a href="#what-part-4-already-stabilized">What Part 4 Already Stabilized</a></li>
+        <li><a href="#where-plain-matrix-arithmetic-starts-to-hurt">Where Plain Matrix Arithmetic Starts To Hurt</a></li>
+      </ul>
+    </li>
+    <li><a href="#from-lwe-to-ring-lwe">From LWE To Ring-LWE</a>
+      <ul>
+        <li><a href="#the-quotient-ring-setting">The Quotient Ring Setting</a></li>
+        <li><a href="#a-four-coefficient-example">A Four-Coefficient Example</a></li>
+        <li><a href="#what-changes-in-the-sample-format">What Changes In The Sample Format</a></li>
+        <li><a href="#only-the-ntt-we-need">Only The NTT We Need</a></li>
+      </ul>
+    </li>
+    <li><a href="#from-ring-lwe-to-module-lwe">From Ring-LWE To Module-LWE</a>
+      <ul>
+        <li><a href="#why-one-ring-element-is-not-the-whole-design-space">Why One Ring Element Is Not The Whole Design Space</a></li>
+        <li><a href="#modules-as-the-interpolation-layer">Modules As The Interpolation Layer</a></li>
+        <li><a href="#why-this-is-the-path-to-modern-kems">Why This Is The Path To Modern KEMs</a></li>
+      </ul>
+    </li>
+    <li><a href="#where-ntru-fits-and-where-it-does-not">Where NTRU Fits And Where It Does Not</a>
+      <ul>
+        <li><a href="#why-ntru-lives-in-the-same-neighborhood">Why NTRU Lives In The Same Neighborhood</a></li>
+        <li><a href="#why-ntru-is-not-just-another-lwe-family-member">Why NTRU Is Not Just Another LWE Family Member</a></li>
+      </ul>
+    </li>
+    <li><a href="#kyber-as-the-practical-structured-lattice-kem">Kyber As The Practical Structured-Lattice KEM</a>
+      <ul>
+        <li><a href="#why-kyber-chooses-module-lwe">Why Kyber Chooses Module-LWE</a></li>
+        <li><a href="#what-the-construction-reuses-from-the-earlier-sections">What The Construction Reuses From The Earlier Sections</a></li>
+        <li><a href="#why-this-is-the-landing-point-of-the-article">Why This Is The Landing Point Of The Article</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Reading: Peikert’s survey spine<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, Regev’s lecture-note framing<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, and the primary RLWE / Module-LWE / Kyber / NTRU papers<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> are enough to keep the taxonomy straight.</p>
+<p>Part 4 already fixed the baseline: LWE is noisy linear algebra, and the noise is what blocks elimination. Part 5 asks a different question. If the hard core is already there, what do we gain by forcing that core to live inside a quotient ring or a module?</p>
+<p>The answer is mainly structural. Structure reduces representation cost, makes multiplication regular, and gives implementers a path to fast polynomial arithmetic. The price is conceptual: once you add algebraic structure, you also constrain the design space and create assumptions that are not identical to plain LWE.</p>
+<h2 id="reader-state-before-adding-rings">Reader State Before Adding Rings</h2>
+<p>Part 4 left us with one equation shape:</p>
+$$
+\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q.
+$$<p>Part 0-3 left us with the geometric language for interpreting it: a public linear map defines a lattice or a coset, the useful witnesses are short, and exact solving becomes hard once one asks for short integer structure. Part 5 changes the representation of the public linear map. Instead of storing a completely arbitrary matrix, we force the map to come from polynomial multiplication.</p>
+<p>The reader should keep one rule in mind:</p>
+$$
+\text{polynomial multiplication modulo } x^n+1 \quad\text{is a structured matrix-vector multiplication on coefficients}.
+$$<p>Everything else in this article is a consequence of that rule.</p>
+<h2 id="why-add-algebraic-structure">Why Add Algebraic Structure</h2>
+<h3 id="what-part-4-already-stabilized">What Part 4 Already Stabilized</h3>
+<p>Plain LWE gives the right cryptographic pattern:</p>
+$$
+\mathbf{b} = A\mathbf{s} + \mathbf{e} \pmod q.
+$$<p>The public data is linear, the secret is hidden, and the error is small enough to make decryption possible but large enough to prevent clean recovery. That is the baseline this article inherits. Nothing below changes the underlying noise mechanism.</p>
+<h3 id="where-plain-matrix-arithmetic-starts-to-hurt">Where Plain Matrix Arithmetic Starts To Hurt</h3>
+<p>The problem is not hardness. It is engineering.</p>
+<p>Unstructured LWE uses general matrices and vectors, so key sizes and arithmetic scale with the full matrix description. That is flexible, but expensive. Once we want a real KEM, we care about:</p>
+<ul>
+<li>fewer transmitted coefficients,</li>
+<li>faster multiplication,</li>
+<li>regular memory access,</li>
+<li>compact keys and ciphertexts,</li>
+<li>and implementations that do not rely on ad hoc linear algebra tricks.</li>
+</ul>
+<p>The structured-lattice line answers those pressures by moving from arbitrary matrices to algebraic objects where multiplication has built-in regularity.</p>
+<blockquote>
+<p>Design invariant: structure is not free. It buys speed by restricting the instance family, and that restriction is exactly what must be analyzed cryptographically.</p>
+</blockquote>
+<h2 id="from-lwe-to-ring-lwe">From LWE To Ring-LWE</h2>
+<h3 id="the-quotient-ring-setting">The Quotient Ring Setting</h3>
+<p>The first structural move is to replace vectors by polynomials modulo a fixed relation:</p>
+$$
+R_q = \mathbb{Z}_q[x]/(f(x)).
+$$<p>This quotient-ring move from plain LWE to Ring-LWE is the first real structural compression step in the series.</p>
+<p>For the structured-lattice constructions that matter here, the common choice is the negacyclic ring</p>
+$$
+R_q = \mathbb{Z}_q[x]/(x^n + 1).
+$$<p>An element of $R_q$ is a polynomial representative of degree $&lt; n$, with coefficient arithmetic done mod $q$ and polynomial arithmetic done mod $x^n + 1$. This quotient is the whole point: multiplication becomes a structured convolution rather than an arbitrary matrix action<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>The coefficient embedding is fixed throughout the article:</p>
+$$
+a(x)=a_0+a_1x+\cdots+a_{n-1}x^{n-1}\quad\longleftrightarrow\quad \mathbf{a}=(a_0,\ldots,a_{n-1})\in\mathbb{Z}_q^n.
+$$<p>When a polynomial is called small, the claim is about this coefficient vector after choosing centered representatives. A small $s(x)$ or $e(x)$ means its coefficients are drawn from a narrow distribution, not that the polynomial is small as a formal expression.</p>
+<h3 id="a-four-coefficient-example">A Four-Coefficient Example</h3>
+<p>The quotient relation $x^n+1=0$ means $x^n\equiv -1$. For $n=4$,</p>
+$$
+x^4\equiv -1,\qquad x^5\equiv -x\pmod{x^4+1}.
+$$<p>So multiplication wraps around with a sign change. For example,</p>
+$$
+\begin{aligned}
+(1+2x)(3+x^3)
+&=3+6x+x^3+2x^4 \\
+&\equiv 1+6x+x^3\pmod{x^4+1}.
+\end{aligned}
+$$<p>This is the first place where the word negacyclic becomes concrete: high-degree terms re-enter the coefficient vector with a minus sign. The coefficient vector of the product above is $(1,6,0,1)$ before reducing coefficients modulo $q$.</p>
+<h3 id="what-changes-in-the-sample-format">What Changes In The Sample Format</h3>
+<p>Ring-LWE keeps the same noisy-equation picture, but moves it into $R_q$. The sample becomes</p>
+$$
+b(x) = a(x)s(x) + e(x) \in R_q,
+$$<p>with $a(x)$ public, $s(x)$ secret, and $e(x)$ small.</p>
+<p>The continuity from plain LWE is direct, but it should be stated carefully. Ring-LWE is not obtained by taking an arbitrary LWE matrix $A$ and merely re-labeling its entries as polynomial coefficients. What changes is the class of allowed linear maps. In plain LWE, $A$ is generic. In Ring-LWE, multiplication by a fixed public ring element $a(x)$ induces a very specific negacyclic linear operator on coefficient vectors<sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>The reduction modulo $x^n+1$ is where the sign pattern appears. Since $x^n\equiv -1$, any term $x^{n+i}$ wraps back as $-x^i$. For $c(x)=a(x)b(x)\bmod (x^n+1)$, the coefficient of $x^i$ is</p>
+$$
+c_i=\sum_{j=0}^{i}a_jb_{i-j}-\sum_{j=i+1}^{n-1}a_jb_{n+i-j}\pmod q.
+$$<p>That equation is the negacyclic convolution. The matrix below is just this coefficient rule written as a linear operator.</p>
+<p>For $n=4$, the first coordinate already shows the wrap-around terms:</p>
+$$
+c_0=a_0b_0-a_1b_3-a_2b_2-a_3b_1\pmod q.
+$$<p>Without the quotient, only $a_0b_0$ would contribute to the constant term. The extra negative terms in $c_0$ come from products whose exponent is exactly $4$, because $x^4$ returns as $-1$. The later coefficients receive the same kind of wrap-around from $x^5,x^6$, and so on.</p>
+<p>The derivation chain is:</p>
+$$
+\mathbf{b} = A\mathbf{s} + \mathbf{e} \pmod q
+$$<p>becomes, after restricting the linear action to multiplication in the quotient ring,</p>
+$$
+a(x)s(x)+e(x)=b(x)\pmod{(x^n+1,q)}.
+$$<p>If we write</p>
+$$
+a(x)=a_0+a_1x+\cdots+a_{n-1}x^{n-1},
+$$<p>then multiplication by $a(x)$ is represented on coefficients by a negacyclic matrix of the form</p>
+$$
+\operatorname{Rot}(a)=
+\begin{pmatrix}
+a_0 & -a_{n-1} & \cdots & -a_1 \\
+a_1 & a_0 & \cdots & -a_2 \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n-1} & a_{n-2} & \cdots & a_0
+\end{pmatrix}.
+$$<p>So the real lift is:</p>
+$$
+\text{generic matrix action} \longrightarrow \text{structured negacyclic action}.
+$$<p>Equivalently, this section is translating vector or matrix LWE notation into polynomial-ring or module notation while keeping the error term small in the coefficient embedding.</p>
+<p>The compression point is now visible. A generic $n\times n$ matrix needs $n^2$ coefficients. Multiplication by one polynomial $a(x)$ needs only $n$ coefficients, but it still defines an $n\times n$ linear map through $\operatorname{Rot}(a)$. This is the efficiency gain and the assumption restriction at the same time.</p>
+<p>And if we bundle $k$ such ring elements into a module vector, we get the module form later in the article:</p>
+$$
+\mathbf{b}(x) = \mathbf{A}(x)\mathbf{s}(x) + \mathbf{e}(x).
+$$<p>That is the algebraic lift: vector LWE $\to$ polynomial-ring LWE $\to$ module LWE.</p>
+<h3 id="only-the-ntt-we-need">Only The NTT We Need</h3>
+<p>The NTT matters because polynomial multiplication is the expensive step. In coefficient form, multiplying two degree-$&lt;n$ polynomials is a convolution. The NTT diagonalizes that convolution into pointwise products in a transformed basis. This only works because the parameter choice gives suitable roots of unity in $\mathbb{Z}_q$: the transform is not black-box acceleration, but a payoff of choosing the ring and modulus carefully<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.</p>
+<p>The NTT role here is purely structural and arithmetic: it is the mechanism that connects structure and NTT-backed arithmetic to practical KEM efficiency.</p>
+<p>For this article, the important point is not the FFT analogy. The important point is that the ring structure lets us precompute and reuse a fast multiplication regime. If the modulus admits the required roots of unity, one can evaluate a polynomial at a fixed set of points, multiply values coordinatewise, and interpolate back. Abstractly,</p>
+$$
+\operatorname{NTT}(a\cdot b)=\operatorname{NTT}(a)\odot\operatorname{NTT}(b),
+$$<p>where $\odot$ denotes pointwise multiplication in the transform domain. Thus</p>
+$$
+c(x) = a(x)b(x)
+$$<p>is implemented as transform, pointwise multiply, inverse transform.</p>
+<p>That is why ring structure helps efficiency:</p>
+<ul>
+<li>one compact object replaces a full matrix,</li>
+<li>multiplication becomes regular and reusable,</li>
+<li>and the implementation can exploit the same algebra repeatedly.</li>
+</ul>
+<p>The cost is also conceptual: the security proof and the attack surface now depend on the exact ring, the modulus, the available roots of unity, and the distribution of coefficients. You are no longer in the generic LWE world. The instance family is narrower, the algebra is richer, and the reduction framework is no longer literally the same as plain LWE’s fully generic matrix setting<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><sup id="fnref3:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<h2 id="from-ring-lwe-to-module-lwe">From Ring-LWE To Module-LWE</h2>
+<h3 id="why-one-ring-element-is-not-the-whole-design-space">Why One Ring Element Is Not The Whole Design Space</h3>
+<p>Ring-LWE is elegant, but it can be too rigid. A single ring element gives maximal algebraic structure, but that also constrains the parameter choices and can narrow the family of instances too much for some design goals.</p>
+<p>Module-LWE interpolates between plain LWE and Ring-LWE. It keeps polynomial arithmetic, but reintroduces a vector dimension<sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>:</p>
+$$
+\mathbf{b} = \mathbf{A}\mathbf{s} + \mathbf{e}, \qquad \mathbf{A}\in R_q^{k\times k},\ \mathbf{s},\mathbf{e},\mathbf{b}\in R_q^k.
+$$<p>Here each coordinate is itself a polynomial modulo $x^n+1$. The multiplication $\mathbf{A}\mathbf{s}$ therefore means $k^2$ ring multiplications and additions, not ordinary scalar multiplication over $\mathbb{Z}_q$. In coefficient form, it expands to a structured matrix over $\mathbb{Z}_q$ whose blocks are negacyclic convolution matrices.</p>
+<p>If $\mathbf{A}=(a_{ij}(x))$, then the first coordinate is</p>
+$$
+b_1(x)=a_{11}(x)s_1(x)+\cdots+a_{1k}(x)s_k(x)+e_1(x).
+$$<p>After coefficient embedding, this same equation becomes a block row:</p>
+$$
+\mathbf{b}_1=\operatorname{Rot}(a_{11})\mathbf{s}_1+\cdots+\operatorname{Rot}(a_{1k})\mathbf{s}_k+\mathbf{e}_1.
+$$<p>Thus Module-LWE is not abandoning the matrix picture from Part 4. It replaces scalar entries by structured polynomial blocks.</p>
+<h3 id="modules-as-the-interpolation-layer">Modules As The Interpolation Layer</h3>
+<p>This is the point that matters for practice. The module dimension $k$ is a design knob.</p>
+<ul>
+<li>$k=1$ gives the ring-style extreme.</li>
+<li>Larger $k$ moves toward matrix-LWE behavior.</li>
+<li>Intermediate $k$ lets designers balance efficiency, hardness intuition, and implementation constraints.</li>
+</ul>
+<p>So Module-LWE is not a historical footnote. It is the compromise point where structured arithmetic survives, but the construction is less brittle than a single ring element.</p>
+<p>The conceptual cost is clear: adding structure also introduces another axis of choice. You must now justify not only $q$ and $n$, but the module rank $k$, the ring, and the noise regime together. The assumption is no longer “generic LWE over arbitrary linear maps”; it is “LWE over a chosen module over a chosen ring,” which is exactly why the design is faster and exactly why the assumption has a more specific algebraic surface.</p>
+<h3 id="why-this-is-the-path-to-modern-kems">Why This Is The Path To Modern KEMs</h3>
+<p>This interpolation is exactly why Module-LWE became the practical route.</p>
+<p>Plain LWE is too bulky. Pure RLWE can be too rigid. Module-LWE keeps the polynomial machinery while giving enough slack for engineering tradeoffs. That slack matters for:</p>
+<ul>
+<li>public-key size,</li>
+<li>ciphertext size,</li>
+<li>fast arithmetic,</li>
+<li>and side-channel-aware implementations.</li>
+</ul>
+<p>Peikert’s survey<sup id="fnref2:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> is important here because it frames the structured-lattice family as a sequence of efficiency-driven compromises, not as unrelated inventions.</p>
+<h2 id="where-ntru-fits-and-where-it-does-not">Where NTRU Fits And Where It Does Not</h2>
+<h3 id="why-ntru-lives-in-the-same-neighborhood">Why NTRU Lives In The Same Neighborhood</h3>
+<p>NTRU belongs in the same conversation because it also uses polynomial arithmetic modulo a relation such as $x^n - 1$ or $x^n + 1$, and it also relies on short secrets and fast convolution-style operations.</p>
+<p>That shared algebraic neighborhood explains why people mention NTRU alongside RLWE and MLWE. The implementation instincts are similar: compact polynomials, fast multiplication, and quotient-ring style arithmetic.</p>
+<h3 id="why-ntru-is-not-just-another-lwe-family-member">Why NTRU Is Not Just Another LWE Family Member</h3>
+<p>But NTRU is not simply “RLWE with different parameters.”</p>
+<p>The construction logic is different. NTRU is built around inversion and short polynomial relations, not around the same noisy linear sample model as LWE. In the basic public-key form, one chooses short polynomials $f,g$, lets $f_q$ denote the inverse of $f$ modulo $q$, and computes</p>
+$$
+h \equiv g f_q \pmod q,
+$$<p>where the inverse condition is</p>
+$$
+f f_q\equiv 1\pmod q.
+$$<p>Then encryption has the form</p>
+$$
+e \equiv p r h + m \pmod q.
+$$<p>Decryption works because multiplying by the short secret gives</p>
+$$
+f e \equiv p r g + f m \pmod q,
+$$<p>after which reduction mod $p$ recovers the message. That is a trapdoor-by-inversion construction, not the same sample-distribution model as RLWE or Module-LWE<sup id="fnref1:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
+<p>The cancellation is different from LWE. In LWE-style encryption, decryption cancels a large linear term and leaves small noise. In this NTRU sketch, multiplication by $f$ cancels the public inverse hidden inside $h$ and moves the expression back to a small polynomial relation.</p>
+<p>That distinction matters. We must distinguish NTRU from RLWE or MLWE instead of flattening them into one family. If you collapse NTRU into RLWE, you miss the fact that the algebraic structure is serving a different design purpose and the reduction model is different too.</p>
+<p>So the right sentence is:</p>
+<blockquote>
+<p>NTRU is structurally related to the LWE family, but it is not merely another LWE instance.</p>
+</blockquote>
+<p>That is why this article keeps NTRU as a contrast case rather than as a synonym.</p>
+<h2 id="kyber-as-the-practical-structured-lattice-kem">Kyber As The Practical Structured-Lattice KEM</h2>
+<h3 id="why-kyber-chooses-module-lwe">Why Kyber Chooses Module-LWE</h3>
+<p>Kyber sits at the practical landing point of this line because Module-LWE gives it the right balance. It needs enough structure for compactness and speed, but not so much structure that the design becomes overconstrained.</p>
+<p>That is also why the module rank is so important: it is the dial that lets Kyber trade off arithmetic cost against flexibility and security margins.</p>
+<h3 id="what-the-construction-reuses-from-the-earlier-sections">What The Construction Reuses From The Earlier Sections</h3>
+<p>Kyber reuses everything established above<sup id="fnref2:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>:</p>
+<ul>
+<li>the quotient ring $R_q = \mathbb{Z}_q[x]/(x^n+1)$,</li>
+<li>polynomial-vector multiplication in module form,</li>
+<li>small secret and error distributions,</li>
+<li>and NTT-backed multiplication in the implementation path.</li>
+</ul>
+<p>The NTT is not the security assumption. It is the arithmetic accelerator. It exists because the chosen ring admits fast convolution, and Kyber exploits that regularity aggressively.</p>
+<p>This is also where the cost of structure becomes concrete. The implementation is fast, but only because the algebra is carefully chosen. Change the ring or the module parameters, and the efficiency profile changes with it.</p>
+<p>A minimal module-LWE PKE skeleton already shows the landing point. Key generation has the familiar form</p>
+$$
+\mathbf{t} = \mathbf{A}\mathbf{s} + \mathbf{e},
+$$<p>while encryption samples a short ephemeral vector $\mathbf{r}$ and forms</p>
+$$
+\mathbf{u} = \mathbf{A}^T\mathbf{r} + \mathbf{e}_1,\qquad
+v = \mathbf{t}^T\mathbf{r} + e_2 + m.
+$$<p>The decryption algebra is the same cancellation pattern as Part 4, now inside the module-ring setting:</p>
+$$
+\begin{aligned}
+v-\mathbf{s}^T\mathbf{u}
+&=
+(\mathbf{A}\mathbf{s}+\mathbf{e})^T\mathbf{r}+e_2+m-\mathbf{s}^T(\mathbf{A}^T\mathbf{r}+\mathbf{e}_1) \\
+&=
+\mathbf{e}^T\mathbf{r}+e_2-\mathbf{s}^T\mathbf{e}_1+m.
+\end{aligned}
+$$<p>All large structured terms cancel; only the message and accumulated small errors remain. That is exactly the earlier module equation, now turned into a practical encryption interface. The reason Kyber sits here rather than at plain LWE or pure RLWE is that the module rank $k$ gives a concrete trade-off knob: it changes key size, arithmetic cost, and implementation shape all at once.</p>
+<p>For a reader coming directly from Part 4, this is the same correctness condition in a different representation. The message is encoded as a ring element, usually by placing coefficients near separated regions such as $0$ and roughly $q/2$. Decryption succeeds if the accumulated error</p>
+$$
+\mathbf{e}^T\mathbf{r}+e_2-\mathbf{s}^T\mathbf{e}_1
+$$<p>is still too small to cross the decoding boundary. The algebraic structure changes how multiplication is performed; the noise-budget logic is inherited from plain LWE.</p>
+<h3 id="why-this-is-the-landing-point-of-the-article">Why This Is The Landing Point Of The Article</h3>
+<p>Kyber is the landing point because it shows the structured-lattice line after all the abstraction has been paid off in engineering terms.</p>
+<p>This is not a standards digest. The important fact is not the exact FIPS 203 syntax, but the design lesson:</p>
+<p>plain LWE gives hardness,
+Ring-LWE gives algebraic compression,
+Module-LWE gives a tunable middle ground,
+and Kyber is the KEM that makes that middle ground practical.</p>
+<p>That is the continuity from Part 4 to Part 5.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Structured lattices do not replace LWE. They refine it.</p>
+<p>The quotient ring gives you a controlled algebraic universe. RLWE shows how noisy linear algebra survives inside that universe. Module-LWE adds a dimension knob so the design is not trapped at either extreme. NTRU remains nearby, but as a different construction family, not a disguised LWE sample. Kyber then lands the line in a real KEM.</p>
+<p>The main lesson is simple: algebraic structure is an efficiency tool, but it is also a cryptographic constraint. The practical art is choosing just enough structure to make the scheme fast without making the assumption too narrow.</p>
+<h2 id="references">References</h2>
+<p>Suggested reading order:</p>
+<ol>
+<li>Peikert’s survey first, for the taxonomy and the efficiency/security tradeoff language.</li>
+<li>Lyubashevsky-Peikert-Regev on Ring-LWE, to see how quotient rings enter the reduction framework.</li>
+<li>Langlois-Stehlé on Module-LWE, to see the interpolation between ring and plain lattice assumptions.</li>
+<li>Kyber and NTRU primary papers last, with the distinction between MLWE sample syntax and NTRU inversion kept explicit.</li>
+</ol>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Chris Peikert (2016), <em>A Decade of Lattice Cryptography</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Oded Regev, lecture notes on the Learning with Errors problem.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Vadim Lyubashevsky, Chris Peikert, and Oded Regev (2010), <em>On Ideal Lattices and Learning with Errors over Rings</em>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Adeline Langlois and Damien Stehlé (2015), <em>Worst-Case to Average-Case Reductions for Module Lattices</em>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Joppe Bos et al. (2018), <em>CRYSTALS-Kyber: A CCA-Secure Module-Lattice-Based KEM</em>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman (1998), <em>NTRU: A Ring-Based Public Key Cryptosystem</em>.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-5/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-5/" data-title="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-5/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-5/" data-title="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-5/" data-title="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-5/" data-title="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-part-4/" class="prev" rel="prev" title="Lattice Part 4: From SIS/ISIS to LWE"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Lattice Part 4: From SIS/ISIS to LWE</a>
+            <a href="/lattice-part-6/" class="next" rel="next" title="Lattice Part 6: Lattice Trapdoors and Signatures — GPV, Falcon, Dilithium">Lattice Part 6: Lattice Trapdoors and Signatures — GPV, Falcon, Dilithium<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

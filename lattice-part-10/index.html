@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 10: Implementation Fault Lines in Lattice Cryptography - As it was</title><meta name="Description" content="Closing the lattice subseries by separating proof-level security from implementation-level fragility across ML-KEM, ML-DSA, Falcon, and real attack surfaces."><meta property="og:title" content="Lattice Part 10: Implementation Fault Lines in Lattice Cryptography">
+<meta property="og:description" content="Closing the lattice subseries by separating proof-level security from implementation-level fragility across ML-KEM, ML-DSA, Falcon, and real attack surfaces.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-10/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 10: Implementation Fault Lines in Lattice Cryptography">
+<meta name="twitter:description" content="Closing the lattice subseries by separating proof-level security from implementation-level fragility across ML-KEM, ML-DSA, Falcon, and real attack surfaces."><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-10/" /><link rel="prev" href="https://galoishlee.github.io/badagent0x00-intro/" /><link rel="next" href="https://galoishlee.github.io/uov/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 10: Implementation Fault Lines in Lattice Cryptography",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-10\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "lattice, implementation-security, ml-kem, ml-dsa, side-channel, fault-attacks","wordcount":  3687 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-10\/","datePublished": "2024-10-25T12:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "Closing the lattice subseries by separating proof-level security from implementation-level fragility across ML-KEM, ML-DSA, Falcon, and real attack surfaces."
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-10/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-10/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 10: Implementation Fault Lines in Lattice Cryptography</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-10-25">2024-10-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3687 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 18 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reader-state-after-part-0-3">Reader State After Part 0-3</a>
+      <ul>
+        <li><a href="#threat-model-and-notation">Threat Model And Notation</a></li>
+      </ul>
+    </li>
+    <li><a href="#proof-security-versus-implemented-security">Proof Security Versus Implemented Security</a>
+      <ul>
+        <li><a href="#what-the-proof-model-sees">What The Proof Model Sees</a></li>
+        <li><a href="#what-the-implementation-adds">What The Implementation Adds</a></li>
+      </ul>
+    </li>
+    <li><a href="#arithmetic-fault-lines-ntt-reduction-and-memory-layout">Arithmetic Fault Lines: NTT, Reduction, And Memory Layout</a>
+      <ul>
+        <li><a href="#ntt-kernels-as-side-channel-surfaces">NTT Kernels As Side-Channel Surfaces</a></li>
+        <li><a href="#reduction-and-division-hazards">Reduction And Division Hazards</a></li>
+      </ul>
+    </li>
+    <li><a href="#sampling-rejection-and-signature-side-fragility">Sampling, Rejection, And Signature-Side Fragility</a>
+      <ul>
+        <li><a href="#sampling-side-channels">Sampling Side Channels</a></li>
+        <li><a href="#rejection-logic-as-a-distribution-interface">Rejection Logic As A Distribution Interface</a></li>
+      </ul>
+    </li>
+    <li><a href="#decryption-failure-and-kem-side-boundaries">Decryption Failure And KEM-Side Boundaries</a>
+      <ul>
+        <li><a href="#where-failure-probability-enters">Where Failure Probability Enters</a></li>
+        <li><a href="#oracle-and-fault-effects">Oracle And Fault Effects</a></li>
+      </ul>
+    </li>
+    <li><a href="#kem-versus-signature-implementation-tradeoffs">KEM Versus Signature Implementation Tradeoffs</a>
+      <ul>
+        <li><a href="#transcript-differences">Transcript Differences</a></li>
+        <li><a href="#what-constant-time-means-in-each-family">What Constant-Time Means In Each Family</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Reading: Peikert&rsquo;s survey as the wide-angle frame<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, NTRU Prime&rsquo;s attack-surface language<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, NIST&rsquo;s standardized ML-KEM / ML-DSA interfaces<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>, and the implementation-attack papers that target Kyber, BLISS, Falcon, and lattice decapsulation itself<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup><sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup><sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup><sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup><sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup><sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>. Part 10 closes the lattice subseries at the only boundary that really matters in deployment: proof-level security is about an abstract construction, while deployed security is about the arithmetic, randomness, control flow, and fault behavior that actually reach silicon.</p>
+<p>From Parts 0-3, read every deployed scheme as a concrete implementation of modular lattice relations over short coefficient vectors. Structured rings and modules buy compactness because multiplication becomes regular and sampling stays cheap enough to ship. The same structure also narrows the implementation surface into a few hot loops: NTT butterflies, modular reductions, coefficient compression, rejection tests, hint generation, and decapsulation compares. Those loops are exactly where timing, power, cache behavior, and induced faults start to expose data that the proof never modeled.</p>
+<p>The useful split is therefore not &ldquo;lattices have side channels too.&rdquo; That is too generic to help. The useful split is KEM versus signature. A KEM exposes a decapsulation oracle whose correctness margins and implicit rejection logic can be probed adaptively. A signature scheme exposes a signing loop whose sampler and abort logic must maintain the right distribution across many signatures under one long-term key. Same hardness family, different failure physics.</p>
+<h2 id="reader-state-after-part-0-3">Reader State After Part 0-3</h2>
+<p>This final chapter assumes only the first lattice layer:</p>
+<ul>
+<li>Part 0 gave lattice points, bases, determinant, and distance.</li>
+<li>Part 1 explained why a basis representation can make the same lattice easy or hard to navigate.</li>
+<li>Part 2 introduced CVP and nearest-plane reasoning, which is the right mental model for decoding a noisy lattice relation.</li>
+<li>Part 3 introduced exact modular relations with short witnesses, the same syntax that later appears in KEM public keys, signatures, and verification equations.</li>
+</ul>
+<p>Implementation security adds a different question to that geometry. The proof says that a certain relation is hard to solve or forge. The implementation executes that relation through integer arithmetic, memory accesses, randomness expansion, rejection loops, comparisons, and fault-prone hardware. The attacker may not solve the lattice problem directly; the attacker may instead observe or perturb the implementation until it exports an easier relation.</p>
+<p>The reading discipline is therefore:</p>
+$$
+\text{abstract lattice relation}
+\Longrightarrow
+\text{coefficient-vector program}
+\Longrightarrow
+\text{observable leakage or fault behavior}.
+$$<h3 id="threat-model-and-notation">Threat Model And Notation</h3>
+<p>Use the following notation throughout the chapter:</p>
+<ul>
+<li>$R_q=\mathbb{Z}_q[x]/(x^n+1)$ is the polynomial ring used by ML-KEM / ML-DSA style arithmetic.</li>
+<li>$a(x)=\sum_i a_i x^i$ is stored as a coefficient vector $\mathbf{a}=(a_0,\ldots,a_{n-1})$.</li>
+<li>$\widehat{\mathbf{a}}=\operatorname{NTT}(\mathbf{a})$ denotes the NTT-domain representation.</li>
+<li>$\operatorname{Decaps}_{sk}(c)$ is the KEM decapsulation computation, including decrypt, re-encrypt, compare, and select.</li>
+<li>$\operatorname{Sign}_{sk}(\mu;\rho)$ is the signing computation, including mask expansion, challenge generation, rejection checks, and hint generation.</li>
+<li>$\mathcal{L}$ denotes an implementation leakage channel: timing, cache state, power, EM, branch trace, or intermediate buffer exposure.</li>
+<li>$\mathcal{F}$ denotes an injected fault that changes an intermediate arithmetic state or control-flow decision.</li>
+</ul>
+<p>The proof model usually gives the adversary only the final transcript:</p>
+$$
+\textsf{output}=\operatorname{Decaps}_{sk}(c)
+\quad\text{or}\quad
+\sigma=\operatorname{Sign}_{sk}(\mu;\rho).
+$$<p>The implementation model may also give partial information of the form</p>
+$$
+\mathcal{L}(\text{state}_0,\text{state}_1,\ldots)
+\quad\text{or}\quad
+\operatorname{output after }\mathcal{F}(\text{state}_i).
+$$<p>That extra interface is where most real implementation attacks enter.</p>
+<h2 id="proof-security-versus-implemented-security">Proof Security Versus Implemented Security</h2>
+<h3 id="what-the-proof-model-sees">What The Proof Model Sees</h3>
+<p>Peikert&rsquo;s survey is still the cleanest framing source for the whole subseries because it keeps the abstraction layers separate.<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> Worst-case lattice hardness, average-case LWE / RLWE / MLWE assumptions, and concrete constructions do not live at the same level. Once we arrive at the scheme level, the proof is no longer reasoning about caches, integer dividers, or voltage glitches. It is reasoning about algebraic objects and distributions.</p>
+<p>For the KEM line, the proof view is something like:</p>
+$$
+\text{public relation} + \text{small noise} + \text{Fujisaki-Okamoto style check}
+\Longrightarrow
+\text{IND-CCA security in the stated model}.
+$$<p>For the signature line, the proof view is something like:</p>
+$$
+\text{short-response generation} + \text{Fiat-Shamir with aborts or GPV-style sampling}
+\Longrightarrow
+\text{EUF-CMA security in the stated model}.
+$$<p>In both cases, the proof assumes that the implementation exports only the final interface:</p>
+<ul>
+<li>a shared key for decapsulation,</li>
+<li>or a signature for signing,</li>
+<li>and not the intermediate state that produced it.</li>
+</ul>
+<p>That assumption is stronger than it first appears. For ML-KEM, the proof does not grant the adversary a cycle count for a division instruction or a bit telling whether the internal re-encryption compare almost failed. For ML-DSA or Falcon, the proof does not grant the adversary the iteration count of a rejection loop, the branch trace of a sampler, or a partially faulted ephemeral mask. These are not &ldquo;mere engineering details.&rdquo; They are extra observables that live outside the security game.</p>
+<blockquote>
+<p>Implementation boundary: a proof certifies a transcript distribution and an input-output relation. An implementation executes a concrete state machine that may emit much more than that transcript.</p>
+</blockquote>
+<h3 id="what-the-implementation-adds">What The Implementation Adds</h3>
+<p>The implementation adds at least five security-relevant layers that the construction proof usually compresses away:</p>
+<ul>
+<li>a representation layer: coefficient form versus NTT form, signed versus centered residues, compressed versus decompressed coefficients;</li>
+<li>a reduction layer: Montgomery, Barrett, integer division, carry propagation, and rounding;</li>
+<li>a randomness layer: samplers, loop bounds, fault handling, and state reuse;</li>
+<li>a memory layer: where transformed secrets live, how long they persist, and which buffers are reused;</li>
+<li>a machine layer: variable-latency instructions, cache footprints, EM leakage, and injectable faults.</li>
+</ul>
+<p>The standards themselves quietly admit this gap. FIPS 203 and FIPS 204 both impose requirements on destroying intermediate values and both forbid floating-point arithmetic in the standardized implementations.<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> FIPS 204 also explicitly notes that deterministic signing and some verification contexts need additional care against side-channel and fault attacks.<sup id="fnref2:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> That is already a signal that &ldquo;provably secure scheme&rdquo; and &ldquo;secure implementation&rdquo; are not interchangeable phrases.</p>
+<p>NTRU Prime is useful here not because it replaced the MLWE line, but because its design criterion is explicit: attack surface is part of the design objective, not post-hoc cleanup.<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> That is the right mindset for this last chapter. Once the mathematical construction is fixed, the next security question is not &ldquo;can we optimize it?&rdquo; but &ldquo;which hot paths did the optimization force us to trust?&rdquo;</p>
+<h2 id="arithmetic-fault-lines-ntt-reduction-and-memory-layout">Arithmetic Fault Lines: NTT, Reduction, And Memory Layout</h2>
+<h3 id="ntt-kernels-as-side-channel-surfaces">NTT Kernels As Side-Channel Surfaces</h3>
+<p>Structured multiplication is an efficiency argument. In the implementation chapter, the same derivation has to be reread as an exposure argument.</p>
+<p>Let</p>
+$$
+R_q = \mathbb{Z}_q[x]/(x^n + 1),
+$$<p>with the usual negacyclic choice used in ML-KEM and ML-DSA. Polynomial multiplication is implemented by moving into a transform domain:</p>
+$$
+\begin{aligned}
+c(x)
+&= a(x)b(x) \\
+&=
+\operatorname{NTT}^{-1}\!\big(\hat a \odot \hat b\big),
+\end{aligned}
+$$<p>where</p>
+$$
+\hat a = \operatorname{NTT}(a), \qquad
+\hat b = \operatorname{NTT}(b).
+$$<p>At the proof level, this is just one efficient realization of ring multiplication. At the implementation level, it means the most security-critical computations are concentrated in a small set of butterflies, pointwise multiplies, and modular reductions. FIPS 203 has a dedicated NTT section for ML-KEM, and FIPS 204 exposes <code>MultiplyNTT</code>, <code>MatrixVectorNTT</code>, and related transformed-domain primitives all the way up its algorithm ladder.<sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref3:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>That concentration is why the NTT becomes a side-channel surface. The address pattern may be fixed, the loop trip count may be fixed, and the source may contain no secret-dependent branches, yet the transform is still processing secret-bearing coefficients:</p>
+<ul>
+<li>in ML-KEM decapsulation, secret polynomials participate in the subtraction that recovers the message;</li>
+<li>in ML-DSA signing, secret key pieces and ephemeral masks pass through transformed-domain multiplies and decompositions;</li>
+<li>in Falcon-like designs, transform-domain arithmetic is even closer to the sampler itself.<sup id="fnref1:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup></li>
+</ul>
+<p>So the right question is not &ldquo;does the NTT branch on secrets?&rdquo; The right question is &ldquo;what analog or microarchitectural signal is emitted while secret-bearing coefficients pass through the transform and reduction stack?&rdquo; Power, EM, fault sensitivity, and register-level timing can all answer that question long before the source code looks suspicious.</p>
+<p>The memory argument is similar. A coefficient vector and its NTT image are mathematically equivalent, but operationally they are different secrets at different addresses with different lifetimes. Caching a public transformed matrix is fine; both standards allow reuse of public derived values.<sup id="fnref3:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref4:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> Caching transformed secret state, or failing to wipe it, simply widens the number of points where the same algebraic object can leak.</p>
+<h3 id="reduction-and-division-hazards">Reduction And Division Hazards</h3>
+<p>The proof says &ldquo;reduce modulo $q$.&rdquo; The machine has to decide how.</p>
+<p>That choice is not bookkeeping. It is part of the leakage model. The cleanest attack chain in this chapter is:</p>
+$$
+\text{structured ring arithmetic}
+\to
+\text{NTT-domain products}
+\to
+\text{coefficient scaling / compression}
+\to
+\text{integer reduction or division}
+\to
+\text{timing oracle}.
+$$<p>KyberSlash is the canonical example.<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> The affected implementations were written with standard source-level constant-time discipline in mind: no obvious secret-dependent branches, no obvious secret-dependent table lookups. But the compiled code still used variable-time division instructions tied to arithmetic involving the Kyber modulus $q = 3329$. Once carefully chosen ciphertexts steer the numerators that reach those divisions during decapsulation, timing begins to reveal secret-dependent information anyway.</p>
+<p>The important lesson is lattice-specific. The vulnerable instructions were not in an unrelated helper path. They sat in compression / decoding style arithmetic that exists because ML-KEM has to move noisy ring elements across a narrow byte-level interface. In other words:</p>
+$$
+\text{proof-level ciphertext coefficient}
+\not=
+\text{implementation-level byte encoding}.
+$$<p>The encoding layer has its own attack surface.</p>
+<p>This is also why &ldquo;integer-only&rdquo; is not a complete defense condition. FIPS 203 and FIPS 204 forbid floating-point arithmetic for the standardized schemes, which removes one class of rounding surprises.<sup id="fnref4:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref5:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> But integer arithmetic still contains variable-latency division, carry chains, and reduction tricks. Constant-time for lattice code therefore means more than branch-free code. It means secret-independent instruction selection and secret-independent instruction latency on the actual target machine.</p>
+<h2 id="sampling-rejection-and-signature-side-fragility">Sampling, Rejection, And Signature-Side Fragility</h2>
+<h3 id="sampling-side-channels">Sampling Side Channels</h3>
+<p>Signature-side fragility is not just &ldquo;another side-channel problem.&rdquo; The signer is a repeated distribution engine. Every signature is a new sample under the same long-term secret key, and the proof only works if that sample comes from the right distribution.</p>
+<p>For ML-DSA, the central signing relation can be compressed to</p>
+$$
+w = A y, \qquad
+c = H(\mu \mathbin\Vert \operatorname{HighBits}(w)), \qquad
+z = y + c s_1,
+$$<p>with additional low-bit / hint machinery ensuring that the verifier can reconstruct the public commitment information without learning too much about the dropped parts.<sup id="fnref6:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup></p>
+<p>The key point is that the proof does not want an arbitrary short $z$. It wants the distribution of accepted $(z,h,c)$ to look right. That is why ML-DSA signing is surrounded by explicit rejection logic, and why FIPS 204 spends real space on procedures such as <code>ExpandMask</code>, <code>RejNTTPoly</code>, <code>SampleInBall</code>, <code>HighBits</code>, <code>LowBits</code>, and <code>MakeHint</code>.<sup id="fnref7:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> The standard even gives a safe cap of 814 iterations for the <code>Sign_internal</code> rejection loop when bounding the probability of an overrun below $2^{-256}$.<sup id="fnref8:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>That detail matters because it reveals what the implementation is really preserving: not merely correctness, but a distributional invariant. Timing leakage from that invariant is not a cosmetic side channel. It is leakage about how close an ephemeral sample was to the secret-dependent acceptance boundary.</p>
+<p>This pressure becomes even sharper in Gaussian-sampling signatures. BLISS and Falcon compress signatures precisely by making the sampler more mathematically structured and more statistically delicate.<sup id="fnref1:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup><sup id="fnref1:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup><sup id="fnref2:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup> In that family, the sampler is not peripheral. The sampler is the scheme. If the sampler leaks via cache lines, branch traces, or floating-point behavior, then the proof&rsquo;s distributional claim is being falsified at the point where it matters most.</p>
+<h3 id="rejection-logic-as-a-distribution-interface">Rejection Logic As A Distribution Interface</h3>
+<p>Rejection logic in lattice signatures is easy to misread as &ldquo;retry until the numbers are small enough.&rdquo; That is too weak. In the proof, rejection is the mechanism that detaches the published response distribution from the secret key strongly enough for Fiat-Shamir with aborts to work as intended.</p>
+<p>For ML-DSA, the rejection conditions test whether the response and hint data remain inside carefully chosen bounds. Operationally, that means the implementation is evaluating secret-adjacent predicates such as:</p>
+$$
+\lVert z\rVert_\infty < \gamma_1 - \beta,
+$$<p>along with corresponding low-bit and hint-weight bounds.<sup id="fnref9:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>If an implementation leaks:</p>
+<ul>
+<li>how many attempts were rejected,</li>
+<li>which rejection condition fired,</li>
+<li>or whether a fault skipped one of the norm or hint tests,</li>
+</ul>
+<p>then it is leaking information about where the secret-shifted response landed relative to those boundaries.</p>
+<p>The fault version is especially concrete. Suppose a fault causes reuse, or partial reuse, of an ephemeral signing value. Then for two signatures on different challenges,</p>
+$$
+z_1 = y + c_1 s_1, \qquad
+z_2 = y + c_2 s_1,
+$$<p>so subtraction gives</p>
+$$
+z_1 - z_2 = (c_1 - c_2) s_1.
+$$<p>That is no longer a diffuse side-channel intuition. It is a direct algebraic handle on the secret. Differential fault attacks on deterministic lattice signatures exploit precisely this collapse from &ldquo;fresh masked response&rdquo; to &ldquo;linear relation in the signing secret.&rdquo;<sup id="fnref1:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup></p>
+<p>This is why signature-side fault lines do not look like KEM-side fault lines. The signature attacker is not primarily trying to cross a decryption boundary. The attacker is trying to learn, reuse, bias, or fault the ephemeral distribution that makes the public response safe to publish in the first place.</p>
+<h2 id="decryption-failure-and-kem-side-boundaries">Decryption Failure And KEM-Side Boundaries</h2>
+<h3 id="where-failure-probability-enters">Where Failure Probability Enters</h3>
+<p>For the ML-KEM side, the decisive object is not a sampler output but a decapsulation margin.</p>
+<p>Write the usual module-LWE style equations in compressed form, matching the Kyber / ML-KEM line from the original scheme paper and the standardized variant:<sup id="fnref:13"><a href="#fn:13" class="footnote-ref" role="doc-noteref">13</a></sup><sup id="fnref5:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+$$
+t = A s + e,
+$$<p>and for ciphertext components,</p>
+$$
+u = A^\top r + e_1, \qquad
+v = t^\top r + e_2 + \operatorname{Encode}(m).
+$$<p>Substituting the public key relation into decapsulation gives</p>
+$$
+\begin{aligned}
+v - s^\top u
+&=
+\operatorname{Encode}(m) + e^\top r + e_2 - s^\top e_1
+\pmod q.
+\end{aligned}
+$$<p>If we name the aggregate noise term</p>
+$$
+\nu = e^\top r + e_2 - s^\top e_1,
+$$<p>then the correctness condition is simply that the coefficients of $\nu$ stay on the right side of the quantization boundary that separates one message representative from another.</p>
+<p>This is the proof-level meaning of decapsulation failure. It is not an implementation bug. It is the tail probability that the honest aggregate noise crosses a rounding threshold. FIPS 203 lists these probabilities as roughly $2^{-138.8}$, $2^{-164.8}$, and $2^{-174.8}$ for the three standardized parameter sets.<sup id="fnref6:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> D&rsquo;Anvers and Batsleer are useful here because they remind us that tiny failure probabilities are still security-relevant objects once attackers get many targets or many carefully crafted queries.<sup id="fnref1:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>The engineering lesson is that a correctness margin is already an attack surface waiting for an observation channel. If an adversary can tell whether a ciphertext landed on one side of the margin or the other, then the adversary is no longer interacting with the idealized KEM proof interface. The adversary is interacting with a noisy threshold oracle whose threshold depends on secret-bearing arithmetic.</p>
+<h3 id="oracle-and-fault-effects">Oracle And Fault Effects</h3>
+<p>FIPS 203 makes the ML-KEM decapsulation pipeline explicit.<sup id="fnref7:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> Internally it does four security-relevant things:</p>
+<ol>
+<li>decrypts the ciphertext to obtain a candidate message $m&rsquo;$;</li>
+<li>derives candidate shared material and re-encryption randomness from $m&rsquo;$;</li>
+<li>re-encrypts to obtain $c&rsquo;$;</li>
+<li>compares $c$ and $c&rsquo;$ and performs implicit rejection if they differ.</li>
+</ol>
+<p>Written as a chain:</p>
+$$
+c
+\to
+m' = \operatorname{Decrypt}(c)
+\to
+(K',r')
+\to
+c' = \operatorname{Encrypt}(m',r')
+\to
+[c \stackrel{?}{=} c'].
+$$<p>The standard is careful on purpose: the implicit-reject flag is secret intermediate data and must not be exposed.<sup id="fnref8:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> But implementations do not execute &ldquo;a secret flag.&rdquo; They execute a compare, a branchless select, some buffer handling, and a return path on real hardware. Every one of those stages can become observable through timing, power, EM leakage, cache traffic, or injected faults.</p>
+<p>KyberSlash2 is the sharp example because it turns arithmetic leakage in re-encryption-style code into a plaintext-checking oracle during decapsulation.<sup id="fnref2:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> The proof assumes the ciphertext equality check leaks nothing except the final shared secret. The attack shows that if timing leaks enough about the re-encryption path, the attacker can recover more than the security game ever allowed.</p>
+<p>Fault attacks on lattice KEMs make the same point from the opposite direction.<sup id="fnref1:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> There, the attacker does not passively listen to timing. The attacker perturbs the decapsulation computation and watches whether the perturbation was effective. Once &ldquo;effective versus ineffective fault&rdquo; becomes observable, the attacker again receives a richer oracle than the scheme proof modeled. The difference between a valid and invalid ciphertext, or between two nearby secret-dependent arithmetic states, stops being internal.</p>
+<p>This is the KEM-side fault line in one sentence:</p>
+<blockquote>
+<p>proof-level ML-KEM security assumes one shared-key output; implementation-level ML-KEM security depends on whether decapsulation leaks any side information about how close the ciphertext was to the decryption and re-encryption boundaries.</p>
+</blockquote>
+<h2 id="kem-versus-signature-implementation-tradeoffs">KEM Versus Signature Implementation Tradeoffs</h2>
+<h3 id="transcript-differences">Transcript Differences</h3>
+<p>The same hardness family does not imply the same attacker workflow.</p>
+<p>For KEMs, the attacker&rsquo;s natural interface is adaptive probing. The decapsulation device sees adversarial ciphertexts, performs secret-key arithmetic, and is asked to make a yes-or-no style decision about whether the transcript is consistent. The dangerous objects are:</p>
+<ul>
+<li>decryption-failure margins,</li>
+<li>re-encryption checks,</li>
+<li>implicit rejection,</li>
+<li>and decapsulation-time arithmetic on malformed inputs.</li>
+</ul>
+<p>For signatures, the attacker interacts with a stateful distribution generator. The signer repeatedly maps messages into challenges and responses under one long-term key. The dangerous objects are:</p>
+<ul>
+<li>ephemeral samplers,</li>
+<li>rejection counts,</li>
+<li>hint-generation logic,</li>
+<li>and any fault that causes nonce reuse, partial nonce reuse, or biased acceptance.</li>
+</ul>
+<p>The difference matters operationally. A KEM attack often needs an online oracle with chosen ciphertexts. A signature attack can accumulate information from published signatures, local traces during signing, or faulted outputs that remain valid enough to pass verification. The KEM attacker is pushing ciphertexts into a boundary test. The signature attacker is trying to learn how the signer keeps manufacturing admissible short witnesses.</p>
+<h3 id="what-constant-time-means-in-each-family">What Constant-Time Means In Each Family</h3>
+<p>This is the point where generic secure-coding rules become too weak to be useful. &ldquo;Be constant-time&rdquo; is not wrong, but it is incomplete unless we say which lattice-specific boundary must be flattened.</p>
+<p>For ML-KEM-like decapsulation, constant-time really means:</p>
+<ul>
+<li>no secret-dependent branches, addresses, or variable-latency arithmetic in decrypt, re-encrypt, compare, and select paths;</li>
+<li>no observable distinction between valid and implicitly rejected ciphertexts;</li>
+<li>no preserved secret intermediate data such as compare flags or secret transforms after termination;</li>
+<li>no fault countermeasure whose failure signal becomes a new decapsulation oracle.</li>
+</ul>
+<p>For ML-DSA-like or Falcon-like signing, constant-time really means:</p>
+<ul>
+<li>no leakage of sampler state, rejection count, or hint-generation path;</li>
+<li>no secret-dependent exposure through decompositions, norm checks, or retry loops;</li>
+<li>no nonce reuse or partial reuse under deterministic or faulted executions;</li>
+<li>no assumption that the final signature check is the only place where security lives.</li>
+</ul>
+<p>The practical split between current standardized families is also clearer now. ML-KEM and ML-DSA deliberately stay in integer arithmetic and explicitly ban floating point.<sup id="fnref9:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref10:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> That avoids one class of implementation fragility. Falcon chooses a different point in the design space: smaller signatures through a more delicate sampler stack.<sup id="fnref3:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup> Neither choice makes implementation security automatic. They simply move the most dangerous surface to different places.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The lattice subseries started from worst-case reductions and ended in hot loops. That is the correct ending.</p>
+<p>The proof-level claim remains strong: module-LWE, NTRU-style structure, Fiat-Shamir with aborts, GPV-style sampling, and CCA transforms all explain why the abstract constructions should resist the attacks modeled by their proofs. But deployed trust is decided one layer lower, where those abstractions become NTT kernels, reductions, samplers, rejection logic, hint generation, decryption margins, compare flags, and fault behavior.</p>
+<p>The KEM side and the signature side therefore have to be kept separate:</p>
+<ul>
+<li>KEM security breaks when decapsulation becomes a richer oracle than the proof allowed.</li>
+<li>Signature security breaks when the signer leaks or reuses the private distribution machinery that the proof needed to stay hidden.</li>
+</ul>
+<p>That is the right line to close on. Theory-level confidence says the abstract relation is hard. Engineering-level trust says the implementation does not accidentally export a second, easier relation through timing, power, memory, or faults. In lattice cryptography, the two claims are connected, but they are never the same claim.</p>
+<h2 id="references">References</h2>
+<p>Suggested reading order:</p>
+<ol>
+<li>Peikert first, for the clean separation between lattice hardness assumptions, constructions, and implementation-independent security claims.</li>
+<li>FIPS 203 and FIPS 204 next, with attention to the algorithms that become hot loops: NTT, compression, decapsulation, rejection, and hint generation.</li>
+<li>NTRU Prime&rsquo;s attack-surface paper after that, to read design criteria as implementation-security choices rather than pure efficiency choices.</li>
+<li>KyberSlash and ML-KEM fault papers next, for decapsulation as an oracle boundary.</li>
+<li>BLISS, Falcon, and Dilithium implementation-attack papers last, for sampler, rejection, branch, cache, and fault behavior on the signature side.</li>
+</ol>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Chris Peikert, <em>A Decade of Lattice Cryptography</em>, <em>Foundations and Trends in Theoretical Computer Science</em>, 2016. DOI: 10.1561/0400000074.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Daniel J. Bernstein, Chitchanok Chuengsatiansup, Tanja Lange, and Christine van Vredendaal, <em>NTRU Prime: reducing attack surface at low cost</em>, 2017.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>National Institute of Standards and Technology, <em>Module-Lattice-Based Key-Encapsulation Mechanism Standard</em>, FIPS 203, August 13, 2024. DOI: 10.6028/NIST.FIPS.203.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref6:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref7:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref8:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref9:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>National Institute of Standards and Technology, <em>Module-Lattice-Based Digital Signature Standard</em>, FIPS 204, August 13, 2024. DOI: 10.6028/NIST.FIPS.204.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref6:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref7:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref8:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref9:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref10:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Daniel J. Bernstein, Karthikeyan Bhargavan, Shivam Bhasin, Anupam Chattopadhyay, Tee Kiah Chia, Matthias J. Kannwischer, Franziskus Kiefer, Thales B. Paiva, Prasanna Ravi, and Goutam Tamvada, <em>KyberSlash: Exploiting secret-dependent division timings in Kyber implementations</em>, 2025.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Peter Pessl and Lukas Prokop, <em>Fault Attacks on CCA-secure Lattice KEMs</em>, <em>IACR Transactions on Cryptographic Hardware and Embedded Systems</em>, 2021.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Jan-Pieter D&rsquo;Anvers and Senne Batsleer, <em>Multitarget Decryption Failure Attacks and Their Application to Saber and Kyber</em>, <em>PKC 2022</em>.&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Leon Groot Bruinderink, Andreas Huelsing, Tanja Lange, and Yuval Yarom, <em>Flush, Gauss, and Reload: A Cache Attack on the BLISS Lattice-Based Signature Scheme</em>, <em>CHES 2016</em>.&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>Thomas Espitau, Pierre-Alain Fouque, Benoit Gerard, and Mehdi Tibouchi, <em>Side-Channel Attacks on BLISS Lattice-Based Signatures: Exploiting Branch Tracing against strongSwan and Electromagnetic Emanations in Microcontrollers</em>, IACR ePrint 2017/505.&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10">
+<p>Pierre-Alain Fouque, Jeffrey Hoffstein, Paul Kirchner, Vadim Lyubashevsky, Thomas Pornin, Thomas Prest, Thomas Ricosset, Gregor Seiler, William Whyte, and Zhenfei Zhang, <em>Falcon: Fast-Fourier Lattice-based Compact Signatures over NTRU</em>, 2020.&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11">
+<p>Leon Groot Bruinderink and Peter Pessl, <em>Differential Fault Attacks on Deterministic Lattice Signatures</em>, <em>IACR Transactions on Cryptographic Hardware and Embedded Systems</em>, 2018.&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:12">
+<p>Shi Bai, Leo Ducas, Eike Kiltz, Tancrede Lepoint, Vadim Lyubashevsky, Peter Schwabe, Gregor Seiler, and Damien Stehle, <em>CRYSTALS-Dilithium: A Lattice-Based Digital Signature Scheme</em>, 2018.&#160;<a href="#fnref:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:13">
+<p>Joppe Bos, Leo Ducas, Eike Kiltz, Tancrede Lepoint, Vadim Lyubashevsky, John M. Schanck, Peter Schwabe, Gregor Seiler, and Damien Stehle, <em>CRYSTALS-Kyber: a CCA-secure module-lattice-based KEM</em>, 2018.&#160;<a href="#fnref:13" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-10/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-10/" data-title="Lattice Part 10: Implementation Fault Lines in Lattice Cryptography" data-hashtags="lattice,implementation-security,ml-kem,ml-dsa,side-channel,fault-attacks"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-10/" data-hashtag="lattice"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-10/" data-title="Lattice Part 10: Implementation Fault Lines in Lattice Cryptography"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-10/" data-title="Lattice Part 10: Implementation Fault Lines in Lattice Cryptography"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-10/" data-title="Lattice Part 10: Implementation Fault Lines in Lattice Cryptography"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/implementation-security/">Implementation-Security</a>,&nbsp;<a href="/tags/ml-kem/">Ml-Kem</a>,&nbsp;<a href="/tags/ml-dsa/">Ml-Dsa</a>,&nbsp;<a href="/tags/side-channel/">Side-Channel</a>,&nbsp;<a href="/tags/fault-attacks/">Fault-Attacks</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/badagent0x00-intro/" class="prev" rel="prev" title="BadAgent0x00 Intro"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>BadAgent0x00 Intro</a>
+            <a href="/uov/" class="next" rel="next" title="Way-To-MPKC From UOV">Way-To-MPKC From UOV<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

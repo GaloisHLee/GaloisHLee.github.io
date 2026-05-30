@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption - As it was</title><meta name="Description" content="Reading: Peikert&#39;s wide-angle survey for the lattice backbone[^peikert], Brakerski&#39;s FHE survey for the leveled-to-full control argument[^brakerski-survey], and the Gentry / BGV / BV / GSW / FV papers for the actual mechanism[^gentry][^bgv][^bv][^gsw][^fv]. Beyond Parts 0-3, the …"><meta property="og:title" content="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption">
+<meta property="og:description" content="Reading: Peikert&#39;s wide-angle survey for the lattice backbone[^peikert], Brakerski&#39;s FHE survey for the leveled-to-full control argument[^brakerski-survey], and the Gentry / BGV / BV / GSW / FV papers for the actual mechanism[^gentry][^bgv][^bv][^gsw][^fv]. Beyond Parts 0-3, the …">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-7/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption">
+<meta name="twitter:description" content="Reading: Peikert&#39;s wide-angle survey for the lattice backbone[^peikert], Brakerski&#39;s FHE survey for the leveled-to-full control argument[^brakerski-survey], and the Gentry / BGV / BV / GSW / FV papers for the actual mechanism[^gentry][^bgv][^bv][^gsw][^fv]. Beyond Parts 0-3, the …"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-7/" /><link rel="prev" href="https://galoishlee.github.io/waytofft-part-1/" /><link rel="next" href="https://galoishlee.github.io/pae-attack/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-7\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "Lattice, FHE, Gadget Decomposition, Key Switching, Relinearization","wordcount":  3614 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-7\/","datePublished": "2024-07-25T12:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-7/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-7/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-07-25">2024-07-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3614 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 17 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reader-state-after-part-0-3">Reader State After Part 0-3</a>
+      <ul>
+        <li><a href="#notation-for-the-fhe-layer">Notation For The FHE Layer</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-homomorphic-evaluation-needs-a-control-layer">Why Homomorphic Evaluation Needs A Control Layer</a>
+      <ul>
+        <li><a href="#what-addition-preserves">What Addition Preserves</a></li>
+        <li><a href="#what-multiplication-breaks">What Multiplication Breaks</a></li>
+        <li><a href="#ciphertext-shape-is-a-secret-key-basis-problem">Ciphertext Shape Is A Secret-Key Basis Problem</a></li>
+      </ul>
+    </li>
+    <li><a href="#gadget-decomposition-as-an-algebraic-interface">Gadget Decomposition As An Algebraic Interface</a>
+      <ul>
+        <li><a href="#the-basic-gadget-identity">The Basic Gadget Identity</a></li>
+        <li><a href="#a-small-digit-example">A Small Digit Example</a></li>
+        <li><a href="#why-small-digits-matter">Why Small Digits Matter</a></li>
+        <li><a href="#why-the-gsw-view-matters">Why The GSW View Matters</a></li>
+      </ul>
+    </li>
+    <li><a href="#key-switching-and-relinearization">Key Switching And Relinearization</a>
+      <ul>
+        <li><a href="#key-switching-as-a-noisy-basis-change">Key Switching As A Noisy Basis Change</a></li>
+        <li><a href="#relinearization-as-post-multiplication-key-switching">Relinearization As Post-Multiplication Key Switching</a></li>
+        <li><a href="#the-ring-lwe-compression-of-the-same-story">The Ring-LWE Compression Of The Same Story</a></li>
+      </ul>
+    </li>
+    <li><a href="#noise-management-and-leveled-fhe">Noise Management And Leveled FHE</a>
+      <ul>
+        <li><a href="#noise-is-the-true-resource">Noise Is The True Resource</a></li>
+        <li><a href="#shape-control-is-not-enough">Shape Control Is Not Enough</a></li>
+        <li><a href="#why-leveled-fhe-is-already-a-major-endpoint">Why Leveled FHE Is Already A Major Endpoint</a></li>
+      </ul>
+    </li>
+    <li><a href="#from-leveled-to-fully-homomorphic">From Leveled To Fully Homomorphic</a>
+      <ul>
+        <li><a href="#what-bootstrapping-refreshes">What Bootstrapping Refreshes</a></li>
+        <li><a href="#why-bootstrapping-reuses-the-same-control-layer">Why Bootstrapping Reuses The Same Control Layer</a></li>
+        <li><a href="#why-this-is-still-a-lattice-story">Why This Is Still A Lattice Story</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Reading: Peikert&rsquo;s wide-angle survey for the lattice backbone<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, Brakerski&rsquo;s FHE survey for the leveled-to-full control argument<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, and the Gentry / BGV / BV / GSW / FV papers for the actual mechanism<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup><sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>. Beyond Parts 0-3, the only extra objects needed here are introduced locally: noisy LWE-style decryptions, structured ring or module arithmetic, gadget bases, and evaluation keys. Part 7 is where those objects become one controlled evaluation procedure.</p>
+<p>The procedure fails at a very specific point. Addition keeps decryption inside the same noisy linear relation. Multiplication does not. It lifts the decryption equation from a linear secret-key basis to a higher-degree basis, enlarges the ciphertext object, and spends decoding margin at the same time. If FHE is to support general evaluation, it needs a control layer exactly at that break.</p>
+<p>That control layer is gadget decomposition plus evaluation keys. Once that interface is explicit, key switching becomes a noisy basis change, relinearization becomes the special case that removes post-multiplication secret-key degree, and the leveled-versus-fully-homomorphic split becomes a question of whether the noise budget can be managed forever or only up to a fixed depth.<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h2 id="reader-state-after-part-0-3">Reader State After Part 0-3</h2>
+<p>This article assumes the reader knows only the first lattice layer:</p>
+<ul>
+<li>Part 0: a lattice is a discrete additive subgroup generated by a basis.</li>
+<li>Part 1: a basis can be usable or unusable; Gram-Schmidt lengths measure how controlled the basis is.</li>
+<li>Part 2: CVP and Babai explain what it means to move a target back toward a lattice or coset.</li>
+<li>Part 3: SIS / ISIS explain short integer witnesses for exact modular relations.</li>
+</ul>
+<p>FHE adds one new operational demand. Instead of finding one short witness or decrypting one noisy relation, we want to compute on ciphertexts while keeping the decryption relation valid. So the central invariant is not just hardness:</p>
+$$
+\text{ciphertext after evaluation must still decrypt under a controlled short relation.}
+$$<p>Part 7 therefore reuses Part 0-3 in a specific way. The secret key defines a decryption basis, multiplication pushes the ciphertext into a larger basis, and gadget/key-switching machinery acts like a controlled basis change back to the original form.</p>
+<h3 id="notation-for-the-fhe-layer">Notation For The FHE Layer</h3>
+<p>The simplified ciphertext convention in this note is:</p>
+<ul>
+<li>$q$ is the ciphertext modulus.</li>
+<li>$t$ is the plaintext modulus.</li>
+<li>$\Delta\approx q/t$ is the plaintext scaling factor.</li>
+<li>$\mathbf{s}$ is the secret key or coefficient vector of a ring/module secret.</li>
+<li>$c=(c_0,\mathbf{c}_1)$ decrypts by evaluating a noisy linear form in $\mathbf{s}$.</li>
+<li>$e$ is the effective error or noise term.</li>
+<li>$B$ is a gadget radix, unrelated to a lattice basis matrix unless explicitly stated.</li>
+</ul>
+<p>The minimal correctness template is:</p>
+$$
+c_0+\langle\mathbf{c}_1,\mathbf{s}\rangle=\Delta m+e\pmod q.
+$$<p>The IACR-style discipline for the rest of the article is to track three objects separately: ciphertext shape, secret-key basis, and noise size. Confusing these three is the fastest way to misunderstand FHE.</p>
+<h2 id="why-homomorphic-evaluation-needs-a-control-layer">Why Homomorphic Evaluation Needs A Control Layer</h2>
+<h3 id="what-addition-preserves">What Addition Preserves</h3>
+<p>Start from the LWE-style decryption relation. Matrix, ring, and module variants package it differently, but the invariant has the same shape:</p>
+$$
+\mu = c_0 + \langle \mathbf{c}_1,\mathbf{s}\rangle \pmod q,
+$$<p>where the decrypted representative is of the form</p>
+$$
+\mu = \Delta m + e,
+\qquad
+m \in \mathbb{Z}_t,
+\qquad
+\Delta \approx q/t,
+$$<p>and correctness requires the effective error $e$ to stay inside the decoding interval, e.g. $|e| &lt; \Delta/2$ in the scalar picture or the analogous norm bound in the vector or ring picture.<sup id="fnref2:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><sup id="fnref1:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>So a ciphertext has the linear secret-key form</p>
+$$
+c=(c_0,\mathbf{c}_1) \in \mathbb{Z}_q \times \mathbb{Z}_q^n.
+$$<p>If</p>
+$$
+\begin{aligned}
+\mu_i = c_{0,i} + \langle \mathbf{c}_{1,i},\mathbf{s}\rangle
+&=
+\Delta m_i + e_i
+\qquad (i=1,2).
+\end{aligned}
+$$<p>then homomorphic addition stays inside the same template:</p>
+$$
+\begin{aligned}
+\mu_1+\mu_2
+&=
+(c_{0,1}+c_{0,2})+\langle \mathbf{c}_{1,1}+\mathbf{c}_{1,2},\mathbf{s}\rangle \\
+&=
+\Delta(m_1+m_2)+(e_1+e_2).
+\end{aligned}
+$$<p>Nothing structural changes.</p>
+<ul>
+<li>The ciphertext is still linear in $\mathbf{s}$.</li>
+<li>The key space is unchanged.</li>
+<li>The new error is just the sum of the old errors.</li>
+</ul>
+<p>This is why additive homomorphism is not the hard part of lattice FHE. It lives inside the same noisy affine relation we already know from LWE and RLWE.<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<h3 id="what-multiplication-breaks">What Multiplication Breaks</h3>
+<p>Now multiply two decryptions:</p>
+$$
+\mu_1\mu_2=\big(c_{0,1}+\langle \mathbf{c}_{1,1},\mathbf{s}\rangle\big)\big(c_{0,2}+\langle \mathbf{c}_{1,2},\mathbf{s}\rangle\big).
+$$<p>Expanding gives</p>
+$$
+\begin{aligned}
+\mu_1\mu_2
+&=
+c_{0,1}c_{0,2} \\
+&\quad +
+c_{0,1}\langle \mathbf{c}_{1,2},\mathbf{s}\rangle \\
+&\quad +
+c_{0,2}\langle \mathbf{c}_{1,1},\mathbf{s}\rangle \\
+&\quad +
+\langle \mathbf{c}_{1,1},\mathbf{s}\rangle
+\langle \mathbf{c}_{1,2},\mathbf{s}\rangle.
+\end{aligned}
+$$<p>The last term is the failure point. It is quadratic in the secret key. Writing the post-multiplication ciphertext as</p>
+$$
+d=(d_0,\mathbf{d}_1,D_2),
+$$<p>decryption has the shape</p>
+$$
+d_0 + \langle \mathbf{d}_1,\mathbf{s}\rangle + \mathbf{s}^\top D_2 \mathbf{s}.
+$$<p>The ciphertext is no longer attached to the linear basis</p>
+$$
+\mathcal{B}_1(\mathbf{s})=\{1,s_1,\ldots,s_n\},
+$$<p>but to the degree-2 basis</p>
+$$
+\mathcal{B}_{\le 2}(\mathbf{s})=\{1,s_1,\ldots,s_n,s_is_j:1\le i\le j\le n\}.
+$$<p>After multiplicative depth $L$, the naive basis becomes</p>
+$$
+\begin{aligned}
+\mathcal{B}_{\le L}(\mathbf{s})
+&=
+\left\{
+\prod_{k=1}^n s_k^{\alpha_k}
+:
+\sum_{k=1}^n \alpha_k \le L
+\right\}.
+\end{aligned}
+$$<p>whose size is</p>
+$$
+\left|\mathcal{B}_{\le L}(\mathbf{s})\right|=\binom{n+L}{L}.
+$$<p>That combinatorial growth is the algebraic core of ciphertext blow-up. &ldquo;Ciphertext shape&rdquo; is not just byte length. It is the degree of the secret-key basis required for decryption.</p>
+<h3 id="ciphertext-shape-is-a-secret-key-basis-problem">Ciphertext Shape Is A Secret-Key Basis Problem</h3>
+<p>In the scalar toy model, a fresh ciphertext decrypts against the basis</p>
+$$
+(1,s).
+$$<p>Multiplication sends it to</p>
+$$
+(1,s)\otimes(1,s)=(1,s,s,s^2),
+$$<p>which merges to</p>
+$$
+(1,s,s^2).
+$$<p>The operational question is therefore:</p>
+<blockquote>
+<p>Can we map a ciphertext expressed against a higher-degree secret-key basis back into the standard linear basis, while controlling the extra noise introduced by that map?</p>
+</blockquote>
+<p>That is the real content of relinearization. It is not &ldquo;compress the ciphertext because it got longer.&rdquo; It is &ldquo;compress the secret-key basis because multiplication moved us into the wrong coordinate system.&rdquo;</p>
+<p>Noise growth arrives at the same moment. If</p>
+$$
+\mu_i = \Delta m_i + e_i,
+$$<p>then raw multiplication gives</p>
+$$
+\begin{aligned}
+\mu_1\mu_2
+&=
+\Delta^2 m_1m_2 \\
+&\quad +
+\Delta(m_1e_2+m_2e_1) \\
+&\quad +
+e_1e_2.
+\end{aligned}
+$$<p>So multiplication consumes two budgets simultaneously:</p>
+<ul>
+<li>a basis budget, because the decryption equation is now higher degree in the secret key;</li>
+<li>a noise budget, because the error now has bilinear and quadratic terms.</li>
+</ul>
+<p>If the scheme wants to return to the original plaintext scale $\Delta$ rather than stay at $\Delta^2$, an extra renormalization step is also required after multiplication. Part of the later noise accounting will come from exactly that scale-control step.</p>
+<p>This is the exact point where FHE stops being &ldquo;noisy encryption that happens to add&rdquo; and becomes a controlled lattice-evaluation problem.<sup id="fnref3:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<h2 id="gadget-decomposition-as-an-algebraic-interface">Gadget Decomposition As An Algebraic Interface</h2>
+<h3 id="the-basic-gadget-identity">The Basic Gadget Identity</h3>
+<p>Fix a radix $B \ge 2$ and digit length $\ell$ such that $B^\ell &gt; q$. Define the gadget vector</p>
+$$
+\mathbf{g}=(1,B,B^2,\ldots,B^{\ell-1}) \in \mathbb{Z}_q^\ell.
+$$<p>For every $u \in \mathbb{Z}_q$, choose a digit vector</p>
+$$
+\operatorname{Decomp}_B(u)=(u_0,\ldots,u_{\ell-1})
+$$<p>with small digits $u_i$ such that</p>
+$$
+\begin{aligned}
+u
+&=
+\langle \operatorname{Decomp}_B(u),\mathbf{g}\rangle \\
+&=
+\sum_{i=0}^{\ell-1} u_i B^i
+\pmod q.
+\end{aligned}
+$$<p>For a vector or matrix object, the same operation is applied coefficientwise. In block form one often writes</p>
+$$
+G = I_t \otimes \mathbf{g},
+$$<p>so that</p>
+$$
+\mathbf{u} = G^\top \operatorname{Decomp}_G(\mathbf{u}).
+$$<p>The key algebraic identity is not the reconstruction formula by itself, but the following companion map. For any secret-dependent term $x$,</p>
+$$
+\operatorname{Pow}_B(x)=(x,Bx,B^2x,\ldots,B^{\ell-1}x).
+$$<p>Then</p>
+$$
+\begin{aligned}
+\left\langle \operatorname{Decomp}_B(u), \operatorname{Pow}_B(x)\right\rangle
+&=
+\sum_{i=0}^{\ell-1} u_i B^i x \\
+&=
+ux.
+\end{aligned}
+$$<p>This is the entire reason gadget decomposition matters. It turns a large coefficient $u$ multiplying some hard-to-handle secret expression $x$ into many small coefficients multiplying public basis weights of $x$.</p>
+<p>The cryptographic point of $G$ is not to hide anything. It is to create a canonical public basis against which secret-dependent terms can be addressed linearly.<sup id="fnref1:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup><sup id="fnref4:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h3 id="a-small-digit-example">A Small Digit Example</h3>
+<p>Take $q=17$, $B=2$, and $u=13$. Then</p>
+$$
+13 = 1 + 0\cdot 2 + 1\cdot 2^2 + 1\cdot 2^3,
+$$<p>so</p>
+$$
+\operatorname{Decomp}_2(13)=(1,0,1,1).
+$$<p>If an evaluation key contains encryptions of</p>
+$$
+s^2,\ 2s^2,\ 4s^2,\ 8s^2,
+$$<p>then the digit vector $(1,0,1,1)$ lets us linearly recombine them into an encryption of</p>
+$$
+13s^2.
+$$<p>This toy example already captures the real mechanism:</p>
+<ol>
+<li>multiplication produces a coefficient of an unwanted secret term such as $s^2$;</li>
+<li>gadget decomposition rewrites that coefficient in a fixed digit basis;</li>
+<li>evaluation-key entries encode the basis-weighted secret term;</li>
+<li>linear recombination recovers the desired coefficient times the secret term, but under the target ciphertext format.</li>
+</ol>
+<p>Nothing in that chain is folklore. It is an explicit algebraic API.</p>
+<h3 id="why-small-digits-matter">Why Small Digits Matter</h3>
+<p>If one tried to recombine evaluation-key encryptions using the original coefficient $u$ directly, the extra error from the evaluation key would be multiplied by a potentially large $u$. Gadget decomposition replaces that with many small digits.</p>
+<p>There is still a trade-off:</p>
+<ul>
+<li>small base $B$ gives smaller digits but more of them, since $\ell=\lceil \log_B q\rceil$ grows;</li>
+<li>large base $B$ gives fewer digits but larger coefficients in the recombination.</li>
+</ul>
+<p>So gadget design is part of noise management, not just notation design.<sup id="fnref2:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>At a rough level, if each evaluation-key component carries error of size $\eta$, then the switching or relinearization error scales like</p>
+$$
+\text{digit-count} \times \text{digit-size} \times \eta,
+$$<p>up to scheme-specific constants. That is why papers that look &ldquo;only about relinearization parameters&rdquo; are in fact about correctness depth.<sup id="fnref2:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref3:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<h3 id="why-the-gsw-view-matters">Why The GSW View Matters</h3>
+<p>The GSW paper made this point especially explicit by promoting the gadget basis into the native ciphertext syntax itself.<sup id="fnref2:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> Instead of thinking of the gadget as an auxiliary decomposition tool that appears after multiplication, GSW treats ciphertexts as matrix objects built to act naturally on gadget-expanded secret vectors.</p>
+<p>The important conceptual change is this:</p>
+<ul>
+<li>in BGV or BFV-style lines, multiplication first creates a larger secret-key basis and then relinearization switches back;</li>
+<li>in GSW-style lines, the gadget basis is built into the ciphertext representation, so multiplication is expressed as matrix multiplication inside that basis.</li>
+</ul>
+<p>The implementation details differ, but the algebraic control argument is the same. Gadget structure is the layer that makes multiplication manageable.</p>
+<h2 id="key-switching-and-relinearization">Key Switching And Relinearization</h2>
+<h3 id="key-switching-as-a-noisy-basis-change">Key Switching As A Noisy Basis Change</h3>
+<p>Suppose a ciphertext decrypts under a source key $\mathbf{t}$:</p>
+$$
+\mu = c_0 + \langle \mathbf{c},\mathbf{t}\rangle.
+$$<p>We want an equivalent ciphertext under a target key $\mathbf{s}$. For each source-key coordinate $t_j$ and gadget digit $B^i$, publish a switching-key encryption</p>
+$$
+b_{i,j} + \langle \mathbf{a}_{i,j},\mathbf{s}\rangle = B^i t_j + e_{i,j}^{\mathrm{ks}}.
+$$<p>If</p>
+$$
+c_j = \sum_{i=0}^{\ell-1} c_{i,j} B^i,
+$$<p>define</p>
+$$
+\begin{aligned}
+c_0'
+&=
+c_0 + \sum_j \sum_i c_{i,j} b_{i,j},\\
+\mathbf{c}'
+&=
+\sum_j \sum_i c_{i,j} \mathbf{a}_{i,j}.
+\end{aligned}
+$$<p>Then</p>
+$$
+\begin{aligned}
+c_0' + \langle \mathbf{c}',\mathbf{s}\rangle
+&=
+c_0 + \sum_{j,i} c_{i,j}\big(b_{i,j}+\langle \mathbf{a}_{i,j},\mathbf{s}\rangle\big) \\
+&=
+c_0 + \sum_{j,i} c_{i,j}\big(B^i t_j + e_{i,j}^{\mathrm{ks}}\big) \\
+&=
+c_0 + \sum_j c_j t_j + \sum_{j,i} c_{i,j} e_{i,j}^{\mathrm{ks}} \\
+&=
+\mu + e_{\mathrm{ks}}.
+\end{aligned}
+$$<p>So key switching is exactly a noisy basis change:</p>
+$$
+\text{ciphertext under } \mathbf{t}
+\longrightarrow
+\text{ciphertext under } \mathbf{s}.
+$$<p>The price is the accumulated switching noise</p>
+$$
+e_{\mathrm{ks}} = \sum_{j,i} c_{i,j} e_{i,j}^{\mathrm{ks}}.
+$$<p>This is why gadget decomposition and key switching cannot be separated conceptually. The decomposition tells the scheme how to address the source-key coordinates through the public evaluation key.<sup id="fnref5:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><sup id="fnref3:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<h3 id="relinearization-as-post-multiplication-key-switching">Relinearization As Post-Multiplication Key Switching</h3>
+<p>Relinearization is the special case where the source &ldquo;key&rdquo; is not another user&rsquo;s key, but the higher-degree monomial basis introduced by multiplication.</p>
+<p>Return to the scalar picture:</p>
+$$
+\mu = c_0 + c_1 s = \Delta m + e.
+$$<p>After multiplication of two ciphertexts, decryption takes the form</p>
+$$
+d_0 + d_1 s + d_2 s^2=(\Delta m_1 + e_1)(\Delta m_2 + e_2).
+$$<p>The ciphertext now lives on the secret basis $(1,s,s^2)$. Relinearization maps it back to $(1,s)$.</p>
+<p>Let</p>
+$$
+d_2 = \sum_{i=0}^{\ell-1} d_{2,i} B^i,
+$$<p>and publish evaluation-key encryptions</p>
+$$
+\operatorname{evk}_i=(a_i,b_i)
+\quad\text{such that}\quad
+b_i + a_i s = B^i s^2 + e_i^{\mathrm{evk}}.
+$$<p>Define</p>
+$$
+c_0' = d_0 + \sum_{i=0}^{\ell-1} d_{2,i} b_i,
+\qquad
+c_1' = d_1 + \sum_{i=0}^{\ell-1} d_{2,i} a_i.
+$$<p>Then</p>
+$$
+\begin{aligned}
+c_0' + c_1' s
+&=
+d_0 + d_1 s + \sum_{i=0}^{\ell-1} d_{2,i}(b_i+a_i s) \\
+&=
+d_0 + d_1 s + \sum_{i=0}^{\ell-1} d_{2,i}(B^i s^2 + e_i^{\mathrm{evk}}) \\
+&=
+d_0 + d_1 s + d_2 s^2 + \sum_{i=0}^{\ell-1} d_{2,i} e_i^{\mathrm{evk}}.
+\end{aligned}
+$$<p>So the unwanted $s^2$ term has been absorbed into the standard linear ciphertext shape, at the cost of extra error</p>
+$$
+e_{\mathrm{relin}}=\sum_{i=0}^{\ell-1} d_{2,i} e_i^{\mathrm{evk}}.
+$$<p>This is the derivation chain that matters:</p>
+$$
+\text{multiply}
+\longrightarrow
+\text{tensor or quadratic secret basis}
+\longrightarrow
+\text{gadget decomposition of the high-degree coefficient}
+\longrightarrow
+\text{evaluation-key recombination}
+\longrightarrow
+\text{linear ciphertext again}.
+$$<p>In higher dimensions, relinearization is key switching from the degree-2 monomial vector</p>
+$$
+\mathbf{t} = \mathbf{s} \otimes \mathbf{s}
+$$<p>back to the linear secret vector $\mathbf{s}$. The algebra is the same, only the indexing gets larger.<sup id="fnref3:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref6:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<blockquote>
+<p>Local invariant: relinearization removes secret-key degree. It does not remove the accumulated error that got us there.</p>
+</blockquote>
+<h3 id="the-ring-lwe-compression-of-the-same-story">The Ring-LWE Compression Of The Same Story</h3>
+<p>Ring-LWE and Module-LWE variants move the same relation into quotient rings or module vectors. The same control argument survives there with better packing.</p>
+<p>Let</p>
+$$
+R_q = \mathbb{Z}_q[x]/(f(x)),
+\qquad
+c=(c_0(x),c_1(x)) \in R_q^2,
+$$<p>and decryption relation</p>
+$$
+c_0(x) + c_1(x)s(x) = \Delta m(x) + e(x) \pmod q.
+$$<p>After multiplication we obtain</p>
+$$
+d=(d_0(x),d_1(x),d_2(x)) \in R_q^3
+$$<p>with</p>
+$$
+d_0(x) + d_1(x)s(x) + d_2(x)s(x)^2.
+$$<p>Relinearization again publishes encryptions of basis-weighted $s(x)^2$ terms under the original key. In coefficient form, one decomposes $d_2(x)$ coefficientwise into gadget digits and linearly recombines evaluation-key encryptions of</p>
+$$
+B^i s(x)^2
+$$<p>or the appropriate ring-basis variants.<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><sup id="fnref4:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>This is where structured arithmetic and FHE control meet directly:</p>
+<ul>
+<li>ring or module structure makes multiplication regular;</li>
+<li>relinearization explains how that multiplication is brought back into a fixed ciphertext shape afterward.</li>
+</ul>
+<p>NTT-friendly ring or module arithmetic is what makes these relinearization or switching recombinations cheap enough to matter in practice. The control layer is still algebraic, but the structured-lattice substrate is what keeps it from collapsing under its own size.</p>
+<p>The ring does not eliminate the control problem. It makes the control problem compressible enough to be practical.</p>
+<h2 id="noise-management-and-leveled-fhe">Noise Management And Leveled FHE</h2>
+<h3 id="noise-is-the-true-resource">Noise Is The True Resource</h3>
+<p>Every lattice FHE scheme has a correctness condition of the form</p>
+$$
+\lVert e\rVert < \text{decoding-threshold}(q,\Delta,t,\ldots).
+$$<p>The notation changes across BGV, BV, FV, and later descendants, but the invariant is the same: the effective error must remain small enough relative to the modulus and scale for decryption or rounding to recover the plaintext.<sup id="fnref7:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><sup id="fnref5:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>For the scaled relation</p>
+$$
+\mu = \Delta m + e,
+$$<p>the rough error transformations are:</p>
+$$
+e_{\mathrm{add}} = e_1 + e_2,
+$$<p>and, after multiplication plus the scheme&rsquo;s renormalization step,</p>
+$$
+\begin{aligned}
+e_{\mathrm{mul}}
+&\approx
+m_1 e_2 + m_2 e_1 + \frac{e_1 e_2}{\Delta} + e_{\mathrm{scale}} + e_{\mathrm{relin}},
+\end{aligned}
+$$<p>where $e_{\mathrm{scale}}$ is the extra rounding or rescaling error needed to bring the plaintext scale back into the expected range.</p>
+<p>This formula should not be read as a universal bound with perfect constants. It should be read as the structural reason multiplicative depth is scarce:</p>
+<ul>
+<li>message-noise cross terms appear;</li>
+<li>previous noise multiplies previous noise;</li>
+<li>the control step itself adds evaluation-key noise;</li>
+<li>and the scheme often needs an additional scale-management step after multiplication.</li>
+</ul>
+<p>So the real resource of FHE is not just ciphertext size or runtime. It is residual decoding margin.</p>
+<h3 id="shape-control-is-not-enough">Shape Control Is Not Enough</h3>
+<p>A common misunderstanding is: once relinearization has restored ciphertext length, the hard part is over. That is false.</p>
+<p>Relinearization controls the secret-key basis. It does not shrink the error that already lives in the ciphertext. In fact it increases error by injecting evaluation-key noise. This is why leveled lattice FHE needs two orthogonal control mechanisms:</p>
+<ol>
+<li>ciphertext-shape control via key switching or relinearization;</li>
+<li>noise-to-modulus control via parameter choice, scaling, and often modulus management.</li>
+</ol>
+<p>The BGV line made this second axis especially explicit through modulus switching.<sup id="fnref4:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> If a ciphertext relation modulo $q_i$ is</p>
+$$
+c_0 + \langle \mathbf{c}_1,\mathbf{s}\rangle = \Delta_i m + e \pmod {q_i},
+$$<p>one can move to a smaller modulus $q_{i+1} &lt; q_i$ by approximately scaling the ciphertext coefficients:</p>
+$$
+c' = \left\lfloor \frac{q_{i+1}}{q_i} c \right\rceil \pmod {q_{i+1}}.
+$$<p>Ignoring scheme-specific bookkeeping, the new error behaves like</p>
+$$
+e'
+\approx
+\frac{q_{i+1}}{q_i} e + e_{\mathrm{round}}.
+$$<p>So the absolute error is not removed by relinearization, but its relation to the active modulus can be kept under control. This is the leveled-FHE version of budget management: one spends part of a modulus chain in order to keep the effective decoding ratio viable.<sup id="fnref8:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h3 id="why-leveled-fhe-is-already-a-major-endpoint">Why Leveled FHE Is Already A Major Endpoint</h3>
+<p>A leveled homomorphic scheme is not an unfinished dream. It is a family of schemes parameterized by a target multiplicative depth $L$, such that every admissible circuit of depth at most $L$ can be evaluated correctly without any refresh step.<sup id="fnref9:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>To make that leveled guarantee true, the designer must simultaneously close all of the following loops:</p>
+<ul>
+<li>multiplication creates a higher-degree secret basis;</li>
+<li>relinearization or key switching restores the standard basis;</li>
+<li>repeated operations keep error below the decoding threshold;</li>
+<li>modulus or scale management preserves enough remaining margin until depth $L$.</li>
+</ul>
+<p>That is already the full algebraic problem for bounded-depth computation.</p>
+<p>This is why the BGV and BV lines mattered so much historically.<sup id="fnref5:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref2:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> They made it clear that one can get far beyond toy addition and multiplication by explicit lattice control, even before the final refresh step is inserted.</p>
+<h2 id="from-leveled-to-fully-homomorphic">From Leveled To Fully Homomorphic</h2>
+<h3 id="what-bootstrapping-refreshes">What Bootstrapping Refreshes</h3>
+<p>Fully homomorphic encryption asks for evaluation depth that is not fixed once and for all by the original leveled parameters. The quantity that must be refreshed is not the plaintext. It is the ciphertext&rsquo;s residual decryption margin.</p>
+<p>At a high level, bootstrapping transforms a ciphertext $c$ into a new ciphertext $c^\star$ of the same plaintext but with noise comparable to a fresh encryption:</p>
+$$
+\operatorname{Dec}_{\mathbf{s}}(c)=m
+\quad\Longrightarrow\quad
+c^\star \approx \operatorname{Enc}_{\mathbf{s}}(m).
+$$<p>Operationally this means:</p>
+<ol>
+<li>represent the current noisy ciphertext;</li>
+<li>homomorphically evaluate the decryption procedure, or an equivalent refresh circuit, on encrypted auxiliary key material;</li>
+<li>output a new ciphertext of the same message with restored slack.</li>
+</ol>
+<p>Gentry&rsquo;s original blueprint was exactly this observation: if a somewhat homomorphic scheme can evaluate its own decryption circuit, then it can refresh its ciphertexts and iterate forever.<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h3 id="why-bootstrapping-reuses-the-same-control-layer">Why Bootstrapping Reuses The Same Control Layer</h3>
+<p>Bootstrapping is often described as if it were a separate phase after the &ldquo;real&rdquo; scheme. In lattice systems that is the wrong mental model.</p>
+<p>To evaluate decryption homomorphically, the scheme still needs to manipulate secret-dependent linear forms, rounding or digit-extraction structure, and key material under encryption. Those are the same families of operations that already forced gadget decomposition, key switching, and noise accounting into the construction.<sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup><sup id="fnref10:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>In other words:</p>
+<ul>
+<li>gadget decomposition is still how coefficients are made addressable;</li>
+<li>key switching is still how ciphertexts move between useful secret-key bases;</li>
+<li>modulus and scale management are still how correctness margin is preserved long enough for the refresh to finish.</li>
+</ul>
+<p>Fully homomorphic encryption is therefore not a different species from leveled FHE. It is leveled FHE plus a refresh mechanism whose own evaluation cost fits inside the available leveled budget.</p>
+<h3 id="why-this-is-still-a-lattice-story">Why This Is Still A Lattice Story</h3>
+<p>Peikert&rsquo;s survey is useful here because it keeps advanced constructions inside the same lattice-crypto grammar instead of treating them as disconnected exceptions.<sup id="fnref2:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> The construction never stopped being:</p>
+<ol>
+<li>public noisy linear relations hide secret structure;</li>
+<li>structured rings or modules make arithmetic regular enough to execute;</li>
+<li>gadget bases make higher-degree or foreign-key relations linearly addressable;</li>
+<li>evaluation keys convert that addressability into ciphertext-shape control;</li>
+<li>bootstrapping refreshes the remaining error margin when the leveled budget runs out.</li>
+</ol>
+<p>That continuity matters. It explains why FHE belongs after the introductory lattice geometry rather than in a detached &ldquo;advanced applications&rdquo; bucket. FHE is an advanced consequence of the same noisy-linear and structured-lattice framework, not a separate postscript.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Part 7 is where lattice cryptography becomes an algebraic control theory for computation on ciphertexts.</p>
+<p>Addition preserves the original noisy linear basis. Multiplication does not: it raises the secret-key degree, enlarges the ciphertext object, and accelerates error growth. Gadget decomposition is the public coordinate system that lets evaluation keys talk to those higher-degree terms. Key switching is the general noisy basis change. Relinearization is the special case that maps post-multiplication secret monomials back into the standard ciphertext shape. Noise management is the separate but equally essential axis that keeps those controlled ciphertexts decryptable.</p>
+<p>Leveled FHE is the regime where these controls close for depth $L$. Fully homomorphic encryption is the regime where the remaining margin can also be refreshed. The underlying mechanism stays lattice-native from start to finish.</p>
+<h2 id="references">References</h2>
+<p>Suggested reading order:</p>
+<ol>
+<li>Peikert first, for the lattice-wide view of noisy linear relations, gadget tools, and structured assumptions.</li>
+<li>Brakerski&rsquo;s survey next, for leveled FHE, modulus management, key switching, and bootstrapping as one control problem.</li>
+<li>BGV/BV/FV after that, to see how the algebraic control layer becomes concrete in Ring-LWE style schemes.</li>
+<li>GSW last, to see the gadget basis promoted into the ciphertext syntax itself.</li>
+</ol>
+<ul>
+<li>Chris Peikert. &ldquo;A Decade of Lattice Cryptography.&rdquo; <em>Foundations and Trends in Theoretical Computer Science</em> 10(4):283-424, 2016.<sup id="fnref3:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>Zvika Brakerski. &ldquo;Fundamentals of Fully Homomorphic Encryption - A Survey.&rdquo; <em>ECCC TR18-125</em>, 2018.<sup id="fnref11:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
+<li>Craig Gentry. &ldquo;A Fully Homomorphic Encryption Scheme.&rdquo; PhD thesis, Stanford University, 2009.<sup id="fnref3:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+<li>Zvika Brakerski and Vinod Vaikuntanathan. &ldquo;Fully Homomorphic Encryption from Ring-LWE and Security for Key Dependent Messages.&rdquo; <em>CRYPTO 2011</em>.<sup id="fnref3:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+<li>Zvika Brakerski, Craig Gentry, and Vinod Vaikuntanathan. &ldquo;(Leveled) Fully Homomorphic Encryption without Bootstrapping.&rdquo; <em>ACM Transactions on Computation Theory</em> 6(3), 2014; conference version <em>ITCS 2012</em>.<sup id="fnref6:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+<li>Craig Gentry, Amit Sahai, and Brent Waters. &ldquo;Homomorphic Encryption from Learning with Errors: Conceptually-Simpler, Asymptotically-Faster, Attribute-Based.&rdquo; <em>CRYPTO 2013</em>.<sup id="fnref4:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></li>
+<li>Junfeng Fan and Frederik Vercauteren. &ldquo;Somewhat Practical Fully Homomorphic Encryption.&rdquo; <em>IACR ePrint 2012/144</em>.<sup id="fnref6:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></li>
+</ul>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Chris Peikert, &ldquo;A Decade of Lattice Cryptography,&rdquo; <em>Foundations and Trends in Theoretical Computer Science</em> 10(4):283-424, 2016.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Zvika Brakerski, &ldquo;Fundamentals of Fully Homomorphic Encryption - A Survey,&rdquo; <em>Electronic Colloquium on Computational Complexity</em> TR18-125, 2018.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref6:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref7:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref8:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref9:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref10:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref11:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Craig Gentry, &ldquo;A Fully Homomorphic Encryption Scheme,&rdquo; PhD thesis, Stanford University, 2009.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Zvika Brakerski, Craig Gentry, and Vinod Vaikuntanathan, &ldquo;(Leveled) Fully Homomorphic Encryption without Bootstrapping,&rdquo; <em>ACM Transactions on Computation Theory</em> 6(3), 2014; conference version <em>ITCS 2012</em>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref6:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Zvika Brakerski and Vinod Vaikuntanathan, &ldquo;Fully Homomorphic Encryption from Ring-LWE and Security for Key Dependent Messages,&rdquo; <em>Advances in Cryptology - CRYPTO 2011</em>, 2011.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Craig Gentry, Amit Sahai, and Brent Waters, &ldquo;Homomorphic Encryption from Learning with Errors: Conceptually-Simpler, Asymptotically-Faster, Attribute-Based,&rdquo; <em>Advances in Cryptology - CRYPTO 2013</em>, 2013.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Junfeng Fan and Frederik Vercauteren, &ldquo;Somewhat Practical Fully Homomorphic Encryption,&rdquo; <em>IACR Cryptology ePrint Archive</em>, Report 2012/144.&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref6:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-7/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-7/" data-title="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption" data-hashtags="Lattice,FHE,Gadget Decomposition,Key Switching,Relinearization"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-7/" data-hashtag="Lattice"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-7/" data-title="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-7/" data-title="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-7/" data-title="Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/fhe/">FHE</a>,&nbsp;<a href="/tags/gadget-decomposition/">Gadget Decomposition</a>,&nbsp;<a href="/tags/key-switching/">Key Switching</a>,&nbsp;<a href="/tags/relinearization/">Relinearization</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/waytofft-part-1/" class="prev" rel="prev" title="WayToFFT Part 1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>WayToFFT Part 1</a>
+            <a href="/pae-attack/" class="next" rel="next" title="Pae Attack">Pae Attack<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

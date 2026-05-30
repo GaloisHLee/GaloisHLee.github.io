@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>WayToFFT Part 0 - As it was</title><meta name="Description" content="从拉格朗日插值法到 FFT. Part-0."><meta property="og:title" content="WayToFFT Part 0">
+<meta property="og:description" content="从拉格朗日插值法到 FFT. Part-0.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/waytofft-part-0/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WayToFFT Part 0">
+<meta name="twitter:description" content="从拉格朗日插值法到 FFT. Part-0."><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/waytofft-part-0/" /><link rel="prev" href="https://galoishlee.github.io/fix-point/" /><link rel="next" href="https://galoishlee.github.io/waytocoppersmith-0x00/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "WayToFFT Part 0",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/waytofft-part-0\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  1392 ,
+        "url": "https:\/\/galoishlee.github.io\/waytofft-part-0\/","datePublished": "2024-05-25T21:58:45+08:00","dateModified": "2025-08-22T10:35:05+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/waytofft-part-0/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/waytofft-part-0/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToFFT Part 0</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-05-25">2024-05-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1392 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#系数表示法">系数表示法</a></li>
+    <li><a href="#点值表示法">点值表示法</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#定义">定义</a>
+      <ul>
+        <li><a href="#存在性">存在性</a></li>
+        <li><a href="#唯一性">唯一性</a></li>
+        <li><a href="#向量空间观点">向量空间观点</a></li>
+      </ul>
+    </li>
+    <li><a href="#核心思想总结">核心思想总结</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#范德蒙行列式">范德蒙行列式</a></li>
+    <li><a href="#克拉默法则">克拉默法则</a></li>
+    <li><a href="#多项式与对称多项式">多项式与对称多项式</a></li>
+    <li><a href="#拉格朗日逆矩阵形式">拉格朗日逆矩阵形式</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>从拉格朗日插值法到 FFT. Part-0.</p>
+<h1 id="系数表示法和点值表示法">系数表示法和点值表示法</h1>
+<h2 id="系数表示法">系数表示法</h2>
+<p>多项式可定义为形如
+</p>
+$$
+\sum_{i=0}^{n} a_{i}x^{i}
+$$<p>
+的有限和式，记作
+</p>
+$$
+f(x) = \sum_{i=0}^{n} a_{i}x^{i}
+$$<p>
+其中 $a_i$ 称为 $i$ 次项的<strong>系数</strong>。<br>
+这种表示方法称为<strong>系数表示法</strong>。</p>
+<h2 id="点值表示法">点值表示法</h2>
+<p>将 $x = t_i$ 代入，得到序列 $(t_i, y_i)$。当此序列满足 $0 \le i \le n$ 且 $t_i$ 互不相等时，可以唯一确定一个次数不超过 $n$ 的多项式，这种描述方法称为<strong>点值表示法</strong>。</p>
+<blockquote>
+<p>在给定 $n$ 个点值 $(t_0, y_0), (t_1, y_1), \dots, (t_{n-1}, y_{n-1})$ 且 $t_i$ 互不相等时，唯一确定的多项式次数至多为 $n-1$。</p>
+</blockquote>
+<p>证明：考虑 $n$ 阶 Vandermonde 方阵
+</p>
+$$
+V = \begin{bmatrix}
+1 & t_0 & t_0^2 & \cdots & t_0^{n-1} \\\\
+1 & t_1 & t_1^2 & \cdots & t_1^{n-1} \\\\
+1 & t_2 & t_2^2 & \cdots & t_2^{n-1} \\\\
+\vdots & \vdots & \vdots & \ddots & \vdots \\\\
+1 & t_{n-1} & t_{n-1}^2 & \cdots & t_{n-1}^{n-1}
+\end{bmatrix},
+\quad
+\mathbf{a} = \begin{bmatrix}
+a_0 \\\\ a_1 \\\\ a_2 \\\\ \vdots \\\\ a_{n-1}
+\end{bmatrix}
+$$<p>
+由于 $t_i$ 互不相同，$\det V \ne 0$，故方程有唯一解，从而唯一确定系数向量 $\mathbf{a}$。</p>
+<ul>
+<li>系数表示 $\to$ 点值表示：<strong>求值（evaluation)</strong></li>
+<li>点值表示 $\to$ 系数表示：<strong>插值（interpolation)</strong></li>
+</ul>
+<h1 id="拉格朗日插值">拉格朗日插值</h1>
+<h2 id="定义">定义</h2>
+<p>对于某个次数不超过 $n$ 的多项式 $f$，已知点值表示 $(t_i, y_i)$，其拉格朗日插值公式为：
+</p>
+$$
+\mathscr{L}(x) := \sum_{i=0}^{n} y_{i} \,\ell_{i}(x)
+$$<p>
+其中 $\ell_i(x)$ 称为<strong>拉格朗日基本多项式（插值基函数）</strong>：
+</p>
+$$
+\ell_{i}(x) := \prod_{\substack{m=0 \\ m \ne i}}^{n} \frac{x - t_{m}}{t_{i} - t_{m}}
+$$<h3 id="存在性">存在性</h3>
+<p>由点值表示知，目标多项式一定存在。对于 $\ell_i(x)$，在 $x = t_s$ 时：
+</p>
+$$
+\ell_{i}(t_s) =
+\begin{cases}
+1, & s = i, \\
+0, & s \ne i.
+\end{cases}
+$$<p>
+于是：
+</p>
+$$
+\mathscr{L}(t_s) = \sum_{i=0}^{n} y_{i} \,\ell_{i}(t_s) = y_s
+$$<h3 id="唯一性">唯一性</h3>
+<p>次数不超过 $n$ 的拉格朗日多项式 $\mathscr{L}(x)$ 至多只有一个。<br>
+设 $P_1$ 与 $P_2$ 均为满足插值条件的多项式，作差：
+</p>
+$$
+\Delta(x) = P_1(x) - P_2(x)
+$$<p>
+则 $\Delta(x)$ 在 $n+1$ 个互异点 $t_0,\dots,t_n$ 上为零，故：
+</p>
+$$
+\Delta(x) = k \prod_{i=0}^{n} (x - t_i)
+$$<p>
+若 $k = 0$，则 $P_1 \equiv P_2$；若 $k \ne 0$，则 $\deg \Delta &gt; n$，与已知矛盾。</p>
+<p>对应到 Vandermonde 矩阵：</p>
+<ul>
+<li>$\operatorname{rank} V = n+1$ 时有唯一解</li>
+<li>$\operatorname{rank} V &lt; n+1$ 时有无穷多解</li>
+</ul>
+<h3 id="向量空间观点">向量空间观点</h3>
+<p>设 $\mathbb{K}_{n}[X]$ 表示系数域为 $\mathbb{K}$、次数不超过 $n$ 的多项式空间。<br>
+由 ${\ell_0, \ell_1, \dots, \ell_n}$ 构成的集合为该空间的一组基，因为：</p>
+<ol>
+<li>它们线性无关</li>
+<li>元素个数为 $n+1$（等于空间维数）</li>
+</ol>
+<hr>
+<h2 id="核心思想总结">核心思想总结</h2>
+<p>利用点值的可加性：每次构造一个多项式在某个插值点处取所需值、在其他插值点处取 0，然后将这些多项式相加。</p>
+<p>插值公式可写为：
+</p>
+$$
+f(x) = \sum_{i=0}^{n} y_{i} \prod_{\substack{m=0 \\ m \ne i}}^{n} \frac{x - t_{m}}{t_{i} - t_{m}}
+$$<p>为了得到 $f$ 的系数，需要 $O(n^2)$ 时间计算
+</p>
+$$
+F(x) = \prod_{i=0}^{n} (x - t_i)
+$$<p>
+然后可通过解线性方程组（Vandermonde 系数矩阵）得到多项式系数。</p>
+<hr>
+<h1 id="范德蒙矩阵与拉格朗日逆">范德蒙矩阵与拉格朗日逆</h1>
+<h2 id="范德蒙行列式">范德蒙行列式</h2>
+<p>定义 $n \times n$ 的 Vandermonde 矩阵：
+</p>
+$$
+V = \begin{bmatrix}
+1 & a_1 & a_1^2 & \cdots & a_1^{n-1} \\\\
+1 & a_2 & a_2^2 & \cdots & a_2^{n-1} \\\\
+\vdots & \vdots & \vdots & \ddots & \vdots \\\\
+1 & a_n & a_n^2 & \cdots & a_n^{n-1}
+\end{bmatrix}
+$$<p>
+其行列式为：
+</p>
+$$
+\det V = \prod_{1 \le j < i \le n} (a_i - a_j)
+$$<p>
+只要 $a_i$ 两两不同，该行列式非零，矩阵可逆。</p>
+<hr>
+<h2 id="克拉默法则">克拉默法则</h2>
+<p>若 $A\mathbf{x} = \mathbf{b}$ 且 $\det A \ne 0$，则唯一解为：
+</p>
+$$
+x_j = \frac{\det A_j}{\det A}, \quad j = 1, \dots, n
+$$<p>
+其中 $A_j$ 为将 $A$ 的第 $j$ 列替换为列向量 $\mathbf{b}$ 后得到的矩阵。</p>
+<hr>
+<h2 id="多项式与对称多项式">多项式与对称多项式</h2>
+<p>设多项式
+</p>
+$$
+f(x) = \sum_{i=0}^{n} a_i x^i
+$$<p>
+若为首一多项式（最高次项系数 $a_n = 1$），根据代数基本定理：
+</p>
+$$
+f(x) = \prod_{i=1}^{n} (x - r_i)
+$$<p>
+韦达定理给出系数与根的关系：
+</p>
+$$
+a_{n-k} = (-1)^k \,\sigma_k(r_1, r_2, \dots, r_n), \quad k=1,\dots,n
+$$<p>
+其中 $\sigma_k$ 为第 $k$ 阶初等对称多项式。</p>
+<hr>
+<h2 id="拉格朗日逆矩阵形式">拉格朗日逆矩阵形式</h2>
+<p>设 $V$ 为由插值点 $t_0,\dots,t_n$ 构成的 $(n+1) \times (n+1)$ Vandermonde 矩阵：
+</p>
+$$
+V_{ij} = t_i^{\,j}, \quad 0 \le i,j \le n
+$$<p>
+插值过程等价于解：
+</p>
+$$
+V \mathbf{a} = \mathbf{y}
+$$<p>
+其中 $\mathbf{a} = (a_0, \dots, a_n)^\mathrm{T}$，$\mathbf{y} = (y_0, \dots, y_n)^\mathrm{T}$。</p>
+<p>由克拉默法则：
+</p>
+$$
+a_j = \frac{\det V_j}{\det V}
+$$<p>
+展开可得：
+</p>
+$$
+f(x) = \sum_{j=0}^{n} \frac{\det V_j}{\det V} \, x^j
+$$<p>
+进一步化简后，$V^{-1}$ 的第 $(j,i)$ 元素正是 $\ell_i$ 展开式中 $x^j$ 的系数，从而：
+</p>
+$$
+\ell_i(x) = \frac{\prod_{\substack{m=0 \\ m \ne i}}^{n} (x - t_m)}{\prod_{\substack{m=0 \\ m \ne i}}^{n} (t_i - t_m)}
+$$<p>
+矩阵形式：
+</p>
+$$
+\mathbf{a} = V^{-1} \mathbf{y}
+$$<p>
+即给出了 <strong>拉格朗日逆矩阵</strong> 的具体含义。</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://www.luogu.com.cn/blog/AlexWei/Polynomial---Lagrange-Interpolation-and-Fast-Fourier-transform" target="_blank" rel="noopener noreffer ">https://www.luogu.com.cn/blog/AlexWei/Polynomial---Lagrange-Interpolation-and-Fast-Fourier-transform</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/397342283" target="_blank" rel="noopener noreffer ">https://zhuanlan.zhihu.com/p/397342283</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-08-22&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/ff4259bfae479b5de7f4606aed97b8ecb4523e30" target="_blank" title="commit by GaloisHLee(maocred@gmail.com) ff4259bfae479b5de7f4606aed97b8ecb4523e30: backup">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>ff4259b</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/waytofft-part-0/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/waytofft-part-0/" data-title="WayToFFT Part 0"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/waytofft-part-0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/waytofft-part-0/" data-title="WayToFFT Part 0"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/waytofft-part-0/" data-title="WayToFFT Part 0"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/waytofft-part-0/" data-title="WayToFFT Part 0"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/fix-point/" class="prev" rel="prev" title="Fix Point"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Fix Point</a>
+            <a href="/waytocoppersmith-0x00/" class="next" rel="next" title="WayToCoppersmith0x00">WayToCoppersmith0x00<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

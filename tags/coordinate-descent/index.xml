@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Coordinate-Descent on As it was</title>
+    <link>https://galoishlee.github.io/tags/coordinate-descent/</link>
+    <description>Recent content in Coordinate-Descent on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 30 May 2026 20:37:52 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/coordinate-descent/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从零开始理解坐标下降：一个参数一个参数地优化</title>
+      <link>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</link>
+      <pubDate>Wed, 13 May 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Reading:&lt;/strong&gt; 抛硬币 10 次得 7 次正面——正面概率的最可能估计是 0.7。但如果模型有几百个参数呢？MLE 可能没有闭式解。&lt;strong&gt;坐标下降&lt;/strong&gt;（coordinate descent）也许是解决这类问题最简单的思路：一次只优化一个参数，固定其他的，反复直到收敛。本文从抛硬币出发，经过线性回归，一直走到高维 Lasso——展示坐标下降从入门到核心应用的全景。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

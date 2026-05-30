@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bayesian-Network on As it was</title>
+    <link>https://galoishlee.github.io/tags/bayesian-network/</link>
+    <description>Recent content in Bayesian-Network on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 30 May 2026 20:37:52 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/bayesian-network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从零开始理解 Belief Propagation：贝叶斯网络上的消息传递</title>
+      <link>https://galoishlee.github.io/belief-propagation-from-scratch/</link>
+      <pubDate>Sun, 17 May 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/belief-propagation-from-scratch/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Reading:&lt;/strong&gt; 假设你有一个报警系统：入室盗窃（burglary）或地震（earthquake）都可能触发报警器（alarm）。听到 alarm 后，邻居 John 和 Mary 可能会打电话给你。现在你接到 John 的电话——到底发生了什么事？是 burglary 还是 earthquake？这个问题本质上是要计算 $\Pr(\text{burglary} \mid \text{John calls})$。本文从概率论第一原理出发，用这个经典例子引出 &lt;strong&gt;Belief Propagation（信念传播）&lt;/strong&gt;——一种在概率图模型上高效做推断的算法。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

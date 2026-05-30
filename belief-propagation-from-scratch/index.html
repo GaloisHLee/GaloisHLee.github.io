@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>从零开始理解 Belief Propagation：贝叶斯网络上的消息传递 - As it was</title><meta name="Description" content="从概率论基本定理出发，用 Pearl 经典报警网络示例引出因子图和 Belief Propagation。面向本科基础读者，不需要先验的统计推断知识。"><meta property="og:title" content="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递">
+<meta property="og:description" content="从概率论基本定理出发，用 Pearl 经典报警网络示例引出因子图和 Belief Propagation。面向本科基础读者，不需要先验的统计推断知识。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/belief-propagation-from-scratch/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递">
+<meta name="twitter:description" content="从概率论基本定理出发，用 Pearl 经典报警网络示例引出因子图和 Belief Propagation。面向本科基础读者，不需要先验的统计推断知识。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/belief-propagation-from-scratch/" /><link rel="prev" href="https://galoishlee.github.io/mle-coordinate-descent-from-scratch/" /><link rel="next" href="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "从零开始理解 Belief Propagation：贝叶斯网络上的消息传递",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/belief-propagation-from-scratch\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, belief-propagation, factor-graph, probability, inference, tutorial, bayesian-network","wordcount":  6826 ,
+        "url": "https:\/\/galoishlee.github.io\/belief-propagation-from-scratch\/","datePublished": "2026-05-17T08:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从概率论基本定理出发，用 Pearl 经典报警网络示例引出因子图和 Belief Propagation。面向本科基础读者，不需要先验的统计推断知识。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/belief-propagation-from-scratch/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/belief-propagation-from-scratch/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">从零开始理解 Belief Propagation：贝叶斯网络上的消息传递</h1><h2 class="single-subtitle">从 Pearl 的报警网络到一般因子图上的近似推断</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-05-17">2026-05-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 6826 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 14 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#两个基础概率定理">两个基础概率定理</a>
+      <ul>
+        <li><a href="#加法规则边缘化">加法规则（边缘化）</a></li>
+        <li><a href="#乘法规则条件概率">乘法规则（条件概率）</a></li>
+      </ul>
+    </li>
+    <li><a href="#一个经典例子pearl-的报警网络">一个经典例子：Pearl 的报警网络</a>
+      <ul>
+        <li><a href="#网络结构">网络结构</a></li>
+        <li><a href="#条件概率表cpt">条件概率表（CPT）</a></li>
+        <li><a href="#推断问题">推断问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#因子图把联合分布画成二分图">因子图：把联合分布画成二分图</a>
+      <ul>
+        <li><a href="#转化规则">转化规则</a></li>
+        <li><a href="#为什么用二分图">为什么用二分图</a></li>
+      </ul>
+    </li>
+    <li><a href="#树状图上的精确边缘化手工推导">树状图上的精确边缘化：手工推导</a>
+      <ul>
+        <li><a href="#collect-阶段从叶子到根">Collect 阶段：从叶子到根</a></li>
+        <li><a href="#消息-1从-psi_m-到-a">消息 1：从 $\psi_M$ 到 $A$</a></li>
+        <li><a href="#消息-2从-b-e-方向到-a">消息 2：从 $B, E$ 方向到 $A$</a></li>
+        <li><a href="#合并消息">合并消息</a></li>
+        <li><a href="#进一步计算-b-的后验">进一步：计算 $B$ 的后验</a></li>
+      </ul>
+    </li>
+    <li><a href="#sum-product-bp-算法的正式定义">Sum-Product BP 算法的正式定义</a>
+      <ul>
+        <li><a href="#两种消息">两种消息</a></li>
+        <li><a href="#边缘分布">边缘分布</a></li>
+        <li><a href="#算法流程">算法流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#树-vs-有环loopy-bp">树 vs 有环：Loopy BP</a>
+      <ul>
+        <li><a href="#环的影响">环的影响</a></li>
+        <li><a href="#收敛诊断与缓解">收敛诊断与缓解</a></li>
+        <li><a href="#一个数值实验">一个数值实验</a></li>
+      </ul>
+    </li>
+    <li><a href="#log-domain-bp数值稳定性的关键">Log-Domain BP：数值稳定性的关键</a>
+      <ul>
+        <li><a href="#为什么要取对数">为什么要取对数</a></li>
+        <li><a href="#对数域中的消息更新">对数域中的消息更新</a></li>
+        <li><a href="#log-domain-bp-的python-骨架">Log-Domain BP 的Python 骨架</a></li>
+      </ul>
+    </li>
+    <li><a href="#从-bp-到信念">从 BP 到信念</a>
+      <ul>
+        <li><a href="#信念的三种用途">信念的三种用途</a></li>
+        <li><a href="#报警网络的信念变化">报警网络的信念变化</a></li>
+      </ul>
+    </li>
+    <li><a href="#bp-在-ldpc-译码中的应用">BP 在 LDPC 译码中的应用</a>
+      <ul>
+        <li><a href="#ldpc-码简介">LDPC 码简介</a></li>
+        <li><a href="#bp-译码">BP 译码</a></li>
+        <li><a href="#一个具体例子">一个具体例子</a></li>
+      </ul>
+    </li>
+    <li><a href="#bp-与-mcmc-的对比">BP 与 MCMC 的对比</a></li>
+    <li><a href="#消息调度的艺术">消息调度的艺术</a>
+      <ul>
+        <li><a href="#1--flooding同步更新">1.  flooding（同步更新）</a></li>
+        <li><a href="#2--serial串行更新">2.  serial（串行更新）</a></li>
+        <li><a href="#3--residual-belief-propagationrbp">3.  residual belief propagation（RBP）</a></li>
+      </ul>
+    </li>
+    <li><a href="#应用图景">应用图景</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><strong>Reading:</strong> 假设你有一个报警系统：入室盗窃（burglary）或地震（earthquake）都可能触发报警器（alarm）。听到 alarm 后，邻居 John 和 Mary 可能会打电话给你。现在你接到 John 的电话——到底发生了什么事？是 burglary 还是 earthquake？这个问题本质上是要计算 $\Pr(\text{burglary} \mid \text{John calls})$。本文从概率论第一原理出发，用这个经典例子引出 <strong>Belief Propagation（信念传播）</strong>——一种在概率图模型上高效做推断的算法。</p>
+<h2 id="两个基础概率定理">两个基础概率定理</h2>
+<p>Belief Propagation 只用到了两条概率定理。整个算法都是这两条规则的反复应用。</p>
+<h3 id="加法规则边缘化">加法规则（边缘化）</h3>
+<p>如果知道联合分布 $\Pr(X, Y)$，但只关心 $X$，就加掉 $Y$：</p>
+$$
+\Pr(X = x) = \sum_{y} \Pr(X = x, Y = y)
+$$<p>这叫<strong>边缘化</strong>。名字很形象——把概率表的&quot;边&quot;加起来，消去一个维度。</p>
+<h3 id="乘法规则条件概率">乘法规则（条件概率）</h3>
+$$
+\Pr(X, Y) = \Pr(X \mid Y) \cdot \Pr(Y)
+$$<p>等价形式——贝叶斯定理：</p>
+$$
+\Pr(Y \mid X) = \frac{\Pr(X \mid Y) \cdot \Pr(Y)}{\Pr(X)}
+$$<blockquote>
+<p><strong>Key Observation：</strong> 加法规则负责&quot;消去&quot;隐变量；乘法规则负责&quot;组合&quot;独立证据。BP 的全部消息更新公式都来自这两条规则的交替使用。</p>
+</blockquote>
+<h2 id="一个经典例子pearl-的报警网络">一个经典例子：Pearl 的报警网络</h2>
+<h3 id="网络结构">网络结构</h3>
+<p>这是 Judea Pearl 在 1988 年提出的经典贝叶斯网络，也是概率图模型教学中的 Hello World。</p>
+<p>五个二元变量，结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Burglary → Alarm ← Earthquake
+</span></span><span class="line"><span class="cl">              ↓
+</span></span><span class="line"><span class="cl">         JohnCalls  MaryCalls
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>箭头方向表示因果依赖：</p>
+<ul>
+<li>入室盗窃（$B \in {\text{true}, \text{false}}$）以一定概率触发报警</li>
+<li>地震（$E \in {\text{true}, \text{false}}$）也以一定概率触发报警</li>
+<li>报警（$A \in {\text{true}, \text{false}}$）触发后，John 和 Mary 各自以一定概率打电话</li>
+</ul>
+<h3 id="条件概率表cpt">条件概率表（CPT）</h3>
+<p>先验概率：</p>
+$$
+\Pr(B = \text{true}) = 0.001, \qquad \Pr(E = \text{true}) = 0.002
+$$<p>报警器的触发概率：</p>
+$$
+\Pr(A = \text{true} \mid B, E) =
+\begin{cases}
+0.95 & \text{if } B=\text{T}, E=\text{T} \\
+0.94 & \text{if } B=\text{T}, E=\text{F} \\
+0.29 & \text{if } B=\text{F}, E=\text{T} \\
+0.001 & \text{if } B=\text{F}, E=\text{F}
+\end{cases}
+$$<p>邻居打电话的概率：</p>
+$$
+\Pr(J = \text{true} \mid A) = 0.90, \qquad
+\Pr(M = \text{true} \mid A) = 0.70
+$$<h3 id="推断问题">推断问题</h3>
+<p>John 打电话来了。问：入室盗窃的概率是多少？</p>
+$$
+\Pr(B = \text{true} \mid J = \text{true})
+$$<p>直接从定义出发，用加法规则展开：</p>
+$$
+\Pr(B \mid J) \propto \sum_{E} \sum_{A} \sum_{M} \Pr(B, E, A, J, M)
+$$<p>联合分布按网络结构因子化：</p>
+$$
+\Pr(B, E, A, J, M) = \Pr(B) \cdot \Pr(E) \cdot \Pr(A \mid B, E) \cdot \Pr(J \mid A) \cdot \Pr(M \mid A)
+$$<p>代入后对 $E, A, M$ 求和——一共 $2^3 = 8$ 项，手工可算。但当网络扩大到几百个节点时，暴力求和就是天文数字。</p>
+<blockquote>
+<p><strong>Formal Definition：</strong> 给定变量集合 $\mathcal{X} = {X_1, \dots, X_N}$ 和观测 $\mathcal{E}$，推断目标是边缘后验 $\Pr(X_i \mid \mathcal{E})$。在贝叶斯网络中，联合分布因子化为 $\Pr(\mathcal{X}) = \prod_i \Pr(X_i \mid \text{parents}(X_i))$。直接边缘化的复杂度对变量数指数增长。</p>
+</blockquote>
+<h2 id="因子图把联合分布画成二分图">因子图：把联合分布画成二分图</h2>
+<p>BP 更自然地工作在一个无向的二分图结构上——<strong>因子图（factor graph）</strong>。</p>
+<h3 id="转化规则">转化规则</h3>
+<p>将贝叶斯网络转化为因子图：每个条件概率 $\Pr(X_i \mid \text{parents}(X_i))$ 变成一个<strong>因子节点</strong>，每个变量变成一个<strong>变量节点</strong>。因子节点 $\psi_F$ 的值等于对应的条件概率值。</p>
+<p>报警网络的因子图结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">   B — ψ_A — A — ψ_J — J
+</span></span><span class="line"><span class="cl">   │         │
+</span></span><span class="line"><span class="cl">   E    ψ_M — M
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（这里 $\psi_B$ 和 $\psi_E$ 是先验因子，各自只连一个变量，通常省略不画出。）</p>
+<p>每个因子节点对应一个局部函数：</p>
+$$
+\psi_B(b) = \Pr(B = b), \quad \psi_E(e) = \Pr(E = e)
+$$<p>
+</p>
+$$
+\psi_A(a, b, e) = \Pr(A = a \mid B = b, E = e)
+$$<p>
+</p>
+$$
+\psi_J(j, a) = \Pr(J = j \mid A = a), \quad \psi_M(m, a) = \Pr(M = m \mid A = a)
+$$<p>全局联合分布就是所有因子之积：</p>
+$$
+\Pr(B, E, A, J, M) = \psi_B(B) \cdot \psi_E(E) \cdot \psi_A(A, B, E) \cdot \psi_J(J, A) \cdot \psi_M(M, A)
+$$<blockquote>
+<p><strong>Formal Definition：</strong> 因子图 $\mathcal{G} = (\mathcal{V}, \mathcal{F}, \mathcal{E})$ 是一个<strong>二分图</strong>。$\mathcal{V}$ 是变量节点集，$\mathcal{F}$ 是因子节点集，$\mathcal{E}$ 是边集。边 $(X_i, \psi_F) \in \mathcal{E}$ 表示 $\psi_F$ 是 $X_i$ 的函数。全局函数 $\Phi(\mathcal{V}) = \prod_{F \in \mathcal{F}} \psi_F(\text{neighbors}(F))$。</p>
+</blockquote>
+<h3 id="为什么用二分图">为什么用二分图</h3>
+<p>二分图的优势在于清晰地分离了&quot;变量&quot;和&quot;函数&quot;两种角色：</p>
+<ul>
+<li>变量节点负责存储和转发消息（不做计算）</li>
+<li>因子节点负责接收消息并计算新的消息（做真正的计算）</li>
+</ul>
+<p>这种分离使消息更新规则变得极其对称。</p>
+<h2 id="树状图上的精确边缘化手工推导">树状图上的精确边缘化：手工推导</h2>
+<p>报警网络的因子图是一棵树——没有环。在树上，边缘概率可以通过两轮消息传递精确计算。</p>
+<h3 id="collect-阶段从叶子到根">Collect 阶段：从叶子到根</h3>
+<p>以计算 $A$ 的边缘分布为例，固定 $J = \text{true}$ 作为观测。写出边缘化公式并重新排列求和顺序是理解 BP 的关键一步。</p>
+<p>从全联合分布开始：</p>
+$$
+\Pr(A \mid J) \propto \sum_{B,E,M} \psi_B(B) \cdot \psi_E(E) \cdot \psi_A(A, B, E) \cdot \psi_J(J, A) \cdot \psi_M(M, A)
+$$<p>注意到 $\psi_J(J, A)$ 和 $\psi_M(M, A)$ 都只依赖于 $A$（加上它们各自的观测变量），而 $\psi_B, \psi_E, \psi_A$ 一组涉及 $B, E$。利用乘法分配律重排求和：</p>
+$$
+\begin{aligned}
+\Pr(A \mid J) \propto \; &\psi_J(J, A) \\
+&\times \underbrace{\left[\sum_M \psi_M(M, A)\right]}_{\text{消息 } \mu_{\psi_M \to A}} \\
+&\times \underbrace{\left[\sum_B \sum_E \psi_B(B) \cdot \psi_E(E) \cdot \psi_A(A, B, E)\right]}_{\text{消息 } \mu_{\psi_A \to A}}
+\end{aligned}
+$$<p><strong>这就是 BP 的全部秘密：</strong> 全局求和被拆成了三个局部求和，每个只涉及原始问题中的一个小子集。三个求和可以独立完成，然后结果相乘。</p>
+<h3 id="消息-1从-psi_m-到-a">消息 1：从 $\psi_M$ 到 $A$</h3>
+$$
+\mu_{\psi_M \to A}(a) = \sum_{m \in \{\text{T},\text{F}\}} \psi_M(m, a)
+$$<p>对 $a=\text{true}$：</p>
+$$
+\mu_{\psi_M \to A}(\text{T}) = \Pr(M=\text{T} \mid A=\text{T}) + \Pr(M=\text{F} \mid A=\text{T}) = 0.70 + 0.30 = 1.0
+$$<p>对 $a=\text{false}$：</p>
+$$
+\mu_{\psi_M \to A}(\text{F}) = \Pr(M=\text{T} \mid A=\text{F}) + \Pr(M=\text{F} \mid A=\text{F}) = 0.01 + 0.99 = 1.0
+$$<p>都是 1.0——因为 $\psi_M$ 这条支路没有观测约束时，它对 $A$ 的中立信息就是均匀的。</p>
+<h3 id="消息-2从-b-e-方向到-a">消息 2：从 $B, E$ 方向到 $A$</h3>
+$$
+\mu_{\psi_A \to A}(a) = \sum_{b \in \{\text{T},\text{F}\}} \sum_{e \in \{\text{T},\text{F}\}} \psi_A(a, b, e) \cdot \psi_B(b) \cdot \psi_E(e)
+$$<p>对 $a=\text{true}$，代入数字：</p>
+$$
+\begin{aligned}
+\mu_{\psi_A \to A}(\text{T}) =& \; 0.95 \times 0.001 \times 0.002 \\
+&+ 0.94 \times 0.001 \times 0.998 \\
+&+ 0.29 \times 0.999 \times 0.002 \\
+&+ 0.001 \times 0.999 \times 0.998
+\end{aligned}
+$$<p>逐项计算：</p>
+$$
+\begin{aligned}
+&= 0.0000019 \\
+&\quad + 0.0009381 \\
+&\quad + 0.0005794 \\
+&\quad + 0.0009970 \\
+&\approx 0.0025164
+\end{aligned}
+$$<p>对 $a=\text{false}$：</p>
+$$
+\begin{aligned}
+\mu_{\psi_A \to A}(\text{F}) =& \; 0.05 \times 0.001 \times 0.002 \\
+&+ 0.06 \times 0.001 \times 0.998 \\
+&+ 0.71 \times 0.999 \times 0.002 \\
+&+ 0.999 \times 0.999 \times 0.998
+\end{aligned}
+$$$$
+\begin{aligned}
+&= 0.0000001 \\
+&\quad + 0.0000599 \\
+&\quad + 0.0014186 \\
+&\quad + 0.9960060 \\
+&\approx 0.9974846
+\end{aligned}
+$$<h3 id="合并消息">合并消息</h3>
+$$
+\begin{aligned}
+\Pr(A=\text{T} \mid J) &\propto \psi_J(J=\text{T}, A=\text{T}) \times 1.0 \times 0.0025164 \\
+&= 0.90 \times 0.0025164 = 0.002265 \\
+\Pr(A=\text{F} \mid J) &\propto \psi_J(J=\text{T}, A=\text{F}) \times 1.0 \times 0.9974846 \\
+&= 0.10 \times 0.9974846 = 0.099748
+\end{aligned}
+$$<p>归一化：</p>
+$$
+\Pr(A=\text{T} \mid J=\text{T}) = \frac{0.002265}{0.002265 + 0.099748} \approx 0.0222
+$$<p>即约 <strong>2.22%</strong>——John 打电话来了，但报警器响的概率仍然很低。这是因为 burglary 和 earthquake 本身的先验概率极小（0.1% 和 0.2%），John 的误报率（10%）也使得&quot;John 打来电话&quot;本身不是一个很强的信号。</p>
+<h3 id="进一步计算-b-的后验">进一步：计算 $B$ 的后验</h3>
+<p>通过 $A$ 的结果可以继续向上传播，计算 $\Pr(B \mid J)$。从 $A$ 到 $\psi_A$ 的消息是上面算出的后验 $\Pr(A \mid J)$，再结合 $\psi_B$ 和 $\psi_E$ 的消息即可得到 $B$ 的边缘。</p>
+<p>这个&quot;接力&quot;过程清晰地展示了 BP 的核心思想：<strong>每条消息都是对上游信息的总结，下游节点只需要乘上新的消息，不需要重新处理原始数据。</strong></p>
+<h2 id="sum-product-bp-算法的正式定义">Sum-Product BP 算法的正式定义</h2>
+<h3 id="两种消息">两种消息</h3>
+<p><strong>变量 → 因子消息</strong>（乘法规则的应用）：</p>
+$$
+\mu_{X \to \psi_F}(x) = \prod_{\psi_{F'} \in \mathcal{N}(X) \setminus \{\psi_F\}} \mu_{\psi_{F'} \to X}(x)
+$$<p>这是&quot;除了你之外，其他因子对我的看法&quot;——乘积运算组合了条件独立的证据源。</p>
+<p><strong>因子 → 变量消息</strong>（加法 + 乘法规则的应用）：</p>
+$$
+\mu_{\psi_F \to X}(x) = \sum_{\text{neighbors} \setminus \{X\}} \psi_F(\text{all neighbors}) \cdot \prod_{Y \neq X} \mu_{Y \to \psi_F}(y)
+$$<p>这是&quot;固定 $X=x$ 时，综合其他变量的当前信念，这个因子对 $x$ 的认可程度&quot;。先乘（组合其他变量的信念）再加（消去它们的值）。</p>
+<h3 id="边缘分布">边缘分布</h3>
+<p>消息收敛后，变量 $X$ 的边缘分布：</p>
+$$
+\Pr(X = x) \propto \prod_{\psi_F \in \mathcal{N}(X)} \mu_{\psi_F \to X}(x)
+$$<h3 id="算法流程">算法流程</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1. 初始化所有变量→因子消息为均匀分布
+</span></span><span class="line"><span class="cl">2. 对叶子节点（只连一个因子的变量），可直接发送先验消息
+</span></span><span class="line"><span class="cl">3. 重复直到收敛（树上只需两轮）：
+</span></span><span class="line"><span class="cl">   a. 对每个因子 ψ_F，对其每个邻居 X：
+</span></span><span class="line"><span class="cl">       收集所有其他邻居发来的变量→因子消息
+</span></span><span class="line"><span class="cl">       计算 ψ_F → X（先乘后加）
+</span></span><span class="line"><span class="cl">   b. 对每个变量 X，对其每个邻居 ψ_F：
+</span></span><span class="line"><span class="cl">       收集所有其他因子发来的因子→变量消息
+</span></span><span class="line"><span class="cl">       计算 X → ψ_F（乘积）
+</span></span><span class="line"><span class="cl">4. 用因子→变量消息的乘积计算各变量的边缘分布
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="树-vs-有环loopy-bp">树 vs 有环：Loopy BP</h2>
+<p>报警网络是树，一轮消息传递即可精确收敛。但大多数现实问题的因子图含有环。</p>
+<h3 id="环的影响">环的影响</h3>
+<p>考虑一个三角形环：$X, Y, Z$ 两两相连，因子 $\psi_1(X,Y), \psi_2(Y,Z), \psi_3(Z,X)$。消息从 $X$ 出发，经过 $Y \to Z \to X$ 绕一圈回来——$X$ 收到了自己之前发出去的消息，相当于<strong>证据被重复计数</strong>。</p>
+<ul>
+<li><strong>收敛性</strong>：不保证。消息可能震荡、发散或在两个状态间周期跳跃。</li>
+<li><strong>精确性</strong>：收敛到的是近似后验，不是精确解。</li>
+</ul>
+<p>这称为 <strong>Loopy BP</strong>。</p>
+<h3 id="收敛诊断与缓解">收敛诊断与缓解</h3>
+<p>实践中常用的改进：</p>
+<p><strong>阻尼（Damping）：</strong> 消息更新时不完全替换旧值，而是做加权平均：</p>
+$$
+\mu_{\psi_F \to X}^{(t+1)} = \alpha \cdot \mu_{\psi_F \to X}^{\text{new}} + (1 - \alpha) \cdot \mu_{\psi_F \to X}^{(t)}
+$$<p>$\alpha \in (0, 1]$ 是阻尼系数。$\alpha=0.5$ 是常用起点。阻尼可以抑制震荡，但会减慢收敛速度。</p>
+<p><strong>残差调度（Residual Scheduling）：</strong> 不等所有消息都更新，而是优先更新&quot;变化最大&quot;的消息。定义消息残差：</p>
+$$
+\text{Res} = \|\mu_{\psi_F \to X}^{\text{new}} - \mu_{\psi_F \to X}^{\text{old}}\|_1
+$$<p>每次选择残差最大的消息所在的边进行更新。这种调度方式在有环图上通常比同步更新收敛更快。</p>
+<p><strong>收敛判据：</strong> 当所有消息残差的最大值低于阈值（如 $10^{-6}$）时停止。</p>
+<h3 id="一个数值实验">一个数值实验</h3>
+<p>在三角形环上运行 Loopy BP：</p>
+<ul>
+<li>$\psi_1(x,y) = \exp(-(x-y)^2/2\sigma^2)$（鼓励 $x$ 和 $y$ 接近）</li>
+<li>$\psi_2(y,z) = \exp(-(y-z)^2/2\sigma^2)$</li>
+<li>$\psi_3(z,x) = \exp(-(z-x)^2/2\sigma^2)$</li>
+</ul>
+<p>当 $\sigma$ 较小时（强约束），BP 可能在两个对称解之间震荡。引入阻尼后收敛到靠近真实后验的近似解。当 $\sigma$ 较大时（弱约束），BP 快速收敛且近似误差很小。</p>
+<h2 id="log-domain-bp数值稳定性的关键">Log-Domain BP：数值稳定性的关键</h2>
+<h3 id="为什么要取对数">为什么要取对数</h3>
+<p>消息是一堆概率的乘积。当因子较多时，消息值会指数级趋近于零——很快就超出浮点数精度范围。</p>
+<p>以报警网络为例，$\Pr(B=\text{T}) = 0.001$ 本身已经很小。如果网络有 20 个低概率事件相乘，结果会下溢到 0.0。</p>
+<p><strong>解决方案：</strong> 在对数域中运行 BP。定义：</p>
+$$
+\ell_{X \to \psi_F}(x) = \log \mu_{X \to \psi_F}(x), \quad
+\ell_{\psi_F \to X}(x) = \log \mu_{\psi_F \to X}(x)
+$$<h3 id="对数域中的消息更新">对数域中的消息更新</h3>
+<p>变量→因子消息的乘法变成加法：</p>
+$$
+\ell_{X \to \psi_F}(x) = \sum_{\psi_{F'} \neq \psi_F} \ell_{\psi_{F'} \to X}(x)
+$$<p>因子→变量消息的&quot;先乘后加&quot;变成&quot;先加后指数-对数&quot;：</p>
+$$
+\ell_{\psi_F \to X}(x) = \log \sum_{\text{neighbors} \setminus \{X\}} \exp\left( \log \psi_F + \sum_{Y \neq X} \ell_{Y \to \psi_F}(y) \right)
+$$<p>其中 $\log \sum \exp$ 需要用 <strong>LogSumExp</strong> 技巧稳定计算：</p>
+$$
+\log(e^{a_1} + e^{a_2}) = \max(a_1, a_2) + \log(1 + e^{-|a_1 - a_2|})
+$$<h3 id="log-domain-bp-的python-骨架">Log-Domain BP 的Python 骨架</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">log_sum_exp</span><span class="p">(</span><span class="n">log_vec</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;稳定计算 log(sum(exp(log_vec)))&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">log_vec</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">m</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_vec</span> <span class="o">-</span> <span class="n">m</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">log_bp_iteration</span><span class="p">(</span><span class="n">log_factor_to_var</span><span class="p">,</span> <span class="n">log_var_to_factor</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">log_potentials</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    一轮对数域 BP 更新。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    log_factor_to_var[f][v] = 因子 f 发给变量 v 的消息 (log domain)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    log_var_to_factor[v][f] = 变量 v 发给因子 f 的消息 (log domain)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    log_potentials[f] = 因子 f 的势函数表
+</span></span></span><span class="line"><span class="cl"><span class="s2">    neighbors[f] = 因子 f 的邻居变量列表
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Step 1: 更新因子 → 变量消息</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">f_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">log_potentials</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nb</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">f_idx</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">v_local</span><span class="p">,</span> <span class="n">v_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nb</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 其他邻居的 log 消息求和</span>
+</span></span><span class="line"><span class="cl">            <span class="n">other_log_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">log_var_to_factor</span><span class="p">[</span><span class="n">nb</span><span class="p">[</span><span class="n">k</span><span class="p">]][</span><span class="n">f_idx</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                              <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nb</span><span class="p">))</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">v_local</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 对目标变量 x 的每种取值，计算 LogSumExp</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># 假设二元变量</span>
+</span></span><span class="line"><span class="cl">                <span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 枚举其他邻居的所有取值组合</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># （这里仅为示意，实际应向量化或卷积优化）</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">configs</span> <span class="ow">in</span> <span class="o">...</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">log_val</span> <span class="o">=</span> <span class="n">log_potentials</span><span class="p">[</span><span class="n">f_idx</span><span class="p">][</span><span class="n">configs</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">,)]</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">log_val</span> <span class="o">+=</span> <span class="n">other_log_sum</span><span class="p">[</span><span class="n">configs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">log_factor_to_var</span><span class="p">[</span><span class="n">f_idx</span><span class="p">][</span><span class="n">v_idx</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_sum_exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">terms</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Step 2: 更新变量 → 因子消息（简单求和）</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">v_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">log_var_to_factor</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">f_idx</span> <span class="ow">in</span> <span class="n">log_var_to_factor</span><span class="p">[</span><span class="n">v_idx</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">log_factor_to_var</span><span class="p">[</span><span class="n">v_idx</span><span class="p">][</span><span class="n">other_f</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                       <span class="k">for</span> <span class="n">other_f</span> <span class="ow">in</span> <span class="n">log_var_to_factor</span><span class="p">[</span><span class="n">v_idx</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                       <span class="k">if</span> <span class="n">other_f</span> <span class="o">!=</span> <span class="n">f_idx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">log_var_to_factor</span><span class="p">[</span><span class="n">v_idx</span><span class="p">][</span><span class="n">f_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Step 3: 计算信念（归一化）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">beliefs</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">v_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">log_var_to_factor</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log_belief</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">log_factor_to_var</span><span class="p">[</span><span class="n">v_idx</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log_belief</span> <span class="o">-=</span> <span class="n">log_sum_exp</span><span class="p">(</span><span class="n">log_belief</span><span class="p">)</span>  <span class="c1"># 归一化</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beliefs</span><span class="p">[</span><span class="n">v_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_belief</span><span class="p">)</span>    <span class="c1"># 转回概率域</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">beliefs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关键点：全程只在最后一步转回概率域，中间所有消息都在对数域中处理。</p>
+<h2 id="从-bp-到信念">从 BP 到信念</h2>
+<p>BP 收敛后，每个变量 $X_i$ 得到一个 $k$ 维概率向量 $\mathbf{b}_i$（belief），称为<strong>信念</strong>：</p>
+$$
+\mathbf{b}_i = [\Pr(X_i = \text{val}_1), \Pr(X_i = \text{val}_2), \dots, \Pr(X_i = \text{val}_k)]
+$$<h3 id="信念的三种用途">信念的三种用途</h3>
+<ol>
+<li>
+<p><strong>最大后验（MAP）估计</strong>：$\arg\max \mathbf{b}_i$——最可能的值。在报警网络中，$B$ 的 MAP 估计是&quot;false&quot;（因为 $\Pr(B=\text{T} \mid J) \approx 0.02$，远小于 0.98）。</p>
+</li>
+<li>
+<p><strong>置信度</strong>：$\max \mathbf{b}_i$——对估计的确定程度。$\mathbf{b}_i$ 越尖（一个值概率接近 1），置信度越高。</p>
+</li>
+<li>
+<p><strong>软信息</strong>：整个分布作为下游算法的输入。例如，用 BP 的输出初始化 MCMC 采样器可以大幅加速收敛。</p>
+</li>
+</ol>
+<h3 id="报警网络的信念变化">报警网络的信念变化</h3>
+<table>
+  <thead>
+      <tr>
+          <th>变量</th>
+          <th>先验 ($\Pr$)</th>
+          <th>给定 $J=\text{T}$ 后 ($\Pr$)</th>
+          <th>变化倍数</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>$B=\text{T}$</td>
+          <td>0.001</td>
+          <td>~0.02</td>
+          <td><strong>20x</strong></td>
+      </tr>
+      <tr>
+          <td>$E=\text{T}$</td>
+          <td>0.002</td>
+          <td>~0.05</td>
+          <td><strong>25x</strong></td>
+      </tr>
+      <tr>
+          <td>$A=\text{T}$</td>
+          <td>~0.003</td>
+          <td>~~0.022</td>
+          <td><strong>~7x</strong></td>
+      </tr>
+      <tr>
+          <td>$M=\text{T}$</td>
+          <td>~0.0027</td>
+          <td>~0.017</td>
+          <td><strong>~6x</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p>有趣的现象：$B$ 和 $E$ 的概率增长倍数最大（~20-25x），但由于先验极低，后验绝对值仍然很小。这就是贝叶斯推断的直观体现——&ldquo;证据支持了某种可能性，但不一定足以翻转先验判断&rdquo;。</p>
+<h2 id="bp-在-ldpc-译码中的应用">BP 在 LDPC 译码中的应用</h2>
+<h3 id="ldpc-码简介">LDPC 码简介</h3>
+<p>低密度奇偶校验码（LDPC）是一种线性纠错码。一个 $(n,k)$ LDPC 码用 $m = n-k$ 个奇偶校验方程定义，每个方程涉及一小部分码字比特。这些校验方程自然地构成一个因子图：</p>
+<ul>
+<li>变量节点：$n$ 个码字比特 $c_1, \dots, c_n$</li>
+<li>因子节点：$m$ 个校验方程 $f_1, \dots, f_m$</li>
+<li>边：如果比特 $c_j$ 参与了校验 $f_i$，则连边</li>
+</ul>
+<h3 id="bp-译码">BP 译码</h3>
+<p>接收端收到带噪信号 $y$。译码任务是找到最可能的发送码字 $c$。</p>
+<p>因子节点 $f_i$ 的势函数是&quot;校验方程是否满足&quot;的指示函数：</p>
+$$
+\psi_i(c_{\mathcal{N}(i)}) = \begin{cases}
+1 & \text{if } \bigoplus_{j \in \mathcal{N}(i)} c_j = 0 \\
+0 & \text{otherwise}
+\end{cases}
+$$<p>其中 $\bigoplus$ 是二进制异或。</p>
+<p>BP 消息在此上下文中被称为&quot;置信传播译码&quot;：消息 $\mu_{c_j \to f_i}$ 是比特 $c_j$ 的软判决（&ldquo;我认为自己是 0 的概率是 0.8，是 1 的概率是 0.2&rdquo;）；消息 $\mu_{f_i \to c_j}$ 是校验 $f_i$ 对 $c_j$ 的外部约束（&ldquo;基于其他比特的当前信念和你必须满足的校验方程，你应该更偏向 0&rdquo;）。</p>
+<p>LDPC 码的因子图虽然含有环，但设计良好的 LDPC 码环长至少为 6，且图极其稀疏。BP 译码在这些图上接近最优性能。</p>
+<h3 id="一个具体例子">一个具体例子</h3>
+<p>一个简单的 (3,1) 重复码：$c_1 = c_2 = c_3$。三个比特，两个校验方程：$c_1 \oplus c_2 = 0$，$c_1 \oplus c_3 = 0$。</p>
+<p>因子图：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    c1
+</span></span><span class="line"><span class="cl">   /  \
+</span></span><span class="line"><span class="cl">  f1  f2
+</span></span><span class="line"><span class="cl">  |    |
+</span></span><span class="line"><span class="cl">  c2  c3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>假设接收到的软信息为 $y = [0.8, -2.1, 1.5]$（正数偏向 0，负数偏向 1，绝对值表示置信度）。</p>
+<p>初始化：$\mu_{c_j \to f_i}$ 从 $y$ 计算得到：</p>
+$$
+\Pr(c_j = 0 \mid y_j) = \frac{1}{1 + \exp(-2y_j/\sigma^2)}
+$$<p>第一轮 BP 迭代：</p>
+<ul>
+<li>$f_1$ 收到 $c_1$ 和 $c_2$ 的消息，计算：$c_1=0$ 且 $c_2=0$，或者 $c_1=1$ 且 $c_2=1$ 才能使校验成立。$f_1$ 据此向两端发送更新的消息。</li>
+<li>$f_2$ 类似地在 $c_1$ 和 $c_3$ 之间交换信息。</li>
+<li>两轮迭代后，三个比特的信念趋于一致——译码成功。</li>
+</ul>
+<blockquote>
+<p><strong>Key Observation：</strong> LDPC 译码是 BP 最具规模的工业应用。5G NR 标准中使用的 LDPC 码块长度为上千比特，BP 译码器在几十轮迭代内完成译码。这得益于因子图的稀疏性（每个校验只涉及 3-6 个比特）以及 BP 消息运算的局部性。</p>
+</blockquote>
+<h2 id="bp-与-mcmc-的对比">BP 与 MCMC 的对比</h2>
+<p>BP 不是唯一的推断方法。另一种主流方法是马尔可夫链蒙特卡洛（MCMC）采样。</p>
+<table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>BP</th>
+          <th>MCMC（Metropolis-Hastings）</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>输出</td>
+          <td>精确/近似边缘分布</td>
+          <td>来自后验的样本集合</td>
+      </tr>
+      <tr>
+          <td>收敛保证</td>
+          <td>树上精确；有环图上无保证</td>
+          <td>渐近保证收敛到真实后验</td>
+      </tr>
+      <tr>
+          <td>收敛速度</td>
+          <td>通常 10-100 轮</td>
+          <td>可能需要 $10^4$-$10^6$ 次采样</td>
+      </tr>
+      <tr>
+          <td>环的影响</td>
+          <td>导致近似误差</td>
+          <td>不影响正确性（只影响混合速度）</td>
+      </tr>
+      <tr>
+          <td>高维问题</td>
+          <td>节点数增长时消息数线性增长</td>
+          <td>维度增加时混合时间指数增长</td>
+      </tr>
+      <tr>
+          <td>确定性</td>
+          <td>确定性算法（给定初值）</td>
+          <td>随机算法（每次运行结果不同）</td>
+      </tr>
+      <tr>
+          <td>调试难度</td>
+          <td>低（可逐消息追踪）</td>
+          <td>高（需诊断收敛性）</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>何时用 BP：</strong> 图是树状的、或者环长但稀疏、或者需要快速得到合理估计。</p>
+<p><strong>何时用 MCMC：</strong> 图高度有环且约束极强、或者后验多峰需要全面探索、或者需要保证渐近精确。</p>
+<p>在实践中，BP 和 MCMC 可以互补：先运行 BP 得到信念，用信念构造一个好的提议分布（proposal distribution），再用 MCMC 做精调——这正是&quot;近似推断 + 精调&quot;的两阶段范式。</p>
+<h2 id="消息调度的艺术">消息调度的艺术</h2>
+<p>BP 的收敛速度和质量高度依赖于消息更新的顺序。主要有三种调度策略：</p>
+<h3 id="1--flooding同步更新">1.  flooding（同步更新）</h3>
+<p>每轮同时更新所有消息。简单、并行性好，但可能收敛慢。</p>
+<h3 id="2--serial串行更新">2.  serial（串行更新）</h3>
+<p>每轮按固定顺序逐个更新消息。刚更新的消息立即在本轮后续计算中被使用——信息传播更快。串行通常比同步收敛快约 2 倍。</p>
+<h3 id="3--residual-belief-propagationrbp">3.  residual belief propagation（RBP）</h3>
+<p>优先更新残差最大的消息。RBP 在有环图上往往收敛更快，但每步需要额外计算残差排序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># RBP 伪代码
+</span></span><span class="line"><span class="cl">queue = priority_queue()
+</span></span><span class="line"><span class="cl">for each edge (v, f):
+</span></span><span class="line"><span class="cl">    queue.push(edge, priority=inf)  # 全部初始化
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">while not converged:
+</span></span><span class="line"><span class="cl">    (v, f) = queue.pop()  # 取出残差最大的边
+</span></span><span class="line"><span class="cl">    old_msg = message[v][f]
+</span></span><span class="line"><span class="cl">    new_msg = compute_message(v, f)
+</span></span><span class="line"><span class="cl">    residual = ||new_msg - old_msg||
+</span></span><span class="line"><span class="cl">    message[v][f] = new_msg
+</span></span><span class="line"><span class="cl">    # 将受影响的邻居边加入队列
+</span></span><span class="line"><span class="cl">    for (v&#39;, f&#39;) in affected_edges(v, f):
+</span></span><span class="line"><span class="cl">        queue.push((v&#39;, f&#39;), residual)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="应用图景">应用图景</h2>
+<p>BP 的应用远不止教学示例和 LDPC 译码：</p>
+<table>
+  <thead>
+      <tr>
+          <th>领域</th>
+          <th>应用</th>
+          <th>图规模</th>
+          <th>图结构</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>通信</td>
+          <td>Turbo 码、LDPC 码译码</td>
+          <td>$10^3$-$10^4$ 节点</td>
+          <td>稀疏，有长环</td>
+      </tr>
+      <tr>
+          <td>计算机视觉</td>
+          <td>立体匹配、图像分割、去噪</td>
+          <td>$10^5$-$10^6$ 节点</td>
+          <td>网格图（大量短环）</td>
+      </tr>
+      <tr>
+          <td>NLP</td>
+          <td>句法分析、词性标注</td>
+          <td>$10^2$-$10^3$ 节点</td>
+          <td>链状/树状</td>
+      </tr>
+      <tr>
+          <td>生物信息学</td>
+          <td>系统发育树、蛋白质结构预测</td>
+          <td>$10^2$-$10^4$ 节点</td>
+          <td>树为主</td>
+      </tr>
+      <tr>
+          <td>统计物理</td>
+          <td>Ising 模型、自旋玻璃</td>
+          <td>$10^3$-$10^6$ 节点</td>
+          <td>网格/随机图</td>
+      </tr>
+      <tr>
+          <td>密码学</td>
+          <td>侧信道分析、LWE 私钥恢复</td>
+          <td>$10^2$-$10^3$ 节点</td>
+          <td>随机双二部图</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><strong>Key Observation：</strong> BP 在图的环结构和变量稀疏性之间取得了一种微妙的平衡。当因子度数小（变量对之间的约束是局部的）且环长足够大（消息在绕环回来时已经足够&quot;衰减&quot;），BP 的近似质量接近精确。</p>
+</blockquote>
+<h2 id="总结">总结</h2>
+<table>
+  <thead>
+      <tr>
+          <th>概念</th>
+          <th>一句话</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>边缘化</td>
+          <td>加掉不关心的变量</td>
+      </tr>
+      <tr>
+          <td>因子图</td>
+          <td>把联合分布拆成局部函数乘积，画成二分图</td>
+      </tr>
+      <tr>
+          <td>消息</td>
+          <td>一个节点对另一个节点关于变量取值的&quot;看法&quot;</td>
+      </tr>
+      <tr>
+          <td>Sum-Product 规则</td>
+          <td>乘法组合独立证据，加法消去隐变量</td>
+      </tr>
+      <tr>
+          <td>树 vs 有环</td>
+          <td>树上精确；有环上近似，但实践中常有效</td>
+      </tr>
+      <tr>
+          <td>Log-domain BP</td>
+          <td>对数域中运行避免数值下溢</td>
+      </tr>
+      <tr>
+          <td>调度</td>
+          <td>串行更新比同步快；残差调度在有环图上更稳</td>
+      </tr>
+      <tr>
+          <td>信念</td>
+          <td>BP 输出的软概率分布，可用于硬判决或下游算法</td>
+      </tr>
+  </tbody>
+</table>
+<p>Belief Propagation 的核心思想极其简洁：<strong>利用条件独立性把全局求和拆成局部消息传递。</strong> 它不是一个万能的推断算法——有环图上的近似误差在某些问题中不可接受——但它在通信（LDPC/Turbo 译码）、计算机视觉（立体匹配）、统计物理（Ising 模型）等领域都做出了里程碑式的贡献。</p>
+<p><strong>进一步：</strong> BP 输出软信息。当需要做硬判决时——从一组离散候选值中选出最优组合——坐标下降是一个高效的精调工具。见同系列《从零开始理解坐标下降》。</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/belief-propagation-from-scratch/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/belief-propagation-from-scratch/" data-title="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递" data-hashtags="cryptography,belief-propagation,factor-graph,probability,inference,tutorial,bayesian-network"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/belief-propagation-from-scratch/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/belief-propagation-from-scratch/" data-title="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/belief-propagation-from-scratch/" data-title="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/belief-propagation-from-scratch/" data-title="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/belief-propagation/">Belief-Propagation</a>,&nbsp;<a href="/tags/factor-graph/">Factor-Graph</a>,&nbsp;<a href="/tags/probability/">Probability</a>,&nbsp;<a href="/tags/inference/">Inference</a>,&nbsp;<a href="/tags/tutorial/">Tutorial</a>,&nbsp;<a href="/tags/bayesian-network/">Bayesian-Network</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/mle-coordinate-descent-from-scratch/" class="prev" rel="prev" title="从零开始理解坐标下降：一个参数一个参数地优化"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>从零开始理解坐标下降：一个参数一个参数地优化</a>
+            <a href="/agent-psychometrics-runtime-irt/" class="next" rel="next" title="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式">从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

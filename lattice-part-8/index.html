@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 8: Identity-Based and Functional Encryption From Lattices - As it was</title><meta name="Description" content="From lattice trapdoors to identity-derived keys, hierarchical delegation, attribute policies, and function-restricted decryption."><meta property="og:title" content="Lattice Part 8: Identity-Based and Functional Encryption From Lattices">
+<meta property="og:description" content="From lattice trapdoors to identity-derived keys, hierarchical delegation, attribute policies, and function-restricted decryption.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-8/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 8: Identity-Based and Functional Encryption From Lattices">
+<meta name="twitter:description" content="From lattice trapdoors to identity-derived keys, hierarchical delegation, attribute policies, and function-restricted decryption."><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-8/" /><link rel="prev" href="https://galoishlee.github.io/pae-attack/" /><link rel="next" href="https://galoishlee.github.io/lattice-part-9/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 8: Identity-Based and Functional Encryption From Lattices",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-8\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "Lattice, IBE, HIBE, ABE, Functional Encryption, Trapdoor Delegation","wordcount":  2944 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-8\/","datePublished": "2024-08-25T21:00:08+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "From lattice trapdoors to identity-derived keys, hierarchical delegation, attribute policies, and function-restricted decryption."
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-8/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-8/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 8: Identity-Based and Functional Encryption From Lattices</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-08-25">2024-08-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2944 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 14 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reader-state-after-part-0-3">Reader State After Part 0-3</a>
+      <ul>
+        <li><a href="#notation-for-delegated-decryption">Notation For Delegated Decryption</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-trapdoors-naturally-lead-to-delegation">Why Trapdoors Naturally Lead To Delegation</a>
+      <ul>
+        <li><a href="#from-one-secret-key-to-derived-secret-material">From One Secret Key To Derived Secret Material</a></li>
+        <li><a href="#what-must-stay-hidden">What Must Stay Hidden</a></li>
+      </ul>
+    </li>
+    <li><a href="#lattice-identity-based-encryption">Lattice Identity-Based Encryption</a>
+      <ul>
+        <li><a href="#identity-strings-as-public-derivation-targets">Identity Strings As Public Derivation Targets</a></li>
+        <li><a href="#delegated-keys-in-the-hierarchical-setting">Delegated Keys In The Hierarchical Setting</a></li>
+      </ul>
+    </li>
+    <li><a href="#from-attributes-to-predicates">From Attributes To Predicates</a>
+      <ul>
+        <li><a href="#what-abe-adds">What ABE Adds</a></li>
+        <li><a href="#why-predicate-structure-matters">Why Predicate Structure Matters</a></li>
+      </ul>
+    </li>
+    <li><a href="#functional-encryption-from-lattices">Functional Encryption From Lattices</a>
+      <ul>
+        <li><a href="#inner-products-as-the-first-clean-example">Inner Products As The First Clean Example</a></li>
+        <li><a href="#what-changes-in-the-security-surface">What Changes In The Security Surface</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-common-lattice-mechanism">The Common Lattice Mechanism</a>
+      <ul>
+        <li><a href="#trapdoor-sampling-as-the-shared-engine">Trapdoor Sampling As The Shared Engine</a></li>
+        <li><a href="#why-these-systems-are-not-ordinary-pki">Why These Systems Are Not Ordinary PKI</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Reading: Peikert&rsquo;s survey is the right wide-angle backbone here because it keeps advanced lattice constructions on one trapdoor-and-sampling axis instead of letting IBE, ABE, and FE turn into unrelated acronyms.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> Boneh-Shoup is useful for a second reason: it separates public-key encryption, identity-based encryption, attribute-based encryption, and functional encryption at the interface level before we even choose lattices.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>The only extra primitive beyond Parts 0-3 is GPV-style trapdoor sampling: a hidden short basis is not merely evidence for a hard relation; it is a usable interface for sampling short preimages.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> Once that interface exists, the next question is forced: can decryption authority be derived, specialized, or delegated instead of being one monolithic secret key?</p>
+<p>That is the organizing mechanism of this chapter. IBE, HIBE, ABE, and FE are different answers to the same question: given a master trapdoor, what short secret material can we derive for a public label, a hierarchy path, an attribute policy, or a function key, and what exactly should that derived key be allowed to recover?<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<h2 id="reader-state-after-part-0-3">Reader State After Part 0-3</h2>
+<p>This chapter can be read without assuming Parts 4-7, but it uses their vocabulary only as a thin wrapper. The minimum prerequisite is still Part 0-3:</p>
+<ul>
+<li>A public modular matrix defines exact relations such as $A\mathbf{x}=\mathbf{u}\pmod q$.</li>
+<li>The useful witnesses are short integer vectors or short bases.</li>
+<li>A coset $\mathbf{x}_0+\Lambda_q^\perp(A)$ is the set of all solutions to one inhomogeneous target.</li>
+<li>A good hidden basis lets the holder sample short representatives from those cosets.</li>
+</ul>
+<p>The advanced encryption primitives in this article all ask the same question:</p>
+$$
+\text{which short coset representative may this user, identity, policy, or function receive?}
+$$<p>IBE, HIBE, ABE, and FE differ at the interface level, but they share this trapdoor-sampling backbone. The goal is to track that shared mechanism without collapsing the primitives into one acronym list.</p>
+<h3 id="notation-for-delegated-decryption">Notation For Delegated Decryption</h3>
+<p>Use $\theta$ for a public selector: an identity, identity path, attribute-policy object, or function label. The public relation associated with $\theta$ is a matrix</p>
+$$
+F_\theta\in\mathbb{Z}_q^{n\times m}.
+$$<p>A derived secret key is a short vector or short basis object $K_\theta$ that lets decryption cancel an LWE-style public relation. In the simplest vector form, the authority samples</p>
+$$
+\mathbf{k}_\theta\quad\text{such that}\quad F_\theta\mathbf{k}_\theta=\mathbf{u}\pmod q.
+$$<p>The IACR-style reading discipline is: first identify the selector $\theta$, then the relation $F_\theta$, then the short derived object, and only then the security surface.</p>
+<h2 id="why-trapdoors-naturally-lead-to-delegation">Why Trapdoors Naturally Lead To Delegation</h2>
+<h3 id="from-one-secret-key-to-derived-secret-material">From One Secret Key To Derived Secret Material</h3>
+<p>In ordinary public-key encryption, the secret key is attached to one public key. In the trapdoor lattice line, the stronger object is not &ldquo;a secret that decrypts one ciphertext family,&rdquo; but &ldquo;a hidden sampling structure that can manufacture short witnesses for a whole public relation family.&rdquo;</p>
+<p>Write that relation family as</p>
+$$
+F_\theta \in \mathbb{Z}_q^{n \times m},
+$$<p>where the public label $\theta$ might be an identity string, an identity prefix, an attribute structure, or a function description. A master trapdoor $T$ lets the authority derive a short object</p>
+$$
+\mathbf{k}_\theta \leftarrow \textsf{TrapSample}(T,\theta)
+\quad\text{such that}\quad
+F_\theta \mathbf{k}_\theta = \mathbf{u} \pmod q
+$$<p>for some public target $\mathbf{u}$, with $\lVert\mathbf{k}_\theta\rVert$ or the corresponding basis quality kept under control.</p>
+<p>This is already much richer than an ordinary LWE public-key baseline. The hidden object is no longer just a secret inverse for one instance. It is an API for generating many short inverse objects, each tied to a public derivation target.</p>
+<p>The generic dual-style decryption chain makes the point explicit. Suppose encryption under label $\theta$ produces</p>
+$$
+c_0 = \langle \mathbf{u}, \mathbf{s}\rangle + x + \Delta m \pmod q,
+\qquad
+\mathbf{c} = F_\theta^\top \mathbf{s} + \mathbf{e} \pmod q,
+$$<p>where $\mathbf{s}$ is ephemeral LWE randomness, $\mathbf{e}$ and $x$ are small errors, and $\Delta$ separates message scale from noise scale. A derived key $\mathbf{k}_\theta$ then gives</p>
+$$
+\begin{aligned}
+c_0 - \langle \mathbf{k}_\theta, \mathbf{c}\rangle
+&=
+\langle \mathbf{u}, \mathbf{s}\rangle + x + \Delta m \\
+&\quad - \langle \mathbf{k}_\theta, F_\theta^\top \mathbf{s} + \mathbf{e}\rangle \pmod q \\
+&=
+\langle \mathbf{u}, \mathbf{s}\rangle + x + \Delta m \\
+&\quad - \langle F_\theta \mathbf{k}_\theta, \mathbf{s}\rangle \\
+&\quad - \langle \mathbf{k}_\theta, \mathbf{e}\rangle \pmod q \\
+&=
+\Delta m + x - \langle \mathbf{k}_\theta, \mathbf{e}\rangle \pmod q.
+\end{aligned}
+$$<p>If $\mathbf{k}_\theta$ is short and the noise terms are small, the last term stays within the decoding margin. This is the common trapdoor-decryption template behind the rest of the article.</p>
+<blockquote>
+<p>Local invariant: the advanced lattice-encryption line is really about derived short decryption material. The acronym changes; the short-object sampling spine does not.</p>
+</blockquote>
+<h3 id="what-must-stay-hidden">What Must Stay Hidden</h3>
+<p>Delegation only works if the derived object is useful enough to cancel the public relation, but not rich enough to reconstruct the master trapdoor. The GPV trapdoor-sampling line already shows why deterministic or overly basis-dependent outputs are dangerous: repeated samples can leak the hidden geometry through distribution bias.<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>The same concern returns here in a stronger form. A lattice authority may extract many user keys over time. So the construction has to maintain at least three boundaries:</p>
+<ol>
+<li>a child or derived key should reveal only one slice of decryption authority;</li>
+<li>many extracted keys should not algebraically splice back into the master trapdoor;</li>
+<li>the extracted-key distribution should not fingerprint the hidden short basis.</li>
+</ol>
+<p>This is why randomized short-object sampling remains central even after we leave signatures. In signatures the risk was trapdoor leakage across many responses. In IBE/HIBE/ABE/FE the risk is trapdoor leakage across many user keys plus many ciphertexts. Same geometric issue, larger authority surface.</p>
+<h2 id="lattice-identity-based-encryption">Lattice Identity-Based Encryption</h2>
+<h3 id="identity-strings-as-public-derivation-targets">Identity Strings As Public Derivation Targets</h3>
+<p>Boneh-Shoup&rsquo;s taxonomy is still the cleanest conceptual starting point: IBE changes the interface from &ldquo;user publishes a chosen public key&rdquo; to &ldquo;the system publishes master parameters, and an identity string becomes the public encryption target.&rdquo;<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> In the lattice line, that interface change becomes an explicit sampling problem.</p>
+<p>The identity string does not become a secret. It selects a public matrix family member. A standard lattice pattern is to keep a base matrix $A$ with trapdoor $T_A$, add public matrices and a gadget block, and form an identity-specific matrix of the shape</p>
+$$
+F_{\mathsf{id}} = [A \mid B + H(\mathsf{id})G],
+$$<p>where $H(\mathsf{id})$ is a public encoding of the identity and $G$ is a gadget matrix that makes the derived block algebraically manageable. The master authority uses $T_A$ to sample a short key</p>
+$$
+\mathbf{e}_{\mathsf{id}} \leftarrow \textsf{SamplePre}(T_A, F_{\mathsf{id}}, \mathbf{u})
+\quad\text{with}\quad
+F_{\mathsf{id}}\mathbf{e}_{\mathsf{id}} = \mathbf{u} \pmod q.
+$$<p>Encryption to identity $\mathsf{id}$ then uses $F_{\mathsf{id}}$ publicly:</p>
+$$
+c_0 = \langle \mathbf{u}, \mathbf{s}\rangle + x + \Delta m,
+\qquad
+\mathbf{c} = F_{\mathsf{id}}^\top \mathbf{s} + \mathbf{e}.
+$$<p>Decryption is exactly the generic chain specialized to identity:</p>
+$$
+c_0 - \langle \mathbf{e}_{\mathsf{id}}, \mathbf{c}\rangle=\Delta m + x - \langle \mathbf{e}_{\mathsf{id}}, \mathbf{e}\rangle \pmod q.
+$$<p>So the difference from ordinary public-key encryption is not merely administrative PKI simplification. Constructionally, IBE replaces one fixed decryption key with a trapdoor-powered derivation algorithm that can produce many identity-labeled short keys after setup. Agrawal, Boneh, and Boyen&rsquo;s lattice (H)IBE line is important precisely because it turns this into an efficient standard-model construction rather than an informal random-oracle heuristic.<sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<h3 id="delegated-keys-in-the-hierarchical-setting">Delegated Keys In The Hierarchical Setting</h3>
+<p>HIBE asks for more than identity extraction. It asks for identity-path delegation. If the identity is a tuple</p>
+$$
+\mathsf{id}_{1:\ell} = (\mathsf{id}_1,\ldots,\mathsf{id}_\ell),
+$$<p>then the public relation family becomes depth-aware, for example through a matrix of the schematic form</p>
+$$
+F_{\mathsf{id}_{1:\ell}}=[A \mid B_1 + H(\mathsf{id}_1)G \mid \cdots \mid B_\ell + H(\mathsf{id}_\ell)G].
+$$<p>Now the extracted secret is no longer just &ldquo;a user key.&rdquo; It is also a local delegation trapdoor. Depending on the concrete scheme, the secret key for a prefix may be a short basis for $\Lambda_q^\perp(F_{\mathsf{id}_{1:\ell}})$ or an equivalent short preimage object strong enough to derive child keys. A schematic delegation step looks like</p>
+$$
+SK_{\mathsf{id}_{1:\ell+1}}
+\leftarrow
+\textsf{BasisDel}\!\left(
+SK_{\mathsf{id}_{1:\ell}},
+B_{\ell+1} + H(\mathsf{id}_{\ell+1})G
+\right).
+$$<p>This is the main reason HIBE feels natural in lattices once trapdoor sampling is on the table. The scheme already has a sampling interface that can manipulate short trapdoor objects. HIBE asks that the output itself remain trapdoor-like for a narrower public family.</p>
+<p>But the price is equally geometric. Every delegation step worsens basis quality or enlarges the norm budget. The Gaussian width and modulus must dominate that growth, otherwise the decryption error term</p>
+$$
+\langle \mathbf{k}_{\mathsf{id}_{1:\ell}}, \mathbf{e}\rangle
+$$<p>stops being negligible. So HIBE depth is not just an organizational tree depth. It is a trapdoor-quality budget.</p>
+<h2 id="from-attributes-to-predicates">From Attributes To Predicates</h2>
+<h3 id="what-abe-adds">What ABE Adds</h3>
+<p>IBE is equality on one public string: the key for $\mathsf{id}$ opens ciphertexts addressed to the same $\mathsf{id}$. ABE enlarges the authorization language from equality to structured predicates on attribute sets.</p>
+<p>That conceptual step is easy to say and easy to blur, so it is worth separating two common interfaces:</p>
+<ol>
+<li>key-policy ABE (KP-ABE): ciphertext carries an attribute set $X$, key carries a policy $P$, and decryption succeeds iff $P(X)=1$;</li>
+<li>ciphertext-policy ABE (CP-ABE): key carries attributes, ciphertext carries the policy.</li>
+</ol>
+<p>Constructionally, this is not just &ldquo;IBE with more strings.&rdquo; ABE needs a policy representation that resists collusion. In lattice terms, one typically spreads the ciphertext relation across multiple attribute-tagged blocks and equips the authorized key with a collection of short components plus recombination coefficients. If a subset $I$ of attributes satisfies the policy, there exist weights $\omega_i$ such that an authorized linear combination collapses the public randomness:</p>
+$$
+\sum_{i\in I} \omega_i \big(c_{0,i} - \langle \mathbf{k}_i, \mathbf{c}_i\rangle\big)=\Delta m + \text{small noise}.
+$$<p>The exact policy encoding may come from monotone span programs or related linear-secret-sharing structure, but the lattice mechanism underneath is still the same: short secret material is sampled so that the right authorized combination cancels the LWE relation while unauthorized coalitions cannot produce an equivalent short combination.<sup id="fnref1:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<p>These are the construction-level differences that often get lost. In IBE, the key is indexed by one equality target. In ABE, the key or ciphertext carries a policy structure whose authorized recombination is itself part of the cryptographic object.</p>
+<h3 id="why-predicate-structure-matters">Why Predicate Structure Matters</h3>
+<p>At the abstraction level, one can say that ABE is a restricted form of FE. But constructionally that shortcut hides the important split.</p>
+<p>In ABE, successful authorization still recovers the whole plaintext. The cryptographic burden is to represent a structured predicate and prevent colluding users from stitching partial authorizations into a valid one.</p>
+<p>In FE, authorization is not the last interface boundary. The output itself becomes restricted. A function key does not merely answer &ldquo;may I decrypt?&rdquo; It answers &ldquo;which function of the encrypted object am I entitled to learn?&rdquo;</p>
+<p>That boundary is exactly why Boyen&rsquo;s 2013 framing is useful here. &ldquo;Attribute-based functional encryption&rdquo; is not redundant terminology. The attribute side describes how authorization structure is encoded; the functional side describes whether the output rule is still full-message recovery or has already been compressed to a prescribed image.<sup id="fnref2:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<p>So ABE should be read as the midpoint between IBE and FE:</p>
+<ul>
+<li>IBE: equality predicate on one public identity, full-message recovery;</li>
+<li>HIBE: equality predicate plus delegated subtree authority, full-message recovery;</li>
+<li>ABE: structured Boolean authorization, still full-message recovery;</li>
+<li>FE: function-labeled decryption, intentionally partial recovery.</li>
+</ul>
+<p>That is why the taxonomy must be separated before discussing constructions. Otherwise &ldquo;fine-grained access control&rdquo; compresses away the actual change in the decryption interface.</p>
+<h2 id="functional-encryption-from-lattices">Functional Encryption From Lattices</h2>
+<h3 id="inner-products-as-the-first-clean-example">Inner Products As The First Clean Example</h3>
+<p>Functional encryption is the point where the derived key is indexed by a function $f$, and decryption returns $f(m)$ rather than $m$. This is the branch where &ldquo;delegated decryption&rdquo; becomes &ldquo;delegated leakage with a proof obligation.&rdquo;</p>
+<p>The early lattice line is best entered through inner-product predicates and inner-product style function families rather than through vague claims about arbitrary computation. Agrawal, Freeman, and Vaikuntanathan show that LWE-based trapdoor machinery can issue keys tied to linear forms, so that decryption learns only the designated predicate or functional projection attached to that key.<sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>Schematically, think of a plaintext vector $\mathbf{x}=(x_1,\ldots,x_t)$ and a function label $\mathbf{y}=(y_1,\ldots,y_t)$. Public parameters expose matrix blocks that can encode the coordinates of $\mathbf{x}$ into ciphertext form. The authority then samples a short key $SK_{\mathbf{y}}$ for the linear combination specified by $\mathbf{y}$. Decryption does not reconstruct all coordinates. It combines ciphertext blocks using the function key so that the public randomness cancels and the surviving payload is exactly the authorized linear form, or a predicate of it:</p>
+$$
+\textsf{Dec}(SK_{\mathbf{y}}, CT_{\mathbf{x}})
+\approx
+\Delta \langle \mathbf{x}, \mathbf{y}\rangle + \text{small noise},
+$$<p>or, in predicate-style variants, a zero-test / threshold test on the same quantity.</p>
+<p>The point is not that one equation by itself yields general FE. The point is narrower and more important for this series: trapdoor sampling can tie a secret key to a function description rather than to a recipient label. That is the exact place where the lattice line leaves &ldquo;who can decrypt?&rdquo; and enters &ldquo;what can a decryptor learn?&rdquo;</p>
+<h3 id="what-changes-in-the-security-surface">What Changes In The Security Surface</h3>
+<p>Once decryption is supposed to reveal $f(m)$, indistinguishability must be stated against that intended leakage. A standard admissibility condition for challenge messages $m_0,m_1$ therefore looks like</p>
+$$
+f_j(m_0)=f_j(m_1)
+\qquad
+\text{for every queried function key } SK_{f_j}.
+$$<p>Otherwise perfect hiding is impossible, because the adversary is supposed to learn those outputs.</p>
+<p>This is a genuinely different security surface from IBE or ABE. These are the security-surface differences between taxonomy branches, not merely different names for the same delegated-key interface.</p>
+<p>In IBE/HIBE/ABE:</p>
+<ul>
+<li>authorized decryption reveals the full plaintext;</li>
+<li>unauthorized users should learn essentially nothing;</li>
+<li>collusion resistance means partial capabilities should not compose into full authorization.</li>
+</ul>
+<p>In FE:</p>
+<ul>
+<li>each key intentionally leaks a prescribed statistic or predicate of the message;</li>
+<li>multiple function keys leak the joint image $(f_1(m),\ldots,f_t(m))$;</li>
+<li>the function family, message domain, and norm bounds now matter because too many linear queries may reconstruct the entire plaintext.</li>
+</ul>
+<p>So FE is not just &ldquo;stronger ABE.&rdquo; It is a different contract between ciphertext privacy and derived-key capability.</p>
+<h2 id="the-common-lattice-mechanism">The Common Lattice Mechanism</h2>
+<h3 id="trapdoor-sampling-as-the-shared-engine">Trapdoor Sampling As The Shared Engine</h3>
+<p>Peikert&rsquo;s survey is especially useful here because it refuses to present these constructions as separate species.<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> Under the hood, the shared mechanism is short-object derivation from a master trapdoor. In exactly that sense, trapdoor sampling ideas connect directly to delegated decryption and key-derivation capabilities.</p>
+<p>One can compress the common template as follows:</p>
+<ol>
+<li><code>Setup</code>: publish a relation family ${F_\theta}$ and keep a master trapdoor $T$ for the base object behind that family.</li>
+<li><code>Derive</code>: use $T$, or a delegated descendant of $T$, to sample a short key object $K_\theta$ tied to label / policy / function $\theta$.</li>
+<li><code>Encrypt</code>: publish noisy linear data whose hidden structure is parameterized by the public side of the interface.</li>
+<li><code>Decrypt/Eval</code>: combine $K_\theta$ with the ciphertext so that the public linear part cancels and only the intended payload remains.</li>
+</ol>
+<p>The payload is what separates the primitives:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Primitive</th>
+          <th>Public selector</th>
+          <th>Derived key authorizes</th>
+          <th>Output</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>IBE</td>
+          <td>identity $\mathsf{id}$</td>
+          <td>equality on $\mathsf{id}$</td>
+          <td>full $m$</td>
+      </tr>
+      <tr>
+          <td>HIBE</td>
+          <td>identity path $\mathsf{id}_{1:\ell}$</td>
+          <td>descendant subtree</td>
+          <td>full $m$</td>
+      </tr>
+      <tr>
+          <td>ABE</td>
+          <td>attributes / policy</td>
+          <td>policy satisfaction</td>
+          <td>full $m$</td>
+      </tr>
+      <tr>
+          <td>FE</td>
+          <td>function label $f$ or $\mathbf{y}$</td>
+          <td>designated functional leakage</td>
+          <td>$f(m)$ or a predicate of it</td>
+      </tr>
+  </tbody>
+</table>
+<p>What changes from row to row is not whether lattices are used. What changes is the type of short secret object being sampled and the semantic meaning of the surviving payload.</p>
+<p>This is why trapdoor delegation is the right spine. The master trapdoor is not the same object as every extracted key, but each branch derives its authority by manufacturing a new short object whose geometry is still controlled by that hidden sampling structure.</p>
+<h3 id="why-these-systems-are-not-ordinary-pki">Why These Systems Are Not Ordinary PKI</h3>
+<p>Calling lattice IBE/ABE/FE &ldquo;PKI variants&rdquo; is too weak and usually wrong.</p>
+<p>Certificates in ordinary PKI bind names to preexisting public keys. They do not change the algebra of decryption. Here the label, policy, or function is part of the algebra itself:</p>
+<ul>
+<li>it changes which public matrix family member is encrypted against;</li>
+<li>it changes what short object the authority must sample;</li>
+<li>and in FE it changes what the decryption output is even allowed to mean.</li>
+</ul>
+<p>So the right mental model is not administrative key management. It is richer encryption interfaces built on the same trapdoor-sampling engine introduced above.</p>
+<p>That perspective also explains why the primary papers line up the way they do. Agrawal-Boneh-Boyen show how to turn trapdoors into identity and hierarchy derivation.<sup id="fnref2:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> Boyen shows how attribute structure becomes a first-class part of the lattice key/ciphertext algebra.<sup id="fnref3:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> Agrawal-Freeman-Vaikuntanathan push the same line into function-indexed keys.<sup id="fnref2:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> The taxonomy broadens, but the engine stays recognizable.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The clean way to remember this chapter is not &ldquo;lattices can also do IBE, HIBE, ABE, and FE.&rdquo; That is true and not very useful.</p>
+<p>The useful claim is narrower:</p>
+$$
+\text{short basis / trapdoor}
+\Longrightarrow
+\text{preimage sampling}
+\Longrightarrow
+\text{derived short decryption material}
+\Longrightarrow
+\text{delegated identities, policies, and functions}.
+$$<p>IBE is equality-targeted derived decryption. HIBE is delegated identity-path derivation. ABE is policy-structured full-message recovery. FE is function-structured partial recovery. If those four are kept separate at the interface and construction levels, the lattice line stops looking like an acronym catalog and starts looking like one continuous trapdoor-delegation mechanism.</p>
+<h2 id="references">References</h2>
+<p>Suggested reading order:</p>
+<ol>
+<li>Boneh-Shoup first, for the interface taxonomy: PKE, IBE, ABE, and FE should not be conflated.</li>
+<li>Peikert next, for the lattice trapdoor and sampling backbone.</li>
+<li>GPV before the advanced papers, because the short-preimage sampling interface is the mechanism reused throughout.</li>
+<li>Agrawal-Boneh-Boyen, Agrawal-Freeman-Vaikuntanathan, and Boyen last, with the selector $\theta$, relation $F_\theta$, and derived key object tracked separately in each construction.</li>
+</ol>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Chris Peikert, <em>A Decade of Lattice Cryptography</em>, 2016.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Dan Boneh and Victor Shoup, <em>A Graduate Course in Applied Cryptography</em>, chapters on public-key encryption, IBE, ABE, and FE.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Craig Gentry, Chris Peikert, and Vinod Vaikuntanathan, <em>Trapdoors for Hard Lattices and New Cryptographic Constructions</em>, 2008.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Shweta Agrawal, Dan Boneh, and Xavier Boyen, <em>Efficient Lattice (H)IBE in the Standard Model</em>, 2010.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Shweta Agrawal, David Mandell Freeman, and Vinod Vaikuntanathan, <em>Functional Encryption for Inner Product Predicates from Learning with Errors</em>, 2011.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Xavier Boyen, <em>Attribute-Based Functional Encryption on Lattices</em>, 2013.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-8/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-8/" data-title="Lattice Part 8: Identity-Based and Functional Encryption From Lattices" data-hashtags="Lattice,IBE,HIBE,ABE,Functional Encryption,Trapdoor Delegation"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-8/" data-hashtag="Lattice"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-8/" data-title="Lattice Part 8: Identity-Based and Functional Encryption From Lattices"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-8/" data-title="Lattice Part 8: Identity-Based and Functional Encryption From Lattices"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-8/" data-title="Lattice Part 8: Identity-Based and Functional Encryption From Lattices"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/ibe/">IBE</a>,&nbsp;<a href="/tags/hibe/">HIBE</a>,&nbsp;<a href="/tags/abe/">ABE</a>,&nbsp;<a href="/tags/functional-encryption/">Functional Encryption</a>,&nbsp;<a href="/tags/trapdoor-delegation/">Trapdoor Delegation</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/pae-attack/" class="prev" rel="prev" title="Pae Attack"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Pae Attack</a>
+            <a href="/lattice-part-9/" class="next" rel="next" title="Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ">Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

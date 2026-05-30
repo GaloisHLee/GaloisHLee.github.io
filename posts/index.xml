@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel><title>所有文章 - As it was</title>
+        <link>https://galoishlee.github.io/posts/</link>
+        <description>所有文章 | As it was</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 27 May 2026 12:00:00 &#43;0800</lastBuildDate><atom:link href="https://galoishlee.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)</title>
+    <link>https://galoishlee.github.io/lattice-hints-lu2025/</link>
+    <pubDate>Wed, 27 May 2026 12:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/lattice-hints-lu2025/</guid>
+    <description><![CDATA[详读 Lu-Feng-Pan (2025)：将侧信道 hint 定义为一个 lattice hint，用 HNF 替代 LLL 嵌入 primal attack 格基，将 Kyber512 的基构造从 2 小时拉进 20 分钟。不止解释论文——兼论这条攻击路线的演化逻辑、与 belief propagation 的分工界面、以及论文未说的那些事。]]></description>
+</item>
+<item>
+    <title>从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式</title>
+    <link>https://galoishlee.github.io/agent-psychometrics-runtime-irt/</link>
+    <pubDate>Sat, 23 May 2026 21:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/agent-psychometrics-runtime-irt/</guid>
+    <description><![CDATA[从Agent Psychometrics论文出发，讨论IRT、LLM-as-Judge与LLM能力/Scaffold能力分解如何外推为Agent运行时的任务难度感知机制。]]></description>
+</item>
+<item>
+    <title>从零开始理解 Belief Propagation：贝叶斯网络上的消息传递</title>
+    <link>https://galoishlee.github.io/belief-propagation-from-scratch/</link>
+    <pubDate>Sun, 17 May 2026 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/belief-propagation-from-scratch/</guid>
+    <description><![CDATA[从概率论基本定理出发，用 Pearl 经典报警网络示例引出因子图和 Belief Propagation。面向本科基础读者，不需要先验的统计推断知识。]]></description>
+</item>
+<item>
+    <title>从零开始理解坐标下降：一个参数一个参数地优化</title>
+    <link>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</link>
+    <pubDate>Wed, 13 May 2026 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</guid>
+    <description><![CDATA[从最大似然估计的基本概念出发，系统介绍坐标下降法。以抛硬币、线性回归和 Lasso 为贯穿示例，覆盖 MLE 形式化、坐标下降框架、增量更新技巧、凸收敛理论、软阈值算子、正则化路径和工程实现细节。]]></description>
+</item>
+<item>
+    <title>Hash To Curve</title>
+    <link>https://galoishlee.github.io/hash-to-curve/</link>
+    <pubDate>Mon, 16 Mar 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/hash-to-curve/</guid>
+    <description><![CDATA[Reading RFC 9380 and unpacking the real structure behind hashing byte strings to elliptic-curve points.]]></description>
+</item>
+<item>
+    <title>WayToZK 01</title>
+    <link>https://galoishlee.github.io/waytozk-01/</link>
+    <pubDate>Fri, 26 Dec 2025 14:11:06 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/waytozk-01/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>KZG 多项式承诺的曲线基础及其协议应用</title>
+    <link>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</link>
+    <pubDate>Tue, 16 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</guid>
+    <description><![CDATA[解释 KZG commitments 为什么依赖 pairing-friendly curves，写出最小 opening verification equation，并把它映射到 EIP-4844 blob workflow。]]></description>
+</item>
+<item>
+    <title>Ethereum 中配对友好曲线的演化路径：从 BN254 到 BLS12-381</title>
+    <link>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</link>
+    <pubDate>Mon, 15 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</guid>
+    <description><![CDATA[从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。]]></description>
+</item>
+<item>
+    <title>Pairing-Friendly Curves 的数学结构与协议动机</title>
+    <link>https://galoishlee.github.io/pairing-friendly-curves-motivation/</link>
+    <pubDate>Sun, 14 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/pairing-friendly-curves-motivation/</guid>
+    <description><![CDATA[定义 pairing-friendly curves 的最小双线性结构，并说明它为什么会成为 BLS signatures、SNARK verifier 和 KZG opening verification 的共同协议接口。]]></description>
+</item>
+<item>
+    <title>椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP</title>
+    <link>https://galoishlee.github.io/ecc-security-hnp-ehnp/</link>
+    <pubDate>Sat, 13 Dec 2025 08:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/ecc-security-hnp-ehnp/</guid>
+    <description><![CDATA[从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。]]></description>
+</item>
+</channel>
+</rss>

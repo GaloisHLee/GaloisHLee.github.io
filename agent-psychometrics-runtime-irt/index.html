@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式 - As it was</title><meta name="Description" content="从Agent Psychometrics论文出发，讨论IRT、LLM-as-Judge与LLM能力/Scaffold能力分解如何外推为Agent运行时的任务难度感知机制。"><meta property="og:title" content="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式">
+<meta property="og:description" content="从Agent Psychometrics论文出发，讨论IRT、LLM-as-Judge与LLM能力/Scaffold能力分解如何外推为Agent运行时的任务难度感知机制。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/agent-psychometrics-runtime-irt/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式">
+<meta name="twitter:description" content="从Agent Psychometrics论文出发，讨论IRT、LLM-as-Judge与LLM能力/Scaffold能力分解如何外推为Agent运行时的任务难度感知机制。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" /><link rel="prev" href="https://galoishlee.github.io/belief-propagation-from-scratch/" /><link rel="next" href="https://galoishlee.github.io/lattice-hints-lu2025/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/agent-psychometrics-runtime-irt\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "Agent, LLM, IRT, LLM-as-Judge, Planner, Agentic Coding","wordcount":  9271 ,
+        "url": "https:\/\/galoishlee.github.io\/agent-psychometrics-runtime-irt\/","datePublished": "2026-05-23T21:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从Agent Psychometrics论文出发，讨论IRT、LLM-as-Judge与LLM能力/Scaffold能力分解如何外推为Agent运行时的任务难度感知机制。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/agent-psychometrics-runtime-irt/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/agent-psychometrics-runtime-irt/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>人工智能</a>&nbsp;<a href="/categories/agent%E7%B3%BB%E7%BB%9F/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Agent系统</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-05-23">2026-05-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 9271 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 19 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-问题起点agent不是不会plan而是不会约束plan">1. 问题起点：Agent不是不会Plan，而是不会约束Plan</a></li>
+    <li><a href="#2-agentllmscaffoldplan本身也是scaffold行为">2. Agent=LLM+Scaffold：Plan本身也是Scaffold行为</a></li>
+    <li><a href="#3-从benchmark到runtimeirt的启发与边界">3. 从Benchmark到Runtime：IRT的启发与边界</a></li>
+    <li><a href="#4-不要做新的planner做plan-control-layer">4. 不要做新的Planner，做Plan Control Layer</a>
+      <ul>
+        <li><a href="#不要重复造轮子">不要重复造轮子</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-plan-ir把自然语言计划变成可审计对象">5. Plan IR：把自然语言计划变成可审计对象</a></li>
+    <li><a href="#6-audit-patch审计不是评论而是补丁和约束">6. Audit Patch：审计不是评论，而是补丁和约束</a></li>
+    <li><a href="#7-领域知识激活从尝试dlp到具体前置条件">7. 领域知识激活：从“尝试DLP”到具体前置条件</a></li>
+    <li><a href="#8-subagent分配不是多开agent而是成本收益决策">8. SubAgent分配：不是多开Agent，而是成本收益决策</a></li>
+    <li><a href="#9-embedding与irt经验召回和难度校准">9. Embedding与IRT：经验召回和难度校准</a></li>
+    <li><a href="#10-exec-result与replan-patch重规划是状态更新不是推倒重来">10. Exec Result与RePlan Patch：重规划是状态更新，不是推倒重来</a></li>
+    <li><a href="#11-stop-controller让agent知道什么时候不该继续蛮干">11. Stop Controller：让Agent知道什么时候不该继续蛮干</a>
+      <ul>
+        <li><a href="#失败类型不是一个标签而是一组可区分的状态">失败类型不是一个标签，而是一组可区分的状态</a></li>
+        <li><a href="#stop-controller与audit-contract的关系">Stop Controller与Audit Contract的关系</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-工程落点状态契约流而不是对话流">12. 工程落点：状态契约流，而不是对话流</a>
+      <ul>
+        <li><a href="#一个端到端例子">一个端到端例子</a></li>
+        <li><a href="#这比自然语言循环更稳的原因">这比自然语言循环更稳的原因</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-结论有价值的不是多一个subagent而是让已有agent受到领域感知的计划控制">13. 结论：有价值的不是多一个SubAgent，而是让已有Agent受到领域感知的计划控制</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: aggregate pass rate告诉我们的，只是Agent大概会不会做；它没有告诉我们Agent正在面对什么任务。</p>
+</blockquote>
+<p><code>Agent Psychometrics</code>这篇论文最有价值的地方，不是给Agent排行榜再加一层精度，而是把问题重新表述成“Agent能力、任务难度与成功概率”的关系问题。这个问题一旦成立，很多原本看起来像工程技巧的东西，就会变成统计校准、预算控制和路径选择的问题。它让我们第一次比较清楚地看到：Agent不是“能不能做”，而是“面对某类任务时，值得不值得继续做、该怎么做、做多久”。</p>
+<p>但这篇论文对运行时的启发，不能被机械搬运。Embedding、IRT、LLM-as-Judge都很强，但它们更适合放在后台经验层和难度校准层，而不是直接变成前台控制器。真正需要改造的，不是再造一个Planner，而是给现有Plan机制加一层Plan Control Layer。它负责把自然语言计划转成可审计对象，把审计转成执行约束，把重规划转成局部patch，而不是把整个计划推倒重写。</p>
+<h2 id="1-问题起点agent不是不会plan而是不会约束plan">1. 问题起点：Agent不是不会Plan，而是不会约束Plan</h2>
+<p>现有Agent系统其实已经会Plan了。Codex、Claude Code、各种带Update Plan接口的工作流，都已经在做计划生成、步骤拆分、状态推进、SubAgent编排、工具调用和回写记录。问题不是“没有Planner”，而是“计划缺少控制面”。也就是说，Plan存在，但Plan没有被静态分析、领域审计、预算约束和停止条件所约束。</p>
+<p>这个差别很重要。一个能写出计划的Agent，不代表它知道什么时候该停、什么时候该重排、什么时候该分配子任务、什么时候该请求人类介入。很多所谓“死循环”，表面上是执行层反复失败，实际上是控制层没有识别失败类型，没有更新成功概率，也没有把这些信息转成新的执行约束。</p>
+<p>所以这篇文章的核心不是“再造一个Planner”，而是“把已有Plan机制升级成Plan Control Layer”。它更像计划静态分析器、领域感知Plan Auditor、Stop Controller和预算器的组合。它不替代原生Planner，而是约束原生Planner；不替代Exec，而是给Exec加合同；不替代RePlan，而是让RePlan以patch的方式发生。</p>
+<blockquote>
+<p>Audit不是评论Plan，而是生成执行约束。</p>
+</blockquote>
+<p>这句话基本定义了本文的系统边界。</p>
+<h2 id="2-agentllmscaffoldplan本身也是scaffold行为">2. Agent=LLM+Scaffold：Plan本身也是Scaffold行为</h2>
+<p>如果把Agent看成<code>LLM + Scaffold</code>，就更容易理解为什么Plan本身也应该属于Scaffold的一部分。LLM负责语义理解、推理和生成，Scaffold负责工具调用、上下文管理、文件系统、计划更新、SubAgent编排、预算控制和状态持久化。Plan不是模型脑内的一段独白，而是Scaffold把模型意图变成可执行流程的方式。</p>
+<p>这意味着Plan不是“想法文本”，而是“控制信号”。在一个成熟Agent里，Plan至少承担三种角色。</p>
+<p>第一，它是任务分解器。它把模糊目标拆成可执行步骤，让系统知道先做什么、后做什么、哪些步骤依赖前置证据。</p>
+<p>第二，它是约束接口。它不是只说“要做什么”，还应当说“不能怎么做”“做到什么程度必须停”“哪些证据必须先有”“哪些路径可以并行”。</p>
+<p>第三，它是状态切片。Plan不是一次性文档，而是持续更新的状态对象。不同阶段的Plan、Audit、Exec、RePlan，其实是同一条任务在不同状态下的不同表达。</p>
+<p>因此，Plan控制层不是附加物，而是Agent Scaffold中最关键的系统软件之一。没有它，Plan只会停留在Markdown层面；有了它，Plan才会进入机器可检查、可持久化、可回放、可patch的状态流。</p>
+<h2 id="3-从benchmark到runtimeirt的启发与边界">3. 从Benchmark到Runtime：IRT的启发与边界</h2>
+<p><code>Agent Psychometrics</code>的贡献，在于它把静态benchmark评测改造成了任务级成功概率预测。它借用IRT，把考生、试题、能力、难度、答对/答错这些概念映射到Agent、任务、能力、难度和成功/失败上。最简化的直觉可以写成：</p>
+$$
+P(\mathrm{success})=\sigma(\theta_{\mathrm{agent}}-\beta_{\mathrm{task}})
+$$<p>这条式子当然不能直接拿来管运行时，但它提供了一个非常关键的视角：任务难度不是主观感觉，而是可以被估计、校准和更新的隐变量。Agent能力也不是单一模型参数，而是<code>LLM能力 + Scaffold能力</code>的组合。</p>
+<p>论文进一步把Agent能力拆成LLM能力与Scaffold能力，并用加和形式建模：</p>
+$$
+P(y_{msj}=1\mid \theta_m,\theta_s,\beta_j)=\sigma(\theta_m+\theta_s-\beta_j)
+$$<p>这对工程的启发很直接。你不能只看底模强不强，还得看Scaffold是不是把模型组织好了。很多时候，真正决定成败的不是模型本体，而是它被怎样喂上下文、怎样做工具调用、怎样做失败恢复、怎样维护执行历史。</p>
+<p>但这里必须保留边界。Embedding、IRT、LLM-as-Judge都不应该被机械搬到前台控制中。它们的角色更像后台经验层和难度校准层：</p>
+<ul>
+<li>Embedding负责召回相似任务、相似失败状态、相似Plan Patch、相似Stop Condition。</li>
+<li>IRT负责校准当前Agent/Scaffold组合面对某类任务的大致成功概率、任务难度和预算建议。</li>
+<li>LLM-as-Judge或AuditAgent负责结构化审计，但不能只输出自然语言评价，必须输出可执行约束。</li>
+</ul>
+<p>如果把这三者误当作控制器本身，就会把“统计信号”误当成“执行真理”。那会让系统看起来更聪明，实际上更脆。</p>
+<h2 id="4-不要做新的planner做plan-control-layer">4. 不要做新的Planner，做Plan Control Layer</h2>
+<p>这里要先把一个常见误区切开：这个问题不是“再造一个Planner”，也不是“再加一个Audit SubAgent”。当前很多Agent已经原生带有Plan和Update Plan机制。真正缺的不是计划生成，而是计划控制。</p>
+<p>所以更准确的说法不是新建Planner，而是给已有Plan机制加一层<code>Plan Control Layer</code>。它像刹车系统、仪表盘、预算器和领域检查器的组合。它不替代原生Planner，而是约束、校准和修正原生Planner的输出。</p>
+<p>如果只是做一个AuditAgent，输出一句“这个Plan可行/不可行”，那只是多了一次LLM调用。如果只是生成<code>plan-audited.md</code>，那仍然是自然语言上下文传递。如果Audit不能约束Exec，那整个循环只是流程装饰。真正有价值的是把Agent运行从“对话流”改造成“状态契约流”。</p>
+<p>这个控制层的职责可以概括成四个动词：读Plan、审Plan、约束Exec、patch RePlan。它不是另一个大脑，而是计划静态分析器与领域检查器。我们要的是<code>Plan Linter / Plan Static Analyzer / Domain-Aware Plan Auditor</code>，不是一个更会说话的Planner。</p>
+<h3 id="不要重复造轮子">不要重复造轮子</h3>
+<p>这里需要明确批判一下：如果只是做一个AuditAgent评价Plan，那只是多一次LLM调用；如果只是生成<code>plan-audited.md</code>，那仍然是自然语言上下文传递；如果只是Plan-&gt;Audit-&gt;Exec循环，但Audit不能约束Exec，那只是流程装饰。</p>
+<p>真正有价值的，不是再发明一个“会反思的Agent”，而是把现有Agent运行从对话流改成状态契约流。现有系统已经有Planner，我们要做的是<code>Plan Linter / Plan Static Analyzer / Domain-Aware Plan Auditor / Plan Control Layer</code>，不是重复造轮子。</p>
+<p>这也是为什么本文一直强调文件契约、patch和contract：这些东西的存在，决定了系统到底是“说过了”还是“生效了”。</p>
+<h2 id="5-plan-ir把自然语言计划变成可审计对象">5. Plan IR：把自然语言计划变成可审计对象</h2>
+<p><code>plan.md</code>适合人类阅读，但不适合机器控制。只要还停留在Markdown层面，Audit就容易滑回自然语言点评，Exec也只能“参考建议”，不能受明确约束。</p>
+<p>因此第一步不是生成新Plan，而是把现有Plan解析成<code>plan.ir.json</code>。这里的IR不是额外负担，而是控制层的中间表示。它让计划从“段落”变成“对象”，从“描述”变成“字段”，从“建议”变成“可检查约束”。</p>
+<p>一个Plan IR至少应该包含这些字段：</p>
+<ul>
+<li><code>step id</code></li>
+<li><code>description</code></li>
+<li><code>domain</code></li>
+<li><code>dependencies</code></li>
+<li><code>inputs</code></li>
+<li><code>outputs</code></li>
+<li><code>status</code></li>
+<li><code>estimated cost</code></li>
+<li><code>required evidence</code></li>
+<li><code>assigned_to</code></li>
+<li><code>preconditions</code></li>
+<li><code>stop_conditions</code></li>
+</ul>
+<p>示意结构可以长这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;task_id&#34;</span><span class="p">:</span> <span class="s2">&#34;crypto-analysis-001&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;plan_version&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;steps&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;s1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;analyze DLP feasibility&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;domain&#34;</span><span class="p">:</span> <span class="s2">&#34;ecc&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;dependencies&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;inputs&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;curve_params&#34;</span><span class="p">,</span> <span class="s2">&#34;public_keys&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;outputs&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;dlp_feasibility_report&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;planned&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;estimated_cost&#34;</span><span class="p">:</span> <span class="s2">&#34;unknown&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;required_evidence&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;group_order&#34;</span><span class="p">,</span> <span class="s2">&#34;cofactor&#34;</span><span class="p">,</span> <span class="s2">&#34;curve_family&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;assigned_to&#34;</span><span class="p">:</span> <span class="s2">&#34;main_agent&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;preconditions&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;curve parameters are known&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;stop_conditions&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;no evidence of exploitable weakness after domain checks&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为什么要IR？因为只有IR才能做结构化审计。Markdown可以给人看，但不能直接表达依赖关系、成本、前置条件、停止条件和证据要求。没有这些字段，Audit就只能做情绪化点评，不能做控制。</p>
+<h2 id="6-audit-patch审计不是评论而是补丁和约束">6. Audit Patch：审计不是评论，而是补丁和约束</h2>
+<p>Plan Control Layer的第二步，不是输出一篇审计意见，而是输出一个<code>audit.patch.json</code>。因为审计的价值不在于评论，而在于改变后续执行条件。</p>
+<p>RePlan也不应该重新写一份新Plan。那样会制造版本混乱，也会让历史证据断裂。更合理的做法是：在<code>plan.ir.json</code>基础上应用patch。这个过程更像编译器pass或代码审查diff，而不是新建一个文档。</p>
+<p>示意的patch结构可以是这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;patch_type&#34;</span><span class="p">:</span> <span class="s2">&#34;plan_audit&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;blocked_steps&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;step_id&#34;</span><span class="p">:</span> <span class="s2">&#34;try_dlp_bruteforce&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;reason&#34;</span><span class="p">:</span> <span class="s2">&#34;group order size unknown; brute force should not be attempted before order analysis&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;inserted_prechecks&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;before_step&#34;</span><span class="p">:</span> <span class="s2">&#34;try_dlp_attack&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;new_step&#34;</span><span class="p">:</span> <span class="s2">&#34;check_group_order_factorization&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;knowledge_pack&#34;</span><span class="p">:</span> <span class="s2">&#34;ecc_dlp_feasibility&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;budget_limits&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;step_id&#34;</span><span class="p">:</span> <span class="s2">&#34;lattice_scaling_sweep&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;max_trials&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;stop_if&#34;</span><span class="p">:</span> <span class="s2">&#34;no norm improvement in 3 consecutive trials&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的关键点有三个。</p>
+<p>第一，Audit不是只写结论，而是生成执行约束。<code>execution.contract.json</code>比自然语言点评更重要，因为它告诉Exec什么能做、什么不能做、做多少次、做到什么程度必须停。</p>
+<p>第二，Audit输出应当能够插入新的前置检查，而不是只标记“失败”。一个好审计不会只说“不要尝试DLP暴力求解”，而是会把前置条件显式化：先检查群阶、cofactor、小子群、曲线族、是否存在MOV/Frey-Rück可用性，再决定是否有攻击面。</p>
+<p>第三，Audit必须能生成停止条件，而不是只生成建议。没有停止条件的Plan，本质上只是更长的蛮干。</p>
+<p>从这个角度看，AuditPatch更像代码审查diff，而不是复盘报告。它的作用是改变执行空间，而不是描述执行空间。</p>
+<h2 id="7-领域知识激活从尝试dlp到具体前置条件">7. 领域知识激活：从“尝试DLP”到具体前置条件</h2>
+<p>这里是和普通Agent区别最大的地方。通用Agent往往只会说“检查DLP攻击是否可行”；Domain-Aware Audit则必须把模糊任务拆成具体检查项。</p>
+<p>知识激活不是让模型泛泛地“考虑密码学知识”，而是把任务映射到一组可检查的领域前置条件、攻击路径、证据需求和停止条件。只有这样，Audit才从泛化反思变成具体约束。</p>
+<p>以ECDH/DLP任务为例，激活一个<code>ecc_dlp_feasibility</code>知识包后，Audit至少要检查：</p>
+<ul>
+<li>group order factorization</li>
+<li>cofactor check</li>
+<li>small subgroup attack surface</li>
+<li>invalid curve assumptions</li>
+<li>MOV/Frey-Rück可用性</li>
+<li>Smart attack前提</li>
+<li>Pohlig-Hellman可分解性</li>
+<li>Pollard rho的实际成本</li>
+<li>transcript binding</li>
+<li>replay freshness</li>
+<li>MITM authentication assumptions</li>
+<li>SCA/oracle assumptions</li>
+</ul>
+<p>如果这些前提都没有问题，那就不应该继续把资源押在DLP分支上。相反，应该转向协议层、实现层或认证层的其他风险面。</p>
+<p>类似地，RSA任务不应该一上来就“尝试分解2048-bit N”，而应先激活<code>rsa_factorization</code>知识包，检查是否存在共享因子、低指数、padding问题、oracle、泄露、边信道、CRT实现缺陷等。如果这些前提都没有出现，继续蛮力分解只是浪费预算。</p>
+<p>对lattice任务也是一样。<code>lattice_scaling</code>不该是无穷尝试，而应该先检查basis质量、norm bounds、scale策略、是否已经进入饱和、是否存在三轮无改进。如果没有新信息，就应该回到建模而不是继续扫尺度。</p>
+<p>这也说明了为什么“通用反思”不够。通用反思只会说“再看看有没有别的可能”；领域知识激活会把可能性分解成具体的检查列表、证据需求和停止条件。两者不是一个等级。</p>
+<h2 id="8-subagent分配不是多开agent而是成本收益决策">8. SubAgent分配：不是多开Agent，而是成本收益决策</h2>
+<p>很多人一看到复杂任务，就本能地想“再开一个SubAgent”。但SubAgent不是越多越好，分配与否本身应该由Audit判断。</p>
+<p>适合分配SubAgent的情况通常有四个条件：</p>
+<ol>
+<li>领域知识高度专门。</li>
+<li>输入输出边界清楚。</li>
+<li>任务可以并行。</li>
+<li>失败不会污染主上下文。</li>
+</ol>
+<p>例如，检查RSA的<code>N</code>位数、<code>e</code>值、<code>gcd</code>共享因子，这种任务太轻，不需要SubAgent。直接在主线里做更便宜。</p>
+<p>但判断MOV/Frey-Rück攻击是否适用，就可以交给一个<code>ECC Pairing Specialist</code>。因为这里需要专门的曲线知识、配对结构、嵌入度、目标群和成本判断，且输出边界很清楚：<code>yes/no</code>加上理由和证据。</p>
+<p>诊断lattice scaling失败到底是basis问题、bounds问题还是scale问题，也可以分给一个<code>Lattice Diagnostic SubAgent</code>。但前提是它的输入契约清楚、输出契约清楚、预算清楚。否则分出去的不是能力，而是混乱。</p>
+<p>所以SubAgent分配不是“让另一个Agent看看”，而是一个严格的成本收益决策。它必须有：</p>
+<ul>
+<li>input contract</li>
+<li>output contract</li>
+<li>budget</li>
+<li>stop condition</li>
+<li>handoff rule</li>
+</ul>
+<p>如果这些都没有，就不该分配。</p>
+<p>换句话说，SubAgent不是控制层的中心，而是控制层根据领域知识和预算策略临时调用的外包单元。它是工具，不是治理者。</p>
+<h2 id="9-embedding与irt经验召回和难度校准">9. Embedding与IRT：经验召回和难度校准</h2>
+<p>Embedding和IRT在这里都不应该被放到前台控制器的位置。它们更适合作为后台经验层和难度校准层。</p>
+<p>Embedding负责经验召回。它可以回答的问题不是“当前任务真不真”，而是：</p>
+<ul>
+<li>当前任务像过去哪些任务？</li>
+<li>当前失败像过去哪些失败？</li>
+<li>过去有哪些相似的Plan Patch？</li>
+<li>过去有哪些Stop Condition真正有效？</li>
+<li>哪些Knowledge Pack被证明能减少无效重试？</li>
+</ul>
+<p>IRT负责能力/难度校准。它可以给出更粗粒度但更稳定的信号：</p>
+<ul>
+<li>当前Agent+Scaffold组合面对这类任务大致有多大成功概率？</li>
+<li>当前任务是否已经超过预算？</li>
+<li>当前路径是否值得继续尝试？</li>
+</ul>
+<p>但必须强调，Embedding不判断可行性，IRT不判断真理。最终控制仍然来自Domain Rules、Exec Evidence和Audit Contract。</p>
+<p>也就是说，Embedding和IRT是后台经验与预算校准，不是前台决策者。它们可以帮助我们判断“像不像以前失败过的任务”“这条路大概值不值得继续”，但不能替代对当前证据的解析。</p>
+<p>从工程顺序上看，第一版MVP甚至不需要强行实现IRT。更合理的顺序是：</p>
+<ol>
+<li>V1：<code>Plan IR + Domain Knowledge Pack + Audit Patch</code></li>
+<li>V2：Embedding召回历史案例、失败模式和Plan Patch</li>
+<li>V3：IRT校准任务难度、Agent能力和预算策略</li>
+<li>V4：自动调整SubAgent分配、Stop Condition和RePlan策略</li>
+</ol>
+<p>这个顺序很重要，因为它避免我们把统计建模当成地基。地基应该先是结构化计划和执行契约，统计模型应当在数据积累之后再进来。</p>
+<h2 id="10-exec-result与replan-patch重规划是状态更新不是推倒重来">10. Exec Result与RePlan Patch：重规划是状态更新，不是推倒重来</h2>
+<p>Exec不是“参考Audit建议”这么简单。Exec必须受<code>execution.contract.json</code>约束，并且在完成后返回<code>exec-state.json</code>和<code>evidence.jsonl</code>。这样RePlan才能基于证据做局部更新，而不是推倒重写。</p>
+<p><code>replan.patch.json</code>应该只做状态更新：</p>
+<ul>
+<li>哪些步骤被证明无效</li>
+<li>哪些前置条件需要补充</li>
+<li>哪些证据不足</li>
+<li>哪些新分支值得新增</li>
+<li>哪些SubAgent应该重新分配</li>
+</ul>
+<p>如果每次都重写一份新Plan，就会失去版本连续性。反过来，如果只在脑子里“记得上次失败了”，那么后续步骤就很容易把历史错误重新带回来。Patch式RePlan的好处就在于它既保留了历史，又避免了计划爆炸。</p>
+<p>RePlan因此不是重新写计划，而是对计划做局部语义修补。它的输入不是空白页，而是<code>exec-state.json + evidence.jsonl + audit.patch.json</code>，它的输出也不是新世界，而是<code>replan.patch.json</code>。</p>
+<h2 id="11-stop-controller让agent知道什么时候不该继续蛮干">11. Stop Controller：让Agent知道什么时候不该继续蛮干</h2>
+<p>Agent最常见的蛮干，不是因为没有Plan，而是因为没有停止条件、预算感知和失败类型判断。</p>
+<p>所以Stop Controller不是简单的<code>max loop count</code>。它应该根据以下信息判断是否继续：</p>
+<ul>
+<li>是否重复同类失败</li>
+<li>是否缺少关键前置条件</li>
+<li>是否没有新信息增量</li>
+<li>是否已经超过预算</li>
+<li>是否违反Audit Contract</li>
+<li>是否需要RePlan或请求人类介入</li>
+</ul>
+<p>可以把继续条件写得更形式化一点：</p>
+$$
+\text{continue} \Leftrightarrow \mathbb{E}[U(P_i)\mid \mathcal{D}_{1:t}] > 0 \land \neg \mathrm{violates}(\mathrm{AuditContract})
+$$<p>其中</p>
+$$
+U(P_i)=\alpha \hat p_i-\beta \hat c_i-\gamma \hat r_i
+$$<p>这意味着只有当预期收益仍然为正，而且没有违反审计合同，才值得继续。这不是把Agent变成经济学模型，而是把“蛮干阈值”显式化。</p>
+<p>对lattice scaling的例子来说，不能无限尝试scale。如果连续几次没有norm improvement，就应该停止scale sweep，回到basis/bounds/modeling诊断，而不是继续盲扫。</p>
+<p>对RSA解密的例子来说，如果是2048-bit <code>N</code>，又没有泄露、oracle、低指数、共享因子或padding问题，那就不能蛮力分解。此时Stop Controller应该输出“当前信息不足”或转向前提检查，而不是继续制造算力幻觉。</p>
+<p>因此Stop Controller的职责不是禁止执行，而是防止错误的执行意图在没有新证据的情况下被无限重复。它是预算、证据和失败类型共同驱动的止损器。</p>
+<h3 id="失败类型不是一个标签而是一组可区分的状态">失败类型不是一个标签，而是一组可区分的状态</h3>
+<p>Stop Controller要真正起作用，首先得把“失败”拆开。很多Agent把失败都当成同一件事：这一步没成，于是再试一次。问题在于，失败有不同的语义，而不同语义对应不同动作。</p>
+<p>可以粗略分成四类：</p>
+<ol>
+<li><strong>证据不足型失败</strong>：方向可能对，但现有证据不够。此时应该补预检，而不是盲试。</li>
+<li><strong>路径失配型失败</strong>：证据已经说明这条路不对。此时应该RePlan，而不是再加预算。</li>
+<li><strong>实现局部型失败</strong>：任务方向没错，但实现细节有误。此时应该修补，而不是重写。</li>
+<li><strong>预算耗尽型失败</strong>：方向未必错，但收益已经低于成本。此时应该停止或请求人类介入。</li>
+</ol>
+<p>把失败类型区分开，Stop Controller才有意义。否则它只是一个更聪明的循环计数器。</p>
+<h3 id="stop-controller与audit-contract的关系">Stop Controller与Audit Contract的关系</h3>
+<p>Stop Controller不是独立的判断器，它应该依附于Audit Contract工作。Audit Contract定义了什么算有效进展、什么算重复失败、什么算证据增量、什么算违反约束。Stop Controller再根据这些合同判断是否继续。</p>
+<p>这意味着停止条件不应该是一个孤立的<code>max loop count</code>，而应该是一组和任务、证据、预算绑定的判定式。例如：</p>
+$$
+\text{stop} \Leftrightarrow \mathrm{repeat\_failure} \lor \mathrm{budget\_exceeded} \lor \neg \mathrm{evidence\_gain} \lor \mathrm{contract\_violation}
+$$<p>这比“最多尝试五次”强得多，因为它绑定的是语义，不是次数。</p>
+<h2 id="12-工程落点状态契约流而不是对话流">12. 工程落点：状态契约流，而不是对话流</h2>
+<p>要把上面的东西落地，最好把工作区设计成一个最小的状态契约目录，而不是在聊天上下文里东一段西一段地传。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">.agent-workspace/
+</span></span><span class="line"><span class="cl">  task.json
+</span></span><span class="line"><span class="cl">  plan.md
+</span></span><span class="line"><span class="cl">  plan.ir.json
+</span></span><span class="line"><span class="cl">  activated-knowledge.json
+</span></span><span class="line"><span class="cl">  audit.patch.json
+</span></span><span class="line"><span class="cl">  execution.contract.json
+</span></span><span class="line"><span class="cl">  exec-state.json
+</span></span><span class="line"><span class="cl">  evidence.jsonl
+</span></span><span class="line"><span class="cl">  replan.patch.json
+</span></span><span class="line"><span class="cl">  final.md
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>每个文件的职责应该非常明确：</p>
+<ul>
+<li><code>task.json</code>：任务边界、成功标准、预算、工具权限。</li>
+<li><code>plan.md</code>：现有Agent原生Plan，人类可读。</li>
+<li><code>plan.ir.json</code>：结构化Plan，中间表示。</li>
+<li><code>activated-knowledge.json</code>：被激活的领域知识包。</li>
+<li><code>audit.patch.json</code>：审计补丁。</li>
+<li><code>execution.contract.json</code>：执行阶段必须遵守的约束。</li>
+<li><code>exec-state.json</code>：当前执行状态。</li>
+<li><code>evidence.jsonl</code>：工具调用与证据日志。</li>
+<li><code>replan.patch.json</code>：基于Exec Result的局部Plan更新。</li>
+<li><code>final.md</code>：最终交付结果。</li>
+</ul>
+<p>这个目录的核心思想其实很简单：Plan/Audit/Exec/RePlan不是几个Agent聊天，而是几个可持久化状态之间的转换。状态之间不应该只靠上下文窗口传递，而应该靠文件契约传递。</p>
+<p>如果再说得更直白一点，<code>plan.md</code>是人类的语言，<code>plan.ir.json</code>是机器的语言，<code>audit.patch.json</code>和<code>execution.contract.json</code>是机器之间的契约，<code>evidence.jsonl</code>是历史，<code>replan.patch.json</code>是增量修补。这样系统才不会在每一次对话轮转里遗忘自己到底做到了哪一步。</p>
+<h3 id="一个端到端例子">一个端到端例子</h3>
+<p>把上面的目录真的串起来，大致会像这样：</p>
+<ol>
+<li><code>task.json</code>写明：目标是什么、预算多少、允许哪些工具、成功标准是什么。</li>
+<li>原生Agent写出<code>plan.md</code>。</li>
+<li>控制层把<code>plan.md</code>解析成<code>plan.ir.json</code>。</li>
+<li><code>activated-knowledge.json</code>激活对应知识包，比如<code>ecc_dlp_feasibility</code>或<code>rsa_factorization</code>。</li>
+<li><code>audit.patch.json</code>插入前置检查、预算限制和停止条件。</li>
+<li><code>execution.contract.json</code>约束Exec只能在合同范围内行动。</li>
+<li>Exec执行后写出<code>exec-state.json</code>和<code>evidence.jsonl</code>。</li>
+<li>RePlan读取这些文件，生成<code>replan.patch.json</code>，只补局部步骤，不重写整张Plan。</li>
+<li>最终结果进入<code>final.md</code>。</li>
+</ol>
+<p>这样一来，Plan/Audit/Exec/RePlan就不再是对话轮次，而是文件状态机。文件就是接口，patch就是更新，证据就是记忆，合同就是边界。</p>
+<h3 id="这比自然语言循环更稳的原因">这比自然语言循环更稳的原因</h3>
+<p>自然语言循环的问题在于，它把所有状态都塞进上下文窗口里。一旦上下文长了，重要信息和噪声就会混在一起，模型会逐渐忘记哪些是证据、哪些是猜测、哪些是合同、哪些是历史。</p>
+<p>状态契约流解决的是这个问题：每个阶段只读自己需要的文件，只写自己负责的文件，只通过明确的patch和contract传递状态。这种方式更接近编译器流水线，也更接近工程上的可靠系统。</p>
+<h2 id="13-结论有价值的不是多一个subagent而是让已有agent受到领域感知的计划控制">13. 结论：有价值的不是多一个SubAgent，而是让已有Agent受到领域感知的计划控制</h2>
+<p>如果把全文压缩成一句话，就是：<code>Agent Psychometrics</code>给了我们一个关于任务难度与成功概率的校准视角，但真正的工程价值不在于再做一个Planner，而在于给已有的Plan机制加上一层领域感知的计划控制层。</p>
+<p>这层控制不是为了替代现有Agent，而是为了让现有Agent更知道什么时候该继续，什么时候该停，什么时候该分派，什么时候该回滚，什么时候该请求人类介入。它把“计划”从自然语言文档变成结构化对象，把“审计”从评论变成约束，把“重规划”从重写变成patch，把“上下文管理”从堆积变成契约。</p>
+<p>所以，本文真正想推进的不是一个新框架名词，而是一种更成熟的系统观：</p>
+<ul>
+<li>不是再造Planner，而是控制Plan。</li>
+<li>不是增加聊天式SubAgent，而是增加状态契约。</li>
+<li>不是用反思替代执行，而是用领域知识、预算和停止条件去约束执行。</li>
+</ul>
+<p>这才是Agent Psychometrics、IRT和Embedding对长跨度Agent最实际的启发。</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Agent Psychometrics: Task-level Performance Prediction in Agentic Coding Benchmarks. arXiv:2604.00594.</li>
+<li>OpenReview workshop version: Agents in the Wild, 2026.</li>
+<li>SWE-bench: Can Language Models Resolve Real-World GitHub Issues? arXiv:2310.06770.</li>
+<li>AgentBench: Evaluating LLMs as Agents. arXiv:2308.03688.</li>
+<li>G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment. arXiv:2303.16634.</li>
+<li>Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. arXiv:2306.05685.</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/agent-psychometrics-runtime-irt/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" data-title="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式" data-hashtags="Agent,LLM,IRT,LLM-as-Judge,Planner,Agentic Coding"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" data-hashtag="Agent"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" data-title="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" data-title="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/agent-psychometrics-runtime-irt/" data-title="从Agent Psychometrics到任务难度感知Agent：IRT、LLM-as-Judge与Planner/Audit模式"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/agent/">Agent</a>,&nbsp;<a href="/tags/llm/">LLM</a>,&nbsp;<a href="/tags/irt/">IRT</a>,&nbsp;<a href="/tags/llm-as-judge/">LLM-as-Judge</a>,&nbsp;<a href="/tags/planner/">Planner</a>,&nbsp;<a href="/tags/agentic-coding/">Agentic Coding</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/belief-propagation-from-scratch/" class="prev" rel="prev" title="从零开始理解 Belief Propagation：贝叶斯网络上的消息传递"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>从零开始理解 Belief Propagation：贝叶斯网络上的消息传递</a>
+            <a href="/lattice-hints-lu2025/" class="next" rel="next" title="Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)">Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

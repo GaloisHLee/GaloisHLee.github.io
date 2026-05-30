@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Implementation-Security on As it was</title>
+    <link>https://galoishlee.github.io/tags/implementation-security/</link>
+    <description>Recent content in Implementation-Security on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 30 May 2026 20:37:52 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/implementation-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lattice Part 10: Implementation Fault Lines in Lattice Cryptography</title>
+      <link>https://galoishlee.github.io/lattice-part-10/</link>
+      <pubDate>Fri, 25 Oct 2024 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/lattice-part-10/</guid>
+      <description>&lt;p&gt;Reading: Peikert&amp;rsquo;s survey as the wide-angle frame&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, NTRU Prime&amp;rsquo;s attack-surface language&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;, NIST&amp;rsquo;s standardized ML-KEM / ML-DSA interfaces&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;, and the implementation-attack papers that target Kyber, BLISS, Falcon, and lattice decapsulation itself&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:9&#34;&gt;&lt;a href=&#34;#fn:9&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;9&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:10&#34;&gt;&lt;a href=&#34;#fn:10&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;10&lt;/a&gt;&lt;/sup&gt;&lt;sup id=&#34;fnref:11&#34;&gt;&lt;a href=&#34;#fn:11&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;11&lt;/a&gt;&lt;/sup&gt;. Part 10 closes the lattice subseries at the only boundary that really matters in deployment: proof-level security is about an abstract construction, while deployed security is about the arithmetic, randomness, control flow, and fault behavior that actually reach silicon.&lt;/p&gt;&#xA;&lt;p&gt;From Parts 0-3, read every deployed scheme as a concrete implementation of modular lattice relations over short coefficient vectors. Structured rings and modules buy compactness because multiplication becomes regular and sampling stays cheap enough to ship. The same structure also narrows the implementation surface into a few hot loops: NTT butterflies, modular reductions, coefficient compression, rejection tests, hint generation, and decapsulation compares. Those loops are exactly where timing, power, cache behavior, and induced faults start to expose data that the proof never modeled.&lt;/p&gt;&#xA;&lt;p&gt;The useful split is therefore not &amp;ldquo;lattices have side channels too.&amp;rdquo; That is too generic to help. The useful split is KEM versus signature. A KEM exposes a decapsulation oracle whose correctness margins and implicit rejection logic can be probed adaptively. A signature scheme exposes a signing loop whose sampler and abort logic must maintain the right distribution across many signatures under one long-term key. Same hardness family, different failure physics.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

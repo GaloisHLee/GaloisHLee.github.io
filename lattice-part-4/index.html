@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Lattice Part 4: From SIS/ISIS to LWE - As it was</title><meta name="Description" content="Micciancio-Regev’s lecture-note framing[^mr], Regev’s 2005 reduction[^regev], and Peikert’s 2009 encryption perspective[^peikert09] are the three anchors for this bridge chapter. Part 0-3 already gave the lattice side: basis reduction, CVP/Babai intuition, SIS, and ISIS. Here we …"><meta property="og:title" content="Lattice Part 4: From SIS/ISIS to LWE">
+<meta property="og:description" content="Micciancio-Regev’s lecture-note framing[^mr], Regev’s 2005 reduction[^regev], and Peikert’s 2009 encryption perspective[^peikert09] are the three anchors for this bridge chapter. Part 0-3 already gave the lattice side: basis reduction, CVP/Babai intuition, SIS, and ISIS. Here we …">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/lattice-part-4/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Part 4: From SIS/ISIS to LWE">
+<meta name="twitter:description" content="Micciancio-Regev’s lecture-note framing[^mr], Regev’s 2005 reduction[^regev], and Peikert’s 2009 encryption perspective[^peikert09] are the three anchors for this bridge chapter. Part 0-3 already gave the lattice side: basis reduction, CVP/Babai intuition, SIS, and ISIS. Here we …"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/lattice-part-4/" /><link rel="prev" href="https://galoishlee.github.io/waytocoppersmith0x01/" /><link rel="next" href="https://galoishlee.github.io/lattice-part-5/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lattice Part 4: From SIS/ISIS to LWE",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/lattice-part-4\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  2394 ,
+        "url": "https:\/\/galoishlee.github.io\/lattice-part-4\/","datePublished": "2024-06-20T18:54:57+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/lattice-part-4/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/lattice-part-4/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lattice Part 4: From SIS/ISIS to LWE</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2024-06-20">2024-06-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2394 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#reader-state-after-part-0-3">Reader State After Part 0-3</a></li>
+    <li><a href="#from-exact-relations-to-noisy-relations">From Exact Relations To Noisy Relations</a>
+      <ul>
+        <li><a href="#what-part-0-3-already-gave-us">What Part 0-3 Already Gave Us</a></li>
+        <li><a href="#why-exact-solvability-is-too-clean">Why Exact Solvability Is Too Clean</a></li>
+        <li><a href="#injecting-the-error-term">Injecting The Error Term</a></li>
+        <li><a href="#one-sample-sanity-check">One-Sample Sanity Check</a></li>
+        <li><a href="#rows-columns-and-what-the-matrix-means">Rows, Columns, And What The Matrix Means</a></li>
+      </ul>
+    </li>
+    <li><a href="#formal-definition-of-search-lwe-and-decision-lwe">Formal Definition Of Search-LWE And Decision-LWE</a>
+      <ul>
+        <li><a href="#notation-and-parameter-convention">Notation And Parameter Convention</a></li>
+        <li><a href="#the-search-form">The Search Form</a></li>
+        <li><a href="#the-decision-form">The Decision Form</a></li>
+        <li><a href="#parameters-and-distributions">Parameters And Distributions</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-noise-makes-linear-algebra-hard">Why Noise Makes Linear Algebra Hard</a>
+      <ul>
+        <li><a href="#elimination-fails-gracefully-not-catastrophically">Elimination Fails Gracefully, Not Catastrophically</a></li>
+        <li><a href="#signal-versus-error-accumulation">Signal Versus Error Accumulation</a></li>
+        <li><a href="#why-this-is-not-just-numerical-analysis">Why This Is Not Just Numerical Analysis</a></li>
+      </ul>
+    </li>
+    <li><a href="#geometry-behind-the-reduction-story">Geometry Behind The Reduction Story</a>
+      <ul>
+        <li><a href="#bdd-intuition-reappears">BDD Intuition Reappears</a></li>
+        <li><a href="#worst-case-to-average-case-at-a-high-level">Worst-Case To Average-Case At A High Level</a></li>
+        <li><a href="#what-confidence-the-reduction-actually-buys">What Confidence The Reduction Actually Buys</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-this-assumption-is-the-start-of-modern-lattice-encryption">Why This Assumption Is The Start Of Modern Lattice Encryption</a>
+      <ul>
+        <li><a href="#from-hardness-assumption-to-encryption-template">From Hardness Assumption To Encryption Template</a></li>
+        <li><a href="#why-search-and-decision-both-matter">Why Search And Decision Both Matter</a></li>
+        <li><a href="#minimal-encryption-algebra">Minimal Encryption Algebra</a></li>
+        <li><a href="#what-the-next-article-will-add">What The Next Article Will Add</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Micciancio-Regev’s lecture-note framing<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, Regev’s 2005 reduction<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, and Peikert’s 2009 encryption perspective<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> are the three anchors for this bridge chapter.</p>
+<p>Part 0-3 already gave the lattice side: basis reduction, CVP/Babai intuition, SIS, and ISIS. Here we change only one ingredient, but it changes the entire cryptographic surface. The goal is to stabilize plain LWE first, not to preview structured lattices yet.</p>
+<h2 id="reader-state-after-part-0-3">Reader State After Part 0-3</h2>
+<p>This article assumes only the objects already used in Part 0-3.</p>
+<ul>
+<li>A lattice is still a discrete additive subgroup generated by a basis:</li>
+</ul>
+$$
+\mathcal{L}(B)=\{B\mathbf{x}:\mathbf{x}\in\mathbb{Z}^k\}.
+$$<ul>
+<li>CVP asks for a lattice point close to a target:</li>
+</ul>
+$$
+\operatorname{dist}(\mathcal{L},\mathbf{t})=\min_{\mathbf{x}\in\mathcal{L}}\|\mathbf{x}-\mathbf{t}\|.
+$$<ul>
+<li>SIS and ISIS ask for short integer witnesses satisfying exact modular equations:</li>
+</ul>
+$$
+A\mathbf{x}\equiv \mathbf{0}\pmod q,\qquad A\mathbf{x}\equiv \mathbf{u}\pmod q.
+$$<p>The new object in this chapter is not a new kind of lattice geometry. It is the same modular linear algebra with one added displacement term. Part 3 ended with exact short preimages; Part 4 starts by asking what happens when the public equation is almost exact but not exactly solvable.</p>
+<h2 id="from-exact-relations-to-noisy-relations">From Exact Relations To Noisy Relations</h2>
+<h3 id="what-part-0-3-already-gave-us">What Part 0-3 Already Gave Us</h3>
+<p>SIS and ISIS are still exact-relation problems. The instance is linear, the witness is short, and the algebraic target is crisp:</p>
+$$
+A \mathbf{x} \equiv \mathbf{0} \pmod q
+$$<p>or in the inhomogeneous case,</p>
+$$
+A \mathbf{x} \equiv \mathbf{u} \pmod q.
+$$<p>The verification interface is clear: exact short solutions are hard to find, but once found they are easy to check.</p>
+<h3 id="why-exact-solvability-is-too-clean">Why Exact Solvability Is Too Clean</h3>
+<p>Exact relations are too algebraically stable. If the relation is noiseless, linear algebra keeps its full power: combine equations, eliminate variables, and the system stays exact.</p>
+<p>That is good for mathematics, but bad for hiding. Public-key encryption wants a hardness source that looks random enough to outsiders while still being structured enough for the key owner to decode.</p>
+<h3 id="injecting-the-error-term">Injecting The Error Term</h3>
+<p>Micciancio and Regev’s notation<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> is the cleanest way to write the model. Stack $m$ samples into a matrix and a vector:</p>
+$$
+A \in \mathbb{Z}_q^{m \times n},\qquad \mathbf{s}\in\mathbb{Z}_q^n,\qquad \mathbf{e}\leftarrow \chi^m,\qquad \mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q.
+$$<p>This is the model change from SIS/ISIS to LWE. The preserved pieces are the linear algebra and the modular arithmetic; the changed piece is the right-hand side, which is no longer exact.</p>
+<ul>
+<li>In SIS, the target is homogeneous: $A\mathbf{x}\equiv \mathbf{0}\pmod q$.</li>
+<li>In ISIS, the target is affine but still exact: $A\mathbf{x}\equiv \mathbf{u}\pmod q$.</li>
+<li>In LWE, the affine target is blurred by an error vector:</li>
+</ul>
+$$
+A\mathbf{s}+\mathbf{e}\equiv \mathbf{b}\pmod q.
+$$<p>This is exactly the step where exact linear relations become noisy relations under an added error term.</p>
+<p>The useful mental replacement is:</p>
+$$
+\text{exact modular equality} \quad\leadsto\quad \text{modular equality plus a small unknown displacement}.
+$$<p>In Part 3, the witness $\mathbf{x}$ was the object one wanted to find. In LWE, the hidden object is usually the secret $\mathbf{s}$, while the small vector $\mathbf{e}$ is the obstruction that prevents direct linear solving.</p>
+<p>If we apply any row-combination matrix $M$ to the samples, exact relations stay exact, but noisy relations carry their error with them:</p>
+$$
+M\mathbf{b}=MA\mathbf{s}+M\mathbf{e}\pmod q.
+$$<p>That is the bridge from SIS/ISIS to LWE: exact relations become hidden linear relations, and elimination no longer kills the witness-cleanly because it also carries the noise term forward.</p>
+<h3 id="one-sample-sanity-check">One-Sample Sanity Check</h3>
+<p>Take the one-dimensional toy case only to see the obstruction. Let $q=17$, secret $s=5$, public coefficient $a=3$, and error $e=1$. The sample is</p>
+$$
+b=as+e=3\cdot 5+1\equiv 16\pmod {17}.
+$$<p>If the equation had no error, the observer would solve it by multiplying by $a^{-1}=6$:</p>
+$$
+6\cdot 15\equiv 5\pmod {17}.
+$$<p>With the noisy sample, the same operation gives</p>
+$$
+6\cdot 16\equiv 11\pmod {17},
+$$<p>which is not the secret. This example is deliberately small and not cryptographic. Its only purpose is to isolate the algebraic change: inverse operations that are valid for exact modular equations do not remove the error term. With many samples, the attacker gets more linear information, but also more coupled noise.</p>
+<p>The full LWE problem is the high-dimensional version of this obstruction. The secret is not hidden because modular arithmetic is unfamiliar; it is hidden because every equation has been shifted by a small integer that is unknown to the attacker.</p>
+<h3 id="rows-columns-and-what-the-matrix-means">Rows, Columns, And What The Matrix Means</h3>
+<p>Part 3 used matrices mainly as collections of modular equations. LWE uses the same convention. If the rows of $A$ are $\mathbf{a}_1,\ldots,\mathbf{a}_m$, then</p>
+$$
+A\mathbf{s}=
+\begin{pmatrix}
+\langle\mathbf{a}_1,\mathbf{s}\rangle \\
+\vdots \\
+\langle\mathbf{a}_m,\mathbf{s}\rangle
+\end{pmatrix}.
+$$<p>The public vector $\mathbf{b}$ is obtained by adding one small error to each row equation:</p>
+$$
+b_i=\langle\mathbf{a}_i,\mathbf{s}\rangle+e_i\pmod q.
+$$<p>So an LWE instance can be read as $m$ approximate modular equations in the same hidden vector $\mathbf{s}$.</p>
+<h2 id="formal-definition-of-search-lwe-and-decision-lwe">Formal Definition Of Search-LWE And Decision-LWE</h2>
+<h3 id="notation-and-parameter-convention">Notation And Parameter Convention</h3>
+<p>For this note, $q$ is a modulus, usually prime or at least chosen so that the required modular arithmetic is well behaved. Vectors over $\mathbb{Z}_q$ are written in bold. When a residue is used inside a norm or an error bound, I implicitly take its centered representative in $(-q/2,q/2]$.</p>
+<p>The main parameters are:</p>
+<ul>
+<li>$n$: the LWE dimension, i.e. the length of the hidden secret $\mathbf{s}$;</li>
+<li>$m$: the number of samples available to the adversary;</li>
+<li>$q$: the modulus;</li>
+<li>$\chi$: an error distribution over small integers, normally concentrated near zero;</li>
+<li>$\alpha q$: the heuristic noise scale when one writes $\chi$ as a discretized Gaussian-like distribution of width about $\alpha q$.</li>
+</ul>
+<p>For a fixed secret $\mathbf{s}\in\mathbb{Z}<em>q^n$, write $A</em>{\mathbf{s},\chi}$ for the distribution of samples</p>
+$$
+(\mathbf{a},b)=(\mathbf{a},\langle \mathbf{a},\mathbf{s}\rangle+e)\in \mathbb{Z}_q^n\times\mathbb{Z}_q,\qquad \mathbf{a}\leftarrow\mathbb{Z}_q^n,\ e\leftarrow\chi.
+$$<p>This notation separates the public sampling process from the hidden parameter. The matrix form $(A,\mathbf{b})$ is just $m$ independent draws stacked into rows.</p>
+<h3 id="the-search-form">The Search Form</h3>
+<p>Following Micciancio-Regev’s sample notation<sup id="fnref2:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, the search problem is: given $(A,\mathbf{b})$ with $\mathbf{b}=A\mathbf{s}+\mathbf{e}\pmod q$, recover $\mathbf{s}$. Equivalently, given many samples from $A_{\mathbf{s},\chi}$, find the hidden parameter $\mathbf{s}$. Written one sample at a time,</p>
+$$
+(\mathbf{a}_i, b_i) \in \mathbb{Z}_q^n \times \mathbb{Z}_q,\qquad
+b_i = \langle \mathbf{a}_i, \mathbf{s}\rangle + e_i \pmod q,\quad e_i \leftarrow \chi.
+$$<p>The search problem is to recover $\mathbf{s}$ from many such samples, i.e. to invert the hidden affine map behind the noise. In reductions, this is the algebraic hardness core; in the protocol, it is usually hidden behind the indistinguishability claim the attacker actually sees.</p>
+<p>If $\mathbf{e}=\mathbf{0}$ and a square submatrix of $A$ is invertible modulo $q$, this would collapse to ordinary modular linear algebra:</p>
+$$
+\mathbf{s}=A^{-1}\mathbf{b}\pmod q.
+$$<p>With errors, the equation is really</p>
+$$
+A\mathbf{s}=\mathbf{b}-\mathbf{e}\pmod q,
+$$<p>but $\mathbf{e}$ is unknown. The attacker is therefore not solving one clean system; it is trying to infer both the hidden linear parameter and the small displacement attached to every row.</p>
+<h3 id="the-decision-form">The Decision Form</h3>
+<p>In decision-LWE, the task is to distinguish samples of the above form from uniform samples in $\mathbb{Z}_q^n \times \mathbb{Z}_q$.</p>
+<p>Formally, for a distinguisher $\mathcal{D}$, the advantage is measured by</p>
+$$
+\left|\Pr_{\mathbf{s},A,\mathbf{e}}[\mathcal{D}(A,A\mathbf{s}+\mathbf{e})=1]-\Pr_{A,\mathbf{u}}[\mathcal{D}(A,\mathbf{u})=1]\right|.
+$$<p>Here $\mathbf{u}\leftarrow\mathbb{Z}_q^m$ is uniform and independent of $A$. This is the cryptographic face of LWE. Search-LWE says the secret is hard to recover; decision-LWE says the ciphertext-like samples are hard to tell from random. Peikert’s 2009 public-key construction uses exactly this distinction<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>: the attacker does not get an oracle that says “recover the secret”; it gets a sample and must decide whether the sample is structured or uniform.</p>
+<h3 id="parameters-and-distributions">Parameters And Distributions</h3>
+<p>The distributional model depends on three distributions:</p>
+<ul>
+<li>$\mathbf{a}_i \leftarrow \mathbb{Z}_q^n$ uniformly</li>
+<li>$\mathbf{s} \leftarrow \mathbb{Z}_q^n$ or a structured secret distribution</li>
+<li>$e_i \leftarrow \chi$ concentrated near zero</li>
+</ul>
+<p>The clean relation is now hidden under a small perturbation. Two constraints pull in opposite directions. If $\chi$ is too narrow, the samples approach a solvable noisy linear system. If $\chi$ is too wide, decryption in later constructions cannot reliably distinguish the encoded message from accumulated error. Micciancio and Regev’s survey framing<sup id="fnref3:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> is important here because it keeps the algebraic object and the cryptographic claim separate: the sample matrix is elementary, but the assumption about its distribution is the security content.</p>
+<h2 id="why-noise-makes-linear-algebra-hard">Why Noise Makes Linear Algebra Hard</h2>
+<h3 id="elimination-fails-gracefully-not-catastrophically">Elimination Fails Gracefully, Not Catastrophically</h3>
+<p>Suppose we have two samples</p>
+$$
+b_1 = \langle \mathbf{a}_1,\mathbf{s}\rangle + e_1,\qquad
+b_2 = \langle \mathbf{a}_2,\mathbf{s}\rangle + e_2 \pmod q.
+$$<p>If the system were exact, we could eliminate coordinates by taking linear combinations. With noise, the same operation drags the error along:</p>
+$$
+\begin{aligned}
+\alpha b_1 + \beta b_2
+&=
+\langle \alpha \mathbf{a}_1 + \beta \mathbf{a}_2,\mathbf{s}\rangle \\
+&\quad +(\alpha e_1+\beta e_2)\pmod q.
+\end{aligned}
+$$<p>So the signal combines linearly, but the error does too. Repeated elimination does not erase noise; it accumulates it.</p>
+<h3 id="signal-versus-error-accumulation">Signal Versus Error Accumulation</h3>
+<p>If one tries to recover $\mathbf{s}$ by solving a large linear system, the small errors become the obstruction. The exact algebraic dependency is still there, but it is buried under many correlated perturbations.</p>
+<p>This is the key difference from SIS/ISIS:</p>
+$$
+\text{exact relation} \Rightarrow \text{kernel / preimage search}
+$$<p>while</p>
+$$
+\text{noisy relation} \Rightarrow \text{hidden point estimation under perturbation}.
+$$<h3 id="why-this-is-not-just-numerical-analysis">Why This Is Not Just Numerical Analysis</h3>
+<p>This is not floating-point instability. The arithmetic is exact modulo $q$. The hardness comes from a discrete decoding problem with structured noise, not from numerical approximation error.</p>
+<h2 id="geometry-behind-the-reduction-story">Geometry Behind The Reduction Story</h2>
+<h3 id="bdd-intuition-reappears">BDD Intuition Reappears</h3>
+<p>LWE can be viewed as a noisy closest-vector instance. Lift the modular relation to integer representatives and consider the standard q-ary lattice<sup id="fnref4:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+$$
+\Lambda=\{ \tilde A \mathbf{x} + q\mathbf{z} : \mathbf{x}\in \mathbb{Z}^n,\ \mathbf{z}\in \mathbb{Z}^m \}.
+$$<p>Then the noiseless part $\tilde A \mathbf{s}$ is a lattice point in that lattice, and the sample satisfies</p>
+$$
+\tilde{\mathbf b}=\tilde A\mathbf{s}+\mathbf e-q\mathbf z
+$$<p>for some integer vector $\mathbf z$. If $\mathbf e$ is short, then $\tilde{\mathbf b}$ lies within the decoding radius of the lattice point $\tilde A\mathbf s$. This is exactly how the noisy equation picture connects back to BDD-style geometry: the target is a nearby exact lattice point plus a short offset. The public matrix determines the signal geometry, and the attacker must recover that nearby exact point from the displaced target. The sample is not arbitrary noise in Euclidean space; it is a structured perturbation of the exact relation encoded by the secret.</p>
+<p>The distance relation is the part worth keeping explicit:</p>
+$$
+\operatorname{dist}(\tilde{\mathbf b},\Lambda)\le \|\mathbf e\|.
+$$<p>The decoding problem is not to solve $A\mathbf{s}=\mathbf{b}$ exactly; it is to identify the lattice point $\tilde A\mathbf{s}-q\mathbf z$ hidden within an error ball. This is why the LWE picture naturally inherits the BDD language from the earlier lattice chapters.</p>
+<h3 id="worst-case-to-average-case-at-a-high-level">Worst-Case To Average-Case At A High Level</h3>
+<p>Regev’s theorem is the conceptual break<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>: average random-looking LWE samples are at least as hard as canonical worst-case approximate lattice problems such as SIVP and GapSVP, under a worst-case-to-average-case reduction. Micciancio-Regev’s lecture-note framing<sup id="fnref5:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> is useful here because it makes clear what the theorem really transfers: hardness of a broad lattice family, not a proof that one concrete parameter set is immune to all attacks.</p>
+<p>So the reduction chain is:</p>
+$$
+\text{worst-case lattice hardness} \Longrightarrow \text{average-case LWE hardness}.
+$$<h3 id="what-confidence-the-reduction-actually-buys">What Confidence The Reduction Actually Buys</h3>
+<p>The reduction does not prove every parameter set secure, and it does not rule out parameter-specific or implementation-specific attacks. What it does buy is structural confidence: if you had a good average-case solver for LWE, the reduction would turn it into a solver for hard worst-case lattice problems on arbitrary lattices, up to polynomial losses and the reduction’s own model assumptions<sup id="fnref2:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>That is much stronger than “this instance family seems hard in practice,” but it is still a theorem about hardness transfer, not a certificate of concrete security.</p>
+<h2 id="why-this-assumption-is-the-start-of-modern-lattice-encryption">Why This Assumption Is The Start Of Modern Lattice Encryption</h2>
+<h3 id="from-hardness-assumption-to-encryption-template">From Hardness Assumption To Encryption Template</h3>
+<p>Once noisy relations are hard to distinguish or solve, encryption becomes natural:</p>
+<ul>
+<li>encode a message in the relation</li>
+<li>add a secret-dependent mask</li>
+<li>hide the message behind small noise</li>
+<li>decrypt by using the secret to remove the structured part before the noise grows</li>
+</ul>
+<p>The geometry is simple: the ciphertext is a perturbed object, and the secret is the trapdoor that identifies the right nearby point.</p>
+<h3 id="why-search-and-decision-both-matter">Why Search And Decision Both Matter</h3>
+<p>Search-LWE explains the secret-recovery hardness: if you already know the sample matrix, the secret is still buried behind the noise. Decision-LWE is the public-key security interface: the adversary sees a matrix and a vector, and the claim is that this pair is computationally indistinguishable from uniform.</p>
+<p>That split matters. A public-key encryption proof needs indistinguishability, not just hidden secret recovery, because ciphertext security is about what the attacker can tell from the outside. Search-LWE is the underlying algebraic problem; decision-LWE is the cryptographic claim that Peikert’s 2009 construction is actually built to use<sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<h3 id="minimal-encryption-algebra">Minimal Encryption Algebra</h3>
+<p>A stripped-down dual-Regev / Peikert-style encryption skeleton shows why the decision form is the right interface. Put the public samples as columns:</p>
+$$
+A\in\mathbb{Z}_q^{n\times m},\qquad \mathbf{t}=A^T\mathbf{s}+\mathbf{e}\in\mathbb{Z}_q^m.
+$$<p>The public key is $(A,\mathbf{t})$. To encrypt one bit $\mu\in{0,1}$, choose a sparse or short selector $\mathbf{r}\in{0,1}^m$ and publish</p>
+$$
+\mathbf{c}_1=A\mathbf{r},\qquad c_2=\langle \mathbf{t},\mathbf{r}\rangle+\left\lfloor q/2\right\rfloor\mu \pmod q.
+$$<p>The secret key $\mathbf{s}$ removes the structured part:</p>
+$$
+\begin{aligned}
+c_2-\langle \mathbf{s},\mathbf{c}_1\rangle
+&=
+\langle A^T\mathbf{s}+\mathbf{e},\mathbf{r}\rangle-\langle \mathbf{s},A\mathbf{r}\rangle+\left\lfloor q/2\right\rfloor\mu \\
+&=
+\langle \mathbf{e},\mathbf{r}\rangle+\left\lfloor q/2\right\rfloor\mu \pmod q.
+\end{aligned}
+$$<p>Correctness is the small-noise condition: if $|\langle \mathbf{e},\mathbf{r}\rangle|$ stays well below $q/4$ in centered representatives, the receiver decodes whether the result is near $0$ or near $q/2$. Security is the decision-LWE condition: the public vector $\mathbf{t}$ should look uniform to an adversary without $\mathbf{s}$, so the mask induced by $\mathbf{r}$ hides the message.</p>
+<h3 id="what-the-next-article-will-add">What The Next Article Will Add</h3>
+<p>Plain LWE is enough to stabilize the modern assumption. It is not yet enough to explain why practical schemes move to quotient rings, module structure, and fast polynomial arithmetic.</p>
+<p>That is the boundary with Part 5. Nothing in Ring-LWE, Module-LWE, NTRU, or Kyber replaces the noisy-relation model established here. Those constructions inherit it, then add algebraic structure to compress representation and accelerate arithmetic.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>SIS and ISIS live on exact relations. LWE keeps the linear structure but injects a noise term that prevents clean elimination, turns decoding into BDD-flavored geometry, and admits worst-case-to-average-case reductions. That combination is why LWE becomes the foundation for modern lattice encryption.</p>
+<p>This note stops here: the plain LWE baseline is now stable enough for the structured variants in Part 5.</p>
+<h2 id="references">References</h2>
+<p>Suggested reading order:</p>
+<ol>
+<li>Micciancio-Regev for the notation, q-ary lattice viewpoint, and BDD connection.</li>
+<li>Regev 2005 for the original worst-case-to-average-case theorem and the quantum reduction context.</li>
+<li>Peikert 2009 for the encryption-facing view of decision-LWE and public-key construction syntax.</li>
+</ol>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Daniele Micciancio and Oded Regev, <em>Lattice-based Cryptography</em>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Oded Regev (2005), <em>On lattices, learning with errors, random linear codes, and cryptography</em>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Chris Peikert (2009), <em>Public-key cryptosystems from the worst-case shortest vector problem: extended abstract</em>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-05-30&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/207eeaf1ae4e436ac4099af7ce1510ca2a8faf81" target="_blank" title="commit by Halois(maocred@gmail.com) 207eeaf1ae4e436ac4099af7ce1510ca2a8faf81: BeforeSearch">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>207eeaf</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/lattice-part-4/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/lattice-part-4/" data-title="Lattice Part 4: From SIS/ISIS to LWE"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/lattice-part-4/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/lattice-part-4/" data-title="Lattice Part 4: From SIS/ISIS to LWE"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/lattice-part-4/" data-title="Lattice Part 4: From SIS/ISIS to LWE"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/lattice-part-4/" data-title="Lattice Part 4: From SIS/ISIS to LWE"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/waytocoppersmith0x01/" class="prev" rel="prev" title="WayToCoppersmith0x01"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>WayToCoppersmith0x01</a>
+            <a href="/lattice-part-5/" class="next" rel="next" title="Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber">Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

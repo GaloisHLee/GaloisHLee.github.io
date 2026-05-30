@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>WayToFFT Part 2 - As it was</title><meta name="Description" content="# Way To NTT...... &gt; Note The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE)."><meta property="og:title" content="WayToFFT Part 2">
+<meta property="og:description" content="# Way To NTT...... &gt; Note The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/waytofft-part-2/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WayToFFT Part 2">
+<meta name="twitter:description" content="# Way To NTT...... &gt; Note The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE)."><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/waytofft-part-2/" /><link rel="prev" href="https://galoishlee.github.io/vectorspace-matters/" /><link rel="next" href="https://galoishlee.github.io/waytontt-part-0/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "WayToFFT Part 2",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/waytofft-part-2\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","wordcount":  1414 ,
+        "url": "https:\/\/galoishlee.github.io\/waytofft-part-2\/","datePublished": "2025-08-08T15:19:24+08:00","dateModified": "2025-08-22T10:35:05+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/waytofft-part-2/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/waytofft-part-2/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">WayToFFT Part 2</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-08-08">2025-08-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1414 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#review">Review</a>
+      <ul>
+        <li><a href="#notation">Notation</a></li>
+        <li><a href="#review---linear-convolution">Review - Linear Convolution</a>
+          <ul>
+            <li><a href="#converting-coefficients-multiplication-into-vector-multiplication">Converting Coefficients Multiplication into Vector Multiplication.</a></li>
+          </ul>
+        </li>
+        <li><a href="#review---cyclic-convolution">Review - Cyclic Convolution</a></li>
+        <li><a href="#review---negacyclic-convolution">Review - Negacyclic Convolution</a></li>
+        <li><a href="#review---ntt-based-convolution">Review - NTT-Based Convolution.</a></li>
+        <li><a href="#review----fast-ntt">Review -  Fast NTT</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-ntt-based-convolutions">3. NTT-Based Convolutions</a>
+      <ul>
+        <li><a href="#31-primitive-n-th-root-of-unity">3.1 Primitive <em>n</em>-th Root of Unity</a></li>
+        <li><a href="#32-ntt-for-positive-wrapped-cyclic-convolution">3.2 NTT for Positive-Wrapped (Cyclic) Convolution</a>
+          <ul>
+            <li><a href="#ntt-convolution-theorem">NTT Convolution Theorem</a></li>
+          </ul>
+        </li>
+        <li><a href="#33-ntt-for-negative-wrapped-negacyclic-convolution">3.3 NTT for Negative-Wrapped (Negacyclic) Convolution</a>
+          <ul>
+            <li><a href="#negacyclic-convolution-theorem">Negacyclic Convolution Theorem</a></li>
+          </ul>
+        </li>
+        <li><a href="#34-choosing-the-modulus-q">3.4 Choosing the Modulus $q$</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-fast-ntt-fft-style-acceleration">4. Fast NTT: FFT-Style Acceleration</a>
+      <ul>
+        <li><a href="#41-cooleytukey-ct-butterfly-for-ntt">4.1 Cooley–Tukey (CT) Butterfly for NTT</a></li>
+        <li><a href="#42-gentlemansande-gs-butterfly-for-intt">4.2 Gentleman–Sande (GS) Butterfly for INTT</a></li>
+        <li><a href="#43-polynomial-multiplication-via-ct--gs">4.3 Polynomial Multiplication via CT + GS</a></li>
+        <li><a href="#44-normal-order-no-and-bit-reversed-order-bo">4.4 Normal Order (NO) and Bit-Reversed Order (BO)</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">summary</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="way-to-ntt">Way To NTT&hellip;&hellip;</h1>
+<blockquote>
+<p>Note</p>
+</blockquote>
+<p>The Number Theoretic Transform (NTT) is a powerful mathematical tool that has become increasingly important in developing Post Quantum Cryptography (PQC) and Homomorphic Encryption (HE).</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2025/08/08/SgVeCWoRObTpEJr.png"
+        data-srcset="https://s2.loli.net/2025/08/08/SgVeCWoRObTpEJr.png, https://s2.loli.net/2025/08/08/SgVeCWoRObTpEJr.png 1.5x, https://s2.loli.net/2025/08/08/SgVeCWoRObTpEJr.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2025/08/08/SgVeCWoRObTpEJr.png"
+        title="image-20250808154030770" /></p>
+<h2 id="review">Review</h2>
+<p>Maybe those are all you need <a href="https://halois.top/waytofft-part-0/" target="_blank" rel="noopener noreffer ">link1</a>,<a href="https://halois.top/waytofft-part-1/" target="_blank" rel="noopener noreffer ">link2</a>.</p>
+<h3 id="notation">Notation</h3>
+<blockquote>
+<ul>
+<li>Textbook-style Convolution</li>
+<li>linear convolution</li>
+<li>cyclic convolution</li>
+<li>Negacyclic Convolution</li>
+</ul>
+</blockquote>
+<h3 id="review---linear-convolution">Review - Linear Convolution</h3>
+<h4 id="converting-coefficients-multiplication-into-vector-multiplication">Converting Coefficients Multiplication into Vector Multiplication.</h4>
+<p><strong>Polynomial multiplication:</strong></p>
+<blockquote>
+<p>Having $G(x)$ and $H(x)$ as polynomials of degree $n-1$ in the ring $\mathbb{Z_q} </p>
+$$x$$<p>$ where q $\in \mathbb{Z}$ and $x$ is the polynomial variable. Generally speaking, a <strong>Polynomial Multiplication</strong> of $G(x)$ and $H(x)$ is defined as:
+</p>
+$$Y(x) = G(x)\cdot H(x) = \sum_{k=0}^{2(n-1)}y_kx^k$$<p>
+where $y_k = \sum_{i=0}^{k} g_i h_{k-i} \mod q$, $g$ and $h$ are the polynomial coefficients of $G(x)$ and $H(x)$ respectively.</p>
+</blockquote>
+<p><strong>About $y_k = \sum_{i=0}^{k} g_i h_{k-i} \mod q$</strong></p>
+<p>Simply This is merely <strong>a symbolic expression</strong> used to describe the final result.</p>
+<p>Think about what happens when you manually multiply two polynomials, $G(x)$ and $H(x)$. How do you get the final term for $x^k$?</p>
+<p>You get it by finding every pair of terms—one from $G(x)$ and one from $H(x)$—whose exponents add up to exactly $k$.</p>
+<p>Specifically, to get an $x^k$ term, you must multiply a term like $g_ix^i$ from G(x) with a term like $h_jx^j$ from $H(x)$ where $i+j=k$.</p>
+<p>The formula is simply a systematic way of finding and adding up all these pairs.
+</p>
+$$
+y_k = \sum_{i=0}^{k} g_i h_{k-i}
+$$<p>
+This formula iterates through all the possibilities:</p>
+<ul>
+<li><strong>When $i=0$</strong>, it pairs the constant term from $G(x)$ (coefficient $g_{0}$) with the $x^k$ term from $H(x)$ (coefficient $h^k$). This gives you the product $g_{0}h^{k}$.</li>
+<li><strong>When $i=1$</strong>, it pairs the $x^1$ term from $G(x)$ (coefficient $g_{1}$) with the $x^{k−1}$ term from $H(x)$ (coefficient $h^{k−1}$). This gives you $g_{1}h^{k−1}$.</li>
+<li>&hellip;and so on.</li>
+<li>This continues until $i=k$, pairing the $x^{k}$ term from $G(x)$ (coefficient $g_{k}$) with the constant term from $H(x)$ (coefficient $h_{0}$), which gives you $g_{k}h^{0}$.</li>
+</ul>
+<p>The final coefficient, $y_k$, is just the sum of all these products. The formula is the compact, formal way of writing this exact process, which is also known as a <strong>discrete convolution</strong>.</p>
+<p>So, just import some notation about coefficient vector. We can convert <strong>Coefficients Multiplication into Vector Multiplication.</strong></p>
+$$
+y[k]= \boldsymbol{g} \star \boldsymbol{h}[k] = \sum_{i=0}^{k}g[i]h[k-i]
+$$<p>Of course. The formula you&rsquo;ve shown is a <strong>discrete linear convolution</strong>. While it&rsquo;s not a simple one-to-one vector multiplication, it can be understood as a form of vector multiplication in three main ways.</p>
+<hr>
+<p><strong>Understood as a Series of Dot Products</strong></p>
+<p>We can think of the calculation of <strong>each</strong> output element <code>y[k]</code> as a single vector <strong>dot product</strong>.</p>
+<p>The formula is: $y[k] = \sum_{i=0}^{k} g[i]h[k-i] = g[0]h[k] + g[1]h[k-1] + \dots + g[k]h[0]$</p>
+<p>To calculate <code>y[k]</code>, we need two vectors:</p>
+<ol>
+<li>The first <code>k+1</code> elements of vector <code>g</code>: <code>[g[0], g[1], ..., g[k]]</code></li>
+<li>The first <code>k+1</code> elements of vector <code>h</code>, but <strong>reversed</strong>: <code>[h[k], h[k-1], ..., h[0]]</code></li>
+</ol>
+<p>Then, <code>y[k]</code> is simply the dot product of these two vectors.</p>
+<p><strong>Intuition:</strong>
+This is known as the &ldquo;Flip and Slide&rdquo; method. Imagine flipping the vector <code>h</code> and then sliding it across the vector <code>g</code> one step at a time. At each step, the dot product of the overlapping parts is calculated, which gives one element of the resulting vector <code>y</code>.</p>
+<p><strong>Understood as Matrix-Vector Multiplication</strong></p>
+<p>This is the most direct algebraic representation. We can expand one of the vectors (e.g., <code>g</code>) into a special matrix called a <strong>Toeplitz Matrix</strong> or <strong>Convolution Matrix</strong>. The entire convolution operation then becomes a single <strong>matrix-vector multiplication</strong>.</p>
+<p>Let&rsquo;s assume <code>g = [g₀, g₁, g₂]</code> and <code>h = [h₀, h₁, h₂]</code>.
+The result of the linear convolution, <code>y</code>, will have a length of (3+3-1) = 5. We can construct the following matrix-vector multiplication:</p>
+$$
+\begin{pmatrix}
+y_0 \\\\ y_1 \\\\ y_2 \\\\ y_3 \\\\ y_4 
+\end{pmatrix} =
+\begin{pmatrix}
+g_0 & 0 & 0 \\\\
+g_1 & g_0 & 0 \\\\
+g_2 & g_1 & g_0 \\\\
+0 & g_2 & g_1 \\\\
+0 & 0 & g_2
+\end{pmatrix}
+\begin{pmatrix}
+h_0 \\\\
+h_1 \\\\
+h_2
+\end{pmatrix}
+$$<p>If you work out the matrix multiplication, you will find that the results match the convolution definition exactly:</p>
+<ul>
+<li>$y_0 = g_0 h_0$</li>
+<li>$y_1 = g_1 h_0 + g_0 h_1$</li>
+<li>$y_2 = g_2 h_0 + g_1 h_1 + g_0 h_2$
+&hellip;and so on.</li>
+</ul>
+<p>This method packages the entire convolution process into a single linear transformation, which is the clearest &ldquo;vector multiplication&rdquo; representation from a linear algebra perspective.</p>
+<h3 id="review---cyclic-convolution">Review - Cyclic Convolution</h3>
+<p>Positive Wrapped Convolution as $PWC(x)$</p>
+<blockquote>
+<p>Suppose that $G(x)$ and $H(x)$ are polynomials of degree $n-1$ in the quotient ring $\mathbb{Z_{q}}[x]/(x^{n}-1)$ where $q \in \mathbb{Z}$.
+A <strong>Cyclic Convolution or positive wrapped convolution is defined as:</strong>
+</p>
+$$PWC(x) = \sum_{k=0}^{n-1} c_{k}x^{k}$$<p>
+where $c_{k}= \sum_{i=0}^{k}g_{i}h_{k-i} + \sum_{i=k+1}^{n-1} g_{i}h_{k+n-i}$. If $Y(x)$ is the result of their linear convolution in the ring $\mathbb{Z}_{q}[x]$, it also can be defined as:
+</p>
+$$PWC(x) = Y(x) \mod (x^{n} - 1)$$</blockquote>
+<h3 id="review---negacyclic-convolution">Review - Negacyclic Convolution</h3>
+<blockquote>
+<p><strong>Definition 2.3.</strong> Suppose that $G(x)$ and $H(x)$ are polynomials of degree $n-1$ in the quotient ring $\mathbb{Z}[x]/(x^{n}+1)$ where $q \in \mathbb{Z}$. A <strong>negacyclic convolution</strong> or <strong>negative wrapped convolution</strong>, $\operatorname{NWC}(x)$ is defined as:<br>
+</p>
+$$
+ \operatorname{NWC}(x)=\sum_{k=0}^{n-1}c_{k}x^{k} $$<p>
+where $c_{k}=\sum_{i=0}^{k}g_{i}h_{k-i}-\sum_{i=k+1}^{n-1}g_{i}h_{k+n-i} \mod q$. If $Y(x)$ is the result of their linear convolution in the ring $\mathbb{Z}[x]$, it also can be defined as
+</p>
+$$ \operatorname{NWC}(x)=Y(x) \bmod (x^{n}+1)$$</blockquote>
+<p><strong>Key Observation</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2025/08/09/pfsojKguXwvbd57.png"
+        data-srcset="https://s2.loli.net/2025/08/09/pfsojKguXwvbd57.png, https://s2.loli.net/2025/08/09/pfsojKguXwvbd57.png 1.5x, https://s2.loli.net/2025/08/09/pfsojKguXwvbd57.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2025/08/09/pfsojKguXwvbd57.png"
+        title="image.png" /></p>
+<p>The above is a brief description of polynomial multiplication.</p>
+<h3 id="review---ntt-based-convolution">Review - NTT-Based Convolution.</h3>
+<p>Number Theoretic Transform Based on $\omega$</p>
+<h3 id="review----fast-ntt">Review -  Fast NTT</h3>
+<h2 id="3-ntt-based-convolutions">3. NTT-Based Convolutions</h2>
+<h3 id="31-primitive-n-th-root-of-unity">3.1 Primitive <em>n</em>-th Root of Unity</h3>
+<p>Let $\mathbb{Z}_q$ be the integer ring modulo $q$.<br>
+An element $\omega \in \mathbb{Z}_q$ is called a <strong>primitive $n$-th root of unity</strong> if:</p>
+$$
+\omega^n \equiv 1 \pmod{q}
+$$<p>
+and
+</p>
+$$
+\omega^k \not\equiv 1 \pmod{q} \quad \text{for all } k < n.
+$$<blockquote>
+<p><strong>Example</strong> (Kyber-style parameters, but small $n$ for illustration):<br>
+In $\mathbb{Z}_{7681}$, for $n = 4$, the 4-th roots of unity are ${3383, 4298, 7680}$.<br>
+Only $3383$ and $4298$ are primitive.</p>
+</blockquote>
+<p>These $\omega$ values are the &ldquo;twiddle factors&rdquo; for NTT.</p>
+<hr>
+<h3 id="32-ntt-for-positive-wrapped-cyclic-convolution">3.2 NTT for Positive-Wrapped (Cyclic) Convolution</h3>
+<p>The <strong>Number Theoretic Transform</strong> of $a = [a_0, \dots, a_{n-1}]$ is:</p>
+$$
+\hat{a_j} = \sum_{i=0}^{n-1} \omega^{ij} a_i \pmod{q}, \quad j = 0,\dots, n-1
+$$<blockquote>
+<p>This is <strong>DFT</strong> in the modular world.</p>
+</blockquote>
+<p><strong>Inverse NTT (INTT)</strong> replaces $\omega$ with $\omega^{-1}$ and multiplies by $n^{-1} \pmod{q}$.</p>
+<hr>
+<h4 id="ntt-convolution-theorem">NTT Convolution Theorem</h4>
+<p>For $a, b \in \mathbb{Z}_q^n$:</p>
+$$
+c = \operatorname{INTT}(\operatorname{NTT}(a) \circ \operatorname{NTT}(b))
+$$<p>where $\circ` = elementwise multiplication.</p>
+<blockquote>
+<p><strong>Example:</strong><br>
+Using $n=4$, $q=7681$, $\omega=3383$,<br>
+$g = [1, 2, 3, 4]$, $h = [5, 6, 7, 8]$<br>
+⇒ NTT(g) = [10, 913, 7679, 6764],<br>
+NTT(h) = [26, 913, 7679, 6764]<br>
+⇒ elementwise multiply, INTT → cyclic convolution [66, 68, 66, 60].</p>
+</blockquote>
+<hr>
+<h3 id="33-ntt-for-negative-wrapped-negacyclic-convolution">3.3 NTT for Negative-Wrapped (Negacyclic) Convolution</h3>
+<p>For rings $\mathbb{Z}_q[x]/(x^n + 1)$, we need the <strong>primitive $2n$-th root of unity</strong> $\psi$:</p>
+$$
+\psi^2 \equiv \omega \pmod{q}, \quad \psi^n \equiv -1 \pmod{q}
+$$<p>The <strong>negative-wrapped NTT</strong> is:</p>
+$$
+\hat{a_j} = \sum_{i=0}^{n-1} \psi^{2ij + i} a_i \pmod{q}
+$$<p>Inverse uses $\psi^{-1}$ and $n^{-1}$.</p>
+<hr>
+<h4 id="negacyclic-convolution-theorem">Negacyclic Convolution Theorem</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2025/08/10/twdIehfUgCRBcQa.png"
+        data-srcset="https://s2.loli.net/2025/08/10/twdIehfUgCRBcQa.png, https://s2.loli.net/2025/08/10/twdIehfUgCRBcQa.png 1.5x, https://s2.loli.net/2025/08/10/twdIehfUgCRBcQa.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2025/08/10/twdIehfUgCRBcQa.png"
+        title="image-20250810204420794" /></p>
+<blockquote>
+<p><strong>Example:</strong><br>
+$n=4$, $q=7681$, $\omega=3383$, choose $\psi=1925$.<br>
+$\text{NTT}<em>\psi(g) = [1467, 2807, 3471, 7621]$<br>
+$\text{NTT}</em>\psi(h) = [2489, 7489, 6478, 6607]$<br>
+Multiply elementwise, apply $\text{INTT}_\psi$ → [−56, −36, 2, 60].</p>
+</blockquote>
+<hr>
+<h3 id="34-choosing-the-modulus-q">3.4 Choosing the Modulus $q$</h3>
+<p>For <strong>PWC-NTT</strong> (cyclic convolution): $n \mid (q-1)$.<br>
+For <strong>NWC-NTT</strong> (negacyclic convolution): $2n \mid (q-1)$.</p>
+<blockquote>
+<p><strong>Example PQC parameters:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>Scheme</th>
+          <th>n</th>
+          <th>q</th>
+          <th>PWC?</th>
+          <th>NWC?</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Kyber V3</td>
+          <td>256</td>
+          <td>3329</td>
+          <td>✔</td>
+          <td>✘</td>
+      </tr>
+      <tr>
+          <td>Dilithium</td>
+          <td>256</td>
+          <td>8380417</td>
+          <td>✔</td>
+          <td>✔</td>
+      </tr>
+  </tbody>
+</table>
+</blockquote>
+<hr>
+<h2 id="4-fast-ntt-fft-style-acceleration">4. Fast NTT: FFT-Style Acceleration</h2>
+<p>Direct NTT = $O(n^2)$ complexity.<br>
+FFT-style <strong>divide and conquer</strong> gives $O(n\log n)$.</p>
+<h3 id="41-cooleytukey-ct-butterfly-for-ntt">4.1 Cooley–Tukey (CT) Butterfly for NTT</h3>
+<p>Splits even/odd indices:</p>
+$$
+\hat{a_j} = A_j + \psi^{2j+1} B_j
+$$<p>
+</p>
+$$
+\hat{a_{j+n/2}} = A_j - \psi^{2j+1} B_j
+$$<blockquote>
+<p>Requires inputs in <strong>Normal Order (NO)</strong>, outputs in <strong>Bit-Reversed Order (BO)</strong>.</p>
+</blockquote>
+<hr>
+<h3 id="42-gentlemansande-gs-butterfly-for-intt">4.2 Gentleman–Sande (GS) Butterfly for INTT</h3>
+<p>Splits top/bottom halves:</p>
+$$
+a_{2i} = (A_i + B_i)\psi^{-2i}
+$$<p>
+</p>
+$$
+a_{2i+1} = (A_i - B_i)\psi^{-2i}
+$$<blockquote>
+<p>Takes BO input, outputs NO.</p>
+</blockquote>
+<hr>
+<h3 id="43-polynomial-multiplication-via-ct--gs">4.3 Polynomial Multiplication via CT + GS</h3>
+<ol>
+<li>CT butterfly for NTT(a), NTT(b)</li>
+<li>Elementwise multiply results</li>
+<li>GS butterfly for INTT</li>
+</ol>
+<p>This reduces modular polynomial multiplication from $O(n^2)$ → $O(n\log n)$.</p>
+<hr>
+<h3 id="44-normal-order-no-and-bit-reversed-order-bo">4.4 Normal Order (NO) and Bit-Reversed Order (BO)</h3>
+<ul>
+<li><strong>NO</strong>: Standard indexing [0,1,2,&hellip;,n-1]</li>
+<li><strong>BO</strong>: Reverse the binary representation of the index.</li>
+</ul>
+<blockquote>
+<p>Example $n=4$:<br>
+NO = [0, 1, 2, 3]<br>
+BO = [0, 2, 1, 3]</p>
+</blockquote>
+<p>CT: NO → BO<br>
+GS: BO → NO</p>
+<hr>
+<ul>
+<li>NTT ≈ modular DFT for polynomials</li>
+<li>$\omega$ → primitive $n$-th root of unity (cyclic conv)</li>
+<li>$\psi$ → primitive $2n$-th root (negacyclic conv)</li>
+<li>CT butterfly for forward transform, GS butterfly for inverse</li>
+<li>NO/BO ordering is essential for implementation</li>
+<li>$O(n\log n)$ complexity makes it usable in PQC lattice schemes</li>
+</ul>
+<h2 id="summary">summary</h2>
+<p>FFT-style NTT algorithm or Fast-NTT is particularly useful in lattice-based cryptography.</p>
+<p>:)</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2025-08-22&nbsp;<a class="git-hash" href="https://github.com/GaloisHLee/galoishlee.github.io/commit/ff4259bfae479b5de7f4606aed97b8ecb4523e30" target="_blank" title="commit by GaloisHLee(maocred@gmail.com) ff4259bfae479b5de7f4606aed97b8ecb4523e30: backup">
+                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>ff4259b</a></span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/waytofft-part-2/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/waytofft-part-2/" data-title="WayToFFT Part 2"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/waytofft-part-2/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/waytofft-part-2/" data-title="WayToFFT Part 2"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/waytofft-part-2/" data-title="WayToFFT Part 2"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/waytofft-part-2/" data-title="WayToFFT Part 2"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/vectorspace-matters/" class="prev" rel="prev" title="Vectorspace Matters"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Vectorspace Matters</a>
+            <a href="/waytontt-part-0/" class="next" rel="next" title="WayToNTT Part 0">WayToNTT Part 0<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>
