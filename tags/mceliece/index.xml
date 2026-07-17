@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mceliece on As it was</title>
+    <link>https://galoishlee.github.io/tags/mceliece/</link>
+    <description>Recent content in Mceliece on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/mceliece/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于 Reed–Solomon 码的公钥密码系统的代数结构攻击</title>
+      <link>https://galoishlee.github.io/reed-solomon-structural-attacks/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/reed-solomon-structural-attacks/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Reading: 对编码密码来说，“存在高效译码算法”和“公开码看起来像随机码”是两件不同的事。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;广义 Reed–Solomon（Generalized Reed–Solomon, GRS）码把低次多项式求值写成线性码，因此同时拥有 MDS 参数、显式生成矩阵和高效译码算法。问题也出在这里：行扰乱矩阵只能更换公开码的基，置换矩阵只能重排坐标；它们没有消除“这是一个求值码”这一事实。&lt;/p&gt;&#xA;&lt;p&gt;这篇笔记沿一条结构泄漏链展开：先证明 GRS 码的 Schur square 只有 \(2k-1\) 维，再用系统形生成矩阵的 generalized-Cauchy 结构解释等价私钥恢复，最后分析随机列为何能抬高平方码维数、又为何会付出二次量级的密钥膨胀。原始 Sidelnikov–Shestakov 攻击、2014 年的 square-code 方法和 2016 年后的 RLCE 不会被混成同一个算法。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

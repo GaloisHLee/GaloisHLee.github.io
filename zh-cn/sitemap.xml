@@ -2,7 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://galoishlee.github.io/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/"
@@ -11,8 +11,7 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/tags/bkz/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/categories/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/categories/"
@@ -21,21 +20,20 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/categories/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/categories/cryptography/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/falcon/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/hint/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/hnf/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/kyber/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/lattice/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/lll/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/lwe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/paper-reading/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/paper-reading/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/primal-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/side-channel/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-hints-lu2025/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/tags/coding-theory/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/cryptography/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/cryptography/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/error-correction/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/finite-field/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/grs/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/mceliece/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/python/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/reed-solomon/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/rlce/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/square-code/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/tags/"
@@ -44,111 +42,124 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/tags/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/tags/agent/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/agentic-coding/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/agent%E7%B3%BB%E7%BB%9F/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/irt/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/llm/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/llm-as-judge/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/planner/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/agent-psychometrics-runtime-irt/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/bayesian-network/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/belief-propagation/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/cryptography/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/factor-graph/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/inference/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/probability/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/tutorial/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/belief-propagation-from-scratch/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/coordinate-descent/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/lasso/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/linear-regression/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/maximum-likelihood/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/optimization/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/bls/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/elliptic-curve/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/hash-to-curve/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/rfc/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/waytozk-01/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/blob/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/bls12-381/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/eip-4844/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ethereum/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/kzg/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/pairing/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/alt_bn128/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/bn254/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/precompile/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ecc/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/pairing-friendly-curves-motivation/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/snark/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/web3/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ecdsa/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ehnp/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/hnp/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/ecc-security-hnp-ehnp/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/bitcoin/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/schnorr/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/secp256k1/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/secp256k1-signature-mechanisms/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/web3-ecc-system-division/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/engineering/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/plonkish/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/soundness/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/zkevm/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/zkevm-constraint-soundness/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/halo/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ipa/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/nova/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/recursion/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/custom-gates/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/grand-product/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/lookup/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/plonk/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/plonkish-permutation-lookups/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/air/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/fri/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/low-degree-testing/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/stark/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/stark-air-fri/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/groth16/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/groth16-from-qap/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/qap/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/polynomial-commitment/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/arithmetization/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/r1cs/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/fiat-shamir/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/sigma-protocol/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/aboutxl/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/commitment/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/discrete-log/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/pedersen/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/fields-groups-pedersen/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/interactive-proof/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/math/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/zero-knowledge/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/zk-minimal-framework/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/reed-solomon-structural-attacks/</loc><lastmod>2026-07-17T00:00:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/bkz/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/falcon/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/hint/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/hnf/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/kyber/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/lattice/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/lll/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/lwe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/paper-reading/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/paper-reading/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/primal-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/side-channel/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-hints-lu2025/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/agent/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/agentic-coding/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/agent%E7%B3%BB%E7%BB%9F/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/irt/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/llm/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/llm-as-judge/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/planner/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/agent-psychometrics-runtime-irt/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/bayesian-network/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/belief-propagation/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/factor-graph/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/inference/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/probability/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/tutorial/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/belief-propagation-from-scratch/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/coordinate-descent/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/lasso/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/linear-regression/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/maximum-likelihood/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/optimization/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/bls/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/elliptic-curve/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/hash-to-curve/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/rfc/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/waytozk-01/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/blob/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/bls12-381/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/eip-4844/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ethereum/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/kzg/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/kzg-bls12-381-eip-4844/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/pairing/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/alt_bn128/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/bn254/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/precompile/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ecc/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/pairing-friendly-curves-motivation/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/snark/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/web3/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ecdsa/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ehnp/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/hnp/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/ecc-security-hnp-ehnp/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/bitcoin/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/schnorr/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/secp256k1/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/secp256k1-signature-mechanisms/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/web3-ecc-system-division/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/engineering/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/plonkish/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/soundness/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/zkevm/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/zkevm-constraint-soundness/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/halo/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ipa/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/ipa-recursion-bulletproofs-halo-nova/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/nova/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/recursion/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/custom-gates/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/grand-product/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/lookup/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/plonk/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/plonkish-permutation-lookups/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/air/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/fri/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/low-degree-testing/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/stark/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/stark-air-fri/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/groth16/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/groth16-from-qap/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/qap/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/polynomial-commitment/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/polynomial-commitments-kzg-ipa-fri/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/arithmetization/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/r1cs/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/arithmetization-r1cs-qap-air/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/fiat-shamir/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/sigma-schnorr-fiat-shamir/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/sigma-protocol/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/aboutxl/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/commitment/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/discrete-log/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/pedersen/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/fields-groups-pedersen/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/interactive-proof/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/math/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/zero-knowledge/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/zk-minimal-framework/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/hfe/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/nip/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytontt-part-0/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytofft-part-2/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/vectorspace-matters/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/uov/</loc><lastmod>2025-11-23T16:07:02&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/fault-attacks/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/implementation-security/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-10/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ml-dsa/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ml-kem/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/badagent0x00-intro/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/friends/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/tags/fault-attacks/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/implementation-security/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-10/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ml-dsa/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ml-kem/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/badagent0x00-intro/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/friends/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/friends/"
@@ -157,25 +168,25 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/friends/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/tags/concrete-security/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/dual-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-9/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/abe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/functional-encryption/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/hibe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/ibe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-8/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/trapdoor-delegation/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/pae-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/fhe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/gadget-decomposition/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/key-switching/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-7/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/relinearization/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/concrete-security/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/dual-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-9/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/abe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/functional-encryption/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/hibe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/ibe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-8/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/trapdoor-delegation/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/pae-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/fhe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/gadget-decomposition/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/key-switching/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-7/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/relinearization/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytofft-part-1/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-6/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-5/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/lattice-part-4/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-6/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-5/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://galoishlee.github.io/lattice-part-4/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytocoppersmith0x01/</loc><lastmod>2024-10-13T11:30:21&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytocoppersmith-0x00/</loc><lastmod>2024-10-13T11:30:21&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/waytofft-part-0/</loc><lastmod>2025-08-22T10:35:05&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>

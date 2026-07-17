@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>基于 Reed–Solomon 码的公钥密码系统的代数结构攻击 - As it was</title><meta name="Description" content="从 GRS 码的 Vandermonde 与 Schur 积结构出发，推导等价私钥恢复、平方码区分器、随机列掩码的参数代价，并厘清 RLCE 与 NIST 编码方案的真实历史边界。"><meta property="og:title" content="基于 Reed–Solomon 码的公钥密码系统的代数结构攻击">
+<meta property="og:description" content="从 GRS 码的 Vandermonde 与 Schur 积结构出发，推导等价私钥恢复、平方码区分器、随机列掩码的参数代价，并厘清 RLCE 与 NIST 编码方案的真实历史边界。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/reed-solomon-structural-attacks/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="基于 Reed–Solomon 码的公钥密码系统的代数结构攻击">
+<meta name="twitter:description" content="从 GRS 码的 Vandermonde 与 Schur 积结构出发，推导等价私钥恢复、平方码区分器、随机列掩码的参数代价，并厘清 RLCE 与 NIST 编码方案的真实历史边界。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/reed-solomon-structural-attacks/" /><link rel="prev" href="https://galoishlee.github.io/lattice-hints-lu2025/" /><link rel="next" href="https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "基于 Reed–Solomon 码的公钥密码系统的代数结构攻击",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/reed-solomon-structural-attacks\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "cryptography, coding-theory, reed-solomon, mceliece, grs, square-code, rlce","wordcount":  7829 ,
+        "url": "https:\/\/galoishlee.github.io\/reed-solomon-structural-attacks\/","datePublished": "2026-07-17T00:00:00+08:00","dateModified": "2026-07-17T00:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从 GRS 码的 Vandermonde 与 Schur 积结构出发，推导等价私钥恢复、平方码区分器、随机列掩码的参数代价，并厘清 RLCE 与 NIST 编码方案的真实历史边界。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/reed-solomon-structural-attacks/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/reed-solomon-structural-attacks/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">基于 Reed–Solomon 码的公钥密码系统的代数结构攻击</h1><h2 class="single-subtitle">从 Sidelnikov–Shestakov 到 Square Code 区分器</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-07-17">2026-07-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 7829 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#threat-model攻击者真正拿到了什么">Threat Model：攻击者真正拿到了什么</a></li>
+    <li><a href="#rs-与-grsvandermonde-结构从哪里来">RS 与 GRS：Vandermonde 结构从哪里来</a>
+      <ul>
+        <li><a href="#reedsolomon-码">Reed–Solomon 码</a></li>
+        <li><a href="#广义-reedsolomon-码">广义 Reed–Solomon 码</a></li>
+        <li><a href="#参数为什么不唯一">参数为什么不唯一</a></li>
+      </ul>
+    </li>
+    <li><a href="#schur-积grs-留下的低维指纹">Schur 积：GRS 留下的低维指纹</a>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#定理同支撑-grs-码的-schur-积仍是-grs-码">定理：同支撑 GRS 码的 Schur 积仍是 GRS 码</a></li>
+        <li><a href="#与随机线性码的差距">与随机线性码的差距</a></li>
+        <li><a href="#为什么--与--消不掉这个指纹">为什么  与  消不掉这个指纹</a></li>
+      </ul>
+    </li>
+    <li><a href="#sidelnikovshestakov从公开码到等价译码陷门">Sidelnikov–Shestakov：从公开码到等价译码陷门</a>
+      <ul>
+        <li><a href="#第一步选信息集并行约化">第一步：选信息集并行约化</a></li>
+        <li><a href="#第二步把--化成-generalized-cauchy-form">第二步：把  化成 generalized-Cauchy form</a></li>
+        <li><a href="#第三步四项比值消去乘因子">第三步：四项比值消去乘因子</a></li>
+        <li><a href="#第四步固定射影自由度并解支撑">第四步：固定射影自由度并解支撑</a></li>
+        <li><a href="#第五步恢复列乘因子">第五步：恢复列乘因子</a></li>
+        <li><a href="#攻击伪代码">攻击伪代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#上的--例子"> 上的  例子</a></li>
+    <li><a href="#square-code-区分器从低维异常到坐标定位">Square Code 区分器：从低维异常到坐标定位</a>
+      <ul>
+        <li><a href="#最小区分器">最小区分器</a></li>
+        <li><a href="#区分器不等于密钥恢复">区分器不等于密钥恢复</a></li>
+      </ul>
+    </li>
+    <li><a href="#随机列掩码维数缺口需要多少熵">随机列掩码：维数缺口需要多少熵</a>
+      <ul>
+        <li><a href="#理想化追加列模型">理想化追加列模型</a></li>
+        <li><a href="#wieschebrink-型随机列">Wieschebrink 型随机列</a></li>
+        <li><a href="#rlce-不是只追加几列">RLCE 不是“只追加几列”</a></li>
+      </ul>
+    </li>
+    <li><a href="#两类攻击揭示的共同问题">两类攻击揭示的共同问题</a>
+      <ul>
+        <li><a href="#简单扰乱只作用于表示不作用于码">简单扰乱只作用于表示，不作用于码</a></li>
+        <li><a href="#低熵或局部掩码会留下可枚举边界">低熵或局部掩码会留下可枚举边界</a></li>
+        <li><a href="#随机外观必须成为论证而不是实验印象">“随机外观”必须成为论证，而不是实验印象</a></li>
+      </ul>
+    </li>
+    <li><a href="#如何更谨慎地使用代数码">如何更谨慎地使用代数码</a>
+      <ul>
+        <li><a href="#使用结构痕迹更弱的码族">使用结构痕迹更弱的码族</a></li>
+        <li><a href="#使用更彻底可证明的再随机化">使用更彻底、可证明的再随机化</a></li>
+      </ul>
+    </li>
+    <li><a href="#nist-pqc现实影响不能写成错误因果">NIST PQC：现实影响不能写成错误因果</a></li>
+    <li><a href="#课后思考与练习">课后思考与练习</a>
+      <ul>
+        <li><a href="#练习-1grs-的-schur-积">练习 1：GRS 的 Schur 积</a></li>
+        <li><a href="#练习-2手算一次支撑恢复">练习 2：手算一次支撑恢复</a></li>
+        <li><a href="#练习-3随机列下界">练习 3：随机列下界</a></li>
+        <li><a href="#练习-4区分器如何走向密钥恢复">练习 4：区分器如何走向密钥恢复</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考文献">参考文献</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Reading: 对编码密码来说，“存在高效译码算法”和“公开码看起来像随机码”是两件不同的事。</p>
+</blockquote>
+<p>广义 Reed–Solomon（Generalized Reed–Solomon, GRS）码把低次多项式求值写成线性码，因此同时拥有 MDS 参数、显式生成矩阵和高效译码算法。问题也出在这里：行扰乱矩阵只能更换公开码的基，置换矩阵只能重排坐标；它们没有消除“这是一个求值码”这一事实。</p>
+<p>这篇笔记沿一条结构泄漏链展开：先证明 GRS 码的 Schur square 只有 \(2k-1\) 维，再用系统形生成矩阵的 generalized-Cauchy 结构解释等价私钥恢复，最后分析随机列为何能抬高平方码维数、又为何会付出二次量级的密钥膨胀。原始 Sidelnikov–Shestakov 攻击、2014 年的 square-code 方法和 2016 年后的 RLCE 不会被混成同一个算法。</p>
+<h2 id="threat-model攻击者真正拿到了什么">Threat Model：攻击者真正拿到了什么</h2>
+<p>设秘密码 \(C_{\mathrm{sec}}\subseteq \mathbb F_q^n\) 有生成矩阵 \(G_{\mathrm{sec}}\in\mathbb F_q^{k\times n}\)。McEliece 型公钥通常写成</p>
+$$
+G_{\mathrm{pub}}=S G_{\mathrm{sec}}P,
+$$<p>其中 \(S\in\operatorname{GL}_k(\mathbb F_q)\) 是可逆行扰乱矩阵，\(P\) 是置换矩阵。加密者计算</p>
+$$
+\boldsymbol c=\boldsymbol mG_{\mathrm{pub}}+\boldsymbol e,
+$$<p>其中 \(\boldsymbol e\) 是低 Hamming weight 的错误向量。私钥持有者撤销坐标置换，调用秘密码译码器恢复码字，再撤销 \(S\) 对消息基的变换。</p>
+<p>攻击者看到的并不只是一个矩阵文件，而是两个对象：</p>
+<ul>
+<li>行空间 \(C_{\mathrm{pub}}=\operatorname{rowspan}(G_{\mathrm{pub}})\)；</li>
+<li>每一列对应的公开坐标位置。</li>
+</ul>
+<p>第一点立刻说明 \(S\) 的能力边界：</p>
+$$
+\operatorname{rowspan}(S G_{\mathrm{sec}})=\operatorname{rowspan}(G_{\mathrm{sec}}).
+$$<p>因此 \(S\) 没有隐藏码，只是换了一组基。\(P\) 确实隐藏了原坐标顺序，但坐标置换会把码的不变量一起置换，而不会把它们变成随机码的不变量。</p>
+<blockquote>
+<p><strong>攻击成功条件</strong></p>
+<p>攻击者不必唯一恢复密钥生成时抽到的 \(S\)、\(P\)、评价点与列乘因子。只要构造出一个与公开码等价、能够译码的 GRS 表示，就已经得到足以解密的 equivalent decoding trapdoor。</p>
+</blockquote>
+<p>全文的攻击链可以压成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">公开生成矩阵
+</span></span><span class="line"><span class="cl">  -&gt; 公开码的行空间
+</span></span><span class="line"><span class="cl">  -&gt; Schur / puncture / shorten 不变量
+</span></span><span class="line"><span class="cl">  -&gt; 识别或恢复隐藏的求值坐标
+</span></span><span class="line"><span class="cl">  -&gt; 构造等价 GRS 译码陷门
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="rs-与-grsvandermonde-结构从哪里来">RS 与 GRS：Vandermonde 结构从哪里来</h2>
+<h3 id="reedsolomon-码">Reed–Solomon 码</h3>
+<p>取互异评价点</p>
+$$
+\boldsymbol a=(a_1,\ldots,a_n)\in\mathbb F_q^n.
+$$<p>对 \(k\le n\)，Reed–Solomon 码是所有次数小于 \(k\) 的多项式在这些点上的求值：</p>
+$$
+\operatorname{RS}_k(\boldsymbol a)=\left\{(f(a_1),\ldots,f(a_n)):\ f\in\mathbb F_q[X],\ \deg f\lt k\right\}.
+$$<p>按基 \(1,X,\ldots,X^{k-1}\) 展开，得到 Vandermonde 生成矩阵</p>
+$$
+V_k(\boldsymbol a)=
+\begin{pmatrix}
+1&1&\cdots&1\\
+a_1&a_2&\cdots&a_n\\
+a_1^2&a_2^2&\cdots&a_n^2\\
+\vdots&\vdots&&\vdots\\
+a_1^{k-1}&a_2^{k-1}&\cdots&a_n^{k-1}
+\end{pmatrix}.
+$$<p>任意 \(k\) 个互异评价点给出的 \(k\times k\) Vandermonde 子矩阵都可逆，所以 RS 码是参数为 \([n,k,n-k+1]\) 的 maximum-distance separable（MDS）码。</p>
+<h3 id="广义-reedsolomon-码">广义 Reed–Solomon 码</h3>
+<p>再取非零列乘因子</p>
+$$
+\boldsymbol v=(v_1,\ldots,v_n)\in(\mathbb F_q^\times)^n.
+$$<p>定义</p>
+$$
+\operatorname{GRS}_k(\boldsymbol a,\boldsymbol v)=\left\{(v_1f(a_1),\ldots,v_nf(a_n)):\deg f\lt k\right\}.
+$$<p>其生成矩阵是</p>
+$$
+G_{\mathrm{GRS}}=V_k(\boldsymbol a)\operatorname{diag}(\boldsymbol v).
+$$<p>列缩放不改变非零位置，因此 GRS 仍是 \([n,k,n-k+1]\) MDS 码。高效译码所利用的正是“一个码字来自同一个低次多项式”的全局约束。</p>
+<h3 id="参数为什么不唯一">参数为什么不唯一</h3>
+<p>GRS 表示天然存在等价自由度：</p>
+<ul>
+<li>重排 \((a_i,v_i)\) 只会置换码坐标；</li>
+<li>同时把所有 \(v_i\) 乘同一个非零标量不会改变码；</li>
+<li>对支撑点施加射影线性变换 \(x\mapsto(\alpha x+\beta)/(\gamma x+\delta)\)，并相应调整列乘因子，会得到 monomially equivalent 的 GRS 表示。</li>
+</ul>
+<p>所以“唯一恢复原始评价点”不是合理的安全目标。密码分析只需要恢复一个等价表示。</p>
+<h2 id="schur-积grs-留下的低维指纹">Schur 积：GRS 留下的低维指纹</h2>
+<h3 id="定义">定义</h3>
+<p>对 \(\boldsymbol x,\boldsymbol y\in\mathbb F_q^n\)，定义坐标乘积（Schur product）</p>
+$$
+\boldsymbol x\star\boldsymbol y=(x_1y_1,\ldots,x_ny_n).
+$$<p>对两个长度相同的线性码 \(A,B\subseteq\mathbb F_q^n\)，定义</p>
+$$
+A\star B=\operatorname{span}_{\mathbb F_q}
+\{\boldsymbol a\star\boldsymbol b:\boldsymbol a\in A,\boldsymbol b\in B\}.
+$$<p>平方码（square code）是</p>
+$$
+C^{\star2}=C\star C.
+$$<p>若 \(G\) 的行是 \(\boldsymbol g_1,\ldots,\boldsymbol g_k\)，那么只需对 \(1\le i\le j\le k\) 计算 \(\boldsymbol g_i\star\boldsymbol g_j\)，再做一次 Gaussian elimination，就能求出 \(C^{\star2}\)。候选生成向量最多有</p>
+$$
+N=\binom{k+1}{2}
+$$<p>个，因此任何 \([n,k]\) 码都满足</p>
+$$
+\dim C^{\star2}\le \min\left\{n,\binom{k+1}{2}\right\}.
+$$<h3 id="定理同支撑-grs-码的-schur-积仍是-grs-码">定理：同支撑 GRS 码的 Schur 积仍是 GRS 码</h3>
+<blockquote>
+<p><strong>定理</strong></p>
+<p>设 \(C=\operatorname{GRS}_k(\boldsymbol a,\boldsymbol v)\)，
+\(D=\operatorname{GRS}_\ell(\boldsymbol a,\boldsymbol w)\)，且二者使用同一组互异评价点，则</p>
+$$
+> C\star D=
+> \operatorname{GRS}_{\min\{n,k+\ell-1\}}
+> (\boldsymbol a,\boldsymbol v\star\boldsymbol w).
+> $$</blockquote>
+<p><strong>证明。</strong> 取 \(\deg f\lt k\) 与 \(\deg g\lt\ell\)。对应码字的坐标乘积是</p>
+$$
+(v_if(a_i))_{i=1}^n\star(w_ig(a_i))_{i=1}^n=\bigl(v_iw_i(fg)(a_i)\bigr)_{i=1}^n.
+$$<p>因为 \(\deg(fg)\le k+\ell-2\)，左侧生成的每个向量都落在右侧，故有包含关系“\(\subseteq\)”。</p>
+<p>反方向需要说明所有次数不超过 \(k+\ell-2\) 的单项式都由允许的乘积生成。对任意
+\(0\le d\le k+\ell-2\)，可选</p>
+$$
+i=\min\{d,k-1\},\qquad j=d-i.
+$$<p>此时 \(0\le i\lt k\)、\(0\le j\lt\ell\)，且 \(X^d=X^iX^j\)。所以</p>
+$$
+\operatorname{span}\{fg:\deg f\lt k,\deg g\lt\ell\}=\mathbb F_q[X]_{\lt k+\ell-1}.
+$$<p>当 \(k+\ell-1\le n\) 时，求值映射在该多项式空间上是单射，维数为 \(k+\ell-1\)；超过 \(n\) 后，长度为 \(n\) 的 GRS 码饱和到整个 \(\mathbb F_q^n\)。定理得证。\(\square\)</p>
+<p>令 \(C=D\)，立即得到</p>
+$$
+\dim C^{\star2}=\min\{n,2k-1\}.
+$$<h3 id="与随机线性码的差距">与随机线性码的差距</h3>
+<p>对一般位置的随机 \([n,k]\) 码，\(N=\binom{k+1}{2}\) 个对称行乘积通常没有额外代数关系，因此以高概率有<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+$$
+\dim C_{\mathrm{rand}}^{\star2}=\min\left\{n,\binom{k+1}{2}\right\}.
+$$<p>这里必须说“通常”或“以高概率”，而不是对每一个随机样本写等号。GRS 的结论则是确定的定理。</p>
+<p>若 \(2k-1\lt n\) 且 \(k\ge3\)，两个维数会出现明显缺口：</p>
+<table>
+  <thead>
+      <tr>
+          <th>码族</th>
+          <th>平方码维数</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>\(\operatorname{GRS}_k\)</td>
+          <td>\(\min\{n,2k-1\}\)</td>
+      </tr>
+      <tr>
+          <td>一般位置随机 \([n,k]\) 码</td>
+          <td>\(\min\{n,\binom{k+1}{2}\}\)</td>
+      </tr>
+      <tr>
+          <td>GRS 加 \(t\) 个一般位置随机列</td>
+          <td>至多 \(\min\{n+t,2k-1+t,\binom{k+1}{2}\}\)</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="为什么--与--消不掉这个指纹">为什么 \(S\) 与 \(P\) 消不掉这个指纹</h3>
+<p>\(S\) 不改变码，所以当然不改变平方码。对坐标置换 \(P\)，有</p>
+$$
+(CP)^{\star2}=C^{\star2}P.
+$$<p>因此平方码的坐标顺序可能改变，维数却保持不变。攻击者完全可以从任意公开生成矩阵出发，计算一个与行基无关、与坐标顺序无关的维数统计量。</p>
+<h2 id="sidelnikovshestakov从公开码到等价译码陷门">Sidelnikov–Shestakov：从公开码到等价译码陷门</h2>
+<p>Sidelnikov 与 Shestakov 在 1992 年证明，基于 GRS 码的公开码表示可在多项式时间内恢复出足以译码的结构参数。<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> 后续文献常从系统形、最小重量码字、缩短码或支撑关系重述这类恢复。下面不给出原论文的逐行复刻，而给出一个便于手算、与其恢复结论等价的现代代数视图：把公开 GRS 码写成系统形，识别 generalized-Cauchy block，再由 cross-ratio 恢复支撑。</p>
+<p>这个区分很重要：本节不是把 1992 年攻击改名为 square-code attack；平方码将在下一节作为后来形成的区分与 filtration 工具出现。Couvreur 等人的论文也明确把自己的 filtration recovery 称为 Sidelnikov–Shestakov 的 alternative，而不是同一算法。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h3 id="第一步选信息集并行约化">第一步：选信息集并行约化</h3>
+<p>因为 GRS 是 MDS 码，任意 \(k\) 个坐标都能构成信息集。对公开生成矩阵作坐标重排与行消元，可得</p>
+$$
+G_{\mathrm{sys}}=[I_k\mid A],
+$$<p>其中 \(A\in\mathbb F_q^{k\times(n-k)}\)。</p>
+<p>把信息集对应的支撑记为</p>
+$$
+X=(x_1,\ldots,x_k),
+$$<p>其余支撑记为</p>
+$$
+Y=(y_1,\ldots,y_{n-k}).
+$$<p>对信息集使用 Lagrange 基多项式</p>
+$$
+L_i(Z)=\prod_{m\ne i}\frac{Z-x_m}{x_i-x_m},
+$$<p>则第 \(i\) 个系统形基码字在信息集上等于单位向量，在第 \(j\) 个非信息坐标上的值是</p>
+$$
+A_{ij}=\frac{v_{k+j}}{v_i}L_i(y_j).
+$$<h3 id="第二步把--化成-generalized-cauchy-form">第二步：把 \(A\) 化成 generalized-Cauchy form</h3>
+<p>令</p>
+$$
+\pi_X(Z)=\prod_{m=1}^k(Z-x_m).
+$$<p>注意</p>
+$$
+\begin{aligned}
+\prod_{m\ne i}(y_j-x_m)
+&=\frac{\pi_X(y_j)}{y_j-x_i}\\
+&=-\frac{\pi_X(y_j)}{x_i-y_j},
+\end{aligned}
+$$<p>且</p>
+$$
+\prod_{m\ne i}(x_i-x_m)=\pi_X'(x_i).
+$$<p>于是</p>
+$$
+A_{ij}=\frac{r_i c_j}{x_i-y_j},
+$$<p>其中可以取</p>
+$$
+r_i=-\frac{1}{v_i\pi_X'(x_i)},\qquad
+c_j=v_{k+j}\pi_X(y_j).
+$$<p>这就是 generalized-Cauchy form。未知量分成三类：信息支撑 \(x_i\)、其余支撑 \(y_j\)，以及只依赖行或列的非零因子 \(r_i,c_j\)。</p>
+<h3 id="第三步四项比值消去乘因子">第三步：四项比值消去乘因子</h3>
+<p>取两行 \(i,i'\) 和两列 \(j,j'\)，计算</p>
+$$
+\rho_{i,i';j,j'}=\frac{A_{ij}A_{i'j'}}{A_{ij'}A_{i'j}}.
+$$<p>代入 Cauchy 形式，所有 \(r_i,r_{i'},c_j,c_{j'}\) 都消失：</p>
+$$
+\rho_{i,i';j,j'}=\frac{(x_i-y_{j'})(x_{i'}-y_j)}{(x_i-y_j)(x_{i'}-y_{j'})}.
+$$<p>右侧只依赖四个支撑点，是一个 cross-ratio 型射影不变量。这个式子解释了“随机列缩放为何隐藏不了支撑”：缩放只进入 \(r_i,c_j\)，而四项比值专门把它们约掉。</p>
+<h3 id="第四步固定射影自由度并解支撑">第四步：固定射影自由度并解支撑</h3>
+<p>\(\operatorname{PGL}_2(\mathbb F_q)\) 在射影直线三元组上传递，因此可把三个支撑点规范化为</p>
+$$
+x_1=0,\qquad x_2=1,\qquad y_1=\infty.
+$$<p>对有限的 \(y_j\)，取 \(i=1\)、\(i'=2\)、\(j'=1\)，按射影极限解释上式，得到</p>
+$$
+\rho_{1,2;j,1}=\frac{1-y_j}{-y_j}=1-\frac1{y_j}.
+$$<p>只要 \(\rho_{1,2;j,1}\ne1\)，就有</p>
+$$
+y_j=\frac1{1-\rho_{1,2;j,1}}.
+$$<p>恢复所有 \(y_j\) 后，再固定两个已知 \(y\) 值，使用同类 cross-ratio 方程求每个剩余 \(x_i\)。退化分母可以通过改选行列四元组避免。每一步只是有限域上的加减乘除和线性或低次方程求解。</p>
+<h3 id="第五步恢复列乘因子">第五步：恢复列乘因子</h3>
+<p>支撑恢复后，方程</p>
+$$
+A_{ij}=\frac{r_ic_j}{x_i-y_j}
+$$<p>对行列因子是 rank-one factorization。任选规范 \(r_1=1\)，由第一行求全部 \(c_j\)，再由任一列求其余 \(r_i\)。结合 Lagrange 表达式即可构造一组等价列乘因子。</p>
+<p>这里得到的 \((\boldsymbol a',\boldsymbol v')\) 可能不是密钥生成时的原值，但它定义的 GRS 码与公开码 monomially equivalent，已经足以调用 GRS 译码器。</p>
+<h3 id="攻击伪代码">攻击伪代码</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Algorithm RecoverEquivalentGRS(G_pub)
+</span></span><span class="line"><span class="cl">Input:
+</span></span><span class="line"><span class="cl">    full-rank public generator G_pub over F_q
+</span></span><span class="line"><span class="cl">Output:
+</span></span><span class="line"><span class="cl">    an equivalent GRS support/multiplier pair, or failure
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">1. Choose a k-coordinate information set and permute it to the front.
+</span></span><span class="line"><span class="cl">2. Row-reduce G_pub to systematic form [I_k | A].
+</span></span><span class="line"><span class="cl">3. For many 2-by-2 submatrices of A, compute
+</span></span><span class="line"><span class="cl">       rho = A[i,j] A[i&#39;,j&#39;] / (A[i,j&#39;] A[i&#39;,j]).
+</span></span><span class="line"><span class="cl">4. Fix three support points by PGL_2 normalization and solve the
+</span></span><span class="line"><span class="cl">   cross-ratio equations for all remaining support coordinates.
+</span></span><span class="line"><span class="cl">5. Factor A[i,j](x_i-y_j) as r_i c_j and reconstruct equivalent
+</span></span><span class="line"><span class="cl">   column multipliers.
+</span></span><span class="line"><span class="cl">6. Rebuild GRS_k(a&#39;,v&#39;), compare its systematic form with G_pub,
+</span></span><span class="line"><span class="cl">   and return the parameters if the codes are equivalent.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>行约化、四项比值计算、有限域方程求解和最终等价性检验都是多项式时间操作。攻击的致命点不是“猜中了原始随机数”，而是公开码本身已经决定了足够多的代数关系。</p>
+<h2 id="上的--例子">\(\mathbb F_{11}\) 上的 \([6,3]\) 例子</h2>
+<p>下面的数值全部由独立有限域脚本复算。取</p>
+$$
+\boldsymbol a=(0,1,2,3,4,5),\qquad
+\boldsymbol v=(1,1,1,1,1,1).
+$$<p>Vandermonde 生成矩阵为</p>
+$$
+G=
+\begin{pmatrix}
+1&1&1&1&1&1\\
+0&1&2&3&4&5\\
+0&1&4&9&5&3
+\end{pmatrix}\in\mathbb F_{11}^{3\times6}.
+$$<p>选择满秩行扰乱矩阵</p>
+$$
+S=
+\begin{pmatrix}
+1&2&0\\
+0&1&1\\
+1&0&1
+\end{pmatrix},
+$$<p>并按索引</p>
+$$
+(2,5,1,4,0,3)
+$$<p>重排列，得到公开矩阵</p>
+$$
+G_{\mathrm{pub}}=
+\begin{pmatrix}
+5&0&3&9&1&7\\
+6&8&2&9&0&1\\
+5&4&2&6&1&10
+\end{pmatrix}.
+$$<p>对前三列行约化：</p>
+$$
+G_{\mathrm{sys}}=
+\left(
+\begin{array}{ccc|ccc}
+1&0&0&1&2&5\\
+0&1&0&6&2&2\\
+0&0&1&5&8&5
+\end{array}
+\right).
+$$<p>此时信息支撑和其余支撑分别是</p>
+$$
+X=(2,5,1),\qquad Y=(4,0,3).
+$$<p>脚本得到</p>
+$$
+\boldsymbol r=(4,10,8),\qquad
+\boldsymbol c=(5,1,7),
+$$<p>并逐项验证</p>
+$$
+A_{ij}=\frac{r_ic_j}{x_i-y_j}.
+$$<p>取 \(i=1\)、\(i'=2\)、\(j=1\)、\(j'=2\)。矩阵侧四项比值为</p>
+$$
+\frac{A_{11}A_{22}}{A_{12}A_{21}}=\frac{1\cdot2}{2\cdot6}=2\pmod{11}.
+$$<p>支撑侧为</p>
+$$
+\frac{(2-0)(5-4)}{(2-4)(5-0)}=2\pmod{11}.
+$$<p>两者一致，且行列因子完全消失。</p>
+<p>最后计算六个对称行乘积</p>
+$$
+\boldsymbol g_1\star\boldsymbol g_1,\quad
+\boldsymbol g_1\star\boldsymbol g_2,\ \ldots,\
+\boldsymbol g_3\star\boldsymbol g_3,
+$$<p>其秩为</p>
+$$
+\dim C^{\star2}=5=2k-1.
+$$<p>而一般位置随机 \([6,3]\) 码的典型平方码维数是</p>
+$$
+\min\left\{6,\binom42\right\}=6.
+$$<p>这个例子只有一个维度差，但已经把“低维平方码”和“cross-ratio 恢复”两个机制同时显露出来。</p>
+<h2 id="square-code-区分器从低维异常到坐标定位">Square Code 区分器：从低维异常到坐标定位</h2>
+<h3 id="最小区分器">最小区分器</h3>
+<p>给定公开 \([n,k]\) 码 \(C\)，最简单的统计检验是：</p>
+<ol>
+<li>计算 \(d_\square=\dim C^{\star2}\)；</li>
+<li>计算随机码基线 \(d_{\mathrm{rand}}=\min\{n,\binom{k+1}{2}\}\)；</li>
+<li>若 \(d_\square\) 显著低于 \(d_{\mathrm{rand}}\)，输出“存在结构”。</li>
+</ol>
+<p>若理想化结构分布总满足 \(d_\square\le d_s\lt d_{\mathrm{rand}}\)，而随机码以至少 \(1-\varepsilon\) 的概率达到 \(d_{\mathrm{rand}}\)，则这个阈值区分器的优势至少是</p>
+$$
+\begin{aligned}
+\operatorname{Adv}_{\mathrm{dist}}
+&=\left|\Pr[D(C_{\mathrm{struct}})=1]-\Pr[D(C_{\mathrm{rand}})=1]\right|\\
+&\ge1-\varepsilon.
+\end{aligned}
+$$<p>低维不是“略微可疑”，而可能给出接近 1 的区分优势。</p>
+<h3 id="区分器不等于密钥恢复">区分器不等于密钥恢复</h3>
+<p>只知道 \(C\) 不是随机码，还没有得到译码器。密钥恢复还需要回答：</p>
+<ul>
+<li>哪些坐标来自 GRS 支撑？</li>
+<li>哪些坐标是随机插入或局部混合的？</li>
+<li>去除这些坐标后，剩余码是否真的是 GRS？</li>
+</ul>
+<p>puncturing 和 shortening 提供了定位接口。</p>
+<p>对坐标集合 \(I\)，puncturing \(P_I(C)\) 删除这些坐标；shortening \(S_I(C)\) 先限制码字在 \(I\) 上为零，再删除 \(I\)。攻击者比较</p>
+$$
+\dim P_I(C)^{\star2}
+\quad\text{或}\quad
+\dim S_I(C)^{\star2}
+$$<p>随 \(I\) 改变的差分。若删除一个随机列会消除一个额外平方方向，而删除普通 GRS 列只表现为 GRS 长度变化，那么维数差分就成为坐标分类器。</p>
+<p>Couvreur 等人在 2014 年系统化了这种思路：先用 component-wise products 构造 distinguisher，再对 punctured/shortened codes 建 filtration，最终恢复支撑与非零乘因子。<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h2 id="随机列掩码维数缺口需要多少熵">随机列掩码：维数缺口需要多少熵</h2>
+<h3 id="理想化追加列模型">理想化追加列模型</h3>
+<p>先考虑比 RLCE 更简单的模型。令 \(G_{\mathrm{GRS}}\) 是 \(k\times n\) GRS 生成矩阵，追加 \(t\) 个一般位置随机列：</p>
+$$
+\widetilde G=[G_{\mathrm{GRS}}\mid R]\in\mathbb F_q^{k\times(n+t)}.
+$$<p>从对称平方空间</p>
+$$
+\operatorname{Sym}^2(\mathbb F_q^k)
+$$<p>看，每个公开坐标都对应一个二次求值泛函。原来 \(n\) 个 GRS 坐标的像空间维数最多是 \(2k-1\)；每增加一个输出坐标，线性映射的秩最多增加 1。因此</p>
+$$
+\dim \widetilde C^{\star2}
+\le
+\min\left\{
+n+t,\ 2k-1+t,\ \binom{k+1}{2}
+\right\}.
+$$<p>要让这个全局维数至少有机会等于随机 \([n+t,k]\) 码的典型值，必须满足</p>
+$$
+2k-1+t
+\ge
+\min\left\{
+n+t,\binom{k+1}{2}
+\right\}.
+$$<p>若 \(n>2k-1\) 且 \(n+t\lt\binom{k+1}{2}\)，两侧之差是</p>
+$$
+(n+t)-(2k-1+t)=n-(2k-1),
+$$<p>与 \(t\) 无关。也就是说，在随机平方码尚未饱和到对称平方维数之前，单纯追加列无法抹平原有缺口。</p>
+<p>当长度已经满足</p>
+$$
+n+t\ge\binom{k+1}{2},
+$$<p>随机平方码饱和到 \(\binom{k+1}{2}\)。此时必要条件变成</p>
+$$
+t\ge\binom{k+1}{2}-(2k-1)=\frac{(k-1)(k-2)}2.
+$$<blockquote>
+<p><strong>参数含义</strong></p>
+<p>对这个理想化模型，只为消除一个全局维数区分器，就可能需要 \(\Theta(k^2)\) 个独立随机坐标。公钥长度和存储随之显著增长。该不等式只是必要下界，不是任意 RLCE 参数的充分安全定理。</p>
+</blockquote>
+<p>当 \(k=3\) 时，下界只有 1；当 \(k=100\) 时，它已经是 \(4851\)。这正是“安全性—密钥尺寸”妥协的代数来源。</p>
+<h3 id="wieschebrink-型随机列">Wieschebrink 型随机列</h3>
+<p>Wieschebrink 提出的修补方向是在 GRS 生成矩阵中插入少量随机列。<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 2014 年的 square-code 工作直接分析了这类结构：puncture 一个候选随机坐标和 puncture 一个 GRS 坐标，会对平方码维数产生不同影响；定位随机位置后，将其删除，再对剩余 GRS 部分运行结构恢复。</p>
+<p>这时攻击路径是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">低维 square distinguisher
+</span></span><span class="line"><span class="cl">  -&gt; puncture / shorten 维数差分
+</span></span><span class="line"><span class="cl">  -&gt; 找到随机列位置
+</span></span><span class="line"><span class="cl">  -&gt; 删除随机列
+</span></span><span class="line"><span class="cl">  -&gt; 对剩余 GRS 码恢复等价私钥
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="rlce-不是只追加几列">RLCE 不是“只追加几列”</h3>
+<p>Random Linear Code Encryption（RLCE）确实从随机列开始，但还会把每个秘密码坐标与若干随机坐标组成小块，再右乘局部可逆矩阵，最后全局置换。对 \(r=1\) 的示意块，</p>
+$$
+[\,\boldsymbol g_i\mid\boldsymbol r_i\,]A_i,
+\qquad A_i\in\operatorname{GL}_2(\mathbb F_q).
+$$<p>所有 \(A_i\) 组成 block-diagonal matrix。这个局部混合意味着公开坐标不再分成肉眼可见的“GRS 列”和“随机列”。</p>
+<p>RLCE 原论文在 \(n=560,k=380,r=1\) 的实验中，对删除任一列后的公开码计算 product code，报告维数为 \(1119\)，等于相同长度随机码的预期值。<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> 这说明最朴素的全局 square-dimension test 在该实验参数上没有区分力，不能把 Wieschebrink 的攻击结论机械外推为“全局平方码直接击破所有 RLCE”。</p>
+<p>但“全局维数饱和”也不等于“结构已经信息论消失”。局部块混合仍规定了哪些坐标来自同一小块；短密钥设置还会压缩可选结构的熵。2019 年，Couvreur、Lequesne 与 Tillich 给出了对 RLCE 短密钥参数的多项式时间 key-recovery attack，并明确声称覆盖作者提出的全部 short-key 参数。<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></p>
+<p>因此更准确的结论是：</p>
+<ul>
+<li>square-code 维数是强大的结构诊断工具，但某一全局统计量可以被维数饱和掩盖；</li>
+<li>puncture、shorten、filtration 或块关系仍可能把局部结构重新显露出来；</li>
+<li>“增加随机列”与“增加足够的独立结构熵”不是同一句话；</li>
+<li>对实际 RLCE 的结论必须绑定具体参数与攻击模型。</li>
+</ul>
+<h2 id="两类攻击揭示的共同问题">两类攻击揭示的共同问题</h2>
+<h3 id="简单扰乱只作用于表示不作用于码">简单扰乱只作用于表示，不作用于码</h3>
+<p>\(S\) 更换行基，\(P\) 重排坐标。只要攻击量是行空间不变量或坐标置换下的协变量，简单扰乱就没有触及安全问题的核心。</p>
+<h3 id="低熵或局部掩码会留下可枚举边界">低熵或局部掩码会留下可枚举边界</h3>
+<p>少量随机列把平方码维数从 \(2k-1\) 抬高到至多 \(2k-1+t\)，但随机码基线可能是 \(\Theta(k^2)\)。局部 \(2\times2\) 混合虽然打散单列语义，却也引入固定的小块关系。攻击者会寻找的不是原始矩阵，而是任何低复杂度统计偏差。</p>
+<h3 id="随机外观必须成为论证而不是实验印象">“随机外观”必须成为论证，而不是实验印象</h3>
+<p>设计者至少需要回答：</p>
+<ol>
+<li>公钥分布与随机线性码分布之间采用什么 indistinguishability assumption？</li>
+<li>已知的 Schur powers、dual、puncture、shorten 和 conductor 操作下，分布是否仍接近随机？</li>
+<li>掩码引入的块、秩、准循环或子域结构是否可被局部化？</li>
+<li>为消除结构统计量增加的熵，是否已经抵消了紧凑密钥的收益？</li>
+</ol>
+<h2 id="如何更谨慎地使用代数码">如何更谨慎地使用代数码</h2>
+<h3 id="使用结构痕迹更弱的码族">使用结构痕迹更弱的码族</h3>
+<p>经典 McEliece 使用 binary Goppa codes，而不是把 GRS 生成矩阵直接公开。Goppa/alternant 码仍有代数结构，也持续受到 distinguisher 与 key-recovery 研究，但对提交参数的最好已知攻击并没有退化成 plain-GRS 的多项式时间恢复。</p>
+<p>MDPC/QC 方案把安全性放在 syndrome decoding、quasi-cyclic decoding 和译码失败概率等问题上。它们不是“无结构随机码”：准循环压缩本身就是结构，BIKE 的 decoder failure rate 与 weak-key 分析正说明结构和译码器仍需共同审计。</p>
+<p>秩度量码同样不能作为自动安全答案。Gabidulin/GPT 一类方案曾遭遇 Overbeck 型结构攻击；只有在明确攻击面和掩码效果后，rank metric 才是不同的设计空间，而不是免疫证明。</p>
+<h3 id="使用更彻底可证明的再随机化">使用更彻底、可证明的再随机化</h3>
+<p>如果仍要使用求值码，掩码应避免只增加少量列、低秩项或固定小块。可能的方向包括：</p>
+<ul>
+<li>让公开对象来自更大的随机超码或高余维子码，并证明其分布边界；</li>
+<li>对评价表示做非局部再随机化，使简单 puncture/shorten 无法隔离结构坐标；</li>
+<li>让安全规约落在明确的 decoding assumption 上，而不是依赖“攻击者应该认不出来”的直觉；</li>
+<li>把 Schur powers、dual、conductor 和 filtration 测试纳入参数选择流程。</li>
+</ul>
+<p>这些方向各有代价。掩码越彻底，密钥、解密复杂度和失败概率分析通常越难控制。</p>
+<h2 id="nist-pqc现实影响不能写成错误因果">NIST PQC：现实影响不能写成错误因果</h2>
+<p>下面的历史表把不同结论放回正确位置。</p>
+<table>
+  <thead>
+      <tr>
+          <th>时间</th>
+          <th>工作</th>
+          <th>可以得出的结论</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1992</td>
+          <td>Sidelnikov–Shestakov</td>
+          <td>plain GRS 公钥可在多项式时间恢复等价译码结构</td>
+      </tr>
+      <tr>
+          <td>2010</td>
+          <td>Wieschebrink</td>
+          <td>GRS subcode / 随机列修补仍需结构密码分析</td>
+      </tr>
+      <tr>
+          <td>2014</td>
+          <td>Couvreur 等</td>
+          <td>square code、puncture、shorten 与 filtration 可把异常维数推进到 key recovery</td>
+      </tr>
+      <tr>
+          <td>2016</td>
+          <td>RLCE</td>
+          <td>随机列加局部块混合能让某些全局 product-code 实验达到随机维数</td>
+      </tr>
+      <tr>
+          <td>2019</td>
+          <td>Couvreur–Lequesne–Tillich</td>
+          <td>作者提出的 RLCE short-key 参数可被多项式时间恢复</td>
+      </tr>
+      <tr>
+          <td>2025</td>
+          <td>NIST IR 8545</td>
+          <td>第四轮只选择 HQC；Classic McEliece 未被选中，但 NIST 仍对其提交参数安全性有信心</td>
+      </tr>
+  </tbody>
+</table>
+<p>NIST IR 8545 的表述很克制：Classic McEliece 使用 binary Goppa codes；NIST 认为针对其提交参数的结构攻击仍比 information-set decoding 更昂贵。NIST 没有选择它，主要理由是公钥极大、部署场景有限，而不是 Sidelnikov–Shestakov 攻击已经击破其参数。<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p>同一报告选择 HQC，强调其 quasi-cyclic syndrome decoding 假设、稳定的 decryption-failure-rate analysis，以及作为 ML-KEM 补充方案的工程权衡。编码密码没有因为 GRS 失败而退出后量子标准化；真正被淘汰的是“公开结构足够强，却只靠廉价线性掩码隐藏”的设计逻辑。</p>
+<h2 id="课后思考与练习">课后思考与练习</h2>
+<h3 id="练习-1grs-的-schur-积">练习 1：GRS 的 Schur 积</h3>
+<p>设</p>
+$$
+C=\operatorname{GRS}_k(\boldsymbol a,\boldsymbol v),\qquad
+D=\operatorname{GRS}_\ell(\boldsymbol a,\boldsymbol w).
+$$<p>证明 \(C\star D\) 的公式，并单独讨论 \(k+\ell-1>n\) 时为什么维数饱和到 \(n\)。</p>
+<blockquote>
+<p><strong>提示：</strong> 先证明每个次数 \(0\le d\le k+\ell-2\) 的单项式都可写成两个允许次数单项式的乘积，再使用互异点上的求值映射。</p>
+</blockquote>
+<h3 id="练习-2手算一次支撑恢复">练习 2：手算一次支撑恢复</h3>
+<p>使用本文 \(\mathbb F_{11}\) 的系统形矩阵。把三个支撑点规范化为 \(0,1,\infty\)，选择一个非退化四项比值，解出一个剩余支撑坐标。</p>
+<blockquote>
+<p><strong>提示：</strong> 使用 \(\rho=1-1/y\)，并记得所有除法都是乘模逆。</p>
+</blockquote>
+<h3 id="练习-3随机列下界">练习 3：随机列下界</h3>
+<p>在理想化追加列模型中，从</p>
+$$
+\dim \widetilde C^{\star2}
+\le\min\left\{n+t,2k-1+t,\binom{k+1}{2}\right\}
+$$<p>推出消除全局维数缺口所需的 \(t\) 的必要条件。分别分析 \(n+t\lt\binom{k+1}{2}\) 和 \(n+t\ge\binom{k+1}{2}\)。</p>
+<blockquote>
+<p><strong>提示：</strong> 先检查随机码基线是否已经饱和。最后得到的 \((k-1)(k-2)/2\) 依赖“一般位置随机列每列至多贡献一个独立平方方向”等假设。</p>
+</blockquote>
+<h3 id="练习-4区分器如何走向密钥恢复">练习 4：区分器如何走向密钥恢复</h3>
+<p>构造一个小参数实验：在 GRS 生成矩阵中插入两个随机列，逐个 puncture 坐标并记录平方码维数。说明为什么维数异常只给出分类信号，还需要删除随机位置并运行结构恢复才能得到译码器。</p>
+<blockquote>
+<p><strong>提示：</strong> 对比 puncture 一个 GRS 坐标与 puncture 一个随机坐标时，平方码秩的变化。</p>
+</blockquote>
+<h2 id="总结">总结</h2>
+<p>GRS 码的安全弱点不是“Vandermonde 矩阵长得整齐”，而是这种结构在换基、置换、列缩放乃至某些局部掩码之后仍留下可计算关系：</p>
+$$
+\text{低次多项式求值}
+\Longrightarrow
+\text{低维 Schur powers}
+\Longrightarrow
+\text{可定位的支撑关系}.
+$$<p>Sidelnikov–Shestakov 告诉我们：隐藏生成矩阵的外观不等于隐藏码。Square-code 方法进一步说明：即使公开码已经不是严格的 GRS，只要少量随机化没有消除 product-code 异常，攻击者仍能由 distinguisher 走向 coordinate recovery。RLCE 的历史则补上另一半：让一个全局统计量达到随机基线并不自动构成安全证明，参数熵和局部块结构仍需独立分析。</p>
+<p>编码密码可以安全使用强结构，但前提是结构泄漏被当成一等安全目标，而不是交给 \(S\)、\(P\) 或少量随机列去“遮住”。</p>
+<h2 id="参考文献">参考文献</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Ignacio Cascudo, Ronald Cramer, Diego Mirandola, and Gilles Zémor, “Squares of Random Linear Codes,” <em>IEEE Transactions on Information Theory</em>, 61(3), pp. 1159–1173, 2015. <a href="https://doi.org/10.1109/TIT.2015.2393251" target="_blank" rel="noopener noreffer ">https://doi.org/10.1109/TIT.2015.2393251</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>V. M. Sidelnikov and S. O. Shestakov, “On insecurity of cryptosystems based on generalized Reed-Solomon codes,” <em>Discrete Mathematics and Applications</em>, 2(4), 1992. <a href="https://doi.org/10.1515/dma.1992.2.4.439" target="_blank" rel="noopener noreffer ">https://doi.org/10.1515/dma.1992.2.4.439</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Alain Couvreur, Philippe Gaborit, Valérie Gauthier-Umaña, Ayoub Otmani, and Jean-Pierre Tillich, “Distinguisher-based attacks on public-key cryptosystems using Reed–Solomon codes,” <em>Designs, Codes and Cryptography</em>, 73(2), pp. 641–666, 2014. <a href="https://doi.org/10.1007/s10623-014-9967-z" target="_blank" rel="noopener noreffer ">https://doi.org/10.1007/s10623-014-9967-z</a>; preprint: <a href="https://arxiv.org/abs/1307.6458" target="_blank" rel="noopener noreffer ">https://arxiv.org/abs/1307.6458</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Christian Wieschebrink, “Cryptanalysis of the Niederreiter Public Key Scheme Based on GRS Subcodes,” <em>PQCrypto 2010</em>, LNCS 6061, pp. 61–72. <a href="https://doi.org/10.1007/978-3-642-12929-2_5" target="_blank" rel="noopener noreffer ">https://doi.org/10.1007/978-3-642-12929-2_5</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Yongge Wang, “Quantum resistant random linear code based public key encryption scheme RLCE,” <em>IEEE ISIT 2016</em>, pp. 2519–2523. <a href="https://doi.org/10.1109/ISIT.2016.7541753" target="_blank" rel="noopener noreffer ">https://doi.org/10.1109/ISIT.2016.7541753</a>; preprint: <a href="https://arxiv.org/abs/1512.08454" target="_blank" rel="noopener noreffer ">https://arxiv.org/abs/1512.08454</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Alain Couvreur, Matthieu Lequesne, and Jean-Pierre Tillich, “Recovering Short Secret Keys of RLCE in Polynomial Time,” <em>PQCrypto 2019</em>, pp. 133–152. <a href="https://doi.org/10.1007/978-3-030-25510-7_8" target="_blank" rel="noopener noreffer ">https://doi.org/10.1007/978-3-030-25510-7_8</a>; repository record: <a href="https://inria.hal.science/hal-01959617" target="_blank" rel="noopener noreffer ">https://inria.hal.science/hal-01959617</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Gorjan Alagic et al., <em>Status Report on the Fourth Round of the NIST Post-Quantum Cryptography Standardization Process</em>, NIST IR 8545, March 2025. <a href="https://doi.org/10.6028/NIST.IR.8545" target="_blank" rel="noopener noreffer ">https://doi.org/10.6028/NIST.IR.8545</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-07-17</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/reed-solomon-structural-attacks/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/reed-solomon-structural-attacks/" data-title="基于 Reed–Solomon 码的公钥密码系统的代数结构攻击" data-hashtags="cryptography,coding-theory,reed-solomon,mceliece,grs,square-code,rlce"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/reed-solomon-structural-attacks/" data-hashtag="cryptography"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/reed-solomon-structural-attacks/" data-title="基于 Reed–Solomon 码的公钥密码系统的代数结构攻击"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/reed-solomon-structural-attacks/" data-title="基于 Reed–Solomon 码的公钥密码系统的代数结构攻击"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/reed-solomon-structural-attacks/" data-title="基于 Reed–Solomon 码的公钥密码系统的代数结构攻击"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/cryptography/">Cryptography</a>,&nbsp;<a href="/tags/coding-theory/">Coding-Theory</a>,&nbsp;<a href="/tags/reed-solomon/">Reed-Solomon</a>,&nbsp;<a href="/tags/mceliece/">Mceliece</a>,&nbsp;<a href="/tags/grs/">Grs</a>,&nbsp;<a href="/tags/square-code/">Square-Code</a>,&nbsp;<a href="/tags/rlce/">Rlce</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/lattice-hints-lu2025/" class="prev" rel="prev" title="Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)</a>
+            <a href="/reed-solomon-code-from-zero-to-practice/" class="next" rel="next" title="Reed–Solomon 码：从零基础到原理、译码与工程实践">Reed–Solomon 码：从零基础到原理、译码与工程实践<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":80},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

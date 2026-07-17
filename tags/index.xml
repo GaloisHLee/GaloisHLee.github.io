@@ -9,8 +9,78 @@
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 30 May 2026 20:37:52 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://galoishlee.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coding-Theory</title>
+      <link>https://galoishlee.github.io/tags/coding-theory/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/coding-theory/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cryptography</title>
+      <link>https://galoishlee.github.io/tags/cryptography/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/cryptography/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Error-Correction</title>
+      <link>https://galoishlee.github.io/tags/error-correction/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/error-correction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Finite-Field</title>
+      <link>https://galoishlee.github.io/tags/finite-field/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/finite-field/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Grs</title>
+      <link>https://galoishlee.github.io/tags/grs/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/grs/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mceliece</title>
+      <link>https://galoishlee.github.io/tags/mceliece/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/mceliece/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://galoishlee.github.io/tags/python/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reed-Solomon</title>
+      <link>https://galoishlee.github.io/tags/reed-solomon/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/reed-solomon/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rlce</title>
+      <link>https://galoishlee.github.io/tags/rlce/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/rlce/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Square-Code</title>
+      <link>https://galoishlee.github.io/tags/square-code/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/square-code/</guid>
+      <description></description>
+    </item>
     <item>
       <title>BKZ</title>
       <link>https://galoishlee.github.io/tags/bkz/</link>
@@ -142,13 +212,6 @@
       <link>https://galoishlee.github.io/tags/belief-propagation/</link>
       <pubDate>Sun, 17 May 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
       <guid>https://galoishlee.github.io/tags/belief-propagation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Cryptography</title>
-      <link>https://galoishlee.github.io/tags/cryptography/</link>
-      <pubDate>Sun, 17 May 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/cryptography/</guid>
       <description></description>
     </item>
     <item>

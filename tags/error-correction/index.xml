@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Error-Correction on As it was</title>
+    <link>https://galoishlee.github.io/tags/error-correction/</link>
+    <description>Recent content in Error-Correction on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/error-correction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reed–Solomon 码：从零基础到原理、译码与工程实践</title>
+      <link>https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/</link>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Note: Reed–Solomon 码不是“把数据多复制几份”。它把有限域上的 \(k\) 个符号解释成低次多项式，再用多点求值或等价的生成多项式计算代数冗余。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;这篇笔记从本科生真正需要的最小起点展开：先区分 error 与 erasure，再建立 Hamming distance、有限域和 Vandermonde 生成矩阵，随后推导 RS 的 MDS 距离并进入 syndrome、错误定位多项式、Chien search 与 Forney algorithm。中间所有小参数数值都由独立脚本复算。&lt;/p&gt;&#xA;&lt;p&gt;工程部分固定 PyPI 稳定版 &lt;code&gt;reedsolo==1.7.0&lt;/code&gt;。我们会主动破坏字节，分别测试未知错误、已知擦除、联合纠错边界和越界失败；同时说明一个更重要的边界：纠错码不是哈希、认证码或加密算法。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

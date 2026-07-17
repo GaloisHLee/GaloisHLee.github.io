@@ -104,6 +104,25 @@
         alt="https://s2.loli.net/2024/03/15/3hzW1UX5dHkIKuL.png"
         title="https://s2.loli.net/2024/03/15/3hzW1UX5dHkIKuL.png" /></a></div><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="https://github.com/GaloisHLee" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github fa-fw" aria-hidden="true"></i></a><a href="https://www.zhihu.com/people/huo-che-kai-wang-dong-tian-5" title="知乎" target="_blank" rel="noopener noreffer me"><i data-svg-src="/lib/simple-icons/icons/zhihu.min.svg" aria-hidden="true"></i></a><a href="mailto:maocred@gmail.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/lattice-part-7/">Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-07-25">2024-07-25</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div><div class="content"><p>Reading: Peikert&rsquo;s wide-angle survey for the lattice backbone[^peikert], Brakerski&rsquo;s FHE survey for the leveled-to-full control argument[^brakerski-survey], and the Gentry / BGV / BV / GSW / FV papers for the actual mechanism[^gentry][^bgv][^bv][^gsw][^fv]. Beyond Parts 0-3, the only extra objects needed here are introduced locally: noisy LWE-style decryptions, structured ring or module arithmetic, gadget bases, and evaluation keys. Part 7 is where those objects become one controlled evaluation procedure.</p>
+<p>The procedure fails at a very specific point. Addition keeps decryption inside the same noisy linear relation. Multiplication does not. It lifts the decryption equation from a linear secret-key basis to a higher-degree basis, enlarges the ciphertext object, and spends decoding margin at the same time. If FHE is to support general evaluation, it needs a control layer exactly at that break.</p>
+<p>That control layer is gadget decomposition plus evaluation keys. Once that interface is explicit, key switching becomes a noisy basis change, relinearization becomes the special case that removes post-multiplication secret-key degree, and the leveled-versus-fully-homomorphic split becomes a question of whether the noise budget can be managed forever or only up to a fixed depth.[^brakerski-survey]</p>
+</div><div class="post-footer">
+        <a href="/lattice-part-7/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/fhe/">FHE</a>,&nbsp;<a href="/tags/gadget-decomposition/">Gadget Decomposition</a>,&nbsp;<a href="/tags/key-switching/">Key Switching</a>,&nbsp;<a href="/tags/relinearization/">Relinearization</a></div></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/waytofft-part-1/">WayToFFT Part 1</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-07-01">2024-07-01</time></span></div><div class="content"><p>从拉格朗日插值法到 FFT. Part-1.</p>
+<blockquote>
+<p>It was listed by the Science magazine as one of the ten greatest algorithms in the 20th century</p>
+</blockquote>
+<p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>
+</div><div class="post-footer">
+        <a href="/waytofft-part-1/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/lattice-part-6/">Lattice Part 6: Lattice Trapdoors and Signatures — GPV, Falcon, Dilithium</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-22">2024-06-22</time></span></div><div class="content"><p>Reading path: Micciancio-Regev 的 survey / lecture-note 主线[^micciancio-regev]，再接 GPV[^gpv]、Lyubashevsky 的 trapdoor-free signature line[^lyu12]、Falcon[^falcon] 与 Dilithium[^dilithium]。这一篇只讨论结构，不写成 NIST 结果综述。</p>
 <p>Part 4 和 Part 5 讲的是 hardness 如何支撑 encryption 与 KEM：SIS / LWE 给出难解关系，RLWE / MLWE / NTRU 给出更适合实现的结构。Part 6 反过来问另一个问题。假设已经有困难问题了，signer 到底靠什么持续生成“可验证而且足够短”的 witness？</p>
@@ -132,17 +151,6 @@
 <p><strong>Coron&rsquo;s Technique</strong></p>
 </div><div class="post-footer">
         <a href="/waytocoppersmith0x01/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/waytocoppersmith-0x00/">WayToCoppersmith0x00</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-05-26">2024-05-26</time></span></div><div class="content"><h1 id="re从零开始的crypto生活">RE:从零开始的crypto生活</h1>
-</div><div class="post-footer">
-        <a href="/waytocoppersmith-0x00/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/waytofft-part-0/">WayToFFT Part 0</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-05-25">2024-05-25</time></span></div><div class="content">从拉格朗日插值法到 FFT. Part-0.</div><div class="post-footer">
-        <a href="/waytofft-part-0/">阅读全文</a></div>
 </article>
 <ul class="pagination"><li class="page-item ">
                     <span class="page-link">

@@ -3,9 +3,25 @@
         <link>https://galoishlee.github.io/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 27 May 2026 12:00:00 &#43;0800</lastBuildDate>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 17 Jul 2026 00:00:00 &#43;0800</lastBuildDate>
             <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Reed–Solomon 码：从零基础到原理、译码与工程实践</title>
+    <link>https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/</link>
+    <pubDate>Fri, 17 Jul 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/</guid>
+    <description><![CDATA[从错误与擦除模型出发，推导 Reed–Solomon 码的有限域评价、Vandermonde 生成矩阵、MDS 距离和代数译码流程，并用 reedsolo 完成可复现的 Python 纠错实验。]]></description>
+</item>
+<item>
+    <title>基于 Reed–Solomon 码的公钥密码系统的代数结构攻击</title>
+    <link>https://galoishlee.github.io/reed-solomon-structural-attacks/</link>
+    <pubDate>Fri, 17 Jul 2026 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/reed-solomon-structural-attacks/</guid>
+    <description><![CDATA[从 GRS 码的 Vandermonde 与 Schur 积结构出发，推导等价私钥恢复、平方码区分器、随机列掩码的参数代价，并厘清 RLCE 与 NIST 编码方案的真实历史边界。]]></description>
+</item>
+<item>
     <title>Solving LWE with Independent Hints about Secret and Errors — Lu, Feng, Pan (2025)</title>
     <link>https://galoishlee.github.io/lattice-hints-lu2025/</link>
     <pubDate>Wed, 27 May 2026 12:00:00 &#43;0800</pubDate>
@@ -68,22 +84,6 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/ethereum-bn254-bls12-381-evolution/</guid>
     <description><![CDATA[从 EIP-196/197/1108/2537 的执行层时间线出发，解释 Ethereum 为什么早期采用 BN254，又为什么 BLS12-381 长期形成升级压力。]]></description>
-</item>
-<item>
-    <title>Pairing-Friendly Curves 的数学结构与协议动机</title>
-    <link>https://galoishlee.github.io/pairing-friendly-curves-motivation/</link>
-    <pubDate>Sun, 14 Dec 2025 08:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/pairing-friendly-curves-motivation/</guid>
-    <description><![CDATA[定义 pairing-friendly curves 的最小双线性结构，并说明它为什么会成为 BLS signatures、SNARK verifier 和 KZG opening verification 的共同协议接口。]]></description>
-</item>
-<item>
-    <title>椭圆曲线签名的安全性分析：从 ECDLP 到 HNP、EC-HNP 与 EHNP</title>
-    <link>https://galoishlee.github.io/ecc-security-hnp-ehnp/</link>
-    <pubDate>Sat, 13 Dec 2025 08:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/ecc-security-hnp-ehnp/</guid>
-    <description><![CDATA[从 ECDLP 基线出发，分析 ECDSA 在 nonce 偏置、部分泄漏、侧信道和实现误用下如何进入 HNP、EC-HNP 与 EHNP 攻击模型。]]></description>
 </item>
 </channel>
 </rss>
