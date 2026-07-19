@@ -104,6 +104,47 @@
         alt="https://s2.loli.net/2024/03/15/3hzW1UX5dHkIKuL.png"
         title="https://s2.loli.net/2024/03/15/3hzW1UX5dHkIKuL.png" /></a></div><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="https://github.com/GaloisHLee" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github fa-fw" aria-hidden="true"></i></a><a href="https://www.zhihu.com/people/huo-che-kai-wang-dong-tian-5" title="知乎" target="_blank" rel="noopener noreffer me"><i data-svg-src="/lib/simple-icons/icons/zhihu.min.svg" aria-hidden="true"></i></a><a href="mailto:maocred@gmail.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/badagent0x00-intro/">BadAgent0x00 Intro</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-10-13">2024-10-13</time></span></div><div class="content"><h1 id="reread-bad-agent">Reread: Bad Agent:</h1>
+<p><strong>Inserting and Activating Backdoor Attacks in LLM Agents</strong></p>
+<p>References: <a href="https://github.com/DPamK/BadAgent" target="_blank" rel="noopener noreffer ">https://github.com/DPamK/BadAgent</a></p>
+<p>keyword &#x26f5; : Backdoor Attacks; LLM Agents; Data Poisoning; ASR; FSR; Mind2Web</p>
+</div><div class="post-footer">
+        <a href="/badagent0x00-intro/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/lattice-part-9/">Lattice Part 9: Concrete Security of Lattice Schemes — Primal, Dual, BKZ</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-09-25">2024-09-25</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div><div class="content"><p>Reading: Peikert&rsquo;s survey as the wide-angle frame[^peikert-survey], Albrecht-Player-Scott for concrete-LWE attack modeling[^aps], Chen-Nguyen for BKZ quality heuristics[^cn11], the Homomorphic Encryption Standard for published parameter-table practice[^he-standard], and the LWE Estimator for the operational interface between these papers and actual numbers[^estimator].</p>
+<p>Parts 0-3 fixed the geometric vocabulary: bases, reduced bases, SVP/CVP, cosets, and short modular witnesses. A deployed lattice scheme then adds concrete parameters such as dimension, modulus, secret distribution, error distribution, and sample count. None of those symbols, by itself, proves that one parameter set costs an attacker $2^{128}$ steps. That last sentence is not a theorem output. It is an attacker model layered on top of the theorem.</p>
+<p>So this chapter stays on the attacker side of the interface. The real objects are primal attacks, dual attacks, BKZ block size, root-Hermite factor, and the estimator-style chain that turns $(n,q,\chi,k,m)$ into a work factor only after a long list of modeling decisions has been fixed.</p>
+<p>This chapter therefore separates asymptotic hardness claims from concrete parameter-setting practice. It defines primal and dual attack viewpoints clearly, then uses concrete security estimation and attack-cost modeling to map parameter choices to attack-cost estimates.</p>
+<p>In that exact sense, the goal is to connect BKZ quality assumptions to concrete lattice-scheme security reasoning rather than to repeat a security badge from the reduction side.</p>
+</div><div class="post-footer">
+        <a href="/lattice-part-9/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/lwe/">LWE</a>,&nbsp;<a href="/tags/bkz/">BKZ</a>,&nbsp;<a href="/tags/concrete-security/">Concrete Security</a>,&nbsp;<a href="/tags/primal-attack/">Primal Attack</a>,&nbsp;<a href="/tags/dual-attack/">Dual Attack</a></div></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/lattice-part-8/">Lattice Part 8: Identity-Based and Functional Encryption From Lattices</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-08-25">2024-08-25</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div><div class="content">From lattice trapdoors to identity-derived keys, hierarchical delegation, attribute policies, and function-restricted decryption.</div><div class="post-footer">
+        <a href="/lattice-part-8/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/lattice/">Lattice</a>,&nbsp;<a href="/tags/ibe/">IBE</a>,&nbsp;<a href="/tags/hibe/">HIBE</a>,&nbsp;<a href="/tags/abe/">ABE</a>,&nbsp;<a href="/tags/functional-encryption/">Functional Encryption</a>,&nbsp;<a href="/tags/trapdoor-delegation/">Trapdoor Delegation</a></div></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/pae-attack/">Pae Attack</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-07-27">2024-07-27</time></span></div><div class="content"><p>Reading: PAE</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png"
+        data-srcset="https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png, https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png 1.5x, https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png 2x"
+        data-sizes="auto"
+        alt="https://s2.loli.net/2024/07/27/1aRE4xZzN3n7yK2.png"
+        title="image-20240727210213433" /></p>
+<p><strong>Trustworthy deep learning.</strong></p>
+</div><div class="post-footer">
+        <a href="/pae-attack/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/lattice-part-7/">Lattice Part 7: Gadget Decomposition and Fully Homomorphic Encryption</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-07-25">2024-07-25</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div><div class="content"><p>Reading: Peikert&rsquo;s wide-angle survey for the lattice backbone[^peikert], Brakerski&rsquo;s FHE survey for the leveled-to-full control argument[^brakerski-survey], and the Gentry / BGV / BV / GSW / FV papers for the actual mechanism[^gentry][^bgv][^bv][^gsw][^fv]. Beyond Parts 0-3, the only extra objects needed here are introduced locally: noisy LWE-style decryptions, structured ring or module arithmetic, gadget bases, and evaluation keys. Part 7 is where those objects become one controlled evaluation procedure.</p>
 <p>The procedure fails at a very specific point. Addition keeps decryption inside the same noisy linear relation. Multiplication does not. It lifts the decryption equation from a linear secret-key basis to a higher-degree basis, enlarges the ciphertext object, and spends decoding margin at the same time. If FHE is to support general evaluation, it needs a control layer exactly at that break.</p>
@@ -121,36 +162,6 @@
 <p>从 FT 开始加速多项式乘法。主要记录了笔者学习傅里叶变换这一特殊线性变换时的笔记。</p>
 </div><div class="post-footer">
         <a href="/waytofft-part-1/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/lattice-part-6/">Lattice Part 6: Lattice Trapdoors and Signatures — GPV, Falcon, Dilithium</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-22">2024-06-22</time></span></div><div class="content"><p>Reading path: Micciancio-Regev 的 survey / lecture-note 主线[^micciancio-regev]，再接 GPV[^gpv]、Lyubashevsky 的 trapdoor-free signature line[^lyu12]、Falcon[^falcon] 与 Dilithium[^dilithium]。这一篇只讨论结构，不写成 NIST 结果综述。</p>
-<p>Part 4 和 Part 5 讲的是 hardness 如何支撑 encryption 与 KEM：SIS / LWE 给出难解关系，RLWE / MLWE / NTRU 给出更适合实现的结构。Part 6 反过来问另一个问题。假设已经有困难问题了，signer 到底靠什么持续生成“可验证而且足够短”的 witness？</p>
-<p>这是签名线和加密线分叉的地方。加密只要求 honest party 能解码；签名要求 honest signer 主动制造一个受控分布的短向量，而且这个过程不能把 trapdoor 本身逐次泄露出去。于是短基、陪集、预像采样、Gaussian sampling、Fiat-Shamir with aborts 会在这一篇同时出现。</p>
-<p>Working thesis: lattice signatures need more than encryption hardness. They need a mechanism for distribution-controlled short witness generation.</p>
-</div><div class="post-footer">
-        <a href="/lattice-part-6/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/lattice-part-5/">Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-21">2024-06-21</time></span></div><div class="content"><p>Reading: Peikert’s survey spine[^peikert-survey], Regev’s lecture-note framing[^regev-notes], and the primary RLWE / Module-LWE / Kyber / NTRU papers[^rlwe][^module][^kyber][^ntru] are enough to keep the taxonomy straight.</p>
-<p>Part 4 already fixed the baseline: LWE is noisy linear algebra, and the noise is what blocks elimination. Part 5 asks a different question. If the hard core is already there, what do we gain by forcing that core to live inside a quotient ring or a module?</p>
-</div><div class="post-footer">
-        <a href="/lattice-part-5/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/lattice-part-4/">Lattice Part 4: From SIS/ISIS to LWE</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-20">2024-06-20</time></span></div><div class="content"><p>Micciancio-Regev’s lecture-note framing[^mr], Regev’s 2005 reduction[^regev], and Peikert’s 2009 encryption perspective[^peikert09] are the three anchors for this bridge chapter.</p>
-<p>Part 0-3 already gave the lattice side: basis reduction, CVP/Babai intuition, SIS, and ISIS. Here we change only one ingredient, but it changes the entire cryptographic surface. The goal is to stabilize plain LWE first, not to preview structured lattices yet.</p>
-</div><div class="post-footer">
-        <a href="/lattice-part-4/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/waytocoppersmith0x01/">WayToCoppersmith0x01</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-04">2024-06-04</time></span></div><div class="content"><p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
-<p><strong>Coron&rsquo;s Technique</strong></p>
-</div><div class="post-footer">
-        <a href="/waytocoppersmith0x01/">阅读全文</a></div>
 </article>
 <ul class="pagination"><li class="page-item ">
                     <span class="page-link">
@@ -177,6 +188,10 @@
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/page/9/">9</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/10/">10</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">

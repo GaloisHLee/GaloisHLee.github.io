@@ -9,8 +9,127 @@
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 10:14:00 +0800</lastBuildDate>
     <atom:link href="https://galoishlee.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Block-Cipher</title>
+      <link>https://galoishlee.github.io/tags/block-cipher/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/block-cipher/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Disk-Encryption</title>
+      <link>https://galoishlee.github.io/tags/disk-encryption/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/disk-encryption/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security-Analysis</title>
+      <link>https://galoishlee.github.io/tags/security-analysis/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/security-analysis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Storage-Security</title>
+      <link>https://galoishlee.github.io/tags/storage-security/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/storage-security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tweakable-Blockcipher</title>
+      <link>https://galoishlee.github.io/tags/tweakable-blockcipher/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/tweakable-blockcipher/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Xts</title>
+      <link>https://galoishlee.github.io/tags/xts/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/xts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Aead</title>
+      <link>https://galoishlee.github.io/tags/aead/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/aead/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cryptanalysis</title>
+      <link>https://galoishlee.github.io/tags/cryptanalysis/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/cryptanalysis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gcm-Siv</title>
+      <link>https://galoishlee.github.io/tags/gcm-siv/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/gcm-siv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Misuse-Resistance</title>
+      <link>https://galoishlee.github.io/tags/misuse-resistance/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/misuse-resistance/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Siv</title>
+      <link>https://galoishlee.github.io/tags/siv/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/siv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ccm</title>
+      <link>https://galoishlee.github.io/tags/ccm/</link>
+      <pubDate>Sun, 19 Jul 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ccm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gcm</title>
+      <link>https://galoishlee.github.io/tags/gcm/</link>
+      <pubDate>Sun, 19 Jul 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/gcm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ocb</title>
+      <link>https://galoishlee.github.io/tags/ocb/</link>
+      <pubDate>Sun, 19 Jul 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ocb/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Aes</title>
+      <link>https://galoishlee.github.io/tags/aes/</link>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/aes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ctf</title>
+      <link>https://galoishlee.github.io/tags/ctf/</link>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/ctf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sm4</title>
+      <link>https://galoishlee.github.io/tags/sm4/</link>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/sm4/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Coding-Theory</title>
       <link>https://galoishlee.github.io/tags/coding-theory/</link>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界 - As it was</title><meta name="Description" content="从攻击者视角推导 AEAD 的最小形式化接口，以及 GCM、CCM、OCB 三条认证路线各自绑定了什么、为什么成立、nonce reuse 时先坏掉哪一层。"><meta property="og:title" content="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界">
+<meta property="og:description" content="从攻击者视角推导 AEAD 的最小形式化接口，以及 GCM、CCM、OCB 三条认证路线各自绑定了什么、为什么成立、nonce reuse 时先坏掉哪一层。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界">
+<meta name="twitter:description" content="从攻击者视角推导 AEAD 的最小形式化接口，以及 GCM、CCM、OCB 三条认证路线各自绑定了什么、为什么成立、nonce reuse 时先坏掉哪一层。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" /><link rel="prev" href="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" /><link rel="next" href="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol3/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/block-cipher-modes-offensive-crypto-vol2\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "block-cipher, aead, gcm, ccm, ocb, cryptanalysis, security-analysis","wordcount":  9579 ,
+        "url": "https:\/\/galoishlee.github.io\/block-cipher-modes-offensive-crypto-vol2\/","datePublished": "2026-07-19T08:00:00+08:00","dateModified": "2026-07-19T08:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "从攻击者视角推导 AEAD 的最小形式化接口，以及 GCM、CCM、OCB 三条认证路线各自绑定了什么、为什么成立、nonce reuse 时先坏掉哪一层。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/block-cipher-modes-offensive-crypto-vol2/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/block-cipher-modes-offensive-crypto-vol2/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界</h1><h2 class="single-subtitle">从 reject 语义、GHASH 到 offset/checksum</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a>&nbsp;<a href="/categories/security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Security</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-07-19">2026-07-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 9579 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 20 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-threat-model-与记号">0. Threat Model 与记号</a></li>
+    <li><a href="#1-从-vol1-到-aead为什么保密性不足以结束问题">1. 从 Vol.1 到 AEAD：为什么保密性不足以结束问题</a></li>
+    <li><a href="#2-aead-的形式化接口与安全目标">2. AEAD 的形式化接口与安全目标</a>
+      <ul>
+        <li><a href="#21-syntax认证的是-tuple不是某段孤立字节串">2.1 syntax：认证的是 tuple，不是某段孤立字节串</a></li>
+        <li><a href="#22-reject-语义为何改变攻击模型">2.2 reject 语义为何改变攻击模型</a></li>
+        <li><a href="#23-confidentiality-与-integrity-不再能混成一句话">2.3 confidentiality 与 integrity 不再能混成一句话</a></li>
+        <li><a href="#24--必须是一个符号而不是一簇可观察分支">2.4  必须是一个符号，而不是一簇可观察分支</a></li>
+        <li><a href="#25-integrity-不是-freshness">2.5 integrity 不是 freshness</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-gcmctr-与有限域多项式认证如何耦合">3. GCM：CTR 与有限域多项式认证如何耦合</a>
+      <ul>
+        <li><a href="#31-gcm-的最小方程组">3.1 GCM 的最小方程组</a></li>
+        <li><a href="#32-ghash-不是黑盒哈希而是--上的-horner-递推">3.2 GHASH 不是黑盒哈希，而是  上的 Horner 递推</a></li>
+        <li><a href="#33-为什么长度块必须进入-ghash">3.3 为什么长度块必须进入 GHASH</a></li>
+        <li><a href="#34-为什么--这个结构成立">3.4 为什么  这个结构成立</a></li>
+        <li><a href="#35-nonce-reuse先坏保密再坏认证而且是可写成方程的坏">3.5 nonce reuse：先坏保密，再坏认证，而且是可写成方程的坏</a></li>
+        <li><a href="#36-forbidden-attack-的原理入口">3.6 Forbidden Attack 的原理入口</a></li>
+        <li><a href="#37-正常使用时攻击者看到了什么没有看到什么">3.7 正常使用时，攻击者看到了什么；没有看到什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-ccmctr-加-cbc-mac-为什么比口号更复杂">4. CCM：CTR 加 CBC-MAC 为什么比口号更复杂</a>
+      <ul>
+        <li><a href="#41-先格式化再谈-mac">4.1 先格式化，再谈 MAC</a></li>
+        <li><a href="#42-cbc-mac-链真正绑定了什么">4.2 CBC-MAC 链真正绑定了什么</a></li>
+        <li><a href="#43-为什么长度编码与-parser-branch-都必须进入">4.3 为什么长度编码与 parser branch 都必须进入 </a></li>
+        <li><a href="#44-associated-data-长度编码为什么是证明前提而不是实现细节">4.4 associated data 长度编码为什么是证明前提，而不是实现细节</a></li>
+        <li><a href="#45-ctr-封装-payload-与-raw-tag">4.5 CTR 封装 payload 与 raw tag</a></li>
+        <li><a href="#46-为什么-counter-domain-必须与-mac-domain-分离">4.6 为什么 counter domain 必须与 MAC domain 分离</a></li>
+        <li><a href="#47-nonce-reuse为什么-ccm-不像-gcm-那样线性优雅但仍然会坏">4.7 nonce reuse：为什么 CCM 不像 GCM 那样“线性优雅”，但仍然会坏</a></li>
+        <li><a href="#48--在-ccm-里尤其不能被拆开">4.8  在 CCM 里尤其不能被拆开</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-ocboffsetchecksum-与单遍-aead-的第三条路线">5. OCB：offset、checksum 与单遍 AEAD 的第三条路线</a>
+      <ul>
+        <li><a href="#51-从--到-先构造-offset-常量族">5.1 从  到 ：先构造 offset 常量族</a></li>
+        <li><a href="#52-nonce-如何进入">5.2 nonce 如何进入 </a></li>
+        <li><a href="#53-为什么相同明文块不会再像-ecb-那样暴露相等关系">5.3 为什么相同明文块不会再像 ECB 那样暴露相等关系</a></li>
+        <li><a href="#54-checksum-为什么是认证的真正汇合点">5.4 checksum 为什么是认证的真正汇合点</a></li>
+        <li><a href="#55-associated-data-在-ocb-中走的是另一条-hash-路">5.5 associated data 在 OCB 中走的是另一条 HASH 路</a></li>
+        <li><a href="#56-为什么-ocb-不是-gcm-或-ccm-的小变体">5.6 为什么 OCB 不是 GCM 或 CCM 的小变体</a></li>
+        <li><a href="#57-nonce-reuse为什么同一-offset-轨道被重用会很危险">5.7 nonce reuse：为什么同一 offset 轨道被重用会很危险</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-统一比较三条认证路线到底绑定了什么">6. 统一比较：三条认证路线到底绑定了什么</a>
+      <ul>
+        <li><a href="#61-从攻击者能消去什么看模式的真正边界">6.1 从攻击者能消去什么，看模式的真正边界</a></li>
+        <li><a href="#62-三者都不能自动解决-replay">6.2 三者都不能自动解决 replay</a></li>
+        <li><a href="#63-攻击者能推出什么不能推出什么">6.3 攻击者能推出什么；不能推出什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-走向-vol3为什么-aead-仍不等于-misuse-safe">7. 走向 Vol.3：为什么 AEAD 仍不等于 misuse-safe</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Note: Vol.1 的核心结论是，保密性模式只要还保留一个“对任意篡改密文都返回某个明文”的解密接口，攻击者就仍然能沿着那条接口做线性利用。Vol.2 要补上的，不是又一个模式名词，而是这个接口何时会从总函数变成部分函数。</p>
+</blockquote>
+<p>AEAD 的关键不在于“密文后面多挂了一个 tag”，而在于系统把 nonce、associated data、payload、长度和顺序一起压进一个验证方程，并把解密语义改写成只允许输出 \(P\) 或 \(\bot\)。一旦这个改写成立，Vol.1 里最常见的 bit flip、reorder、splice、truncate 利用链就不再天然拥有一个可调用的明文 oracle。</p>
+<p>这一卷只讲原理和推导，不讲 API、不讲 PoC、不讲题目套路。主线只有三条: GCM 的 \(CTR+GHASH\)，CCM 的 \(CTR+CBC\text{-}MAC\)，以及 OCB 的 offset/checksum。它们都能做 AEAD，但它们的认证对象、状态对象和 nonce 进入系统的方式并不相同，因此 misuse 时的退化方式也并不相同。</p>
+<h2 id="0-threat-model-与记号">0. Threat Model 与记号</h2>
+<p>本卷默认底层分组密码 \(E_K\) 是一个强伪随机置换族：</p>
+$$
+E_K : \{0,1\}^{128} \to \{0,1\}^{128}, \qquad D_K(E_K(X)) = X.
+$$<p>这里的 \(E_K\) 可以是 AES，也可以是 SM4。只要它表现得像理想的 128-bit block cipher，本卷关注的主要风险就不在轮函数内部，而在 mode of operation 怎样组织状态、怎样绑定输入，以及怎样暴露接口。</p>
+<p>统一把 AEAD 接口写成：</p>
+$$
+\mathcal{E}_K(N, A, P) = (C, T), \qquad \mathcal{D}_K(N, A, C, T) \in \{P, \bot\}.
+$$<p>其中：</p>
+<ul>
+<li>\(N\) 是 nonce</li>
+<li>\(A\) 是 associated data</li>
+<li>\(P\) 是 plaintext</li>
+<li>\(C\) 是 ciphertext</li>
+<li>\(T\) 是 authentication tag</li>
+</ul>
+<p>攻击者最终观察到的是一个 transcript：</p>
+$$
+\tau = (N, A, C, T).
+$$<p>本卷反复追问的不是“用了没用 AES”，而是下面四件事：</p>
+<ol>
+<li>\(N\) 进入了哪一层状态。</li>
+<li>\(A\) 到底被绑定到了哪里。</li>
+<li>\(\mathcal{D}_K\) 的 \(\bot\) 语义是否真的统一而不可区分。</li>
+<li>nonce 一旦重复，攻击者能从两份 transcript 中消去什么。</li>
+</ol>
+<p>还需要预先固定一个经常被轻描淡写、但其实是证明前提的条件：<code>nonce-respecting adversary</code>。标准 nonce-based 安全游戏默认同一密钥下加密查询满足</p>
+$$
+N_i \neq N_j \qquad \text{for all } i \neq j.
+$$<p>如果这条前提被打破，很多安全定理不是“变弱一点”，而是直接不适用。</p>
+<h2 id="1-从-vol1-到-aead为什么保密性不足以结束问题">1. 从 Vol.1 到 AEAD：为什么保密性不足以结束问题</h2>
+<p>Vol.1 反复出现过两条攻击方程。</p>
+<p>流式模式里，攻击面通常可压成</p>
+$$
+P = C \oplus S.
+$$<p>CBC 类模式里，攻击面通常可压成</p>
+$$
+P_i = D_K(C_i) \oplus C_{i-1}.
+$$<p>这两条式子的共同点不是“都有 XOR”，而是它们都把解密接口保留成了一个总函数。只要攻击者提交某个被篡改过的 \(\widetilde{C}\)，系统仍会返回某个 \(\widetilde{P}\)。于是：</p>
+<ul>
+<li>在 CTR / OFB / CFB 里，攻击者可以直接在线性层操纵 \(\widetilde{P}\)。</li>
+<li>在 CBC 里，攻击者虽然不能直接控制每一位 \(D_K(C_i)\)，但可以通过控制 \(C_{i-1}\) 精确控制下一块的 XOR 后果。</li>
+<li>在任何没有认证的模式里，replay、cut-and-paste、truncate 只要语法上还能过，就不会被密码层主动拦住。</li>
+</ul>
+<p>所以 Vol.1 的真正结论不是“CBC 不好，CTR 也危险”，而是：</p>
+<blockquote>
+<p>只保密的 mode，无论在 passive setting 下多么像随机加密，只要 decryption oracle 对任意修改都吐出某个明文，它就仍然保留着主动攻击面。</p>
+</blockquote>
+<p>AEAD 引入的 \(\bot\) 不是装饰。它把解密接口从</p>
+$$
+\operatorname{Dec}_K : (N, C) \mapsto P
+$$<p>改成了</p>
+$$
+\mathcal{D}_K : (N, A, C, T) \mapsto \{P, \bot\}.
+$$<p>从攻击者视角看，最重要的变化不是多了一个输入 \(T\)，而是新鲜的、未见过的 tuple \((N,A,C,T)\) 只有在极小概率下才会落进 \(P\) 分支。</p>
+<h2 id="2-aead-的形式化接口与安全目标">2. AEAD 的形式化接口与安全目标</h2>
+<h3 id="21-syntax认证的是-tuple不是某段孤立字节串">2.1 syntax：认证的是 tuple，不是某段孤立字节串</h3>
+<p>AEAD 的语义对象不是“payload 加一段 tag”，而是一个四元组认证问题：</p>
+$$
+(N, A, P) \xmapsto{\mathcal{E}_K} (N, A, C, T).
+$$<p>其中 \(A\) 不需要保密，但它必须被认证，因为协议上下文往往就藏在 \(A\) 里，例如：</p>
+<ul>
+<li>record type</li>
+<li>direction bit</li>
+<li>sequence number</li>
+<li>algorithm identifier</li>
+<li>version</li>
+<li>domain separator</li>
+</ul>
+<p>如果这些上下文信息没有进入认证对象，那么攻击者即便无法改写 payload，也可能把一条在语义域 \(\mathsf{ctx}_1\) 下有效的消息搬运到 \(\mathsf{ctx}_2\) 下解释。</p>
+<p>更严格地说，AAD 的编码必须是单射。若一个协议把若干逻辑字段 \((x_1,\ldots,x_s)\) 编成 \(A\)，则至少要满足：</p>
+$$
+\operatorname{enc}_A(x_1,\ldots,x_s) = \operatorname{enc}_A(x_1',\ldots,x_s') \Longrightarrow (x_1,\ldots,x_s) = (x_1',\ldots,x_s').
+$$<p>否则密码层认证的只是某个有歧义的 bitstring，而不是唯一语义对象。</p>
+<h3 id="22-reject-语义为何改变攻击模型">2.2 reject 语义为何改变攻击模型</h3>
+<p>对 AEAD 来说，完整性目标的核心可以写成：攻击者即便自适应访问加密 oracle，也不能输出一个新鲜且可接受的 tuple。</p>
+<p>若记加密查询历史为</p>
+$$
+\mathcal{Q}_E = \{(N_i, A_i, C_i, T_i)\},
+$$<p>那么一个典型的 <code>INT-CTXT</code> 风格目标是要求</p>
+$$
+\Pr\Big[(N,A,C,T)\notin \mathcal{Q}_E \ \land\ \mathcal{D}_K(N,A,C,T)\neq \bot\Big]
+$$<p>是可忽略的。</p>
+<p>这一定义和 Vol.1 的世界有根本差别。Vol.1 里的攻击常常依赖这样一个事实：任意篡改后的输入都会落在某个明文上。现在这个条件被打断了。攻击者若想继续利用解密 oracle，第一步必须先完成一个 forgery，也就是先让系统接受一个从未出现过的 \((N,A,C,T)\)。</p>
+<h3 id="23-confidentiality-与-integrity-不再能混成一句话">2.3 confidentiality 与 integrity 不再能混成一句话</h3>
+<p><code>IND-CPA</code> 关心的是，攻击者区分不了挑战明文来自哪一个候选。</p>
+<p><code>INT-CTXT</code> 关心的是，攻击者造不出新的可接受密文。</p>
+<p><code>IND-CCA</code> 关心的是，即便攻击者除了加密 oracle 还有解密 oracle，仍然不能在挑战上获得区分优势。</p>
+<p>在 nonce-based AEAD 里，这三者的关系可以直观理解为：</p>
+<ul>
+<li>只有 IND-CPA，没有 INT-CTXT：Vol.1 里的很多可塑性攻击仍然能活着。</li>
+<li>只有 INT-CTXT，没有 IND-CPA：你挡住了伪造，但仍可能泄漏消息内容。</li>
+<li>两者同时成立：攻击者既不能看穿挑战，也不能把解密 oracle 重新变回一个明文计算器。</li>
+</ul>
+<p>这也是为什么 AEAD 不是“加密之后顺手再拼一个校验值”。它要求认证项参与定义解密语义本身，而不是只在日志里记一笔。</p>
+<h3 id="24--必须是一个符号而不是一簇可观察分支">2.4 \(\bot\) 必须是一个符号，而不是一簇可观察分支</h3>
+<p>理论里只写一个 \(\bot\)，但实现里很容易悄悄变成很多可区分的失败分支：</p>
+<ul>
+<li><code>bad length</code></li>
+<li><code>bad padding</code></li>
+<li><code>bad tag</code></li>
+<li><code>bad aad</code></li>
+<li><code>bad nonce</code></li>
+<li><code>bad parse</code></li>
+</ul>
+<p>如果这些失败分支在响应码、时间、连接行为或日志路径上可区分，那么密码层虽然名义上引入了 \(\bot\)，系统层却又把 \(\bot\) 拆回了 oracle。此时安全性证明仍然成立于理想接口，但真实系统已经回到了 Vol.1 风格的利用世界。</p>
+<h3 id="25-integrity-不是-freshness">2.5 integrity 不是 freshness</h3>
+<p>AEAD 可以拒绝被篡改的 tuple，但它不会自动拒绝“原封不动重放”的旧 tuple。</p>
+<p>如果 \((N,A,C,T)\) 曾经是合法输出，那么再次提交同一 tuple 时，解密通常仍会返回同一 \(P\)。因此：</p>
+$$
+\text{integrity} \neq \text{anti-replay}.
+$$<p>freshness 仍需要协议单独跟踪 sequence number、nonce set、epoch 或 state machine。</p>
+<h2 id="3-gcmctr-与有限域多项式认证如何耦合">3. GCM：CTR 与有限域多项式认证如何耦合</h2>
+<p>GCM 是 Vol.2 的核心，因为它把两件事情叠在了一起：</p>
+<ol>
+<li>用 CTR 提供高吞吐的保密层。</li>
+<li>用 \(GF(2^{128})\) 上的多项式求值提供认证层。</li>
+</ol>
+<h3 id="31-gcm-的最小方程组">3.1 GCM 的最小方程组</h3>
+<p>GCM 先定义一个 hash subkey：</p>
+$$
+H = E_K(0^{128}).
+$$<p>然后从 nonce 构造 pre-counter block \(J_0\)。</p>
+<p>若 \(|N| = 96\)，则</p>
+$$
+J_0 = N \,\|\, 0^{31} \,\|\, 1.
+$$<p>若 \(|N| \neq 96\)，则</p>
+$$
+J_0 = GHASH_H\Big(N \,\|\, 0^s \,\|\, [|N|]_{64}\Big),
+$$<p>其中 \(s\) 用来把输入补到 128-bit block 边界。</p>
+<p>接着用 \(J_0\) 生成 CTR 流：</p>
+$$
+C = GCTR_K(\operatorname{inc32}(J_0), P).
+$$<p>最后定义 tag：</p>
+$$
+T = \operatorname{MSB}_t\Big(E_K(J_0) \oplus S\Big),
+$$<p>其中</p>
+$$
+S = GHASH_H\Big(A \,\|\, 0^v \,\|\, C \,\|\, 0^u \,\|\, [|A|]_{64} \,\|\, [|C|]_{64}\Big).
+$$<p>这里的</p>
+$$
+v = 128\left\lceil \frac{|A|}{128} \right\rceil - |A|,
+\qquad
+u = 128\left\lceil \frac{|C|}{128} \right\rceil - |C|.
+$$<p>所以 GCM 不是“CTR 后面再哈一下”，而是一个非常具体的分层结构：</p>
+<ul>
+<li>\(J_0\) 决定 keystream 与 tag mask</li>
+<li>\(H\) 决定 GHASH 的多项式求值点</li>
+<li>\(A\) 与 \(C\) 先被唯一编码，再喂进 GHASH</li>
+</ul>
+<h3 id="32-ghash-不是黑盒哈希而是--上的-horner-递推">3.2 GHASH 不是黑盒哈希，而是 \(GF(2^{128})\) 上的 Horner 递推</h3>
+<p>把每个 128-bit block 看作 \(GF(2^{128})\) 的元素。其乘法在约化多项式</p>
+$$
+u^{128} + u^7 + u^2 + u + 1
+$$<p>下进行。</p>
+<p>若格式化后的输入块为</p>
+$$
+X_1, X_2, \ldots, X_m,
+$$<p>则 GHASH 定义为</p>
+$$
+Y_0 = 0^{128},
+$$$$
+Y_i = (Y_{i-1} \oplus X_i)\cdot H \qquad \text{for } 1\le i \le m,
+$$<p>最终输出</p>
+$$
+GHASH_H(X_1,\ldots,X_m) = Y_m.
+$$<p>把递推展开，就得到一个公开系数、秘密求值点的多项式：</p>
+$$
+Y_m = X_1 H^m \oplus X_2 H^{m-1} \oplus \cdots \oplus X_m H.
+$$<p>这一步极其关键。GCM 的认证强度并不来自“一个普通 MAC 黑盒”，而是来自：</p>
+<ol>
+<li>\(H\) 对攻击者未知。</li>
+<li>对唯一 nonce 而言，\(E_K(J_0)\) 提供了 one-time mask。</li>
+<li>GHASH 对不同输入向量的碰撞概率可被 <code>universal-hash</code> 边界控制。</li>
+</ol>
+<h3 id="33-为什么长度块必须进入-ghash">3.3 为什么长度块必须进入 GHASH</h3>
+<p>GCM 不是在认证原始串 \(A\|C\)，而是在认证一个唯一编码后的 pair \((A,C)\)。</p>
+<p>没有长度块时，攻击者会立刻尝试问这样的问题：</p>
+$$
+(A,C) \stackrel{?}{\neq} (A',C')
+\quad \text{but} \quad
+\operatorname{fmt}(A,C) = \operatorname{fmt}(A',C').
+$$<p>如果认证输入只是一段模糊拼接后的比特串，那么以下几类歧义都会出现：</p>
+<ul>
+<li>哪些比特属于 associated data，哪些属于 ciphertext</li>
+<li>最后一块前面的零是 padding 还是消息内容</li>
+<li>不同长度但同一 block decomposition 的对象是否会被同一 GHASH 解释</li>
+</ul>
+<p>GCM 通过</p>
+$$
+\Phi(A,C) = A \,\|\, 0^v \,\|\, C \,\|\, 0^u \,\|\, [|A|]_{64} \,\|\, [|C|]_{64}
+$$<p>强制把 pair \((A,C)\) 编成唯一对象。换句话说，GHASH 认证的不是某段“长得像”消息的串，而是这对对象的唯一语法树。</p>
+<h3 id="34-为什么--这个结构成立">3.4 为什么 \(\operatorname{MSB}_t(E_K(J_0)\oplus S)\) 这个结构成立</h3>
+<p>tag 写成</p>
+$$
+T = \operatorname{MSB}_t(E_K(J_0)\oplus S)
+$$<p>而不是直接写成 \(GHASH_H(A,C)\)，原因是 GHASH 本身是线性的。线性对象若不再加一个 nonce-dependent one-time mask，很容易被重复查询积累信息。</p>
+<p>因此 GCM 的认证层有两部分：</p>
+<ul>
+<li>\(S\)：把 \(A\) 和 \(C\) 压成一个有限域元素</li>
+<li>\(E_K(J_0)\)：对该元素施加一次性遮罩</li>
+</ul>
+<p>唯一 nonce 的作用并不只在保密层。它同样保证了这个 tag mask 不会跨消息复用。</p>
+<h3 id="35-nonce-reuse先坏保密再坏认证而且是可写成方程的坏">3.5 nonce reuse：先坏保密，再坏认证，而且是可写成方程的坏</h3>
+<p>若同一 key 下两次使用同一 nonce \(N\)，则 \(J_0\) 相同，CTR keystream 相同，于是</p>
+$$
+C \oplus C' = P \oplus P'.
+$$<p>这是 CTR 继承来的第一层崩塌。</p>
+<p>第二层崩塌发生在 tag 上。为避免被 tag truncation 干扰，先假设 \(t=128\)。此时</p>
+$$
+T = E_K(J_0)\oplus GHASH_H(\Phi(A,C)),
+$$$$
+T' = E_K(J_0)\oplus GHASH_H(\Phi(A',C')).
+$$<p>两式相异或，nonce-dependent mask 被完全消去：</p>
+$$
+T \oplus T' = GHASH_H(\Phi(A,C)) \oplus GHASH_H(\Phi(A',C')).
+$$<p>设两条 transcript 对应的格式化块向量分别为</p>
+$$
+\mathbf{X} = (X_1,\ldots,X_m), \qquad \mathbf{X}' = (X_1',\ldots,X_m').
+$$<p>则有</p>
+$$
+T \oplus T' = \sum_{i=1}^{m} (X_i \oplus X_i') H^{m-i+1}.
+$$<p>也就是说，攻击者观察到的是一个关于未知点 \(H\) 的多项式值：</p>
+$$
+\Delta T = M_{\Delta \mathbf{X}}(H).
+$$<p>把它再写得更形式化一点。对每一对 repeated-nonce transcript，都可以定义一个公开系数多项式</p>
+$$
+F_{\Delta \mathbf{X},\Delta T}(Z) = M_{\Delta \mathbf{X}}(Z) \oplus \Delta T.
+$$<p>真正的 hash subkey \(H\) 满足</p>
+$$
+F_{\Delta \mathbf{X},\Delta T}(H) = 0.
+$$<p>因此一旦 nonce 重复，认证问题就从“猜一个 128-bit tag”退化成“求一个 128-bit 域元素 \(H\) 作为若干公开多项式的公共根”。如果 \(F\) 不是零多项式，且其次数为 \(d\)，那么在域 \(GF(2^{128})\) 上：</p>
+$$
+\big|\{z \in GF(2^{128}) : F_{\Delta \mathbf{X},\Delta T}(z)=0\}\big| \le d.
+$$<p>也就是说，一条 collision transcript 未必立刻唯一确定 \(H\)，但它已经把 \(H\) 的候选集合从 \(2^{128}\) 个点压缩到了至多 \(d\) 个根。多组 repeated-nonce transcript 则继续做根集合求交：</p>
+$$
+H \in \bigcap_{j=1}^{q} \{z : F_j(z)=0\}.
+$$<p>这就是 GCM nonce reuse 特别危险的地方。它不仅破坏保密性，而且把认证问题转成了一个公开系数、秘密求值点的代数问题。</p>
+<h3 id="36-forbidden-attack-的原理入口">3.6 Forbidden Attack 的原理入口</h3>
+<p>上式并不意味着攻击者立刻恢复 \(K\)。这里要分清三件事：</p>
+<ol>
+<li>\(H = E_K(0^{128})\) 不是 AES key 本身。</li>
+<li>恢复 \(H\) 并不等于反演 block cipher。</li>
+<li>但恢复 \(H\) 已经足以破坏认证。</li>
+</ol>
+<p>更具体地说，Forbidden Attack 的根本机制不是“神秘地猜中 tag”，而是先把 repeated nonce 变成 \(H\) 的根求解问题，再把认证退化成一个可计算函数。</p>
+<p>先看一个最简单、但已经足够说明问题的情形：两条消息都满足</p>
+$$
+A = A' = \varnothing, \qquad |C| = |C'| = 128.
+$$<p>此时格式化输入都是两块：</p>
+$$
+\Phi(\varnothing,C) = (C, L), \qquad \Phi(\varnothing,C') = (C', L),
+$$<p>其中</p>
+$$
+L = [0]_{64} \,\|\, [128]_{64}
+$$<p>是相同的长度块。于是</p>
+$$
+GHASH_H(\Phi(\varnothing,C)) = C H^2 \oplus L H,
+$$$$
+GHASH_H(\Phi(\varnothing,C')) = C' H^2 \oplus L H.
+$$<p>在 repeated-nonce 下相减，长度项完全抵消：</p>
+$$
+T \oplus T' = (C \oplus C') H^2.
+$$<p>只要 \(C \neq C'\)，就得到</p>
+$$
+H^2 = (T \oplus T') (C \oplus C')^{-1}.
+$$<p>而在 \(GF(2^{128})\) 中，Frobenius 映射 \(x \mapsto x^2\) 是一个双射，所以 \(H\) 被唯一确定。也就是说，在 full-tag 视角下，哪怕只发生一次这样的 nonce collision，攻击者都已经不再面对 \(2^{128}\) 的盲猜空间，而是在直接解出 hash subkey。</p>
+<p>更一般地，若重复 nonce 的 transcript 对应一个低次数多项式</p>
+$$
+F(H)=0,
+$$<p>则攻击者得到的是一个小候选集合；若再拿到额外 collision transcript，就继续做根集合求交，直到 \(H\) 唯一。tag truncation 会提高样本需求，因为攻击者只看到 \(T\) 的前 \(t\) 位，但这个变化只影响约束强度，不改变攻击本质：nonce reuse 仍然把“认证”改写成关于 \(H\) 的代数恢复问题。</p>
+<p>原因很直接。若攻击者在 repeated-nonce transcript 中通过足够多的约束恢复了 \(H\)，那么它就可以从任意一条合法 transcript 中解出该 nonce 对应的 mask：</p>
+$$
+\Pi_N = E_K(J_0) = T \oplus GHASH_H(\Phi(A,C)).
+$$<p>随后，对同一 nonce \(N\) 下任意伪造目标 \((A^\star, C^\star)\)，它都能计算</p>
+$$
+T^\star = \Pi_N \oplus GHASH_H(\Phi(A^\star,C^\star)).
+$$<p>这样 forged tuple \((N, A^\star, C^\star, T^\star)\) 就会通过验证。</p>
+<p>攻击者需要恢复的不是 \(K\)，而只是：</p>
+<ul>
+<li>hash subkey \(H\)</li>
+<li>某个已重复 nonce 的一次性 tag mask \(\Pi_N\)</li>
+</ul>
+<p>对 GCM 来说，这已经足够致命。</p>
+<h3 id="37-正常使用时攻击者看到了什么没有看到什么">3.7 正常使用时，攻击者看到了什么；没有看到什么</h3>
+<p>在 nonce 唯一、且 decryption 只返回 \(P\) 或 \(\bot\) 时，单条 transcript</p>
+$$
+(N,A,C,T)
+$$<p>给攻击者留下的是：</p>
+<ul>
+<li>可见的 nonce \(N\)</li>
+<li>可见的 associated data \(A\)</li>
+<li>经 CTR 掩蔽后的 \(C\)</li>
+<li>经 one-time mask 掩蔽后的 \(GHASH_H\) 值</li>
+</ul>
+<p>但它看不到：</p>
+<ul>
+<li>keystream \(E_K(J_i)\)</li>
+<li>hash subkey \(H\)</li>
+<li>pre-counter mask \(E_K(J_0)\)</li>
+</ul>
+<p>一旦 nonce 重复，前两类不可见对象开始通过消元间接显露结构；这就是 GCM 的真正硬边界。</p>
+<h2 id="4-ccmctr-加-cbc-mac-为什么比口号更复杂">4. CCM：CTR 加 CBC-MAC 为什么比口号更复杂</h2>
+<p>CCM 常被一句话概括成</p>
+$$
+\text{CCM} = \text{CTR} + \text{CBC-MAC}.
+$$<p>这句话没有错，但远远不够。因为 CCM 的安全性很大程度上依赖于：CBC-MAC 认证的到底是什么、怎样编码、怎样与 CTR 域分离。</p>
+<h3 id="41-先格式化再谈-mac">4.1 先格式化，再谈 MAC</h3>
+<p>CCM 首先把 \((N,A,P)\) 格式化成 block sequence</p>
+$$
+B_0, B_1, \ldots, B_r.
+$$<p>其中最关键的起点块是</p>
+$$
+B_0 = \operatorname{Flags} \,\|\, N \,\|\, [|P|]_q.
+$$<p>这里 \(q\) 是 payload length field 的字节数，满足 nonce 长度与 \(q\) 一起决定 128-bit block 的剩余布局。<code>Flags</code> 本身又编码了三件事情：</p>
+<ul>
+<li>是否存在 associated data</li>
+<li>tag length 参数</li>
+<li>\(q\) 的大小</li>
+</ul>
+<p>associated data 则被编码成一个长度前缀唯一的串，再和 payload blocks 一起进入 \(B_1,\ldots,B_r\)。</p>
+<p>所以 CCM 里真正被 CBC-MAC 认证的对象不是一句松散的“nonce + AAD + plaintext”，而是一个精确格式化后的结构化串：</p>
+$$
+\operatorname{Fmt}(N,A,P,t,q) = B_0 \,\|\, B_1 \,\|\, \cdots \,\|\, B_r.
+$$<h3 id="42-cbc-mac-链真正绑定了什么">4.2 CBC-MAC 链真正绑定了什么</h3>
+<p>设</p>
+$$
+Y_0 = 0^{128},
+$$<p>然后对 \(0\le i\le r\) 递推</p>
+$$
+Y_{i+1} = E_K(Y_i \oplus B_i).
+$$<p>raw authentication value 定义为</p>
+$$
+T_\star = \operatorname{MSB}_t(Y_{r+1}).
+$$<p>这条链意味着：任何对 \(\operatorname{Fmt}(N,A,P,t,q)\) 的修改，都会被传递到最终 \(Y_{r+1}\) 中。于是：</p>
+<ul>
+<li>改 payload，不可能不改 tag</li>
+<li>改 AAD，不可能不改 tag</li>
+<li>改 payload length，不可能不改 tag</li>
+<li>改 tag length 参数本身，也不可能不改 tag</li>
+</ul>
+<p>这正是 CCM 比“CTR 后挂一个普通 MAC”更细的地方。它把解释消息所必需的元数据一起拉进了认证对象。</p>
+<h3 id="43-为什么长度编码与-parser-branch-都必须进入">4.3 为什么长度编码与 parser branch 都必须进入 \(B_0\)</h3>
+<p>若没有 \([|P|]_q\)，则同一 block sequence 可能对应多种“在哪截断”的 payload 解释，truncation 就无法被密码层唯一识别。</p>
+<p>若没有 tag length 参数，验证方甚至可能在两套不同的 <code>accept</code> 语义下解释同一 tuple。</p>
+<p>若没有 <code>Adata</code> bit，解析器也无法知道自己是否应当读取 associated data length field。</p>
+<p>因此 \(B_0\) 的意义不是“凑够 128 bit 方便实现”，而是：</p>
+<blockquote>
+<p>把验证语义所依赖的控制信息放进认证对象本身。</p>
+</blockquote>
+<h3 id="44-associated-data-长度编码为什么是证明前提而不是实现细节">4.4 associated data 长度编码为什么是证明前提，而不是实现细节</h3>
+<p>这里最好把要求写成一个正式的编码性质。CCM 的证明并不是直接面对 tuple 空间</p>
+$$
+(N,A,P,t,q),
+$$<p>而是先面对由 formatter 生成的 block language</p>
+$$
+\mathcal{L}_{\mathrm{CCM}} = \{\operatorname{Fmt}(N,A,P,t,q)\}.
+$$<p>CBC-MAC 真正作用的对象是 \(\mathcal{L}_{\mathrm{CCM}}\) 里的字符串，而不是原始 tuple 本身。因此证明所需要的不是模糊的“编码看起来合理”，而是：</p>
+$$
+\operatorname{Fmt}(N,A,P,t,q) = \operatorname{Fmt}(N',A',P',t',q') \Longrightarrow (N,A,P,t,q)=(N',A',P',t',q').
+$$<p>也就是 formatter 必须是单射。把注意力只放在 AAD 这一层，则至少要有：</p>
+$$
+\operatorname{enc}_A(A) = \operatorname{enc}_A(A') \Longrightarrow A = A'.
+$$<p>如果这一步不满足，那么即使 CBC-MAC 本身无懈可击，系统也只是在认证一个有歧义的序列。更糟的是，这里根本不需要概率型 forgery。若存在</p>
+$$
+A \neq A' \qquad \text{but} \qquad \operatorname{enc}_A(A)=\operatorname{enc}_A(A'),
+$$<p>并固定同一个 \(N,P,t,q\)，就立刻有</p>
+$$
+\operatorname{Fmt}(N,A,P,t,q)=\operatorname{Fmt}(N,A',P,t,q).
+$$<p>于是 CBC-MAC 链逐块相同：</p>
+$$
+Y_i = Y_i' \qquad \text{for all } i,
+$$<p>进而</p>
+$$
+T_\star = T_\star', \qquad U = U'.
+$$<p>也就是说，</p>
+$$
+\mathcal{E}_K(N,A,P)=\mathcal{E}_K(N,A',P)
+$$<p>会以概率 1 成立。攻击者此时做的不是“伪造一个新 tag”，而是把一份完全合法的 transcript 重新解释到另一个语义域里。这不是密码强度下降，而是 message representation 已经从根上失去唯一性。</p>
+<p>可以用一个抽象反例看得更直。假设某个错误实现把 AAD 编码成</p>
+$$
+\widetilde{\operatorname{enc}}_A(A)=A \,\|\, 0^{v(A)},
+$$<p>也就是只补零到 block 边界，却不显式写入长度。那么只要 \(1 \le k \le v(A)\)，就有</p>
+$$
+\widetilde{\operatorname{enc}}_A(A)=\widetilde{\operatorname{enc}}_A(A \,\|\, 0^k),
+$$<p>因为 trailing zeros 到底是“真实 AAD 内容”还是“对齐 padding”，解析器已经分不出来。于是 \(A\) 与 \(A\|0^k\) 会产生相同的 MAC 输入。这里失败的不是 AES，也不是 CBC-MAC，而是 <code>parse</code> 不再是函数。</p>
+<p>从这个角度看，CCM 里的 associated-data length encoding、\(B_0\) 里的 <code>Adata</code> bit、payload length field 和 tag-length/\(q\) 参数，本质上都在服务同一个条件：</p>
+$$
+\operatorname{Parse}(\operatorname{Fmt}(N,A,P,t,q)) = (N,A,P,t,q).
+$$<p>也就是验证方必须能从被认证的 bitstring 中唯一恢复出它自己正在认证什么。</p>
+<p>这一点和 GCM 里的 length block 是同一类原则：</p>
+<ul>
+<li>GCM 用显式长度块避免 \((A,C)\) 的歧义拼接</li>
+<li>CCM 用 prefix-free 编码避免 associated data 的歧义解析</li>
+</ul>
+<h3 id="45-ctr-封装-payload-与-raw-tag">4.5 CTR 封装 payload 与 raw tag</h3>
+<p>CCM 的计数器块写成</p>
+$$
+\operatorname{Ctr}_i = \operatorname{Flags}' \,\|\, N \,\|\, [i]_q,
+$$<p>其中 \(\operatorname{Flags}'\) 与 \(B_0\) 的 <code>Flags</code> 明确区分，用于域分离。</p>
+<p>定义 keystream blocks：</p>
+$$
+S_i = E_K(\operatorname{Ctr}_i).
+$$<p>payload ciphertext 为</p>
+$$
+C = P \oplus \operatorname{MSB}_{|P|}(S_1 \,\|\, S_2 \,\|\, \cdots).
+$$<p>而对 tag 的封装则是</p>
+$$
+U = T_\star \oplus \operatorname{MSB}_t(S_0).
+$$<p>最终输出可写成</p>
+$$
+\mathcal{E}_K(N,A,P) = (C, U).
+$$<p>这里再次体现出 nonce 的双重角色：</p>
+<ul>
+<li>它决定 payload 的 CTR keystream</li>
+<li>它也决定 raw tag \(T_\star\) 的一次性 mask</li>
+</ul>
+<h3 id="46-为什么-counter-domain-必须与-mac-domain-分离">4.6 为什么 counter domain 必须与 MAC domain 分离</h3>
+<p>如果某个 \(\operatorname{Ctr}_i\) 能与某个 \(B_j\) 相撞，那么同一个 block-cipher input 就会同时出现在：</p>
+<ul>
+<li>CBC-MAC 链内部状态更新</li>
+<li>CTR keystream 生成</li>
+</ul>
+<p>这会把本应分开的“认证域”和“加密域”缠在一起。CCM 通过让 \(B_0\) 与 \(\operatorname{Ctr}_i\) 使用不同控制位布局，来保证这两个命名空间不会相撞。</p>
+<p>因此，<code>Flags</code> 不是为了协议美观，而是为了让</p>
+$$
+\{B_0,B_1,\ldots,B_r\} \cap \{\operatorname{Ctr}_0,\operatorname{Ctr}_1,\ldots\}
+$$<p>在结构上被强行隔开。</p>
+<h3 id="47-nonce-reuse为什么-ccm-不像-gcm-那样线性优雅但仍然会坏">4.7 nonce reuse：为什么 CCM 不像 GCM 那样“线性优雅”，但仍然会坏</h3>
+<p>若 nonce 重复，则所有 \(\operatorname{Ctr}_i\) 重复，因而 payload keystream 重复：</p>
+$$
+C \oplus C' = P \oplus P'.
+$$<p>这是与 CTR 完全一致的第一层崩塌。</p>
+<p>对 tag 而言，由于</p>
+$$
+U = T_\star \oplus \operatorname{MSB}_t(S_0),
+$$<p>同一 nonce 还会复用同一个 \(\operatorname{MSB}_t(S_0)\)。于是</p>
+$$
+U \oplus U' = T_\star \oplus T_\star'.
+$$<p>和 GCM 不同，右边不是公开多项式在未知点 \(H\) 上的值，而是两个 CBC-MAC 输出前缀的异或。这使得 CCM 的 misuse 后果不如 GCM 那样能立刻写成一个干净的有限域代数方程，但这并不意味着它安全得多。真实情况是：</p>
+<ul>
+<li>保密性仍然立刻退化成 two-time pad</li>
+<li>tag 的一次性封装也被撤销</li>
+<li>认证边界回退到“直接比较 raw CBC-MAC 输出差分”的世界</li>
+</ul>
+<p>所以 CCM 的 repeated-nonce 崩塌虽然没有 GCM 那样漂亮的 <code>forbidden attack polynomial</code>，却同样足以破坏其核心安全前提。</p>
+<h3 id="48--在-ccm-里尤其不能被拆开">4.8 \(\bot\) 在 CCM 里尤其不能被拆开</h3>
+<p>CCM 的 decryption-verification 流程里，理论上只应暴露一个结论：</p>
+$$
+\text{accept} \quad \text{or} \quad \bot.
+$$<p>如果实现把失败原因细分为“associated data 长度不对”“payload 长度不对”“tag 比对失败”“格式块不合法”，并通过时序或错误码泄露出来，那么理论上的 authenticated decryption 又被拆成了多个可观察 oracle。</p>
+<p>因此 CCM 给出的安全接口不是“先解再慢慢报错”，而是：</p>
+<blockquote>
+<p>所有验证失败在可观察层面都必须坍缩成同一个 \(\bot\)。</p>
+</blockquote>
+<h2 id="5-ocboffsetchecksum-与单遍-aead-的第三条路线">5. OCB：offset、checksum 与单遍 AEAD 的第三条路线</h2>
+<p>GCM 用 universal hash。CCM 用 CBC-MAC。OCB 走的是第三条路：为每个 block 生成位置相关的 offset，把保密与认证在同一遍流里缠起来。</p>
+<h3 id="51-从--到-先构造-offset-常量族">5.1 从 \(L_\ast\) 到 \(L_i\)：先构造 offset 常量族</h3>
+<p>OCB 先定义：</p>
+$$
+L_\ast = E_K(0^{128}),
+$$$$
+L_\$ = \operatorname{dbl}(L_\ast),
+$$$$
+L_0 = \operatorname{dbl}(L_\$),
+$$$$
+L_i = \operatorname{dbl}(L_{i-1}) \qquad \text{for } i\ge 1.
+$$<p>这里的 \(\operatorname{dbl}\) 是 \(GF(2^{128})\) 中乘以 \(x\) 的操作，也就是一次“左移加条件约化”。这套常量族的作用，是用很低代价为不同 block index 准备 tweak 素材。</p>
+<h3 id="52-nonce-如何进入">5.2 nonce 如何进入 \(Offset_0\)</h3>
+<p>OCB 不直接把 nonce 当作某个 block index，而是先把它加工成初始 offset。设格式化后的 Nonce 最低 6 位为 <code>bottom</code>，再令</p>
+$$
+Ktop = E_K(\operatorname{Nonce}[1..122] \,\|\, 0^6),
+$$$$
+\operatorname{Stretch} = Ktop \,\|\, \big(Ktop[1..64] \oplus Ktop[9..72]\big).
+$$<p>然后取一段滑动窗口：</p>
+$$
+Offset_0 = \operatorname{Stretch}[1+\operatorname{bottom} \, .. \, 128+\operatorname{bottom}].
+$$<p>这一步的意义不是“实现 trick”，而是：</p>
+<blockquote>
+<p>用 nonce 选择一条新的 offset 轨道，使后续所有 block tweak 都锚定在这条轨道上。</p>
+</blockquote>
+<h3 id="53-为什么相同明文块不会再像-ecb-那样暴露相等关系">5.3 为什么相同明文块不会再像 ECB 那样暴露相等关系</h3>
+<p>对 full blocks，OCB 的主加密式是</p>
+$$
+Offset_i = Offset_{i-1} \oplus L_{\operatorname{ntz}(i)},
+$$$$
+C_i = Offset_i \oplus E_K(P_i \oplus Offset_i),
+$$<p>其中 \(\operatorname{ntz}(i)\) 是 \(i\) 的二进制末尾零个数。</p>
+<p>如果出现两个相同明文块 \(P_i=P_j\)，只要 \(Offset_i \neq Offset_j\)，那么它们进入 block cipher 之前的输入就是：</p>
+$$
+P_i \oplus Offset_i \neq P_j \oplus Offset_j.
+$$<p>于是 \(E_K\) 的输入点被分离开来，ECB 那种“相同 block 映到相同密文”的等值泄漏不再成立。</p>
+<p>所以 OCB 的 offset 不是附属 tweak，而是保密层本身的一部分：它让“同一明文块”在不同位置、不同 nonce 下都落到不同的 enciphering point 上。</p>
+<h3 id="54-checksum-为什么是认证的真正汇合点">5.4 checksum 为什么是认证的真正汇合点</h3>
+<p>仅有 per-block offset 还不够，因为攻击者仍可能尝试替换、重排或丢弃 block。OCB 因此维护一个 plaintext checksum：</p>
+$$
+Checksum_0 = 0^{128},
+$$$$
+Checksum_i = Checksum_{i-1} \oplus P_i.
+$$<p>在 full-block 情形下，最终 tag 写成：</p>
+$$
+Tag = E_K(Checksum_m \oplus Offset_m \oplus L_\$) \oplus HASH_K(A).
+$$<p>这说明 OCB 的 tag 实际上把三类对象合并到了一起：</p>
+<ul>
+<li>所有 plaintext full blocks 的全局 XOR 汇总 \(Checksum_m\)</li>
+<li>由 nonce 与 block index 共同决定的 offset 轨道</li>
+<li>associated data 的单独 hash 路径 \(HASH_K(A)\)</li>
+</ul>
+<p>与 GCM/CCM 的差别在于：OCB 不是先“整串算 MAC，再另做加密”，而是让每块 plaintext 的保密处理与最终认证汇入同一条 offset/checksum 结构。</p>
+<h3 id="55-associated-data-在-ocb-中走的是另一条-hash-路">5.5 associated data 在 OCB 中走的是另一条 HASH 路</h3>
+<p>OCB 对 AAD 使用独立的 HASH 过程。设 associated-data blocks 为 \(A_1,\ldots,A_a\)，可写成：</p>
+$$
+\Sigma_0 = 0^{128}, \qquad \Delta_0 = 0^{128},
+$$$$
+\Delta_i = \Delta_{i-1} \oplus L_{\operatorname{ntz}(i)},
+$$$$
+\Sigma_i = \Sigma_{i-1} \oplus E_K(A_i \oplus \Delta_i).
+$$<p>最后把</p>
+$$
+HASH_K(A) = \Sigma_a
+$$<p>并入 tag。</p>
+<p>因此 OCB 的 AAD 绑定不是“顺手附加一个字段”，而是显式并入最终认证值的组成项。攻击者若只改 \(A\) 不改 \(C\)，tag 同样会失效。</p>
+<h3 id="56-为什么-ocb-不是-gcm-或-ccm-的小变体">5.6 为什么 OCB 不是 GCM 或 CCM 的小变体</h3>
+<p>GCM 的核心是：</p>
+<ul>
+<li>公开系数</li>
+<li>秘密求值点 \(H\)</li>
+<li>one-time tag mask</li>
+</ul>
+<p>CCM 的核心是：</p>
+<ul>
+<li>结构化格式化</li>
+<li>CBC-MAC 链</li>
+<li>CTR 对 payload 和 raw tag 的封装</li>
+</ul>
+<p>OCB 的核心则是：</p>
+<ul>
+<li>nonce-derived offset 轨道</li>
+<li>block-index dependent tweak 递推</li>
+<li>plaintext checksum</li>
+<li>AAD 的独立 HASH 路线</li>
+</ul>
+<p>所以 OCB 的设计哲学不是“也给 CTR 加个 tag”，而是：</p>
+<blockquote>
+<p>让每个 block 自带位置相关 tweak，同时让整条消息在最后汇入一个 global authentication equation。</p>
+</blockquote>
+<h3 id="57-nonce-reuse为什么同一-offset-轨道被重用会很危险">5.7 nonce reuse：为什么同一 offset 轨道被重用会很危险</h3>
+<p>若 nonce 重复，则 \(Offset_0\) 重复，进而整条</p>
+$$
+Offset_1, Offset_2, \ldots
+$$<p>轨道都重复。</p>
+<p>这时，两个同位置 block 的加密分别是</p>
+$$
+C_i = Offset_i \oplus E_K(P_i \oplus Offset_i),
+$$$$
+C_i' = Offset_i \oplus E_K(P_i' \oplus Offset_i).
+$$<p>相异或后得到</p>
+$$
+C_i \oplus C_i' = E_K(P_i \oplus Offset_i) \oplus E_K(P_i' \oplus Offset_i).
+$$<p>这不像 CTR 那样直接等于 \(P_i\oplus P_i'\)，但危险点在别处：攻击者现在拿到的是同一组 tweak 下的多次 enciphering 结果。也就是说，nonce 本应提供的一次性轨道被重用了。</p>
+<p>这种重用会同时伤到两层：</p>
+<ul>
+<li>保密层：相同位置上的 block 不再享有新的 offset 轨道</li>
+<li>认证层：checksum/tag 组合复用同一 nonce 相关结构</li>
+</ul>
+<p>与 GCM 相比，OCB 的 misuse 后果不那么容易压成一个公开多项式攻击；但从原理上看，破坏点是同一类：nonce 导出的 one-time structure 不再 one-time。</p>
+<h2 id="6-统一比较三条认证路线到底绑定了什么">6. 统一比较：三条认证路线到底绑定了什么</h2>
+<p>把三种模式并排看，问题会比“谁更快”“谁更常见”更清楚。</p>
+<table>
+  <thead>
+      <tr>
+          <th>模式</th>
+          <th>认证核心</th>
+          <th>nonce 进入哪里</th>
+          <th>明文绑定对象</th>
+          <th>AAD 绑定对象</th>
+          <th>reuse 后首先被消去的东西</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>GCM</td>
+          <td>\(GHASH_H\)</td>
+          <td>\(J_0\)、CTR 流、tag mask</td>
+          <td>ciphertext 经 GHASH 进入 tag</td>
+          <td>同一 GHASH 输入</td>
+          <td>\(E_K(J_0)\)</td>
+      </tr>
+      <tr>
+          <td>CCM</td>
+          <td>CBC-MAC</td>
+          <td>\(B_0\)、counter blocks、tag mask</td>
+          <td>格式化后的 \(B_i\) 链</td>
+          <td>同一格式化串的一部分</td>
+          <td>\(\operatorname{MSB}_t(S_0)\)</td>
+      </tr>
+      <tr>
+          <td>OCB</td>
+          <td>offset + checksum</td>
+          <td>\(Offset_0\) 轨道</td>
+          <td>per-block offset 加 checksum</td>
+          <td>独立的 \(HASH_K(A)\)</td>
+          <td>整条 offset 轨道</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="61-从攻击者能消去什么看模式的真正边界">6.1 从攻击者能消去什么，看模式的真正边界</h3>
+<p>对攻击者来说，最有价值的问题是：给我两条同 key transcript，我能消去什么？</p>
+<p>GCM 下，重复 nonce 直接消去 tag mask：</p>
+$$
+T \oplus T' = M_{\Delta \mathbf{X}}(H).
+$$<p>CCM 下，重复 nonce 消去 raw tag 的 CTR 封装：</p>
+$$
+U \oplus U' = T_\star \oplus T_\star'.
+$$<p>OCB 下，重复 nonce 消去的是“本应一次性使用的 offset 轨道更新来源”。虽然它不像 GCM 那样给出一个公开的有限域多项式，但它同样撤掉了 nonce 提供的新鲜性结构。</p>
+<h3 id="62-三者都不能自动解决-replay">6.2 三者都不能自动解决 replay</h3>
+<p>三种模式都能拒绝被篡改的 tuple，但都不会自动拒绝精确重放的旧 tuple。因为若攻击者提交的是一份已经合法的</p>
+$$
+(N,A,C,T),
+$$<p>那么密码层并没有理由把它判成非法。</p>
+<p>因此 replay 防护需要上层额外确保：</p>
+$$
+N \notin \mathcal{S}_{\text{seen}}
+$$<p>或通过 sequence number、epoch、session transcript 来实现 freshness。</p>
+<h3 id="63-攻击者能推出什么不能推出什么">6.3 攻击者能推出什么；不能推出什么</h3>
+<p>在 nonce 正确使用时：</p>
+<ul>
+<li>GCM 攻击者看不到 \(H\) 与 \(E_K(J_0)\)</li>
+<li>CCM 攻击者看不到 raw CBC-MAC 链状态</li>
+<li>OCB 攻击者看不到 offset 常量族与 checksum 的秘密耦合结果</li>
+</ul>
+<p>但在 misuse 时，攻击者并不需要恢复 \(K\) 才算赢。它只需要恢复某种足以生成有效 tuple 的中间对象，例如：</p>
+<ul>
+<li>GCM 的 \(H\) 与某个 nonce 的 tag mask</li>
+<li>CCM 的 repeated-nonce 下可复用的 keystream 和 raw tag 差分信息</li>
+<li>OCB 的 repeated-offset 轨道下可复用关系</li>
+</ul>
+<p>这正是 mode attack 和“恢复 AES 主密钥”之间最容易混淆的地方。很多时候，攻击者从头到尾都没有逼近 \(K\)，但系统已经失守。</p>
+<h2 id="7-走向-vol3为什么-aead-仍不等于-misuse-safe">7. 走向 Vol.3：为什么 AEAD 仍不等于 misuse-safe</h2>
+<p>Vol.2 的三种模式都属于 <code>nonce-based AEAD</code>。它们的安全定理默认：</p>
+$$
+N_i \neq N_j \qquad \text{for all encryption queries under one key.}
+$$<p>因此它们真正提供的是：</p>
+<blockquote>
+<p>在 nonce discipline 成立时，同时给出 confidentiality 与 integrity。</p>
+</blockquote>
+<p>它们没有承诺的是：</p>
+<blockquote>
+<p>即使 nonce discipline 失守，系统仍只发生温和退化。</p>
+</blockquote>
+<p>GCM 告诉我们，reuse 可以把认证问题直接改写成关于 \(H\) 的代数方程。</p>
+<p>CCM 告诉我们，reuse 即使不形成那么漂亮的公开多项式，也仍会同时撤掉 payload keystream 的新鲜性与 raw tag 封装。</p>
+<p>OCB 告诉我们，reuse 会把本应一次性的 offset 轨道重放给攻击者。</p>
+<p>所以 Vol.3 要回答的问题就自然出现了：</p>
+<ol>
+<li>能不能把“外部 nonce 直接决定一切”的结构换掉。</li>
+<li>能不能让 repeated nonce 的代价从“灾难性崩塌”降级为“确定性泄漏”。</li>
+<li>能不能在不要求完美 nonce discipline 的前提下，仍给出有意义的安全定义。</li>
+</ol>
+<p>这正是 SIV 与 GCM-SIV 出场的地方。它们的重要性不在于“nonce 用错也完全没事”，而在于它们试图把失败模式从</p>
+$$
+\text{two-time pad} + \text{tag algebra collapse}
+$$<p>降级为</p>
+$$
+\text{equality leakage} \quad \text{or similarly bounded degradation}.
+$$<p>Vol.1 讲的是保密模式为什么挡不住主动攻击。Vol.2 讲的是认证方程如何切断这些主动攻击。Vol.3 则会继续问：如果 one-time 前提自己坏了，该怎样重新定义“还算安全”。</p>
+<h2 id="references">References</h2>
+<ul>
+<li>RFC 5116, <a href="https://www.rfc-editor.org/info/rfc5116" target="_blank" rel="noopener noreffer "><em>An Interface and Algorithms for Authenticated Encryption</em></a></li>
+<li>NIST SP 800-38D, <a href="https://csrc.nist.gov/pubs/sp/800/38/d/final" target="_blank" rel="noopener noreffer "><em>Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC</em></a></li>
+<li>NIST SP 800-38C, <a href="https://csrc.nist.gov/pubs/sp/800/38/c/upd1/final" target="_blank" rel="noopener noreffer "><em>Recommendation for Block Cipher Modes of Operation: The CCM Mode for Authentication and Confidentiality</em></a></li>
+<li>RFC 7253, <a href="https://www.rfc-editor.org/info/rfc7253" target="_blank" rel="noopener noreffer "><em>The OCB Authenticated-Encryption Algorithm</em></a></li>
+<li>Phillip Rogaway, <a href="https://www.cs.ucdavis.edu/~rogaway/papers/ad.html" target="_blank" rel="noopener noreffer "><em>Authenticated-Encryption with Associated-Data</em></a></li>
+<li>Mihir Bellare and Chanathip Namprempre, <a href="https://doi.org/10.1007/s00145-008-9026-x" target="_blank" rel="noopener noreffer "><em>Authenticated Encryption: Relations among Notions and Analysis of the Generic Composition Paradigm</em></a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-07-19</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/block-cipher-modes-offensive-crypto-vol2/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" data-title="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界" data-hashtags="block-cipher,aead,gcm,ccm,ocb,cryptanalysis,security-analysis"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" data-hashtag="block-cipher"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" data-title="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" data-title="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" data-title="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/block-cipher/">Block-Cipher</a>,&nbsp;<a href="/tags/aead/">Aead</a>,&nbsp;<a href="/tags/gcm/">Gcm</a>,&nbsp;<a href="/tags/ccm/">Ccm</a>,&nbsp;<a href="/tags/ocb/">Ocb</a>,&nbsp;<a href="/tags/cryptanalysis/">Cryptanalysis</a>,&nbsp;<a href="/tags/security-analysis/">Security-Analysis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/block-cipher-modes-offensive-crypto-vol1/" class="prev" rel="prev" title="分组密码工作模式安全性分析 Part 1：攻击者视角"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>分组密码工作模式安全性分析 Part 1：攻击者视角</a>
+            <a href="/block-cipher-modes-offensive-crypto-vol3/" class="next" rel="next" title="分组密码工作模式攻击讲义 Part 3：Nonce Misuse Resistance 与 Synthetic IV">分组密码工作模式攻击讲义 Part 3：Nonce Misuse Resistance 与 Synthetic IV<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":120},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

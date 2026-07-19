@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Storage-Security on As it was</title>
+    <link>https://galoishlee.github.io/tags/storage-security/</link>
+    <description>Recent content in Storage-Security on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 19 Jul 2026 10:14:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/storage-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>分组密码工作模式攻击讲义 Part 4：XTS、Tweakable Enciphering 与存储机密性的边界</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol4/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol4/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Note: 前三卷讨论的主角都是 message encryption。Vol.4 换了问题模型。攻击者不再主要围着 transcript、tag 与 decrypt-oracle 打转，而是围着 sector number、block offset、旧密文镜像与版本回滚做文章。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;XTS 的价值不在于把磁盘加密变成 AEAD，而在于给每个位置引入一个 tweak，使“同一明文块在不同逻辑位置直接映成同一密文块”这件事不再发生。它解决的是结构化存储上的 confidentiality 问题，而不是 data origin authentication、freshness 或 rollback detection。&lt;/p&gt;&#xA;&lt;p&gt;所以这一卷真正要回答的是：tweakable enciphering 到底改变了什么，没有改变什么；为什么 XTS 能修补 ECB 在磁盘上的轮廓泄漏，却仍然挡不住 replay、rollback 和旧状态回放；以及为什么 storage confidentiality 与 authenticated storage 根本不是同一层保证。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

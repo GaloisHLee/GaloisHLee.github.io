@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sm4 on As it was</title>
+    <link>https://galoishlee.github.io/tags/sm4/</link>
+    <description>Recent content in Sm4 on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 18 Jul 2026 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/sm4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>分组密码工作模式安全性分析 Part 1：攻击者视角</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/</link>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Threat Model: 这里不介绍 AES/SM4 的轮函数，也不讨论如何实现加密 API。默认底层分组密码 \(E_K\) 是强伪随机置换，攻击面来自 mode of operation 本身。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;分组密码模式的安全性问题，本质是：如何把固定长度置换 \(E_K:\{0,1\}^n\to\{0,1\}^n\) 包装成多块消息加密、流式加密、磁盘加密或 AEAD，并且在攻击者能观察、选择、篡改、重放输入输出时仍保持边界清晰。&lt;/p&gt;&#xA;&lt;p&gt;攻击者关心的不是“CBC 是什么”，而是：CBC 的哪个 XOR 可以被控制，CTR 的哪个 nonce 一旦重复就使两条消息相消，GCM 的哪个认证多项式会在 nonce reuse 后暴露方程，XTS 为什么解决磁盘 ECB 轮廓但仍不认证。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

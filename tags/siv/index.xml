@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Siv on As it was</title>
+    <link>https://galoishlee.github.io/tags/siv/</link>
+    <description>Recent content in Siv on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 19 Jul 2026 09:00:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/siv/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>分组密码工作模式攻击讲义 Part 3：Nonce Misuse Resistance 与 Synthetic IV</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol3/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol3/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Note: Vol.2 已经把 AEAD 的认证方程和 nonce-based 边界讲清了。Vol.3 的问题不是再追加两个模式名词，而是继续追问：如果 “nonce never repeats” 这条前提自己坏了，安全定义应该怎样升级，失败模式又该怎样被重新组织。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;SIV 与 GCM-SIV 的价值，不在于它们让 misuse 没有代价，而在于它们改变了失败的几何形状。对 GCM 而言，repeated nonce 会直接复用 keystream 和 tag mask，把攻击者送进关于 \(H\) 的代数恢复问题。对 SIV / GCM-SIV 而言，外部 nonce 不再直接选中 keystream，而是先进入一个 synthetic IV 的计算，于是 repeated nonce 不再自动等于 two-time pad。&lt;/p&gt;&#xA;&lt;p&gt;这一卷真正要区分的，不是“谁更先进”，而是四种完全不同的退化：keystream reuse、tag collapse、equality leakage、deterministic repetition。把这些退化混成一句“nonce misuse 很危险”，反而会掩掉攻击者到底得到了什么。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

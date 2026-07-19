@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on As it was</title>
+    <link>https://galoishlee.github.io/categories/security/</link>
+    <description>Recent content in Security on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 19 Jul 2026 10:14:00 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>分组密码工作模式攻击讲义 Part 4：XTS、Tweakable Enciphering 与存储机密性的边界</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol4/</link>
+      <pubDate>Sun, 19 Jul 2026 10:14:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol4/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Note: 前三卷讨论的主角都是 message encryption。Vol.4 换了问题模型。攻击者不再主要围着 transcript、tag 与 decrypt-oracle 打转，而是围着 sector number、block offset、旧密文镜像与版本回滚做文章。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;XTS 的价值不在于把磁盘加密变成 AEAD，而在于给每个位置引入一个 tweak，使“同一明文块在不同逻辑位置直接映成同一密文块”这件事不再发生。它解决的是结构化存储上的 confidentiality 问题，而不是 data origin authentication、freshness 或 rollback detection。&lt;/p&gt;&#xA;&lt;p&gt;所以这一卷真正要回答的是：tweakable enciphering 到底改变了什么，没有改变什么；为什么 XTS 能修补 ECB 在磁盘上的轮廓泄漏，却仍然挡不住 replay、rollback 和旧状态回放；以及为什么 storage confidentiality 与 authenticated storage 根本不是同一层保证。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>分组密码工作模式攻击讲义 Part 3：Nonce Misuse Resistance 与 Synthetic IV</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol3/</link>
+      <pubDate>Sun, 19 Jul 2026 09:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol3/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Note: Vol.2 已经把 AEAD 的认证方程和 nonce-based 边界讲清了。Vol.3 的问题不是再追加两个模式名词，而是继续追问：如果 “nonce never repeats” 这条前提自己坏了，安全定义应该怎样升级，失败模式又该怎样被重新组织。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;SIV 与 GCM-SIV 的价值，不在于它们让 misuse 没有代价，而在于它们改变了失败的几何形状。对 GCM 而言，repeated nonce 会直接复用 keystream 和 tag mask，把攻击者送进关于 \(H\) 的代数恢复问题。对 SIV / GCM-SIV 而言，外部 nonce 不再直接选中 keystream，而是先进入一个 synthetic IV 的计算，于是 repeated nonce 不再自动等于 two-time pad。&lt;/p&gt;&#xA;&lt;p&gt;这一卷真正要区分的，不是“谁更先进”，而是四种完全不同的退化：keystream reuse、tag collapse、equality leakage、deterministic repetition。把这些退化混成一句“nonce misuse 很危险”，反而会掩掉攻击者到底得到了什么。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/</link>
+      <pubDate>Sun, 19 Jul 2026 08:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Note: Vol.1 的核心结论是，保密性模式只要还保留一个“对任意篡改密文都返回某个明文”的解密接口，攻击者就仍然能沿着那条接口做线性利用。Vol.2 要补上的，不是又一个模式名词，而是这个接口何时会从总函数变成部分函数。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;AEAD 的关键不在于“密文后面多挂了一个 tag”，而在于系统把 nonce、associated data、payload、长度和顺序一起压进一个验证方程，并把解密语义改写成只允许输出 \(P\) 或 \(\bot\)。一旦这个改写成立，Vol.1 里最常见的 bit flip、reorder、splice、truncate 利用链就不再天然拥有一个可调用的明文 oracle。&lt;/p&gt;&#xA;&lt;p&gt;这一卷只讲原理和推导，不讲 API、不讲 PoC、不讲题目套路。主线只有三条: GCM 的 \(CTR+GHASH\)，CCM 的 \(CTR+CBC\text{-}MAC\)，以及 OCB 的 offset/checksum。它们都能做 AEAD，但它们的认证对象、状态对象和 nonce 进入系统的方式并不相同，因此 misuse 时的退化方式也并不相同。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>分组密码工作模式安全性分析 Part 1：攻击者视角</title>
+      <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/</link>
+      <pubDate>Sat, 18 Jul 2026 00:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Threat Model: 这里不介绍 AES/SM4 的轮函数，也不讨论如何实现加密 API。默认底层分组密码 \(E_K\) 是强伪随机置换，攻击面来自 mode of operation 本身。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;分组密码模式的安全性问题，本质是：如何把固定长度置换 \(E_K:\{0,1\}^n\to\{0,1\}^n\) 包装成多块消息加密、流式加密、磁盘加密或 AEAD，并且在攻击者能观察、选择、篡改、重放输入输出时仍保持边界清晰。&lt;/p&gt;&#xA;&lt;p&gt;攻击者关心的不是“CBC 是什么”，而是：CBC 的哪个 XOR 可以被控制，CTR 的哪个 nonce 一旦重复就使两条消息相消，GCM 的哪个认证多项式会在 nonce reuse 后暴露方程，XTS 为什么解决磁盘 ECB 轮廓但仍不认证。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

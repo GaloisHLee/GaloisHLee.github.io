@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>分组密码工作模式安全性分析 Part 1：攻击者视角 - As it was</title><meta name="Description" content="攻击者视角分析分组密码工作模式的安全性：ECB 的确定性泄漏、CBC 的可塑性与 Padding Oracle、流模式的 two-time pad、GCM 的 nonce reuse 与认证边界，以及 SIV/GCM-SIV 的误用抵抗。"><meta property="og:title" content="分组密码工作模式安全性分析 Part 1：攻击者视角">
+<meta property="og:description" content="攻击者视角分析分组密码工作模式的安全性：ECB 的确定性泄漏、CBC 的可塑性与 Padding Oracle、流模式的 two-time pad、GCM 的 nonce reuse 与认证边界，以及 SIV/GCM-SIV 的误用抵抗。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/"><meta property="og:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="分组密码工作模式安全性分析 Part 1：攻击者视角">
+<meta name="twitter:description" content="攻击者视角分析分组密码工作模式的安全性：ECB 的确定性泄漏、CBC 的可塑性与 Padding Oracle、流模式的 two-time pad、GCM 的 nonce reuse 与认证边界，以及 SIV/GCM-SIV 的误用抵抗。"><meta name="twitter:image" content="https://galoishlee.github.io/images/Apple-Devices-Preview.png"><meta name="application-name" content="As it was">
+<meta name="apple-mobile-web-app-title" content="As it was"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" /><link rel="prev" href="https://galoishlee.github.io/reed-solomon-code-from-zero-to-practice/" /><link rel="next" href="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol2/" /><link rel="stylesheet" href="/css/style.min.41aa629226b667e93718b67226da5f6cde75dfe4d6d01bbba9ef78fc936596fa.css" integrity="sha256-Qapikia2Z+k3GLZyJtpfbN513+TW0Bu7qe94/JNllvo="><link rel="preload" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.0df5a33710e433de1f5415b1d47e4130ca7466aee5b81955f1045c4844bbb3ed.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "分组密码工作模式安全性分析 Part 1：攻击者视角",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/galoishlee.github.io\/block-cipher-modes-offensive-crypto-vol1\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "block-cipher, aes, sm4, cryptanalysis, ctf, security-analysis","wordcount":  7021 ,
+        "url": "https:\/\/galoishlee.github.io\/block-cipher-modes-offensive-crypto-vol1\/","datePublished": "2026-07-18T00:00:00+08:00","dateModified": "2026-07-18T00:00:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
+                "@type": "Person",
+                "name": "Halois"
+            },"description": "攻击者视角分析分组密码工作模式的安全性：ECB 的确定性泄漏、CBC 的可塑性与 Padding Oracle、流模式的 two-time pad、GCM 的 nonce reuse 与认证边界，以及 SIV/GCM-SIV 的误用抵抗。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="Freinds"> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/block-cipher-modes-offensive-crypto-vol1/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="As it was"><span class="header-title-pre"><i class='fas fa-bacon' aria-hidden='true'></i></span>Think thickly</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="Freinds">友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/block-cipher-modes-offensive-crypto-vol1/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">分组密码工作模式安全性分析 Part 1：攻击者视角</h1><h2 class="single-subtitle">从 ECB/CBC 到 GCM-SIV：模式安全边界、可塑性与 nonce misuse</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a>&nbsp;<a href="/categories/security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Security</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-07-18">2026-07-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 7021 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 15 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-统一安全模型">0. 统一安全模型</a></li>
+    <li><a href="#1-攻击者真正检查什么">1. 攻击者真正检查什么</a></li>
+    <li><a href="#2-ecb确定性泄漏不是小问题">2. ECB：确定性泄漏不是小问题</a>
+      <ul>
+        <li><a href="#21-等值关系直接泄漏">2.1 等值关系直接泄漏</a></li>
+        <li><a href="#22-ecb-不满足-ind-cpa">2.2 ECB 不满足 IND-CPA</a></li>
+        <li><a href="#23-codebook-与数据库泄漏">2.3 Codebook 与数据库泄漏</a></li>
+        <li><a href="#24-ecb-的可塑性边界">2.4 ECB 的可塑性边界</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-cbc随机化保密与线性可塑并存">3. CBC：随机化保密与线性可塑并存</a>
+      <ul>
+        <li><a href="#31-cbc-的-iv-为什么必须不可预测">3.1 CBC 的 IV 为什么必须不可预测</a></li>
+        <li><a href="#32-cbc-的可塑性来自解密等式">3.2 CBC 的可塑性来自解密等式</a></li>
+        <li><a href="#33-iv-manipulation-是第一块-bit-flipping">3.3 IV manipulation 是第一块 bit flipping</a></li>
+        <li><a href="#34-padding-oracle-的完整推导">3.4 Padding Oracle 的完整推导</a></li>
+        <li><a href="#35-为什么-padding-oracle-不恢复-key">3.5 为什么 Padding Oracle 不恢复 key</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-cfb自同步流模式的可塑性">4. CFB：自同步流模式的可塑性</a>
+      <ul>
+        <li><a href="#41-cfb-的-cpa-条件">4.1 CFB 的 CPA 条件</a></li>
+        <li><a href="#42-cfb-的-bit-flip">4.2 CFB 的 bit flip</a></li>
+        <li><a href="#43-cfb-的-iv-重用">4.3 CFB 的 IV 重用</a></li>
+        <li><a href="#44-cfb-的安全边界">4.4 CFB 的安全边界</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-ofb状态独立导致-iv-重用灾难">5. OFB：状态独立导致 IV 重用灾难</a>
+      <ul>
+        <li><a href="#51-ofb-本质是同步流密码">5.1 OFB 本质是同步流密码</a></li>
+        <li><a href="#52-已知明文恢复另一条消息">5.2 已知明文恢复另一条消息</a></li>
+        <li><a href="#53-ofb-的-bit-flip">5.3 OFB 的 bit flip</a></li>
+        <li><a href="#54-ofb-的-forwardbackward-边界">5.4 OFB 的 forward/backward 边界</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-ctr随机访问的代价是-nonce-discipline">6. CTR：随机访问的代价是 nonce discipline</a>
+      <ul>
+        <li><a href="#61-ctr-与流密码等价">6.1 CTR 与流密码等价</a></li>
+        <li><a href="#62-nonce-reuse-推导">6.2 Nonce reuse 推导</a></li>
+        <li><a href="#63-ctr-的-bit-flip-与-edit-oracle">6.3 CTR 的 bit flip 与 edit oracle</a></li>
+        <li><a href="#64-counter-collision">6.4 Counter collision</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-gcmctr-保密性加-ghash-认证">7. GCM：CTR 保密性加 GHASH 认证</a>
+      <ul>
+        <li><a href="#71-gcm-nonce-reuse-的两层失败">7.1 GCM nonce reuse 的两层失败</a></li>
+        <li><a href="#72-gcm-为什么不能只说ctr-加-mac">7.2 GCM 为什么不能只说“CTR 加 MAC”</a></li>
+        <li><a href="#73-gcm-的安全边界">7.3 GCM 的安全边界</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-ccmctr-加-cbc-mac">8. CCM：CTR 加 CBC-MAC</a>
+      <ul>
+        <li><a href="#81-ccm-的-nonce-misuse">8.1 CCM 的 nonce misuse</a></li>
+        <li><a href="#82-ccm-的工程脆弱点">8.2 CCM 的工程脆弱点</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-xts磁盘加密不是-aead">9. XTS：磁盘加密不是 AEAD</a>
+      <ul>
+        <li><a href="#91-xts-解决什么">9.1 XTS 解决什么</a></li>
+        <li><a href="#92-xts-不解决什么">9.2 XTS 不解决什么</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-siv把-nonce-misuse-变成确定性泄漏">10. SIV：把 nonce misuse 变成确定性泄漏</a>
+      <ul>
+        <li><a href="#101-siv-的核心取舍">10.1 SIV 的核心取舍</a></li>
+        <li><a href="#102-siv-的攻击边界">10.2 SIV 的攻击边界</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-gcm-sivgcm-风格的误用抵抗">11. GCM-SIV：GCM 风格的误用抵抗</a>
+      <ul>
+        <li><a href="#111-和-gcm-的关键差异">11.1 和 GCM 的关键差异</a></li>
+        <li><a href="#112-gcm-siv-的泄漏">11.2 GCM-SIV 的泄漏</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-ocb高性能-aead-的-offset-思路">12. OCB：高性能 AEAD 的 offset 思路</a>
+      <ul>
+        <li><a href="#121-ocb-为什么不是-xts">12.1 OCB 为什么不是 XTS</a></li>
+        <li><a href="#122-ocb-的安全边界">12.2 OCB 的安全边界</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-横向结论">13. 横向结论</a></li>
+    <li><a href="#14-攻击者视角的最终心法">14. 攻击者视角的最终心法</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Threat Model: 这里不介绍 AES/SM4 的轮函数，也不讨论如何实现加密 API。默认底层分组密码 \(E_K\) 是强伪随机置换，攻击面来自 mode of operation 本身。</p>
+</blockquote>
+<p>分组密码模式的安全性问题，本质是：如何把固定长度置换 \(E_K:\{0,1\}^n\to\{0,1\}^n\) 包装成多块消息加密、流式加密、磁盘加密或 AEAD，并且在攻击者能观察、选择、篡改、重放输入输出时仍保持边界清晰。</p>
+<p>攻击者关心的不是“CBC 是什么”，而是：CBC 的哪个 XOR 可以被控制，CTR 的哪个 nonce 一旦重复就使两条消息相消，GCM 的哪个认证多项式会在 nonce reuse 后暴露方程，XTS 为什么解决磁盘 ECB 轮廓但仍不认证。</p>
+<h2 id="0-统一安全模型">0. 统一安全模型</h2>
+<p>把底层分组密码写成：</p>
+$$
+\begin{aligned}
+E_K &: \{0,1\}^n\to\{0,1\}^n,\\
+D_K &: \{0,1\}^n\to\{0,1\}^n,\\
+D_K(E_K(X))&=X.
+\end{aligned}
+$$<p>AES 与 SM4 的 block size 都是 \(n=128\)。本文故意不进入它们的内部结构，因为大多数 mode attack 不需要破坏 \(E_K\)。攻击者通常只利用 mode 方程：</p>
+$$
+C=P\oplus S
+$$<p>或者：</p>
+$$
+P_i=D_K(C_i)\oplus C_{i-1}.
+$$<p>这类攻击的目标通常是：</p>
+<ul>
+<li>恢复明文，而不是恢复 key。</li>
+<li>修改明文语义，而不是解密所有消息。</li>
+<li>伪造 tag 或绕过认证，而不是求出 \(K\)。</li>
+<li>利用错误信息、时间差、parser 行为，而不是直接调用理想解密 oracle。</li>
+</ul>
+<h2 id="1-攻击者真正检查什么">1. 攻击者真正检查什么</h2>
+<p>一个 mode 是否安全，不能只问“用了 AES 吗”。至少要问：</p>
+<table>
+  <thead>
+      <tr>
+          <th>问题</th>
+          <th>攻击者视角</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>是否隐藏相等关系</td>
+          <td>相同 block、相同字段、相同图片区域是否可识别</td>
+      </tr>
+      <tr>
+          <td>是否需要 IV/nonce</td>
+          <td>它要求随机、唯一、不可预测，还是三者都有</td>
+      </tr>
+      <tr>
+          <td>IV/nonce 误用后果</td>
+          <td>是泄漏第一块，还是全流 two-time pad，还是认证 key 暴露</td>
+      </tr>
+      <tr>
+          <td>是否可塑</td>
+          <td>改 ciphertext 是否能按目标改 plaintext</td>
+      </tr>
+      <tr>
+          <td>是否认证</td>
+          <td>能否检测 bit flip、replay、reorder、truncate</td>
+      </tr>
+      <tr>
+          <td>是否有 padding</td>
+          <td>padding validity 是否变成 oracle</td>
+      </tr>
+      <tr>
+          <td>是否支持 random access</td>
+          <td>随机访问接口是否变成 edit oracle</td>
+      </tr>
+      <tr>
+          <td>错误是否可观察</td>
+          <td>错误内容、HTTP status、连接关闭、时间差是否可区分</td>
+      </tr>
+  </tbody>
+</table>
+<p>可以把经典安全目标粗略分成：</p>
+<table>
+  <thead>
+      <tr>
+          <th>安全目标</th>
+          <th>含义</th>
+          <th>对攻击者意味着什么</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>IND-CPA</td>
+          <td>chosen plaintext 下隐藏明文</td>
+          <td>只能加密查询时仍不能区分挑战消息</td>
+      </tr>
+      <tr>
+          <td>IND-CCA</td>
+          <td>chosen ciphertext 下隐藏明文</td>
+          <td>能提交篡改密文解密时仍不能获益</td>
+      </tr>
+      <tr>
+          <td>INT-CTXT</td>
+          <td>ciphertext integrity</td>
+          <td>不能构造新的可接受密文</td>
+      </tr>
+      <tr>
+          <td>AEAD</td>
+          <td>authenticated encryption with associated data</td>
+          <td>同时保护保密性、完整性与 AAD 绑定</td>
+      </tr>
+  </tbody>
+</table>
+<p>ECB/CBC/CFB/OFB/CTR 通常只可能讨论 IND-CPA，且还依赖正确 IV/nonce。它们默认不提供 IND-CCA 或 INT-CTXT。GCM/CCM/OCB 是 AEAD，但 nonce discipline 很硬。SIV/GCM-SIV 则牺牲一部分确定性泄漏，换取 nonce misuse resistance。</p>
+<h2 id="2-ecb确定性泄漏不是小问题">2. ECB：确定性泄漏不是小问题</h2>
+<p>ECB 的定义最简单：</p>
+$$
+C_i=E_K(P_i).
+$$<p>解密：</p>
+$$
+P_i=D_K(C_i).
+$$<p>没有 IV。没有 nonce。没有反馈。没有 tag。每个 block 独立。</p>
+<h3 id="21-等值关系直接泄漏">2.1 等值关系直接泄漏</h3>
+<p>因为 \(E_K\) 是置换，所以有双向等价：</p>
+$$
+P_i=P_j \Longleftrightarrow C_i=C_j.
+$$<p>证明很短。若 \(P_i=P_j\)，显然：</p>
+$$
+E_K(P_i)=E_K(P_j).
+$$<p>反过来，若 \(C_i=C_j\)，则：</p>
+$$
+E_K(P_i)=E_K(P_j).
+$$<p>由于 \(E_K\) injective：</p>
+$$
+P_i=P_j.
+$$<p>所以 ECB 泄漏的不是“某个 bit 的值”，而是整个消息的 block partition：</p>
+$$
+\Pi(P)=\{\{i:P_i=X\}:X\in\{P_1,\ldots,P_m\}\}.
+$$<p>这就是企鹅图仍能看出轮廓的原因。图片中相同颜色区域经过分块后产生大量相同 \(P_i\)，ECB 把这些相等关系原样搬到 \(C_i\) 上。攻击者不需要知道颜色值，只要把相同密文块染成相同颜色，就能恢复结构。</p>
+<h3 id="22-ecb-不满足-ind-cpa">2.2 ECB 不满足 IND-CPA</h3>
+<p>IND-CPA 挑战中，攻击者选择两条等长消息：</p>
+$$
+M_0=X\|X,\quad M_1=X\|Y,\quad X\ne Y.
+$$<p>挑战者返回：</p>
+$$
+C^\star=\operatorname{Enc}_K(M_b).
+$$<p>攻击者只检查两个 block 是否相等：</p>
+$$
+C_1^\star=C_2^\star.
+$$<p>若相等，猜 \(b=0\)；否则猜 \(b=1\)。因为 ECB 保留相等关系，攻击者成功率：</p>
+$$
+\Pr[\operatorname{win}]=1.
+$$<p>这说明 ECB 在最基本 chosen-plaintext 安全性下失败。注意这里没有恢复 key，也没有利用 AES 弱点。</p>
+<h3 id="23-codebook-与数据库泄漏">2.3 Codebook 与数据库泄漏</h3>
+<p>如果明文字段来自小集合 \(\mathcal{D}\)，攻击者可以通过加密 oracle 建表：</p>
+$$
+\mathsf{Book}[E_K(X)]=X,\quad X\in\mathcal{D}.
+$$<p>之后看到某个数据库密文块 \(C_i\)，若：</p>
+$$
+C_i\in\operatorname{dom}(\mathsf{Book}),
+$$<p>则直接得到：</p>
+$$
+P_i=\mathsf{Book}[C_i].
+$$<p>危险字段包括布尔值、角色、状态码、邮编、日期、固定 JSON 片段、低熵枚举。ECB 对低熵结构化数据尤其致命。</p>
+<h3 id="24-ecb-的可塑性边界">2.4 ECB 的可塑性边界</h3>
+<p>ECB 的 bit flip 不可控。若攻击者把 \(C_i\) 改为 \(C_i'\)，解密为：</p>
+$$
+P_i'=D_K(C_i').
+$$<p>在强 PRP 假设下，\(P_i'\) 对攻击者近似随机。攻击者不能像 CTR 那样精确翻转某个 bit。</p>
+<p>但 ECB 支持 block replay 和 block swap。若攻击者从合法密文中获得某个 block：</p>
+$$
+C_j^{admin}=E_K(P_j^{admin}),
+$$<p>就可以把它复制到另一条密文的 block 位置。解密端得到：</p>
+$$
+D_K(C_j^{admin})=P_j^{admin}.
+$$<p>所以 ECB 是“bit 层不可控，block 层高度可拼接”。</p>
+<h2 id="3-cbc随机化保密与线性可塑并存">3. CBC：随机化保密与线性可塑并存</h2>
+<p>CBC 加密：</p>
+$$
+\begin{aligned}
+C_0&=IV,\\
+C_i&=E_K(P_i\oplus C_{i-1}).
+\end{aligned}
+$$<p>解密：</p>
+$$
+P_i=D_K(C_i)\oplus C_{i-1}.
+$$<p>CBC 的设计目的，是让相同明文块在不同上下文中进入 \(E_K\) 前变成不同输入：</p>
+$$
+X_i=P_i\oplus C_{i-1}.
+$$<p>如果 \(IV\) 随机不可预测，第一块被随机化；后续块由前一密文随机化。</p>
+<h3 id="31-cbc-的-iv-为什么必须不可预测">3.1 CBC 的 IV 为什么必须不可预测</h3>
+<p>固定 IV 会让第一块退化出 ECB 式等值泄漏：</p>
+$$
+P_1=P_1'\Rightarrow E_K(P_1\oplus IV)=E_K(P_1'\oplus IV)\Rightarrow C_1=C_1'.
+$$<p>仅仅“不重复”也不够。若 IV 可预测，chosen-plaintext 攻击者可以制造输入碰撞。设已有消息第一块为 \(P_1\)，IV 为 \(V\)，下一次 IV 可预测为 \(V'\)。攻击者选择：</p>
+$$
+P_1'=P_1\oplus V\oplus V'.
+$$<p>则：</p>
+$$
+P_1'\oplus V'=P_1\oplus V.
+$$<p>因此：</p>
+$$
+C_1'=E_K(P_1'\oplus V')=E_K(P_1\oplus V)=C_1.
+$$<p>这就是 CBC 和 CTR 的 nonce 要求不同之处。CTR 通常要求 counter block 唯一；CBC 的 IV 在 CPA 模型中还要不可预测。</p>
+<h3 id="32-cbc-的可塑性来自解密等式">3.2 CBC 的可塑性来自解密等式</h3>
+<p>定义 intermediate value：</p>
+$$
+I_i=D_K(C_i).
+$$<p>则：</p>
+$$
+P_i=I_i\oplus C_{i-1}.
+$$<p>攻击者不知道 \(I_i\)，但 \(C_{i-1}\) 是密文的一部分，通常可被修改。若攻击者令：</p>
+$$
+C_{i-1}'=C_{i-1}\oplus\Delta,
+$$<p>则目标块解密为：</p>
+$$
+\begin{aligned}
+P_i'&=I_i\oplus C_{i-1}'\\
+&=I_i\oplus C_{i-1}\oplus\Delta\\
+&=P_i\oplus\Delta.
+\end{aligned}
+$$<p>所以攻击者可以精确控制 \(P_i\) 的差分：</p>
+$$
+\Delta=P_i\oplus P_i'.
+$$<p>例如想把 <code>admin=false</code> 改成 <code>admin=true;</code>，只要知道字段位置，就对前一密文块对应字节加：</p>
+$$
+\Delta=\texttt{false}\oplus\texttt{true;}.
+$$<p>限制是：被修改的 \(C_{i-1}'\) 同时也是上一块的输入，因此：</p>
+$$
+P_{i-1}'=D_K(C_{i-1}')\oplus C_{i-2}.
+$$<p>这个值通常不可控并近似随机。因此 CBC bit flipping 常要求上一块是可牺牲区域、注释、padding-like 垃圾、parser 忽略字段，或者目标是第一块并且 IV 未认证。</p>
+<h3 id="33-iv-manipulation-是第一块-bit-flipping">3.3 IV manipulation 是第一块 bit flipping</h3>
+<p>第一块解密：</p>
+$$
+P_1=D_K(C_1)\oplus IV.
+$$<p>如果 IV 没有认证，攻击者令：</p>
+$$
+IV'=IV\oplus P_1\oplus P_1'.
+$$<p>则：</p>
+$$
+\begin{aligned}
+P_1'&=D_K(C_1)\oplus IV'\\
+&=D_K(C_1)\oplus IV\oplus P_1\oplus P_1'\\
+&=P_1\oplus P_1\oplus P_1'\\
+&=P_1'.
+\end{aligned}
+$$<p>这说明 IV 不是“公开所以无所谓”。IV 可以公开，但必须被完整性保护。</p>
+<h3 id="34-padding-oracle-的完整推导">3.4 Padding Oracle 的完整推导</h3>
+<p>CBC 加 PKCS#7 padding 时，最后一个 block 后缀合法形式为：</p>
+$$
+\underbrace{t,t,\ldots,t}_{t\text{ bytes}},\quad 1\le t\le b.
+$$<p>其中 \(b\) 是 block size bytes。Padding oracle 是一个谓词：</p>
+$$
+\mathcal{O}(C)=
+\begin{cases}
+1,& \operatorname{Unpad}(\operatorname{Dec}_K(C))\text{ succeeds},\\
+0,& \text{otherwise}.
+\end{cases}
+$$<p>考虑目标 block \(C_i\)。攻击者构造伪前块 \(G\)，提交：</p>
+$$
+G\|C_i.
+$$<p>解密目标块：</p>
+$$
+P_i^G=D_K(C_i)\oplus G=I_i\oplus G.
+$$<p>目标是恢复 \(I_i\)，因为真实明文为：</p>
+$$
+P_i=I_i\oplus C_{i-1}.
+$$<p>先恢复最后一个字节。希望 padding 为 <code>0x01</code>：</p>
+$$
+P_i^G[b-1]=1.
+$$<p>也就是：</p>
+$$
+I_i[b-1]\oplus G[b-1]=1.
+$$<p>枚举 \(G[b-1]=g\)。当 oracle 返回 1：</p>
+$$
+I_i[b-1]=g\oplus 1.
+$$<p>于是：</p>
+$$
+P_i[b-1]=I_i[b-1]\oplus C_{i-1}[b-1].
+$$<p>恢复倒数第 \(r\) 个字节时，已经知道后面 \(r-1\) 个 intermediate bytes。为了强制后缀成为 \(r\) 个 <code>0x r</code>，令：</p>
+$$
+G[\ell]=I_i[\ell]\oplus r,\quad \ell>b-r.
+$$<p>然后枚举当前位置 \(j=b-r\) 的 \(G[j]\)。当：</p>
+$$
+\mathcal{O}(G\|C_i)=1
+$$<p>成立时：</p>
+$$
+I_i[j]=G[j]\oplus r.
+$$<p>最终得到：</p>
+$$
+P_i[j]=I_i[j]\oplus C_{i-1}[j].
+$$<p>每个字节最多 256 次查询，一个 AES block 最坏：</p>
+$$
+256\cdot16=4096
+$$<p>次查询。现实攻击还要处理网络噪声、false positive、限速和时间差，但数学核心就是这个一字节谓词递推。</p>
+<h3 id="35-为什么-padding-oracle-不恢复-key">3.5 为什么 Padding Oracle 不恢复 key</h3>
+<p>Padding oracle 恢复的是某个目标密文块上的：</p>
+$$
+I_i=D_K(C_i).
+$$<p>这不是 \(D_K\) 的完整算法，也不是 \(K\)。换一个 \(C_j\)，攻击者需要重新查询恢复：</p>
+$$
+I_j=D_K(C_j).
+$$<p>所以它是 plaintext recovery attack，不是 key recovery attack。它破坏了 IND-CCA，因为解密错误接口把 \(D_K(C_i)\) 的信息一点点泄漏出来。</p>
+<h2 id="4-cfb自同步流模式的可塑性">4. CFB：自同步流模式的可塑性</h2>
+<p>Full-block CFB 定义：</p>
+$$
+\begin{aligned}
+S_i&=E_K(C_{i-1}),\quad C_0=IV,\\
+C_i&=P_i\oplus S_i.
+\end{aligned}
+$$<p>解密：</p>
+$$
+P_i=C_i\oplus E_K(C_{i-1}).
+$$<p>CFB 把分组密码变成 keystream generator，但反馈的是 ciphertext。</p>
+<h3 id="41-cfb-的-cpa-条件">4.1 CFB 的 CPA 条件</h3>
+<p>如果 IV 随机不可预测，则第一块 keystream：</p>
+$$
+S_1=E_K(IV)
+$$<p>对攻击者不可预测。后续 keystream 由前一密文决定：</p>
+$$
+S_i=E_K(C_{i-1}).
+$$<p>在强 PRP 假设下，CFB 可以达到被动保密意义上的 IND-CPA。但这个结论不包含完整性。</p>
+<h3 id="42-cfb-的-bit-flip">4.2 CFB 的 bit flip</h3>
+<p>攻击者修改当前密文块：</p>
+$$
+C_i'=C_i\oplus\Delta.
+$$<p>当前明文变成：</p>
+$$
+\begin{aligned}
+P_i'&=C_i'\oplus E_K(C_{i-1})\\
+&=C_i\oplus\Delta\oplus E_K(C_{i-1})\\
+&=P_i\oplus\Delta.
+\end{aligned}
+$$<p>所以 CFB 当前块可控翻转。</p>
+<p>但是下一块会被破坏：</p>
+$$
+P_{i+1}'=C_{i+1}\oplus E_K(C_i').
+$$<p>因为 \(C_i'\ne C_i\)，\(E_K(C_i')\) 对攻击者近似随机，所以 \(P_{i+1}'\) 通常不可控。full-block CFB 在再下一块重新同步，因为 \(C_{i+1}\) 没变。</p>
+<h3 id="43-cfb-的-iv-重用">4.3 CFB 的 IV 重用</h3>
+<p>若两条消息同 key 同 IV：</p>
+$$
+S_1=E_K(IV)
+$$<p>相同。于是第一块：</p>
+$$
+\begin{aligned}
+C_1\oplus C_1'&=(P_1\oplus S_1)\oplus(P_1'\oplus S_1)\\
+&=P_1\oplus P_1'.
+\end{aligned}
+$$<p>第一块成为 two-time pad。第二块是否继续重用，取决于：</p>
+$$
+C_1=C_1'.
+$$<p>如果第一块密文不同，反馈状态分叉，后续 keystream 不再相同。CFB 的 IV 重用通常先破第一块，而不像 OFB/CTR 那样整流直接复用。</p>
+<h3 id="44-cfb-的安全边界">4.4 CFB 的安全边界</h3>
+<p>CFB 没有 padding，所以少了经典 padding oracle。但它仍不满足 IND-CCA，因为攻击者可以构造有意义的明文差分。如果系统在认证前解析明文，或者 parser 容忍一个损坏块，CFB 的 malleability 就能变成实际攻击。</p>
+<h2 id="5-ofb状态独立导致-iv-重用灾难">5. OFB：状态独立导致 IV 重用灾难</h2>
+<p>OFB 定义：</p>
+$$
+\begin{aligned}
+S_0&=IV,\\
+S_i&=E_K(S_{i-1}),\\
+C_i&=P_i\oplus S_i.
+\end{aligned}
+$$<p>OFB 的状态不依赖明文，也不依赖密文。它先生成一条 keystream，再与明文 XOR。</p>
+<h3 id="51-ofb-本质是同步流密码">5.1 OFB 本质是同步流密码</h3>
+<p>定义：</p>
+$$
+\mathsf{KS}_K(IV,i)=E_K^{(i)}(IV).
+$$<p>则：</p>
+$$
+C_i=P_i\oplus \mathsf{KS}_K(IV,i).
+$$<p>如果同一 key 下 IV 重复，则整条 keystream 重复：</p>
+$$
+\mathsf{KS}_K(IV,i)=\mathsf{KS}_K(IV',i)
+$$<p>其中 \(IV=IV'\)。</p>
+<p>于是：</p>
+$$
+\begin{aligned}
+C_i\oplus C_i'&=(P_i\oplus S_i)\oplus(P_i'\oplus S_i)\\
+&=P_i\oplus P_i'.
+\end{aligned}
+$$<p>这就是 two-time pad。</p>
+<h3 id="52-已知明文恢复另一条消息">5.2 已知明文恢复另一条消息</h3>
+<p>如果攻击者知道一条明文 \(P_i\)，就能得到：</p>
+$$
+S_i=C_i\oplus P_i.
+$$<p>另一条同 IV 密文解密为：</p>
+$$
+P_i'=C_i'\oplus S_i.
+$$<p>代入：</p>
+$$
+P_i'=C_i'\oplus C_i\oplus P_i.
+$$<p>这说明 OFB 一旦 IV 重用，失败是全局的、确定的、直接的。</p>
+<h3 id="53-ofb-的-bit-flip">5.3 OFB 的 bit flip</h3>
+<p>若攻击者令：</p>
+$$
+C_i'=C_i\oplus\Delta,
+$$<p>则：</p>
+$$
+P_i'=C_i'\oplus S_i=P_i\oplus\Delta.
+$$<p>OFB 的密文不反馈进状态，因此这个修改不影响其他 block。传输错误只影响对应 bit；主动攻击者也能只改对应 bit。</p>
+<h3 id="54-ofb-的-forwardbackward-边界">5.4 OFB 的 forward/backward 边界</h3>
+<p>如果某一时刻状态 \(S_i\) 泄漏，攻击者可以计算未来：</p>
+$$
+S_{i+1}=E_K(S_i),\quad S_{i+2}=E_K(S_{i+1}).
+$$<p>但若不知道 key，不能从 \(S_i\) 反推 \(S_{i-1}\)，因为需要计算：</p>
+$$
+D_K(S_i).
+$$<p>所以 OFB 的状态泄漏具有 forward compromise 风险，但不自动给出过去流。工程上仍然不能把内部状态暴露或复用。</p>
+<h2 id="6-ctr随机访问的代价是-nonce-discipline">6. CTR：随机访问的代价是 nonce discipline</h2>
+<p>CTR 定义：</p>
+$$
+\begin{aligned}
+S_i&=E_K(N\|\operatorname{ctr}_i),\\
+C_i&=P_i\oplus S_i.
+\end{aligned}
+$$<p>解密相同：</p>
+$$
+P_i=C_i\oplus E_K(N\|\operatorname{ctr}_i).
+$$<p>CTR 的安全条件不是“nonce 看起来随机”，而是同一 key 下所有 block-cipher input 唯一：</p>
+$$
+(N,i)\ne(N',j)\Rightarrow N\|\operatorname{ctr}_i\ne N'\|\operatorname{ctr}_j.
+$$<h3 id="61-ctr-与流密码等价">6.1 CTR 与流密码等价</h3>
+<p>定义：</p>
+$$
+\mathsf{KS}_K(N,i)=E_K(N\|\operatorname{ctr}_i).
+$$<p>则 CTR 就是：</p>
+$$
+C=P\oplus\mathsf{KS}_K(N).
+$$<p>因此所有同步流密码的 nonce reuse 风险都原样成立。</p>
+<h3 id="62-nonce-reuse-推导">6.2 Nonce reuse 推导</h3>
+<p>两条消息使用相同 key、nonce、counter 初值：</p>
+$$
+\begin{aligned}
+C_i&=P_i\oplus E_K(N\|i),\\
+C_i'&=P_i'\oplus E_K(N\|i).
+\end{aligned}
+$$<p>相 XOR：</p>
+$$
+\begin{aligned}
+C_i\oplus C_i'&=P_i\oplus E_K(N\|i)\oplus P_i'\oplus E_K(N\|i)\\
+&=P_i\oplus P_i'.
+\end{aligned}
+$$<p>若知道 \(P_i\)，恢复：</p>
+$$
+P_i'=C_i\oplus C_i'\oplus P_i.
+$$<p>若攻击者有 chosen plaintext，并能强制 nonce 重用，提交：</p>
+$$
+P_i=0^n.
+$$<p>则：</p>
+$$
+C_i=E_K(N\|i)=S_i.
+$$<p>攻击者直接得到 keystream。</p>
+<h3 id="63-ctr-的-bit-flip-与-edit-oracle">6.3 CTR 的 bit flip 与 edit oracle</h3>
+<p>CTR bit flip：</p>
+$$
+C_i'=C_i\oplus\Delta.
+$$<p>解密：</p>
+$$
+P_i'=C_i'\oplus S_i=P_i\oplus\Delta.
+$$<p>没有相邻块损坏。这使 CTR 在无认证时极易被改字段、金额、权限。</p>
+<p>CTR 支持 random access，因为第 \(i\) 块只依赖：</p>
+$$
+N\|\operatorname{ctr}_i.
+$$<p>如果系统暴露 edit oracle：</p>
+$$
+\operatorname{edit}(C,\operatorname{offset},P_{\text{new}})\to C_{\text{new}},
+$$<p>攻击者把目标区间改成全零。返回密文在该区间等于 keystream：</p>
+$$
+C_{\text{new}}=0^\ell\oplus S=S.
+$$<p>于是原明文：</p>
+$$
+P=C\oplus S.
+$$<p>所以 CTR 的随机访问能力必须和认证、授权、上下文绑定一起设计。</p>
+<h3 id="64-counter-collision">6.4 Counter collision</h3>
+<p>CTR 不只怕 nonce 重复，也怕 counter block 碰撞。若：</p>
+$$
+N\|\operatorname{ctr}_i=N'\|\operatorname{ctr}_j,
+$$<p>则：</p>
+$$
+S_i=S_j'.
+$$<p>造成局部 two-time pad。常见来源：</p>
+<ul>
+<li>counter 位数太小导致 wrap。</li>
+<li>多进程或重启后 nonce 状态回滚。</li>
+<li>大端/小端编码不一致。</li>
+<li>user-controlled nonce 未查重。</li>
+<li>随机 nonce 位数太短，生日碰撞。</li>
+</ul>
+<p>若 nonce 是 \(r\)-bit 随机数，发送 \(Q\) 条消息，碰撞概率近似：</p>
+$$
+\Pr[\operatorname{collision}]\approx1-\exp\left(-\frac{Q(Q-1)}{2^{r+1}}\right).
+$$<p>这说明高吞吐系统不能用小 nonce 空间赌概率。</p>
+<h2 id="7-gcmctr-保密性加-ghash-认证">7. GCM：CTR 保密性加 GHASH 认证</h2>
+<p>GCM 可以粗略写成：</p>
+$$
+\operatorname{GCM}=\operatorname{CTR encryption}+\operatorname{GHASH authentication}.
+$$<p>加密部分：</p>
+$$
+C_i=P_i\oplus E_K(J_i).
+$$<p>认证部分：</p>
+$$
+T=E_K(J_0)\oplus GHASH_H(A,C).
+$$<p>其中：</p>
+$$
+H=E_K(0^{128}).
+$$<p>\(A\) 是 AAD，\(C\) 是 ciphertext，\(T\) 是 tag。</p>
+<h3 id="71-gcm-nonce-reuse-的两层失败">7.1 GCM nonce reuse 的两层失败</h3>
+<p>第一层继承 CTR。若 nonce 重复，则 keystream 重复：</p>
+$$
+C\oplus C'=P\oplus P'.
+$$<p>第二层更严重：认证也复用了同一个：</p>
+$$
+E_K(J_0)
+$$<p>和同一个 hash key：</p>
+$$
+H=E_K(0^{128}).
+$$<p>两条 tag 相 XOR：</p>
+$$
+T\oplus T'=GHASH_H(A,C)\oplus GHASH_H(A',C').
+$$<p>因为 \(GHASH_H\) 是 \(GF(2^{128})\) 上的多项式求值，右边会形成关于 \(H\) 的方程。攻击者若知道或控制足够多输入，就可能恢复 \(H\) 或缩小候选集合，从而伪造 tag。</p>
+<p>这就是 GCM 的 Forbidden Attack 直觉：nonce reuse 不仅破坏保密性，还破坏认证结构。</p>
+<h3 id="72-gcm-为什么不能只说ctr-加-mac">7.2 GCM 为什么不能只说“CTR 加 MAC”</h3>
+<p>GCM 的认证不是普通黑盒 HMAC，而是 universal hash：</p>
+$$
+GHASH_H(X_1,\ldots,X_m)=\sum_{i=1}^{m}X_iH^{m-i+1}\oplus L H.
+$$<p>这里 \(L\) 编码 AAD 和 ciphertext 长度。tag：</p>
+$$
+T=E_K(J_0)\oplus GHASH_H(A,C).
+$$<p>只要 nonce 唯一，\(E_K(J_0)\) 类似一次性 pad，GHASH 的 universal property 给出强认证界。但 nonce 重复时，两个 tag 的 \(E_K(J_0)\) 抵消，攻击者直接看到 GHASH 差值：</p>
+$$
+T\oplus T'=\Delta GHASH_H.
+$$<p>这会把认证问题转成代数问题。</p>
+<h3 id="73-gcm-的安全边界">7.3 GCM 的安全边界</h3>
+<p>GCM 正确使用时是 AEAD，提供：</p>
+<ul>
+<li>plaintext confidentiality</li>
+<li>ciphertext integrity</li>
+<li>AAD integrity</li>
+<li>length binding</li>
+</ul>
+<p>但前提是：</p>
+<ul>
+<li>同 key 下 nonce 不重复。</li>
+<li>tag 必须验证失败即拒绝。</li>
+<li>AAD 覆盖协议上下文，例如方向、版本、序号、连接 ID。</li>
+<li>不允许释放未认证明文。</li>
+</ul>
+<p>GCM 的 nonce 可以公开，但不能重复。公开不是问题，重复才是问题。</p>
+<h2 id="8-ccmctr-加-cbc-mac">8. CCM：CTR 加 CBC-MAC</h2>
+<p>CCM 组合：</p>
+$$
+\operatorname{CCM}=\operatorname{CTR encryption}+\operatorname{CBC\text{-}MAC}.
+$$<p>CTR 提供保密：</p>
+$$
+C=P\oplus S.
+$$<p>CBC-MAC 提供认证，覆盖 nonce、AAD、长度和明文相关数据。</p>
+<h3 id="81-ccm-的-nonce-misuse">8.1 CCM 的 nonce misuse</h3>
+<p>CCM 的保密部分仍是 CTR，因此 nonce 重复时：</p>
+$$
+C\oplus C'=P\oplus P'.
+$$<p>这已经足够严重。与 GCM 相比，CCM 不会以完全相同的 GHASH 多项式形式暴露 \(H\)，但 nonce misuse 仍破坏核心保密边界。</p>
+<h3 id="82-ccm-的工程脆弱点">8.2 CCM 的工程脆弱点</h3>
+<p>CCM 的难点常在编码而不是公式：</p>
+<ul>
+<li>nonce 长度影响 message length encoding。</li>
+<li>AAD 长度编码必须唯一且无歧义。</li>
+<li>CBC-MAC 必须绑定 nonce 与长度。</li>
+<li>CTR counter block 不能与 MAC 初始块混淆。</li>
+</ul>
+<p>如果实现者手写 CCM，很容易在域分离和长度编码上犯错。正确做法是使用经过验证的 AEAD API。</p>
+<h2 id="9-xts磁盘加密不是-aead">9. XTS：磁盘加密不是 AEAD</h2>
+<p>XTS 面向磁盘 sector。它是 tweakable encryption，不是普通消息 AEAD。</p>
+<p>简化公式：</p>
+$$
+C_i=E_{K_1}(P_i\oplus T_i)\oplus T_i.
+$$<p>tweak：</p>
+$$
+T_i=\alpha^iE_{K_2}(\operatorname{sector}).
+$$<p>这里乘法发生在 \(GF(2^{128})\) 中。</p>
+<h3 id="91-xts-解决什么">9.1 XTS 解决什么</h3>
+<p>ECB 用在磁盘上会泄漏相同 sector offset 的相同 block。XTS 通过 sector number 和 block index 生成 tweak，使相同 plaintext block 在不同位置得到不同密文：</p>
+$$
+(sector,i)\ne(sector',j)\Rightarrow T_i\ne T_j'.
+$$<p>于是：</p>
+$$
+E_{K_1}(P\oplus T_i)\oplus T_i
+$$<p>不会因为 \(P\) 相同而直接相同。</p>
+<h3 id="92-xts-不解决什么">9.2 XTS 不解决什么</h3>
+<p>XTS 不认证。攻击者仍可能：</p>
+<ul>
+<li>replay 旧 sector。</li>
+<li>把某个位置的旧密文写回同一位置。</li>
+<li>篡改密文导致对应明文随机损坏。</li>
+<li>利用文件系统缺少完整性检测造成 rollback。</li>
+</ul>
+<p>XTS 的目标是 confidentiality for storage under tweakable model，不是 INT-CTXT。磁盘防篡改需要认证树、MAC、fs-verity、dm-integrity 或上层完整性机制。</p>
+<h2 id="10-siv把-nonce-misuse-变成确定性泄漏">10. SIV：把 nonce misuse 变成确定性泄漏</h2>
+<p>SIV, Synthetic IV, 先计算 synthetic IV：</p>
+$$
+S=\operatorname{PRF}_K(A,P).
+$$<p>再用 \(S\) 做 CTR 类加密：</p>
+$$
+C=P\oplus\mathsf{KS}_{K'}(S).
+$$<h3 id="101-siv-的核心取舍">10.1 SIV 的核心取舍</h3>
+<p>CTR/GCM 中，外部 nonce 重复会导致 keystream 重复。SIV 中，真正用于生成 keystream 的 \(S\) 依赖 \(A,P\)。如果外部 nonce 重复，但消息不同，synthetic IV 通常不同。</p>
+<p>代价是确定性：</p>
+$$
+(A,P)=(A',P')\Rightarrow (S,C)=(S',C').
+$$<p>所以 SIV 泄漏消息相等性。但这比泄漏：</p>
+$$
+P\oplus P'
+$$<p>或破坏认证 key 要温和得多。</p>
+<h3 id="102-siv-的攻击边界">10.2 SIV 的攻击边界</h3>
+<p>SIV 不是“nonce 随便错也零代价”。它的安全退化通常是：</p>
+<ul>
+<li>重复消息泄漏等值关系。</li>
+<li>无法隐藏同一 \(A,P\) 重复出现。</li>
+<li>性能需要两遍处理消息。</li>
+</ul>
+<p>但它避免了 CTR/GCM 里 nonce reuse 的灾难性 two-time pad。</p>
+<h2 id="11-gcm-sivgcm-风格的误用抵抗">11. GCM-SIV：GCM 风格的误用抵抗</h2>
+<p>GCM-SIV 试图保留 GCM 的性能和工程形态，同时减轻 nonce reuse 风险。它先用 POLYVAL/GHASH 类 universal hash 从 nonce、AAD、plaintext 派生 synthetic IV：</p>
+$$
+S=\operatorname{Hash}_{K_1}(N,A,P).
+$$<p>再加密：</p>
+$$
+C=P\oplus\mathsf{CTR}_{K_2}(S).
+$$<h3 id="111-和-gcm-的关键差异">11.1 和 GCM 的关键差异</h3>
+<p>GCM 直接使用外部 nonce 选择 \(J_0\) 和 CTR stream。nonce 重复时：</p>
+$$
+S_i=S_i'
+$$<p>并且 tag mask 也重复。</p>
+<p>GCM-SIV 中，外部 nonce 重复不必然让 synthetic IV 重复，因为：</p>
+$$
+S=\operatorname{Hash}_{K_1}(N,A,P).
+$$<p>如果 \(P\) 或 \(A\) 不同，\(S\) 通常不同。于是不会直接 two-time pad。</p>
+<h3 id="112-gcm-siv-的泄漏">11.2 GCM-SIV 的泄漏</h3>
+<p>若：</p>
+$$
+(N,A,P)=(N',A',P'),
+$$<p>则输出相同。这仍泄漏等值关系。GCM-SIV 的目标不是让 nonce misuse 完全无害，而是把灾难性认证崩塌降级为更可控的确定性泄漏。</p>
+<h2 id="12-ocb高性能-aead-的-offset-思路">12. OCB：高性能 AEAD 的 offset 思路</h2>
+<p>OCB 使用 per-block offset：</p>
+$$
+C_i=E_K(P_i\oplus\Delta_i)\oplus\Delta_i.
+$$<p>同时计算认证 tag，绑定 plaintext/ciphertext、AAD、长度和顺序。</p>
+<h3 id="121-ocb-为什么不是-xts">12.1 OCB 为什么不是 XTS</h3>
+<p>OCB 和 XTS 都有 tweak/offset 形态：</p>
+$$
+E_K(P_i\oplus\Delta_i)\oplus\Delta_i.
+$$<p>但目标不同：</p>
+<ul>
+<li>XTS 面向磁盘 confidentiality，不认证。</li>
+<li>OCB 面向消息 AEAD，认证 AAD、长度、顺序和内容。</li>
+</ul>
+<p>所以 XTS 不能替代 OCB，OCB 也不是磁盘 sector rewrite 场景的默认答案。</p>
+<h3 id="122-ocb-的安全边界">12.2 OCB 的安全边界</h3>
+<p>OCB 正确使用时提供 AEAD。攻击者不能有效 bit flip、reorder、truncate 或伪造新密文，因为 tag 会失败。</p>
+<p>但 OCB 仍是 nonce-based AEAD。nonce 重复会破坏证明边界，只是具体后果不同于 GCM 的 GHASH forbidden attack。</p>
+<h2 id="13-横向结论">13. 横向结论</h2>
+<table>
+  <thead>
+      <tr>
+          <th>模式</th>
+          <th>主要目标</th>
+          <th>是否 AEAD</th>
+          <th>关键误用</th>
+          <th>误用后果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ECB</td>
+          <td>多块直接加密</td>
+          <td>否</td>
+          <td>用于结构化多块数据</td>
+          <td>等值关系、轮廓、codebook</td>
+      </tr>
+      <tr>
+          <td>CBC</td>
+          <td>随机化保密</td>
+          <td>否</td>
+          <td>IV 固定/可预测，padding oracle</td>
+          <td>第一块泄漏、bit flip、明文恢复</td>
+      </tr>
+      <tr>
+          <td>CFB</td>
+          <td>自同步流式加密</td>
+          <td>否</td>
+          <td>IV 重用，无认证</td>
+          <td>第一块 two-time pad，可塑</td>
+      </tr>
+      <tr>
+          <td>OFB</td>
+          <td>keystream 输出反馈</td>
+          <td>否</td>
+          <td>IV 重用</td>
+          <td>全流 two-time pad</td>
+      </tr>
+      <tr>
+          <td>CTR</td>
+          <td>并行随机访问流模式</td>
+          <td>否</td>
+          <td>nonce/counter collision</td>
+          <td>全流或局部 two-time pad</td>
+      </tr>
+      <tr>
+          <td>GCM</td>
+          <td>CTR + GHASH AEAD</td>
+          <td>是</td>
+          <td>nonce 重复</td>
+          <td>明文 XOR 泄漏，tag forgery 风险</td>
+      </tr>
+      <tr>
+          <td>CCM</td>
+          <td>CTR + CBC-MAC AEAD</td>
+          <td>是</td>
+          <td>nonce 重复，编码错误</td>
+          <td>明文 XOR 泄漏，认证边界破坏</td>
+      </tr>
+      <tr>
+          <td>XTS</td>
+          <td>磁盘 tweak 加密</td>
+          <td>否</td>
+          <td>当作认证加密</td>
+          <td>replay/rollback 不被检测</td>
+      </tr>
+      <tr>
+          <td>SIV</td>
+          <td>misuse-resistant AEAD</td>
+          <td>是</td>
+          <td>重复相同消息</td>
+          <td>等值关系泄漏</td>
+      </tr>
+      <tr>
+          <td>GCM-SIV</td>
+          <td>GCM 风格 misuse resistance</td>
+          <td>是</td>
+          <td>重复相同 nonce/AAD/plaintext</td>
+          <td>等值关系泄漏</td>
+      </tr>
+      <tr>
+          <td>OCB</td>
+          <td>高性能 AEAD</td>
+          <td>是</td>
+          <td>nonce 重复</td>
+          <td>证明边界破坏</td>
+      </tr>
+  </tbody>
+</table>
+<p>简化判断：</p>
+<blockquote>
+<p>ECB 从根上不满足多块语义安全。CBC/CFB/OFB/CTR 在正确 IV/nonce 条件下可以保护被动窃听，但不能抗主动篡改。GCM/CCM/OCB 提供 AEAD，但 nonce discipline 是硬条件。SIV/GCM-SIV 用确定性泄漏换取 nonce misuse resistance。XTS 是磁盘加密模式，不是认证加密。</p>
+</blockquote>
+<h2 id="14-攻击者视角的最终心法">14. 攻击者视角的最终心法</h2>
+<p>看到一个加密系统时，先不要问“是不是 AES”。应按顺序问：</p>
+<ol>
+<li>模式是否确定性。</li>
+<li>IV/nonce 是否唯一、随机、不可预测，以及到底需要哪一种。</li>
+<li>解密等式中是否有攻击者可控 XOR。</li>
+<li>ciphertext、IV、AAD、长度、序号是否被认证。</li>
+<li>错误路径是否可区分。</li>
+<li>parser 是否会处理未认证明文。</li>
+<li>是否存在 replay、reorder、rollback。</li>
+<li>nonce 状态是否跨进程、重启、分布式节点保持唯一。</li>
+</ol>
+<p>大多数真实 mode 漏洞不是“密码算法被破译”，而是系统把一个只保证被动保密的模式当成了完整安全通道。攻击者只需要找到等式中能控制的那一项。</p>
+<h2 id="references">References</h2>
+<ul>
+<li>NIST SP 800-38A, <a href="https://csrc.nist.gov/pubs/sp/800/38/a/final" target="_blank" rel="noopener noreffer "><em>Recommendation for Block Cipher Modes of Operation: Methods and Techniques</em></a></li>
+<li>NIST SP 800-38D, <a href="https://csrc.nist.gov/pubs/sp/800/38/d/final" target="_blank" rel="noopener noreffer "><em>Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC</em></a></li>
+<li>NIST SP 800-38E, <a href="https://csrc.nist.gov/pubs/sp/800/38/e/final" target="_blank" rel="noopener noreffer "><em>Recommendation for Block Cipher Modes of Operation: XTS-AES Mode for Confidentiality on Storage Devices</em></a></li>
+<li>RFC 3686, <a href="https://www.rfc-editor.org/rfc/rfc3686" target="_blank" rel="noopener noreffer "><em>Using AES Counter Mode With IPsec ESP</em></a></li>
+<li>RFC 5297, <a href="https://www.rfc-editor.org/rfc/rfc5297" target="_blank" rel="noopener noreffer "><em>Synthetic Initialization Vector (SIV) Authenticated Encryption</em></a></li>
+<li>RFC 8452, <a href="https://www.rfc-editor.org/rfc/rfc8452" target="_blank" rel="noopener noreffer "><em>AES-GCM-SIV: Nonce Misuse-Resistant Authenticated Encryption</em></a></li>
+<li>Serge Vaudenay, <a href="https://www.iacr.org/archive/eurocrypt2002/23320530/cbc02_e02d.pdf" target="_blank" rel="noopener noreffer "><em>Security Flaws Induced by CBC Padding Applications to SSL, IPSEC, WTLS&hellip;</em></a></li>
+<li>Nadhem AlFardan and Kenny Paterson, <a href="https://www.isg.rhul.ac.uk/tls/Lucky13.html" target="_blank" rel="noopener noreffer "><em>Lucky Thirteen: Breaking the TLS and DTLS Record Protocols</em></a></li>
+<li>Bodo Moeller, Thai Duong, Krzysztof Kotowicz, <a href="https://www.openssl.org/~bodo/ssl-poodle.pdf" target="_blank" rel="noopener noreffer "><em>This POODLE Bites: Exploiting The SSL 3.0 Fallback</em></a></li>
+<li>Poddebniak et al., <a href="https://efail.de/efail-attack-paper.pdf" target="_blank" rel="noopener noreffer "><em>EFAIL: Breaking S/MIME and OpenPGP Email Encryption using Exfiltration Channels</em></a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2026-07-18</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/block-cipher-modes-offensive-crypto-vol1/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" data-title="分组密码工作模式安全性分析 Part 1：攻击者视角" data-hashtags="block-cipher,aes,sm4,cryptanalysis,ctf,security-analysis"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" data-hashtag="block-cipher"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" data-title="分组密码工作模式安全性分析 Part 1：攻击者视角"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" data-title="分组密码工作模式安全性分析 Part 1：攻击者视角"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol1/" data-title="分组密码工作模式安全性分析 Part 1：攻击者视角"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/block-cipher/">Block-Cipher</a>,&nbsp;<a href="/tags/aes/">Aes</a>,&nbsp;<a href="/tags/sm4/">Sm4</a>,&nbsp;<a href="/tags/cryptanalysis/">Cryptanalysis</a>,&nbsp;<a href="/tags/ctf/">Ctf</a>,&nbsp;<a href="/tags/security-analysis/">Security-Analysis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/reed-solomon-code-from-zero-to-practice/" class="prev" rel="prev" title="Reed–Solomon 码：从零基础到原理、译码与工程实践"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Reed–Solomon 码：从零基础到原理、译码与工程实践</a>
+            <a href="/block-cipher-modes-offensive-crypto-vol2/" class="next" rel="next" title="分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界">分组密码工作模式攻击讲义 Part 2：AEAD 的构造逻辑与认证边界<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://giscus.app">Giscus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.152.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2023 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Halois</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.cb289e50cc9ac33906b9be77654f1340844150a9150a1b4be88cab7b044c4e95.css" integrity="sha256-yyieUMyawzkGub53ZU8TQIRBUKkVChtL6IyrewRMTpU="><link rel="stylesheet" href="/lib/katex/katex.min.76e39bd605d45b2d1944123c66608b0c8bb9baeb70720b212571531c7cf9bc2a.css" integrity="sha256-duOb1gXUWy0ZRBI8ZmCLDIu5uutwcgshJXFTHHz5vCo="><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8="></script><script type="text/javascript" src="/lib/lunr/lunr.min.08a93c0120364b01159db3c287f39b2180bb740334472bda0675bd3f18981676.js" integrity="sha256-CKk8ASA2SwEVnbPCh/ObIYC7dAM0RyvaBnW9PxiYFnY="></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.8127f0ca4cabc7246f3620f3ef3bf9b1db02805dfe03d6d4c57bc74bc0bf6eea.js" integrity="sha256-gSfwykyrxyRvNiDz7zv5sdsCgF3+A9bUxXvHS8C/buo="></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.825fab54c26891370cbd3df4cdff5c9de31af8bb84474e6774573463d8708ae7.js" integrity="sha256-gl+rVMJokTcMvT30zf9cneMa+LuER05ndFc0Y9hwiuc="></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.3d9120fa621da6d613c1698b7014ec6bdf4620366e8f2b7b547059f4b6f6272b.js" integrity="sha256-PZEg+mIdptYTwWmLcBTsa99GIDZujyt7VHBZ9Lb2Jys="></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.e5bbc2bd6af379f5364d70b9056559385d8bb68526742b48db807bfb684863c7.js" integrity="sha256-5bvCvWrzefU2TXC5BWVZOF2LtoUmdCtI24B7+2hIY8c="></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4c2c08058d5f9aae4340d57c7ea9ab541c03f941689335bc411d9c3c7f0d6bcd.js" integrity="sha256-TCwIBY1fmq5DQNV8fqmrVBwD+UFokzW8QR2cPH8Na80="></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.d746e47387fb55e63bcbc5742a62978949f74e1c5e814e75397cdee131b97cc1.js" integrity="sha256-10bkc4f7VeY7y8V0KmKXiUn3ThxegU51OXze4TG5fME="></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck="></script><script type="text/javascript" src="/lib/sharer/sharer.min.cc31d902aa4f3fcc8bb8c81aa534a4e2103e9b11f65b9fbd5b7156e089889ceb.js" integrity="sha256-zDHZAqpPP8yLuMgapTSk4hA+mxH2W5+9W3FW4ImInOs="></script><script type="text/javascript" src="/lib/katex/katex.min.eb18207487161674e717087c317db14ac1a62dadaecccb802499ce173bfeb739.js" integrity="sha256-6xggdIcWFnTnFwh8MX2xSsGmLa2uzMuAJJnOFzv+tzk="></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.cb7f4ca60ed5dc3e258415f8c7a3b46d4a93578a52adf83011f18a7f190e7602.js" integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.52ce78fab4860d24ef22128a52ce24ca01368a9034457a565a1d3fccbab0ddbb.js" integrity="sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.5c0a121a8b490afc85860a522347aeb34fb508c6b23044e5d29f6b2194227b51.js" integrity="sha256-XAoSGotJCvyFhgpSI0eus0+1CMayMETl0p9rIZQie1E="></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":120},"comment":{"giscus":{"category":"Announcements","categoryId":"DIC_kwDOLrwAO84CekJn","darkTheme":"dark","emitMetadata":"0","inputPosition":"bottom","lang":"zh-CN","lazyLoading":false,"lightTheme":"light","mapping":"pathname","reactionsEnabled":"1","repo":"GaloisHLee/Giscus","repoId":"R_kgDOLrwAOw"}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":true,"left":"$$","right":"$$"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"},{"display":false,"left":"$","right":"$"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.d7121d72cd85153ec9d35a888cee3eb28c2700ca763f649a538f6c772d750021.js" integrity="sha256-1xIdcs2FFT7J01qIjO4+sownAMp2P2SaU49sdy11ACE="></script></body>
+</html>

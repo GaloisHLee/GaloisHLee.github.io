@@ -104,6 +104,36 @@
         alt="https://s2.loli.net/2024/03/15/3hzW1UX5dHkIKuL.png"
         title="https://s2.loli.net/2024/03/15/3hzW1UX5dHkIKuL.png" /></a></div><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"><a href="https://github.com/GaloisHLee" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github fa-fw" aria-hidden="true"></i></a><a href="https://www.zhihu.com/people/huo-che-kai-wang-dong-tian-5" title="知乎" target="_blank" rel="noopener noreffer me"><i data-svg-src="/lib/simple-icons/icons/zhihu.min.svg" aria-hidden="true"></i></a><a href="mailto:maocred@gmail.com" title="Email" rel="me"><i class="far fa-envelope fa-fw" aria-hidden="true"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/lattice-part-6/">Lattice Part 6: Lattice Trapdoors and Signatures — GPV, Falcon, Dilithium</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-22">2024-06-22</time></span></div><div class="content"><p>Reading path: Micciancio-Regev 的 survey / lecture-note 主线[^micciancio-regev]，再接 GPV[^gpv]、Lyubashevsky 的 trapdoor-free signature line[^lyu12]、Falcon[^falcon] 与 Dilithium[^dilithium]。这一篇只讨论结构，不写成 NIST 结果综述。</p>
+<p>Part 4 和 Part 5 讲的是 hardness 如何支撑 encryption 与 KEM：SIS / LWE 给出难解关系，RLWE / MLWE / NTRU 给出更适合实现的结构。Part 6 反过来问另一个问题。假设已经有困难问题了，signer 到底靠什么持续生成“可验证而且足够短”的 witness？</p>
+<p>这是签名线和加密线分叉的地方。加密只要求 honest party 能解码；签名要求 honest signer 主动制造一个受控分布的短向量，而且这个过程不能把 trapdoor 本身逐次泄露出去。于是短基、陪集、预像采样、Gaussian sampling、Fiat-Shamir with aborts 会在这一篇同时出现。</p>
+<p>Working thesis: lattice signatures need more than encryption hardness. They need a mechanism for distribution-controlled short witness generation.</p>
+</div><div class="post-footer">
+        <a href="/lattice-part-6/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/lattice-part-5/">Lattice Part 5: Structured Lattices in Practice — Ring-LWE, Module-LWE, NTRU, Kyber</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-21">2024-06-21</time></span></div><div class="content"><p>Reading: Peikert’s survey spine[^peikert-survey], Regev’s lecture-note framing[^regev-notes], and the primary RLWE / Module-LWE / Kyber / NTRU papers[^rlwe][^module][^kyber][^ntru] are enough to keep the taxonomy straight.</p>
+<p>Part 4 already fixed the baseline: LWE is noisy linear algebra, and the noise is what blocks elimination. Part 5 asks a different question. If the hard core is already there, what do we gain by forcing that core to live inside a quotient ring or a module?</p>
+</div><div class="post-footer">
+        <a href="/lattice-part-5/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/lattice-part-4/">Lattice Part 4: From SIS/ISIS to LWE</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-20">2024-06-20</time></span></div><div class="content"><p>Micciancio-Regev’s lecture-note framing[^mr], Regev’s 2005 reduction[^regev], and Peikert’s 2009 encryption perspective[^peikert09] are the three anchors for this bridge chapter.</p>
+<p>Part 0-3 already gave the lattice side: basis reduction, CVP/Babai intuition, SIS, and ISIS. Here we change only one ingredient, but it changes the entire cryptographic surface. The goal is to stabilize plain LWE first, not to preview structured lattices yet.</p>
+</div><div class="post-footer">
+        <a href="/lattice-part-4/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/waytocoppersmith0x01/">WayToCoppersmith0x01</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-06-04">2024-06-04</time></span></div><div class="content"><p><strong>Solving Small root for Modular Bivariate Polynomial</strong></p>
+<p><strong>Coron&rsquo;s Technique</strong></p>
+</div><div class="post-footer">
+        <a href="/waytocoppersmith0x01/">阅读全文</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/waytocoppersmith-0x00/">WayToCoppersmith0x00</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-05-26">2024-05-26</time></span></div><div class="content"><h1 id="re从零开始的crypto生活">RE:从零开始的crypto生活</h1>
 </div><div class="post-footer">
@@ -113,34 +143,6 @@
         <a href="/waytofft-part-0/">WayToFFT Part 0</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-05-25">2024-05-25</time></span></div><div class="content">从拉格朗日插值法到 FFT. Part-0.</div><div class="post-footer">
         <a href="/waytofft-part-0/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/fix-point/">Fix Point</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-04-06">2024-04-06</time></span></div><div class="content"></div><div class="post-footer">
-        <a href="/fix-point/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/jwt-note/">Jwt Note</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-04-04">2024-04-04</time></span></div><div class="content"><p><strong>Jwt</strong></p>
-<p>json web token</p>
-</div><div class="post-footer">
-        <a href="/jwt-note/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/">根与多项式系数关系</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-04-04">2024-04-04</time></span></div><div class="content"><p>任何一个一元复系数<a href="https://zh.wikipedia.org/wiki/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%96%B9%E7%A8%8B" title="多项式方程" target="_blank" rel="noopener noreffer ">多项式方程</a>都至少有一个复数<a href="https://zh.wikipedia.org/wiki/%E6%A0%B9_%28%E6%95%B0%E5%AD%A6%29" title="根 (数学)" target="_blank" rel="noopener noreffer ">根</a>。也就是说，<a href="https://zh.wikipedia.org/wiki/%E8%A4%87%E6%95%B8_%28%E6%95%B8%E5%AD%B8%29" title="复数 (数学)" target="_blank" rel="noopener noreffer ">复数</a><a href="https://zh.wikipedia.org/wiki/%E4%BD%93_%28%E6%95%B0%E5%AD%A6%29" title="体 (数学)" target="_blank" rel="noopener noreffer ">域</a>是<a href="https://zh.wikipedia.org/wiki/%E4%BB%A3%E6%95%B0%E5%B0%81%E9%97%AD%E5%9F%9F" title="代数封闭域" target="_blank" rel="noopener noreffer ">代数封闭</a>的
-复数域代数封闭。</p>
-<blockquote>
-<p>代数封闭：域$F$被称为代数闭域，当且仅当任何系数属于$F$且次数大于零的单变量多项式在$F$里至少有一个根。代数闭域一定是无限域。</p>
-</blockquote>
-<p>不得不感慨,还是需要捡起一些遗忘的科目:)，回忆下笔者和Galois理论的缘起。</p>
-</div><div class="post-footer">
-        <a href="/%E6%A0%B9%E4%B8%8E%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%B3%BB%E6%95%B0%E5%85%B3%E7%B3%BB/">阅读全文</a></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/noteforgit/">NoteForGit</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2024-04-04">2024-04-04</time></span></div><div class="content">That is git!</div><div class="post-footer">
-        <a href="/noteforgit/">阅读全文</a></div>
 </article>
 <ul class="pagination"><li class="page-item ">
                     <span class="page-link">
@@ -163,6 +165,10 @@
                 </li><li class="page-item ">
                     <span class="page-link">
                         <a href="/page/9/">9</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/10/">10</a>
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
