@@ -2,7 +2,8 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://galoishlee.github.io/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/tags/algebraic-number-theory/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/"
@@ -11,8 +12,7 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/tags/block-cipher/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/categories/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/categories/"
@@ -21,13 +21,18 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/categories/"
                     /></url><url>
-            <loc>https://galoishlee.github.io/categories/cryptography/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/disk-encryption/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/security/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/security-analysis/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/storage-security/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://galoishlee.github.io/tags/class-group/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/cryptography/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/cyclotomic-field/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/lattice/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/mlwe/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/module-lattice/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/module-lattice-security-weber-k12/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/paper-reading/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/paper-reading/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/posts/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/rlwe/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://galoishlee.github.io/en/tags/"
@@ -36,6 +41,12 @@
                     hreflang="zh-cn"
                     href="https://galoishlee.github.io/tags/"
                     /></url><url>
+            <loc>https://galoishlee.github.io/tags/weber-conjecture/</loc><lastmod>2026-07-21T14:02:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/block-cipher/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/disk-encryption/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/categories/security/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/security-analysis/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://galoishlee.github.io/tags/storage-security/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://galoishlee.github.io/tags/tweakable-blockcipher/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://galoishlee.github.io/tags/xts/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol4/</loc><lastmod>2026-07-19T10:14:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
@@ -70,11 +81,8 @@
             <loc>https://galoishlee.github.io/tags/hint/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/tags/hnf/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/tags/kyber/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/lattice/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/tags/lll/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/tags/lwe/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/categories/paper-reading/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://galoishlee.github.io/tags/paper-reading/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/tags/primal-attack/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/tags/side-channel/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://galoishlee.github.io/lattice-hints-lu2025/</loc><lastmod>2026-05-30T20:37:52&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>

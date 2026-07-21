@@ -3,9 +3,17 @@
         <link>https://galoishlee.github.io/</link>
         <description>Keep Crazy</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>maocred@gmail.com (Halois)</managingEditor>
-            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 19 Jul 2026 10:14:00 &#43;0800</lastBuildDate>
+            <webMaster>maocred@gmail.com (Halois)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 20 Jul 2026 21:35:00 &#43;0800</lastBuildDate>
             <atom:link href="https://galoishlee.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Module Lattice Security (Part I) 论文讲义：从 Weber 猜想到 RLWE/MLWE 安全性</title>
+    <link>https://galoishlee.github.io/module-lattice-security-weber-k12/</link>
+    <pubDate>Mon, 20 Jul 2026 21:35:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://galoishlee.github.io/module-lattice-security-weber-k12/</guid>
+    <description><![CDATA[围绕 arXiv:2604.15858v2 组织的一份教材型 lecture note：先补 algebraic number theory 的最小路径，再解释 Weber conjecture、Section 3 的证明链、Algorithm 1 的计算部分，以及它与 RLWE、MLWE、ideal lattice、module lattice 安全性的关系。]]></description>
+</item>
+<item>
     <title>分组密码工作模式攻击讲义 Part 4：XTS、Tweakable Enciphering 与存储机密性的边界</title>
     <link>https://galoishlee.github.io/block-cipher-modes-offensive-crypto-vol4/</link>
     <pubDate>Sun, 19 Jul 2026 10:14:00 &#43;0800</pubDate>
@@ -76,14 +84,6 @@
     <author>作者</author>
     <guid>https://galoishlee.github.io/belief-propagation-from-scratch/</guid>
     <description><![CDATA[从概率论基本定理出发，用 Pearl 经典报警网络示例引出因子图和 Belief Propagation。面向本科基础读者，不需要先验的统计推断知识。]]></description>
-</item>
-<item>
-    <title>从零开始理解坐标下降：一个参数一个参数地优化</title>
-    <link>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</link>
-    <pubDate>Wed, 13 May 2026 08:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://galoishlee.github.io/mle-coordinate-descent-from-scratch/</guid>
-    <description><![CDATA[从最大似然估计的基本概念出发，系统介绍坐标下降法。以抛硬币、线性回归和 Lasso 为贯穿示例，覆盖 MLE 形式化、坐标下降框架、增量更新技巧、凸收敛理论、软阈值算子、正则化路径和工程实现细节。]]></description>
 </item>
 </channel>
 </rss>

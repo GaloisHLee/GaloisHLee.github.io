@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Weber Conjecture on As it was</title>
+    <link>https://galoishlee.github.io/tags/weber-conjecture/</link>
+    <description>Recent content in Weber Conjecture on As it was</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>maocred@gmail.com (Halois)</managingEditor>
+    <webMaster>maocred@gmail.com (Halois)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 21 Jul 2026 14:02:31 +0800</lastBuildDate>
+    <atom:link href="https://galoishlee.github.io/tags/weber-conjecture/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Module Lattice Security (Part I) 论文讲义：从 Weber 猜想到 RLWE/MLWE 安全性</title>
+      <link>https://galoishlee.github.io/module-lattice-security-weber-k12/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/module-lattice-security-weber-k12/</guid>
+      <description>&lt;p&gt;Reading: &lt;em&gt;Module Lattice Security (Part I): Unconditional Verification of Weber&amp;rsquo;s Conjecture for k&amp;lt;=12&lt;/em&gt; (arXiv:2604.15858v2).&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;论文主结论：&lt;/strong&gt; 作者证明了对 \(k \le 12\)，与 \(2^{k+1}\)-次单位根相关的 maximal real cyclotomic subfield 的 class number 满足 \(h_k = 1\)。这给出了一个对当前密码学相关参数区间足够强的、无条件的 Weber conjecture 验证结果。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;这份讲义的重点：&lt;/strong&gt; 不是把论文从头翻成中文，而是回答四个更难的问题：为什么 class number one 会突然进入 RLWE / MLWE / module lattice 语境；Section 3 的证明链到底如何接起来；Algorithm 1 为什么足以给出 unconditional verification；以及一个代数基础一般的密码学读者究竟该补哪些知识，才可能独立读懂这篇论文。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;建议读法：&lt;/strong&gt; 先读本文的“导读、阅读路线、数学补丁、符号表”，再进入逐章精读。若直接冲进论文 Section 2，大概率会在 class group eigenspace、cyclotomic units、generalized Bernoulli numbers 和 Herbrand theorem 这些点上同时卡住。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

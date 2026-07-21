@@ -9,8 +9,71 @@
     <managingEditor>maocred@gmail.com (Halois)</managingEditor>
     <webMaster>maocred@gmail.com (Halois)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 19 Jul 2026 10:14:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 14:02:31 +0800</lastBuildDate>
     <atom:link href="https://galoishlee.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Algebraic Number Theory</title>
+      <link>https://galoishlee.github.io/tags/algebraic-number-theory/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/algebraic-number-theory/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Class Group</title>
+      <link>https://galoishlee.github.io/tags/class-group/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/class-group/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cyclotomic Field</title>
+      <link>https://galoishlee.github.io/tags/cyclotomic-field/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/cyclotomic-field/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lattice</title>
+      <link>https://galoishlee.github.io/tags/lattice/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/lattice/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MLWE</title>
+      <link>https://galoishlee.github.io/tags/mlwe/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/mlwe/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Module Lattice</title>
+      <link>https://galoishlee.github.io/tags/module-lattice/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/module-lattice/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Paper Reading</title>
+      <link>https://galoishlee.github.io/tags/paper-reading/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/paper-reading/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>RLWE</title>
+      <link>https://galoishlee.github.io/tags/rlwe/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/rlwe/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Weber Conjecture</title>
+      <link>https://galoishlee.github.io/tags/weber-conjecture/</link>
+      <pubDate>Mon, 20 Jul 2026 21:35:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
+      <guid>https://galoishlee.github.io/tags/weber-conjecture/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Block-Cipher</title>
       <link>https://galoishlee.github.io/tags/block-cipher/</link>
@@ -236,13 +299,6 @@
       <description></description>
     </item>
     <item>
-      <title>Lattice</title>
-      <link>https://galoishlee.github.io/tags/lattice/</link>
-      <pubDate>Wed, 27 May 2026 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/lattice/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>LLL</title>
       <link>https://galoishlee.github.io/tags/lll/</link>
       <pubDate>Wed, 27 May 2026 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
@@ -254,13 +310,6 @@
       <link>https://galoishlee.github.io/tags/lwe/</link>
       <pubDate>Wed, 27 May 2026 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
       <guid>https://galoishlee.github.io/tags/lwe/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Paper Reading</title>
-      <link>https://galoishlee.github.io/tags/paper-reading/</link>
-      <pubDate>Wed, 27 May 2026 12:00:00 +0800</pubDate><author>maocred@gmail.com (Halois)</author>
-      <guid>https://galoishlee.github.io/tags/paper-reading/</guid>
       <description></description>
     </item>
     <item>
