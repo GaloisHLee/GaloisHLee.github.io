@@ -26,7 +26,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","keywords": "cryptography, ecc, pairing, bls, snark, kzg, web3","wordcount":  3111 ,
+                        }],"genre": "posts","keywords": "cryptography, ecc, pairing, bls, snark, kzg, web3","wordcount":  3131 ,
         "url": "https:\/\/galoishlee.github.io\/pairing-friendly-curves-motivation\/","datePublished": "2025-12-14T08:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -106,7 +106,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Pairing-Friendly Curves 的数学结构与协议动机</h1><h2 class="single-subtitle">为什么双线性映射会成为 BLS、SNARK verifier 与 KZG 的共同接口</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-14">2025-12-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3111 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-14">2025-12-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3131 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -158,38 +158,38 @@ This article defines the minimal bilinear map properties needed for protocol use
 </blockquote>
 <h2 id="为什么某些协议一开始就需要-pairing">为什么某些协议一开始就需要 pairing</h2>
 <p>先把前 3 篇的结论拿回来。对账户签名、交易签名或普通公钥关系，verifier 要检查的通常只是：</p>
-$$
+\[
 sG \stackrel{?}= R + eP
-$$<p>或者 ECDSA 那种等价的标量关系。这里的对象仍然是单一群里的标量乘法和点加法。ordinary elliptic-curve groups 已经足够，不需要 pairing。</p>
+\]<p>或者 ECDSA 那种等价的标量关系。这里的对象仍然是单一群里的标量乘法和点加法。ordinary elliptic-curve groups 已经足够，不需要 pairing。</p>
 <p>但有些协议要做的是另一件事：它们希望把原本分散的多个关系压成紧凑验证。这种压缩不只是“少做几次乘法”，而是把验证目标改写到一个新的目标群里，让多个输入关系在双线性映射下发生对齐。此时，普通离散对数群接口就不够了。</p>
 <p>更直接地说，this is why pairings enable aggregate signature verification and polynomial opening verification. 协议不是先选择了一条很炫的曲线，再去找应用；而是 verifier 想要一个能够把高维关系压缩成少数检查的接口，结果自然落到了 pairing-friendly curves。</p>
 <h2 id="formal-definition最小-bilinear-map-properties">Formal Definition：最小 bilinear map properties</h2>
 <h3 id="群对象与映射">群对象与映射</h3>
-<p>设 $G_1$、$G_2$、$G_T$ 是阶为素数 $r$ 的群。pairing 的最小对象定义是一个映射</p>
-$$
+<p>设 \(G_1\)、\(G_2\)、\(G_T\) 是阶为素数 \(r\) 的群。pairing 的最小对象定义是一个映射</p>
+\[
 e: G_1 \times G_2 \rightarrow G_T.
-$$<p>如果只从协议实现角度出发，这已经是第一步分叉：输入不再是“同一个群里的两个点”，而是两个源群中的元素，输出落到另一个目标群。</p>
+\]<p>如果只从协议实现角度出发，这已经是第一步分叉：输入不再是“同一个群里的两个点”，而是两个源群中的元素，输出落到另一个目标群。</p>
 <h3 id="bilinearitynon-degeneracy-与-computability"><code>bilinearity</code>、non-degeneracy 与 computability</h3>
 <p>This section defines the minimal bilinear map properties needed for protocol use.</p>
 <p>协议层真正关心的最小性质通常只有三条。</p>
-<p>第一条是 bilinearity。对任意 $P \in G_1$、$Q \in G_2$ 和标量 $a,b \in \mathbb{F}_r$，有</p>
-$$
+<p>第一条是 bilinearity。对任意 \(P \in G_1\)、\(Q \in G_2\) 和标量 \(a,b \in \mathbb{F}_r\)，有</p>
+\[
 e(aP, bQ) = e(P, Q)^{ab}.
-$$<p>第二条是 non-degeneracy，也就是 pairing 不是把所有输入都压成单位元。存在某些 $P,Q$ 使得</p>
-$$
+\]<p>第二条是 non-degeneracy，也就是 pairing 不是把所有输入都压成单位元。存在某些 \(P,Q\) 使得</p>
+\[
 e(P,Q) \neq 1.
-$$<p>第三条是 efficient computability。协议当然还要求这个映射是可计算的，否则双线性只停在抽象定义里，没有 verifier 价值。</p>
+\]<p>第三条是 efficient computability。协议当然还要求这个映射是可计算的，否则双线性只停在抽象定义里，没有 verifier 价值。</p>
 <p>把这三条放一起看，真正重要的是：pairing 允许 verifier 在目标群里看到源群标量关系的乘法结构。这就是双线性映射成为协议工具，而不是纯数学装饰的原因。</p>
 <h2 id="从双线性到-verifier-compression">从双线性到 verifier compression</h2>
 <h3 id="minimal-pairing-equation-pattern">minimal pairing equation pattern</h3>
 <p>This section gives the minimal pairing equation pattern.</p>
 <p>很多协议最后都会收束到同一种形状：</p>
-$$
+\[
 e(P_1, Q_1)\cdot e(P_2, Q_2)\cdots e(P_k, Q_k) \stackrel{?}= 1_{G_T}.
-$$<p>或者等价地，把若干项移到等式两边：</p>
-$$
+\]<p>或者等价地，把若干项移到等式两边：</p>
+\[
 e(A, B) \stackrel{?}= e(C, D).
-$$<p>这两个式子的重要性不在于它们“长得统一”，而在于大量不同来源的约束最终都能被搬到目标群里比较。verifier 不再逐条重做所有底层关系，而是检查一个被压缩后的 pairing product relation。</p>
+\]<p>这两个式子的重要性不在于它们“长得统一”，而在于大量不同来源的约束最终都能被搬到目标群里比较。verifier 不再逐条重做所有底层关系，而是检查一个被压缩后的 pairing product relation。</p>
 <h3 id="为什么双线性可以压缩验证关系">为什么双线性可以压缩验证关系</h3>
 <p>This section explains the mapping from bilinearity to protocol verification compression.</p>
 <p>双线性的核心收益，在于标量关系可以被带进目标群指数上。如果协议原本需要验证很多条“这个标量乘积、那个多项式商、那组签名公钥关系”是否同时成立，那么 pairing 允许这些关系先在源群中被编码，再在目标群中被合并。</p>
@@ -202,24 +202,24 @@ $$<p>这两个式子的重要性不在于它们“长得统一”，而在于大
 <p>这并不意味着 pairing 免费。它只是把“很多普通关系”换成“少数昂贵但结构更强的关系”。为什么这仍然值得做，取决于协议是更在乎 prover 端结构，还是更在乎 verifier 端紧凑性。</p>
 <h2 id="bls-signaturessnark-verifier-与-kzg-的三种消费方式">BLS signatures、SNARK verifier 与 KZG 的三种消费方式</h2>
 <h3 id="bls-signatures"><code>BLS signatures</code></h3>
-<p><code>BLS signatures</code> 是 pairing-friendly curves 最直接的协议例子之一。设私钥为 $x$，公钥为 $X=g_2^x$，消息映射到群元素 $H(m)\in G_1$，签名为</p>
-$$
+<p><code>BLS signatures</code> 是 pairing-friendly curves 最直接的协议例子之一。设私钥为 \(x\)，公钥为 \(X=g_2^x\)，消息映射到群元素 \(H(m)\in G_1\)，签名为</p>
+\[
 \sigma = H(m)^x.
-$$<p>验证关系写成</p>
-$$
+\]<p>验证关系写成</p>
+\[
 e(\sigma, g_2) \stackrel{?}= e(H(m), X).
-$$<p>一旦进入聚合语境，多个签名和多个公钥仍然可以被压成少数 pairing checks。这里真正被消费的是 pairing 的 bilinearity，而不是“某条曲线更适合签名”这种笼统说法。</p>
+\]<p>一旦进入聚合语境，多个签名和多个公钥仍然可以被压成少数 pairing checks。这里真正被消费的是 pairing 的 bilinearity，而不是“某条曲线更适合签名”这种笼统说法。</p>
 <h3 id="snark-verifier-intuition"><code>SNARK verifier intuition</code></h3>
 <p><code>SNARK verifier intuition</code> 不要求本文把 Groth16 或别的 pairing-based SNARK 全推一遍。更有用的直觉是：证明系统把原本高维、跨多项式、跨约束系统的关系编码进若干群元素，最后 verifier 只需要检查一个 pairing product equation 是否成立。</p>
 <p>也就是说，SNARK verifier 之所以喜欢 pairing，不是因为 pairing 本身神秘，而是因为它能把“很多约束同时成立”压缩成“少数群关系在目标群里对齐”。这和账户层签名完全不是一个接口层次。</p>
 <h3 id="kzg-opening-verification">KZG opening verification</h3>
-<p>KZG 更能把 pairing-friendly setting 的必要性说清。设 commitment 为 $C$，声称多项式在点 $z$ 处取值 $y$，proof 为 $\pi$。当 prover 使用商多项式</p>
-$$
+<p>KZG 更能把 pairing-friendly setting 的必要性说清。设 commitment 为 \(C\)，声称多项式在点 \(z\) 处取值 \(y\)，proof 为 \(\pi\)。当 prover 使用商多项式</p>
+\[
 q(X)=\frac{f(X)-y}{X-z}
-$$<p>构造 opening proof 时，verifier 最终要检查的可以压成</p>
-$$
+\]<p>构造 opening proof 时，verifier 最终要检查的可以压成</p>
+\[
 e(C / g_1^y, g_2) \stackrel{?}= e(\pi, g_2^{\tau-z}).
-$$<p>这里已经不是普通离散对数群上的“签名正确性”，而是 polynomial opening verification 被压成 pairing equation。于是 pairing-friendly curves 成为协议接口的一部分，而不是实现选配。</p>
+\]<p>这里已经不是普通离散对数群上的“签名正确性”，而是 polynomial opening verification 被压成 pairing equation。于是 pairing-friendly curves 成为协议接口的一部分，而不是实现选配。</p>
 <h2 id="一张协议职责表">一张协议职责表</h2>
 <p>如果把三类协议并排写，会更容易看清 pairing-friendly curves 的角色。</p>
 <table>

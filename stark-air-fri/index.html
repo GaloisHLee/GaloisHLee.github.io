@@ -26,7 +26,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","keywords": "cryptography, stark, air, fri, low-degree-testing","wordcount":  2708 ,
+                        }],"genre": "posts","keywords": "cryptography, stark, air, fri, low-degree-testing","wordcount":  2712 ,
         "url": "https:\/\/galoishlee.github.io\/stark-air-fri\/","datePublished": "2025-12-07T08:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -106,7 +106,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">STARK：AIR、低度测试与透明性</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-07">2025-12-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2708 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-07">2025-12-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2712 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -154,55 +154,49 @@
 <p>如果说 Groth16 的关键词是 <code>QAP + CRS + pairing equation</code>，那么 STARK 的关键词就是 <code>trace + AIR + FRI</code>。把它说成“没有 trusted setup 的 SNARK”不算错，但也没抓住结构。真正要理解的是：STARK 证明的对象不是一个静态约束向量，而是一整张 execution trace；AIR 不是一个术语包装，而是把这张 trace 的合法性写成代数关系；FRI 则不是附在最后的 appendix，而是整个 soundness contract 的后半段。</p>
 <p>前一篇已经把 FRI 放到 polynomial commitment / low-degree testing 的统一接口里了。这一篇要把它放回系统级视角：trace 怎样变成列多项式，边界条件和转移条件怎样被压成 composition polynomial，以及为什么“低度”在这里不是顺带属性，而是 verifier 最终抓住 cheating trace 的主要证据。</p>
 <p>所以这一篇的主链不是：</p>
-$$
+\[
 \text{AIR}\quad\text{and}\quad\text{FRI}
-$$<p>而是：</p>
-$$
-\text{trace}
-\longrightarrow
-\text{AIR constraints}
-\longrightarrow
-\text{composition polynomial}
-\longrightarrow
-\text{FRI low-degree test}.
-$$<h2 id="stark-证明的对象是什么">STARK 证明的对象是什么</h2>
+\]<p>而是：</p>
+\[
+\text{trace} \longrightarrow \text{AIR constraints} \longrightarrow \text{composition polynomial} \longrightarrow \text{FRI low-degree test}.
+\]<h2 id="stark-证明的对象是什么">STARK 证明的对象是什么</h2>
 <p>STARK 的 witness 不是一个一次性列出的向量，而是某个 computation 的 execution trace。</p>
-<p>设一个计算被展开成 $N$ 个时间步，且每步有 $k$ 个寄存器列。则 trace table 可写成</p>
-$$
+<p>设一个计算被展开成 \(N\) 个时间步，且每步有 \(k\) 个寄存器列。则 trace table 可写成</p>
+\[
 T \in \mathbb{F}^{N \times k}.
-$$<p>第 $i$ 行是第 $i$ 步状态，第 $j$ 列是一条寄存器轨迹。和 R1CS/QAP 那种“静态约束列表”不同，这里 prover 真正声称的是：</p>
+\]<p>第 \(i\) 行是第 \(i\) 步状态，第 \(j\) 列是一条寄存器轨迹。和 R1CS/QAP 那种“静态约束列表”不同，这里 prover 真正声称的是：</p>
 <blockquote>
 <p>这整张 trace 是某个合法计算的执行结果。</p>
 </blockquote>
 <h3 id="air-constraint-system">AIR Constraint System</h3>
 <p>AIR, Algebraic Intermediate Representation，把这句“trace 合法”拆成两类约束。</p>
 <p>第一类是 boundary constraints。它们固定某些特定位置的值，例如初始状态、公开输入、终止输出：</p>
-$$
+\[
 T_{0,1} = x,\qquad T_{N-1,2} = y.
-$$<p>第二类是 transition constraints。它们描述相邻若干行之间必须满足的递推关系。例如某个单寄存器递推可以写成</p>
-$$
+\]<p>第二类是 transition constraints。它们描述相邻若干行之间必须满足的递推关系。例如某个单寄存器递推可以写成</p>
+\[
 T_{i+1,1} - T_{i,1}^2 - c = 0.
-$$<p>更一般地，若一组列在窗口大小 $\ell$ 上满足某个多变量多项式关系，则写成</p>
-$$
+\]<p>更一般地，若一组列在窗口大小 \(\ell\) 上满足某个多变量多项式关系，则写成</p>
+\[
 \Phi\big(T(i), T(i+1), \dots, T(i+\ell)\big)=0
-$$<p>对所有有效步成立。</p>
+\]<p>对所有有效步成立。</p>
 <p>这就是 AIR 的最小接口：不是“程序源码”，而是“trace 上的代数约束系统”。</p>
 <h2 id="从-air-到-composition-polynomial">从 AIR 到 Composition Polynomial</h2>
 <p>仅仅列出很多条 AIR constraints 还不够。和 QAP 一样，证明系统更喜欢一个被合成后的单一对象。</p>
 <h3 id="trace-columns-as-polynomials">Trace Columns As Polynomials</h3>
-<p>首先把每一列 trace 在某个评估域 $D$ 上插值成列多项式：</p>
-$$
+<p>首先把每一列 trace 在某个评估域 \(D\) 上插值成列多项式：</p>
+\[
 t_j(X),\qquad j=1,\dots,k.
-$$<p>这样，原来“第 $i$ 步第 $j$ 列的值”就被编码成“在域点 $\omega_i$ 上的多项式取值”。</p>
+\]<p>这样，原来“第 \(i\) 步第 \(j\) 列的值”就被编码成“在域点 \(\omega_i\) 上的多项式取值”。</p>
 <p>于是 boundary constraints 可以改写成某些固定点评值条件，transition constraints 可以改写成这些列多项式在相邻点上的多变量关系。</p>
 <h3 id="constraint-combination">Constraint Combination</h3>
 <p>STARK 不会把每一条约束都单独证明。常见做法是用随机系数把多条约束组合成一个 composition polynomial。形式上，可以把若干归一化后的约束项写成</p>
-$$
+\[
 C_1(X), C_2(X), \dots, C_m(X),
-$$<p>然后取随机挑战系数 $\alpha_1,\dots,\alpha_m$，构造</p>
-$$
+\]<p>然后取随机挑战系数 \(\alpha_1,\dots,\alpha_m\)，构造</p>
+\[
 \mathrm{Comp}(X) = \sum_{j=1}^m \alpha_j C_j(X).
-$$<p>这里每个 $C_j(X)$ 往往已经除掉了相应的 vanishing factors，使其在合法 trace 上应当保持低度。</p>
+\]<p>这里每个 \(C_j(X)\) 往往已经除掉了相应的 vanishing factors，使其在合法 trace 上应当保持低度。</p>
 <p>所以 composition polynomial 的作用不是“把公式糊在一起”，而是：</p>
 <ul>
 <li>把很多局部约束压成一个统一对象</li>
@@ -242,12 +236,12 @@ STARK 里的 composition polynomial，扮演的是和 QAP 中 quotient/divisibil
 </blockquote>
 <h3 id="folding-and-query-consistency">Folding And Query Consistency</h3>
 <p>FRI 的核心仍然是 folding。对一个多项式</p>
-$$
+\[
 f(X)=f_0(X^2)+Xf_1(X^2),
-$$<p>取随机挑战 $\beta$，构造</p>
-$$
+\]<p>取随机挑战 \(\beta\)，构造</p>
+\[
 g(X)=f_0(X)+\beta f_1(X).
-$$<p>这会把原来的低度测试问题压缩到更小域、更低度的新对象上。反复多轮后，verifier 只需检查：</p>
+\]<p>这会把原来的低度测试问题压缩到更小域、更低度的新对象上。反复多轮后，verifier 只需检查：</p>
 <ul>
 <li>每轮 folding 前后的局部值是否一致</li>
 <li>最终压缩到很小的对象是否满足显式低度界</li>
@@ -294,9 +288,9 @@ $$<p>这会把原来的低度测试问题压缩到更小域、更低度的新对
 <li>少量随机查询足以高概率发现伪造 trace 的全局不一致</li>
 </ul>
 <p>如果把 Groth16 看成 <code>QAP + structured CRS + pairing equation</code>，那么 STARK 可以看成</p>
-$$
+\[
 \text{AIR} + \text{oracle commitment} + \text{FRI low-degree test}.
-$$<p>这条路线换来了 transparent setup、更大的 proof、以及更 query-based 的 verifier 工作方式。下一层进入更现代系统时，PLONKish、递归和工程约束讨论的，其实都是在这些不同 algebraic surfaces 和 proof pipelines 上继续做设计。</p>
+\]<p>这条路线换来了 transparent setup、更大的 proof、以及更 query-based 的 verifier 工作方式。下一层进入更现代系统时，PLONKish、递归和工程约束讨论的，其实都是在这些不同 algebraic surfaces 和 proof pipelines 上继续做设计。</p>
 <h2 id="references">References</h2></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">

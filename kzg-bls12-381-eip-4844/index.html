@@ -26,7 +26,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","keywords": "cryptography, kzg, bls12-381, ethereum, eip-4844, pairing, blob","wordcount":  2783 ,
+                        }],"genre": "posts","keywords": "cryptography, kzg, bls12-381, ethereum, eip-4844, pairing, blob","wordcount":  2795 ,
         "url": "https:\/\/galoishlee.github.io\/kzg-bls12-381-eip-4844\/","datePublished": "2025-12-16T08:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -106,7 +106,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">KZG 多项式承诺的曲线基础及其协议应用</h1><h2 class="single-subtitle">从 BLS12-381 到 EIP-4844 blob workflow 的最小推导</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-16">2025-12-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2783 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-16">2025-12-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2795 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -162,34 +162,34 @@ This article explains why KZG commitments and opening proofs rely on pairing-fri
 </blockquote>
 <h2 id="为什么-kzg-会进入-eip-4844">为什么 KZG 会进入 EIP-4844</h2>
 <p>如果把 <code>EIP-4844 blobs</code> 理解成“链上多了一种大数据对象”，会漏掉关键点。EIP-4844 真正要解决的不是把字节串丢进链里，而是让协议能够围绕这些数据对象建立可验证、可传递、可压缩的承诺接口。</p>
-<p>这就是为什么 blob 不是普通哈希承诺。哈希可以证明“这个字节串对应这个 digest”，但它不直接提供多项式 evaluation claim 的紧凑 opening structure。KZG 则不同：它把一个多项式对象压成常数大小 commitment，同时允许 prover 对“在点 $z$ 处，值是否为 $y$”这类 claim 给出紧凑证明。</p>
+<p>这就是为什么 blob 不是普通哈希承诺。哈希可以证明“这个字节串对应这个 digest”，但它不直接提供多项式 evaluation claim 的紧凑 opening structure。KZG 则不同：它把一个多项式对象压成常数大小 commitment，同时允许 prover 对“在点 \(z\) 处，值是否为 \(y\)”这类 claim 给出紧凑证明。</p>
 <p>于是 BLS12-381 在 modern Ethereum data-availability commitments 里的角色就变得具体了：它不是“某条大家现在更喜欢的曲线”，而是 KZG verifier 需要的 pairing-friendly setting 的工作曲线。</p>
 <h2 id="formal-objectkzg-commitments">Formal Object：<code>KZG commitments</code></h2>
 <h3 id="structured-reference-string">structured reference string</h3>
-<p>KZG 的起点不是消息，而是多项式 $f(X)$。为了对它做 commitment，协议首先需要一个 structured reference string。最小语境下，可以把它理解成某个隐藏标量 $\tau$ 诱导出来的一组群元素，例如</p>
-$$
+<p>KZG 的起点不是消息，而是多项式 \(f(X)\)。为了对它做 commitment，协议首先需要一个 structured reference string。最小语境下，可以把它理解成某个隐藏标量 \(\tau\) 诱导出来的一组群元素，例如</p>
+\[
 g_1, g_1^{\tau}, g_1^{\tau^2}, \ldots
-$$<p>以及配套的目标群侧对象。这里已经出现了本文必须单独抬出来的约束：<code>trusted setup</code>。因为 commitment object 不是从空气中长出来的，它依赖一个结构化参考字符串，而这正是 KZG 和普通无结构承诺的根本区别。</p>
+\]<p>以及配套的目标群侧对象。这里已经出现了本文必须单独抬出来的约束：<code>trusted setup</code>。因为 commitment object 不是从空气中长出来的，它依赖一个结构化参考字符串，而这正是 KZG 和普通无结构承诺的根本区别。</p>
 <h3 id="多项式承诺与-opening-claim">多项式承诺与 opening claim</h3>
-<p>对多项式 $f(X)$，KZG commitment 可以压成</p>
-$$
+<p>对多项式 \(f(X)\)，KZG commitment 可以压成</p>
+\[
 C = g_1^{f(\tau)}.
-$$<p>这就是 <code>KZG commitments</code> 的最小对象。接下来，如果 prover 想证明</p>
-$$
+\]<p>这就是 <code>KZG commitments</code> 的最小对象。接下来，如果 prover 想证明</p>
+\[
 f(z) = y,
-$$<p>那么它需要给出一个 opening proof $\pi$，使 verifier 不必知道整个 $f(X)$，也不必看到 $f(\tau)$ 的秘密结构，就能检查这个 claim 是否成立。</p>
+\]<p>那么它需要给出一个 opening proof \(\pi\)，使 verifier 不必知道整个 \(f(X)\)，也不必看到 \(f(\tau)\) 的秘密结构，就能检查这个 claim 是否成立。</p>
 <h2 id="minimal-kzg-opening-verification-equation">minimal KZG opening verification equation</h2>
 <h3 id="商多项式视角">商多项式视角</h3>
 <p>KZG opening proof 的关键在于商多项式</p>
-$$
+\[
 q(X)=\frac{f(X)-y}{X-z}.
-$$<p>这个对象存在的前提正是 $f(z)=y$。如果 claim 为真，那么 $f(X)-y$ 可以被 $(X-z)$ 整除，于是 prover 可以围绕 $q(X)$ 构造证明对象。</p>
+\]<p>这个对象存在的前提正是 \(f(z)=y\)。如果 claim 为真，那么 \(f(X)-y\) 可以被 \((X-z)\) 整除，于是 prover 可以围绕 \(q(X)\) 构造证明对象。</p>
 <h3 id="pairing-verification-形状">pairing verification 形状</h3>
 <p>This section gives the minimal KZG opening verification equation.</p>
 <p>在最小形状下，verifier 要检查的是</p>
-$$
+\[
 e(C / g_1^y, g_2) \stackrel{?}= e(\pi, g_2^{\tau-z}).
-$$<p>这就是 <code>minimal KZG opening verification equation</code>。</p>
+\]<p>这就是 <code>minimal KZG opening verification equation</code>。</p>
 <p>一旦这条式子出现，为什么 <code>KZG commitments and opening proofs rely on pairing-friendly curves</code> 就已经不需要再靠口号解释了。左边编码的是 commitment 与 claimed value 的差，右边编码的是商多项式与结构化参考字符串的关系。verifier 真正比较的，不再是普通群里的签名等式，而是 pairing equation。</p>
 <h2 id="从-polynomial-commitment-object-到-blob-workflow">从 polynomial commitment object 到 blob workflow</h2>
 <h3 id="blob-commitmentproof-与-verifier">blob commitment、proof 与 verifier</h3>
@@ -205,22 +205,22 @@ $$<p>这就是 <code>minimal KZG opening verification equation</code>。</p>
   </thead>
   <tbody>
       <tr>
-          <td>多项式 $f(X)$</td>
+          <td>多项式 \(f(X)\)</td>
           <td>被承诺的数据对象</td>
           <td>blob 对应的数据多项式表示</td>
       </tr>
       <tr>
-          <td>commitment $C$</td>
+          <td>commitment \(C\)</td>
           <td>常数大小承诺</td>
           <td>blob commitment</td>
       </tr>
       <tr>
-          <td>evaluation claim $(z, y)$</td>
+          <td>evaluation claim \((z, y)\)</td>
           <td>想验证的点值关系</td>
           <td>某个 opening query</td>
       </tr>
       <tr>
-          <td>proof $\pi$</td>
+          <td>proof \(\pi\)</td>
           <td>opening proof</td>
           <td>blob verification proof</td>
       </tr>

@@ -18,7 +18,7 @@
 
 如果把 `EIP-4844 blobs` 理解成“链上多了一种大数据对象”，会漏掉关键点。EIP-4844 真正要解决的不是把字节串丢进链里，而是让协议能够围绕这些数据对象建立可验证、可传递、可压缩的承诺接口。
 
-这就是为什么 blob 不是普通哈希承诺。哈希可以证明“这个字节串对应这个 digest”，但它不直接提供多项式 evaluation claim 的紧凑 opening structure。KZG 则不同：它把一个多项式对象压成常数大小 commitment，同时允许 prover 对“在点 $z$ 处，值是否为 $y$”这类 claim 给出紧凑证明。
+这就是为什么 blob 不是普通哈希承诺。哈希可以证明“这个字节串对应这个 digest”，但它不直接提供多项式 evaluation claim 的紧凑 opening structure。KZG 则不同：它把一个多项式对象压成常数大小 commitment，同时允许 prover 对“在点 \(z\) 处，值是否为 \(y\)”这类 claim 给出紧凑证明。
 
 于是 BLS12-381 在 modern Ethereum data-availability commitments 里的角色就变得具体了：它不是“某条大家现在更喜欢的曲线”，而是 KZG verifier 需要的 pairing-friendly setting 的工作曲线。
 
@@ -26,29 +26,29 @@
 
 ### structured reference string
 
-KZG 的起点不是消息，而是多项式 $f(X)$。为了对它做 commitment，协议首先需要一个 structured reference string。最小语境下，可以把它理解成某个隐藏标量 $\tau$ 诱导出来的一组群元素，例如
+KZG 的起点不是消息，而是多项式 \(f(X)\)。为了对它做 commitment，协议首先需要一个 structured reference string。最小语境下，可以把它理解成某个隐藏标量 \(\tau\) 诱导出来的一组群元素，例如
 
-$$
+\[
 g_1, g_1^{\tau}, g_1^{\tau^2}, \ldots
-$$
+\]
 
 以及配套的目标群侧对象。这里已经出现了本文必须单独抬出来的约束：`trusted setup`。因为 commitment object 不是从空气中长出来的，它依赖一个结构化参考字符串，而这正是 KZG 和普通无结构承诺的根本区别。
 
 ### 多项式承诺与 opening claim
 
-对多项式 $f(X)$，KZG commitment 可以压成
+对多项式 \(f(X)\)，KZG commitment 可以压成
 
-$$
+\[
 C = g_1^{f(\tau)}.
-$$
+\]
 
 这就是 `KZG commitments` 的最小对象。接下来，如果 prover 想证明
 
-$$
+\[
 f(z) = y,
-$$
+\]
 
-那么它需要给出一个 opening proof $\pi$，使 verifier 不必知道整个 $f(X)$，也不必看到 $f(\tau)$ 的秘密结构，就能检查这个 claim 是否成立。
+那么它需要给出一个 opening proof \(\pi\)，使 verifier 不必知道整个 \(f(X)\)，也不必看到 \(f(\tau)\) 的秘密结构，就能检查这个 claim 是否成立。
 
 ## minimal KZG opening verification equation
 
@@ -56,11 +56,11 @@ $$
 
 KZG opening proof 的关键在于商多项式
 
-$$
+\[
 q(X)=\frac{f(X)-y}{X-z}.
-$$
+\]
 
-这个对象存在的前提正是 $f(z)=y$。如果 claim 为真，那么 $f(X)-y$ 可以被 $(X-z)$ 整除，于是 prover 可以围绕 $q(X)$ 构造证明对象。
+这个对象存在的前提正是 \(f(z)=y\)。如果 claim 为真，那么 \(f(X)-y\) 可以被 \((X-z)\) 整除，于是 prover 可以围绕 \(q(X)\) 构造证明对象。
 
 ### pairing verification 形状
 
@@ -68,9 +68,9 @@ This section gives the minimal KZG opening verification equation.
 
 在最小形状下，verifier 要检查的是
 
-$$
+\[
 e(C / g_1^y, g_2) \stackrel{?}= e(\pi, g_2^{\tau-z}).
-$$
+\]
 
 这就是 `minimal KZG opening verification equation`。
 
@@ -86,10 +86,10 @@ This section gives the mapping from polynomial commitment object to blob-commitm
 
 | KZG 对象 | 协议角色 | EIP-4844 语境 |
 | --- | --- | --- |
-| 多项式 $f(X)$ | 被承诺的数据对象 | blob 对应的数据多项式表示 |
-| commitment $C$ | 常数大小承诺 | blob commitment |
-| evaluation claim $(z, y)$ | 想验证的点值关系 | 某个 opening query |
-| proof $\pi$ | opening proof | blob verification proof |
+| 多项式 \(f(X)\) | 被承诺的数据对象 | blob 对应的数据多项式表示 |
+| commitment \(C\) | 常数大小承诺 | blob commitment |
+| evaluation claim \((z, y)\) | 想验证的点值关系 | 某个 opening query |
+| proof \(\pi\) | opening proof | blob verification proof |
 | pairing verifier | 检查 claim 是否成立 | 共识/验证流程中的 KZG verification |
 
 这张表后面的关键结论是：EIP-4844 不是“先发明了 blob，再随手挑了 KZG”；而是 data-availability commitment workflow 需要一个既能紧凑承诺多项式对象、又能紧凑验证 opening claim 的接口，而 KZG 正好提供了这组对象。

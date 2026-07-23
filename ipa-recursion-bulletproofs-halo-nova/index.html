@@ -26,7 +26,7 @@
                             "url": "https:\/\/galoishlee.github.io\/images\/Apple-Devices-Preview.png",
                             "width":  3200 ,
                             "height":  2048 
-                        }],"genre": "posts","keywords": "cryptography, ipa, recursion, halo, nova","wordcount":  3042 ,
+                        }],"genre": "posts","keywords": "cryptography, ipa, recursion, halo, nova","wordcount":  3044 ,
         "url": "https:\/\/galoishlee.github.io\/ipa-recursion-bulletproofs-halo-nova\/","datePublished": "2025-12-09T08:00:00+08:00","dateModified": "2026-05-30T20:37:52+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Halois","logo": "https:\/\/s2.loli.net\/2024\/03\/15\/3hzW1UX5dHkIKuL.png"},"author": {
@@ -106,7 +106,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">IPA 系证明与递归：Bulletproofs、Halo、Nova/Folding</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Halois</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cryptography/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cryptography</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-09">2025-12-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3042 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-12-09">2025-12-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3044 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -115,11 +115,7 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#为什么-ipa-天然通向递归">为什么 IPA 天然通向递归</a></li>
-  </ul>
-
-  <ul>
-    <li>
+    <li><a href="#为什么-ipa-天然通向递归">为什么 IPA 天然通向递归</a>
       <ul>
         <li><a href="#what-logarithmic-really-means">What “Logarithmic” Really Means</a></li>
       </ul>
@@ -185,28 +181,23 @@
 <p>高维代数关系若能被重写成内积声明，就可以通过 repeated halving 在对数轮里压缩。</p>
 </blockquote>
 <p>设有向量</p>
-$$
+\[
 \mathbf{a}, \mathbf{b} \in \mathbb{F}^n,
-$$<p>要证明</p>
-$$
+\]<p>要证明</p>
+\[
 \langle \mathbf{a}, \mathbf{b} \rangle = t.
-$$<p>若把向量拆成左右两半</p>
-$$
-\mathbf{a} = (\mathbf{a}_L, \mathbf{a}_R),\qquad
-\mathbf{b} = (\mathbf{b}_L, \mathbf{b}_R),
-$$<p>则内积可以拆成</p>
-<h1 id="langle-mathbfa-mathbfb-rangle">$$
-\langle \mathbf{a}, \mathbf{b} \rangle</h1>
-<p>\langle \mathbf{a}_L, \mathbf{b}_L \rangle
-+
-\langle \mathbf{a}_R, \mathbf{b}_R \rangle.
-$$</p>
-<p>再用一轮挑战把左右部分线性混合，就能把长度 $n$ 的证明变成长度 $n/2$ 的新证明。反复进行后，最终只剩一个很小的终点检查。</p>
+\]<p>若把向量拆成左右两半</p>
+\[
+\mathbf{a} = (\mathbf{a}_L, \mathbf{a}_R),\qquad \mathbf{b} = (\mathbf{b}_L, \mathbf{b}_R),
+\]<p>则内积可以拆成</p>
+\[
+\langle \mathbf{a}, \mathbf{b} \rangle = \langle \mathbf{a}_L, \mathbf{b}_L \rangle + \langle \mathbf{a}_R, \mathbf{b}_R \rangle.
+\]<p>再用一轮挑战把左右部分线性混合，就能把长度 \(n\) 的证明变成长度 \(n/2\) 的新证明。反复进行后，最终只剩一个很小的终点检查。</p>
 <h3 id="what-logarithmic-really-means">What “Logarithmic” Really Means</h3>
 <p>所谓 IPA 的“对数级证明”不是平白出现的 succinctness，而是每一轮都做了维度减半：</p>
-$$
+\[
 n \to n/2 \to n/4 \to \cdots \to 1.
-$$<p>所以它本质上是一条 compression chain。后面 recursion 之所以自然接上来，就是因为：</p>
+\]<p>所以它本质上是一条 compression chain。后面 recursion 之所以自然接上来，就是因为：</p>
 <ul>
 <li>你已经在逐轮压缩一个证明对象</li>
 <li>你开始关心这种压缩是否还能继续嵌套、继续延迟、继续累积</li>
@@ -304,18 +295,18 @@ accumulation 不是“合并很多 proofs”这么含糊，它更准确地是在
 <p>这一步的意义不是数学装饰，而是为了让“实例可继续被折叠”这件事成为闭合操作。</p>
 <h3 id="folded-instance-construction">Folded Instance Construction</h3>
 <p>高层直觉上，若有两个实例</p>
-$$
+\[
 I_1,\ I_2
-$$<p>及其 witness</p>
-$$
+\]<p>及其 witness</p>
+\[
 w_1,\ w_2,
-$$<p>folding scheme 会用随机挑战 $\rho$ 构造一个新实例</p>
-$$
-I^\* = I_1 + \rho I_2
-$$<p>以及对应 folded witness</p>
-$$
-w^\* = w_1 + \rho w_2,
-$$<p>再把残差项一起吸收到 relaxed relation 中。</p>
+\]<p>folding scheme 会用随机挑战 \(\rho\) 构造一个新实例</p>
+\[
+I^{*} = I_1 + \rho I_2
+\]<p>以及对应 folded witness</p>
+\[
+w^{*} = w_1 + \rho w_2,
+\]<p>再把残差项一起吸收到 relaxed relation 中。</p>
 <p>具体公式取决于所折叠的约束系统，但关键直觉不变：</p>
 <ul>
 <li>不是把两个 verifier 任务合并</li>

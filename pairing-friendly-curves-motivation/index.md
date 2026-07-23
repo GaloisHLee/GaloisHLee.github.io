@@ -18,9 +18,9 @@
 
 先把前 3 篇的结论拿回来。对账户签名、交易签名或普通公钥关系，verifier 要检查的通常只是：
 
-$$
+\[
 sG \stackrel{?}= R + eP
-$$
+\]
 
 或者 ECDSA 那种等价的标量关系。这里的对象仍然是单一群里的标量乘法和点加法。ordinary elliptic-curve groups 已经足够，不需要 pairing。
 
@@ -32,11 +32,11 @@ $$
 
 ### 群对象与映射
 
-设 $G_1$、$G_2$、$G_T$ 是阶为素数 $r$ 的群。pairing 的最小对象定义是一个映射
+设 \(G_1\)、\(G_2\)、\(G_T\) 是阶为素数 \(r\) 的群。pairing 的最小对象定义是一个映射
 
-$$
+\[
 e: G_1 \times G_2 \rightarrow G_T.
-$$
+\]
 
 如果只从协议实现角度出发，这已经是第一步分叉：输入不再是“同一个群里的两个点”，而是两个源群中的元素，输出落到另一个目标群。
 
@@ -46,17 +46,17 @@ This section defines the minimal bilinear map properties needed for protocol use
 
 协议层真正关心的最小性质通常只有三条。
 
-第一条是 bilinearity。对任意 $P \in G_1$、$Q \in G_2$ 和标量 $a,b \in \mathbb{F}_r$，有
+第一条是 bilinearity。对任意 \(P \in G_1\)、\(Q \in G_2\) 和标量 \(a,b \in \mathbb{F}_r\)，有
 
-$$
+\[
 e(aP, bQ) = e(P, Q)^{ab}.
-$$
+\]
 
-第二条是 non-degeneracy，也就是 pairing 不是把所有输入都压成单位元。存在某些 $P,Q$ 使得
+第二条是 non-degeneracy，也就是 pairing 不是把所有输入都压成单位元。存在某些 \(P,Q\) 使得
 
-$$
+\[
 e(P,Q) \neq 1.
-$$
+\]
 
 第三条是 efficient computability。协议当然还要求这个映射是可计算的，否则双线性只停在抽象定义里，没有 verifier 价值。
 
@@ -70,15 +70,15 @@ This section gives the minimal pairing equation pattern.
 
 很多协议最后都会收束到同一种形状：
 
-$$
+\[
 e(P_1, Q_1)\cdot e(P_2, Q_2)\cdots e(P_k, Q_k) \stackrel{?}= 1_{G_T}.
-$$
+\]
 
 或者等价地，把若干项移到等式两边：
 
-$$
+\[
 e(A, B) \stackrel{?}= e(C, D).
-$$
+\]
 
 这两个式子的重要性不在于它们“长得统一”，而在于大量不同来源的约束最终都能被搬到目标群里比较。verifier 不再逐条重做所有底层关系，而是检查一个被压缩后的 pairing product relation。
 
@@ -100,17 +100,17 @@ This section explains the mapping from bilinearity to protocol verification comp
 
 ### `BLS signatures`
 
-`BLS signatures` 是 pairing-friendly curves 最直接的协议例子之一。设私钥为 $x$，公钥为 $X=g_2^x$，消息映射到群元素 $H(m)\in G_1$，签名为
+`BLS signatures` 是 pairing-friendly curves 最直接的协议例子之一。设私钥为 \(x\)，公钥为 \(X=g_2^x\)，消息映射到群元素 \(H(m)\in G_1\)，签名为
 
-$$
+\[
 \sigma = H(m)^x.
-$$
+\]
 
 验证关系写成
 
-$$
+\[
 e(\sigma, g_2) \stackrel{?}= e(H(m), X).
-$$
+\]
 
 一旦进入聚合语境，多个签名和多个公钥仍然可以被压成少数 pairing checks。这里真正被消费的是 pairing 的 bilinearity，而不是“某条曲线更适合签名”这种笼统说法。
 
@@ -122,17 +122,17 @@ $$
 
 ### KZG opening verification
 
-KZG 更能把 pairing-friendly setting 的必要性说清。设 commitment 为 $C$，声称多项式在点 $z$ 处取值 $y$，proof 为 $\pi$。当 prover 使用商多项式
+KZG 更能把 pairing-friendly setting 的必要性说清。设 commitment 为 \(C\)，声称多项式在点 \(z\) 处取值 \(y\)，proof 为 \(\pi\)。当 prover 使用商多项式
 
-$$
+\[
 q(X)=\frac{f(X)-y}{X-z}
-$$
+\]
 
 构造 opening proof 时，verifier 最终要检查的可以压成
 
-$$
+\[
 e(C / g_1^y, g_2) \stackrel{?}= e(\pi, g_2^{\tau-z}).
-$$
+\]
 
 这里已经不是普通离散对数群上的“签名正确性”，而是 polynomial opening verification 被压成 pairing equation。于是 pairing-friendly curves 成为协议接口的一部分，而不是实现选配。
 
